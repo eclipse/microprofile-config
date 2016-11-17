@@ -20,6 +20,8 @@
 
 package io.microprofile.config;
 
+import io.microprofile.config.spi.ConfigSource;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
@@ -42,7 +44,7 @@ public interface Config {
 	 * @param propertyType
 	 * @return the resolved property value or {@code null} if the property does not exist.
 	 */
-	<T> T getProperty(String propertyName, Class<T> propertyType);
+	<T> T getPropertyValue(String propertyName, Class<T> propertyType);
 	
 
 
@@ -54,7 +56,7 @@ public interface Config {
 	 * @param defaultValue the default value
 	 * @return the property value or the defult value if the property does not exist.
 	 */
-	<T> T getProperty(String propertyName, Class<T> propertyType, T defaultValue);
+	<T> T getPropertyValue(String propertyName, Class<T> propertyType, T defaultValue);
 	
     /**
      * Get a Boolean associated with the given configuration propertyName.

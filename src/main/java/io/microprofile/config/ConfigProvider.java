@@ -13,28 +13,99 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *     Emily Jiang - newly created class
+ * 
  *******************************************************************************/
 
 
 package io.microprofile.config;
-/**
- * This is the central class to access a {@link Config}.
- * @author Emily
- *
- */
-public interface ConfigProvider {
 
-	/**
-	 * Create a builder so that custom config resources can be added.
-	 * @return an instance {@link ConfigBuilder}
-	 */
-	ConfigBuilder builder();
-	/**
-	 * Get the {@link Config} after aggregating on multiple {@link ConfigSource}s
-	 * @return the {@link Config} containing all config properties
-	 */
-	Config getConfig();
+import io.microprofile.config.spi.ConfigProviderResolver;
+import io.microprofile.config.spi.ConfigSource;
+import io.microprofile.config.spi.ConfigSources;
+import io.microprofile.config.spi.Converter;
+
+/**
+ * <p>This is the central class to access a {@link Config}.</p>
+ *
+ * <p>A {@link Config} contains the configuration for a certain
+ * situation. That might be the configuration found in a certain ClassLoader
+ * or even a manually created Configuration</p>
+ *
+ * <p>The default usage is to use {@link #getConfig()} to automatically
+ * pick up the 'Configuration' for the Thread Context ClassLoader
+ * (See {@link  Thread#getContextClassLoader()}). </p>
+ *
+ * <p>A 'Configuration' consists of the information collected from the registered
+ * {@link ConfigSource}s. These {@link ConfigSource}s
+ * get sorted according to their <em>ordinal</em> defined via {@link ConfigSource#getOrdinal()}.
+ * That way it is possible to overwrite configuration with lower importance from outside.</p>
+ *
+ * <p>It is also possible to register custom {@link ConfigSource}s to
+ * flexibly extend the configuration mechanism. An example would be to pick up configuration values
+ * from a database table./p>
+ *
+ * <p>Example usage:
+ *
+ * <pre>
+ *     String restUrl = ConfigProvider.getConfig().getValue("myproject.some.remote.service.url");
+ *     Integer port = ConfigProvider.getConfig().getValue("myproject.some.remote.service.port", Integer.class);
+ * </pre>
+ *
+ * </p>
+ *
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ */
+public class ConfigProvider {
+
+    private static final ConfigProviderResolver instance = ConfigProviderResolver.instance();
+
+    /**
+     * Provide a {@link Config} based on all {@link ConfigSource}s
+     * of the current Thread Context ClassLoader (TCCL)
+     *
+     * <p>There is exactly a single Config instance per ClassLoader</p>
+     */
+    public static Config getDefaultConfig() {
+        return instance.getDefaultConfig();
+    }
+
+    
+
+    /**
+     * Create a fresh {@link ConfigBuilder} instance.
+     * This ConfigBuilder will initially contain no
+     * {@link ConfigSource} nor any {@link Converters}.
+     * Those have to be added manually.
+     *
+     * The ConfigProvider will not manage the Config instance internally
+     */
+    public static ConfigBuilder emptyBuilder() {
+        return instance.emptyBuilder();
+    }
+
+    /**
+     * A {@link Config} normally gets released if the ClassLoader it represents gets destroyed.
+     * Invoke this method if you like to destroy the Config prematurely.
+     */
+    public static void releaseConfig(Config config) {
+        instance.releaseConfig(config);
+    }
+
+
+    /**
+     * Builder for manually creating an instance of a {@code Config}.
+     *
+     * @see ConfigProvider#newConfig()
+     */
+    public interface ConfigBuilder {
+    	ConfigBuilder addDefaultSources();
+        ConfigBuilder forClassLoader(ClassLoader loader);
+        ConfigBuilder withSources(ConfigSource... sources);
+        ConfigBuilder withSources(ConfigSources... sources);
+        ConfigBuilder addDefaultConverters();
+        ConfigBuilder withConverters(Converter<?>... filters);
+        Config build();
+    }
 }
