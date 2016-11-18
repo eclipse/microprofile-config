@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 IBM Corporation and others.
+ * Copyright 2016 Microprofile.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,6 +100,19 @@ public class ConfigProvider {
      * @see ConfigProvider#newConfig()
      */
     public interface ConfigBuilder {
+    	/*
+	 * Remove the default config sources including:
+	 * <ol> 
+	 * <li>System properties</li>
+	 * <li>Environment properties</li>
+	 * <li>/META-INF/config.properties</li>
+	 * <li>/META-INF/config.xml</li>
+	 * <li>/META-INF/config.json</li>
+	 * </ol>
+	 * 
+	 * @return the ConfigBuilder without the default config sources
+	 */
+    	
     	ConfigBuilder addDefaultSources();
         ConfigBuilder forClassLoader(ClassLoader loader);
         ConfigBuilder withSources(ConfigSource... sources);
