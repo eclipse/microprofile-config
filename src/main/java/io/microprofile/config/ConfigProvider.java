@@ -100,25 +100,52 @@ public class ConfigProvider {
      * @see ConfigProvider#newConfig()
      */
     public interface ConfigBuilder {
-    	/*
-	 * Remove the default config sources including:
-	 * <ol> 
-	 * <li>System properties</li>
-	 * <li>Environment properties</li>
-	 * <li>/META-INF/config.properties</li>
-	 * <li>/META-INF/config.xml</li>
-	 * <li>/META-INF/config.json</li>
-	 * </ol>
-	 * 
-	 * @return the ConfigBuilder without the default config sources
-	 */
-    	
+    	/**
+		 * Add the default config sources including:
+		 * <ol> 
+		 * <li>System properties</li>
+		 * <li>Environment properties</li>
+		 * <li>/META-INF/config.properties</li>
+		 * <li>/META-INF/config.xml</li>
+		 * <li>/META-INF/config.json</li>
+		 * </ol>
+		 * 
+		 * @return the ConfigBuilder without the default config sources
+		 */    	
     	ConfigBuilder addDefaultSources();
+    	/**
+    	 * Return the ConfigBuilder for a given classloader
+    	 * @param loader
+    	 * @return
+    	 */
         ConfigBuilder forClassLoader(ClassLoader loader);
+        /**
+         * Add the specified {@link ConfigSource}.
+         * @param sources
+         * @return
+         */
         ConfigBuilder withSources(ConfigSource... sources);
+        /**
+         * Add the specified {@link ConfigSources}
+         * @param sources
+         * @return
+         */
         ConfigBuilder withSources(ConfigSources... sources);
+        /**
+         * Add the default built-in converters 
+         * @return
+         */
         ConfigBuilder addDefaultConverters();
+        /**
+         * Add the specified {@link Converter}
+         * @param filters
+         * @return
+         */
         ConfigBuilder withConverters(Converter<?>... filters);
+        /**
+         * Build the {@link Config} object.
+         * @return
+         */
         Config build();
     }
 }
