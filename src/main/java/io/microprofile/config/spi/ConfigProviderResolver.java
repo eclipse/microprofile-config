@@ -47,6 +47,9 @@ public abstract class ConfigProviderResolver  {
     public abstract Config getConfig(ClassLoader loader);
     
     public abstract ConfigBuilder emptyBuilder();
+    
+    public abstract ConfigBuilder builder();
+    
     public abstract void releaseConfig(Config config);
     /**  
      * Creates a ConfigProviderResolver object

@@ -94,6 +94,14 @@ public class ConfigProvider {
     public static ConfigBuilder emptyBuilder() {
         return instance.emptyBuilder();
     }
+    /**
+     * Create a {@link ConfigBuilder} instance.
+     * This builder contains the default {@link ConfigSource} and the {@link Converters}.
+     * @return the ConfigBuilder instance
+     */
+    public static ConfigBuilder builder() {
+    	return instance.builder();
+    }
 
     /**
      * A {@link Config} normally gets released if the ClassLoader it represents gets destroyed.
