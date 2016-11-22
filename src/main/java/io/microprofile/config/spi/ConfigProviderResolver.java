@@ -44,6 +44,8 @@ public abstract class ConfigProviderResolver  {
         
     public abstract Config getDefaultConfig();
     
+    public abstract Config getConfig(ClassLoader loader);
+    
     public abstract ConfigBuilder emptyBuilder();
     public abstract void releaseConfig(Config config);
     /**  

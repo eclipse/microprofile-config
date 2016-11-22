@@ -72,7 +72,16 @@ public class ConfigProvider {
         return instance.getDefaultConfig();
     }
 
-    
+    /**
+     * Provide a {@link Config} based on all {@link ConfigSource}s
+     * of the specified Thread Context ClassLoader (TCCL)
+     *
+     * <p>There is exactly a single Config instance per ClassLoader</p>
+     */
+    public static Config getConfig(ClassLoader cl) {
+        return instance.getConfig(cl);
+    }
+
 
     /**
      * Create a fresh {@link ConfigBuilder} instance.
