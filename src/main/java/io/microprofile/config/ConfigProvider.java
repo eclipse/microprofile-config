@@ -19,6 +19,7 @@
 
 package io.microprofile.config;
 
+import io.microprofile.config.spi.ConfigFilter;
 import io.microprofile.config.spi.ConfigProviderResolver;
 import io.microprofile.config.spi.ConfigSource;
 import io.microprofile.config.spi.ConfigSources;
@@ -116,32 +117,38 @@ public class ConfigProvider {
     	/**
     	 * Return the ConfigBuilder for a given classloader
     	 * @param loader
-    	 * @return
+    	 * @return the ConfigureBuilder for the given classloader
     	 */
         ConfigBuilder forClassLoader(ClassLoader loader);
         /**
          * Add the specified {@link ConfigSource}.
          * @param sources
-         * @return
+         * @return the ConfigBuilder with the configured sources
          */
         ConfigBuilder withSources(ConfigSource... sources);
         /**
          * Add the specified {@link ConfigSources}
          * @param sources
-         * @return
+         * @return the ConfigBuilder with the configured ConfigSources
          */
         ConfigBuilder withSources(ConfigSources... sources);
         /**
          * Add the default built-in converters 
-         * @return
+         * @return the ConfigBuilder with the default converters
          */
         ConfigBuilder addDefaultConverters();
         /**
          * Add the specified {@link Converter}
-         * @param filters
-         * @return
+         * @param converters
+         * @return the ConfigBuilder with the added converters
          */
-        ConfigBuilder withConverters(Converter<?>... filters);
+        ConfigBuilder withConverters(Converter<?>... converters);
+        /**
+         * Add the specified {@link ConfigFilter}
+         * @param filters
+         * @return the ConfigBuilder with the added filters
+         */
+        ConfigBuilder withFilters(ConfigFilter... filters);
         /**
          * Build the {@link Config} object.
          * @return

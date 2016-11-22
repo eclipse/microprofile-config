@@ -15,25 +15,16 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config;
+package io.microprofile.config.builtin.converter;
 
-import java.util.Collection;
+import io.microprofile.config.spi.Converter;
 
-/**
- * Represent a group of {@link ConfigSource}s.
- * <config-sources>  
- * <source ordinal="500">http://shared:8080/config.xml</source>  
- * <source ordinal="450">/cfg/myconf.json</source>
- * </config-sources>
+import java.math.BigInteger;
 
- * @author Emily
- *
- */
-public interface ConfigSources {
+public class BigIntegerConverter implements Converter<BigInteger>{
 
-	/**
-	 * Return the collection of {@link ConfigSource}s.
-	 * @return the {@link ConfigSource}s specified in the file of config-sources.xml.
-	 */
-	Collection<ConfigSource> getConfigSources();
+	public BigInteger convert(String value) {		
+		return BigInteger.valueOf(Long.getLong(value));
+	}
+
 }

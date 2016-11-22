@@ -20,6 +20,8 @@ package io.microprofile.config.spi;
 import io.microprofile.config.ConfigProvider.ConfigBuilder;
 
 import java.util.Map;
+
+import javax.xml.datatype.Duration;
 /**
  * <p> Represent a config source, which provides properties. The config source includes: properties, xml, json files or datastore. <p>
  * The default config sources:
@@ -32,6 +34,7 @@ import java.util.Map;
  * </ol>
  * The other custom config source can be added programmatically via {@link ConfigBuilder}. 
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
@@ -68,6 +71,11 @@ public interface ConfigSource {
      * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getConfigName();
+    /**
+     * Get the refresh rate of the config source
+     * @return the refresh duration
+     */
+    Duration getRefreshRate();
 	
 
 }

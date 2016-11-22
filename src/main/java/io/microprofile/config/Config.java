@@ -29,8 +29,8 @@ import java.util.Collection;
  * If the same property is specified in multiple {@link ConfigSource}s, the value in the {@link ConfigSource} with the 
  * highest ordinal will be used. If multiple {@link ConfigSource}s are specified with the same ordinal, non portable behaviour will occur.<p>
  * 
- * 
- * @author Emily
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
 public interface Config {	
@@ -426,4 +426,22 @@ public interface Config {
 	 * @return the property names
 	 */
 	Collection<String> 	getPropertyNames();
+	/**
+     * Filter the configured value.
+     * This can e.g. be used for decryption.
+     * @return the filtered value
+     */
+    String filterConfigValue(String key, String value);
+
+    /**
+     * Filter the configured value for logging.
+     * This can e.g. be used for displaying ***** instead of a real password.
+     * @return the filtered value
+     */
+    String filterConfigValueForLog(String key, String value);
+    /**
+     * @return all currently registered {@link ConfigSource}s
+     */
+    Collection<ConfigSource> getConfigSources();
+
 }

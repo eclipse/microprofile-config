@@ -15,18 +15,14 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config;
-/**
- * <p> A convert to convert from String to any Java type.</p>
- * @author Emily
- *
- * @param <T> the class type to be coverted to
- */
-public interface Converter <T> {
-	/**
-	 * Configure the string value to a specified type
-	 * @param value the string representation of a property value
-	 * @return the converted value
-	 */
-	T convert(String value);
+package io.microprofile.config.builtin.converter;
+
+import io.microprofile.config.spi.Converter;
+
+public class IntegerConverter implements Converter<Integer>{
+
+	public Integer convert(String value) {		
+		return Integer.getInteger(value);
+	}
+
 }
