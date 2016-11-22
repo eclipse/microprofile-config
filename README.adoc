@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 
-# Configuration for Java EE
+# Configuration for MicroProfile
 
 ## Status
 
