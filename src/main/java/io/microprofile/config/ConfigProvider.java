@@ -99,7 +99,7 @@ public class ConfigProvider {
      * This builder contains the default {@link ConfigSource} and the {@link Converters}.
      * @return the ConfigBuilder instance
      */
-    public static ConfigBuilder builder() {
+    public static ConfigBuilder builder() {    	
     	return instance.builder();
     }
 
