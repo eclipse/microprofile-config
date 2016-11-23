@@ -61,21 +61,23 @@ public interface Config {
      * @throws IllegalArgumentException is thrown if the propertyName maps to an
      *         object that is not a Boolean.
      */
-    boolean getBoolean(String propertyName);
+    Boolean getBoolean(String propertyName);
 
+   
     /**
-     * Get a boolean associated with the given configuration propertyName.
-     * If the propertyName doesn't map to an existing object, the default value
-     * is returned.
+     * Get a {@link Boolean} associated with the given configuration propertyName.
      *
      * @param propertyName The configuration propertyName.
      * @param defaultValue The default value.
-     * @return The associated boolean.
+     * @return The associated boolean if propertyName is found and has valid
+     *         format, default value otherwise.
      *
      * @throws IllegalArgumentException is thrown if the propertyName maps to an
      *         object that is not a Boolean.
      */
-    boolean getBoolean(String propertyName, boolean defaultValue);
+    Boolean getBoolean(String propertyName, Boolean defaultValue);
+
+
 
     /**
      * Get an integer associated with the given configuration propertyName or {@code null} if the property does not exist.
@@ -86,23 +88,28 @@ public interface Config {
      * @throws IllegalArgumentException is thrown if the propertyName maps to an
      *         object that is not a Integer.
      */
-    int getInt(String propertyName);
+    Integer getInteger(String propertyName);
+
+   
 
     /**
-     * Get a int associated with the given configuration propertyName.
+     * Get an {@link Integer} associated with the given configuration propertyName.
      * If the propertyName doesn't map to an existing object, the default value
      * is returned.
      *
      * @param propertyName The configuration propertyName.
      * @param defaultValue The default value.
-     * @return The associated int.
+     * @return The associated int if propertyName is found and has valid format, default
+     *         value otherwise.
      *
-     * @throws IllegalArgumentException is thrown if the propertyName maps to an
-     *         object that is not a Integer.
+     * @throws IllegalArgumentException is thrown if the propertyName maps to an object that
+     *         is not a Integer.
      */
-    int getInt(String propertyName, int defaultValue);
+    Integer getInteger(String propertyName, Integer defaultValue);
 
-    
+
+   
+
     /**
      * Get a string associated with the given configuration propertyName or {@code null} if the property does not exist.
      *
