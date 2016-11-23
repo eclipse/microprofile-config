@@ -23,8 +23,8 @@ import java.math.BigInteger;
 
 public class BigIntegerConverter implements Converter<BigInteger>{
 
-	public BigInteger convert(String value) {		
-		return BigInteger.valueOf(Long.getLong(value));
+	public BigInteger convert(String value) {	
+		return (value ==null)? null : new BigInteger(value);
 	}
 
 }

@@ -22,8 +22,7 @@ import io.microprofile.config.spi.Converter;
 public class ShortConverter implements Converter<Short>{
 
 	public Short convert(String value) {		
-		if (value == null) return null;
-		return Short.parseShort(value);	
+		return (value ==null)? null : new Short(value);
 	}
 
 }

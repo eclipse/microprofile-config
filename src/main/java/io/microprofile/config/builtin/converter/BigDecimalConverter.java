@@ -24,8 +24,7 @@ import java.math.BigDecimal;
 public class BigDecimalConverter implements Converter<BigDecimal>{
 
 	public BigDecimal convert(String value) {		
-		if (value == null) return null;
-		return BigDecimal.valueOf(Double.valueOf(value));	
+		return (value ==null)? null : new BigDecimal(value);
 	}
 
 }

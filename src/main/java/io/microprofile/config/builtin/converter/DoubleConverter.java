@@ -22,7 +22,6 @@ import io.microprofile.config.spi.Converter;
 public class DoubleConverter implements Converter<Double>{
 
 	public Double convert(String value) {	
-		if (value == null) return null;
-		return Double.parseDouble(value);	
+		return (value ==null)? null : new Double(value);
 	}
 }

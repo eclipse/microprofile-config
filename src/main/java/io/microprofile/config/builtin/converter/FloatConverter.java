@@ -22,7 +22,6 @@ import io.microprofile.config.spi.Converter;
 public class FloatConverter implements Converter<Float>{
 
 	public Float convert(String value) {	
-		if (value == null) return null;
-		return Float.parseFloat(value);	
+		return (value ==null)? null : new Float(value);
 	}
 }
