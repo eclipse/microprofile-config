@@ -19,7 +19,6 @@ package io.microprofile.config.spi;
 
 import io.microprofile.config.ConfigProvider.ConfigBuilder;
 
-import java.time.Duration;
 import java.util.Map;
 
 
@@ -73,10 +72,10 @@ public interface ConfigSource {
      */
     String getConfigName();
     /**
-     * Get the refresh rate of the config source
+     * Get the refresh rate of the config source in milliseconds
      * @return the refresh duration
      */
-    Duration getRefreshRate();
+    Long getRefreshRate();
 	
 
 }
