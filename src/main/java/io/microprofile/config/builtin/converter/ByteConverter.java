@@ -12,26 +12,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  *******************************************************************************/
 
-package io.microprofile.config.spi;
+package io.microprofile.config.builtin.converter;
 
-public class ConvertException extends Exception {
+import io.microprofile.config.spi.Converter;
 
-	/**
-	 * The exception was thrown when unable to convert to the specified type. 
-	 */
-	private static final long serialVersionUID = 1L;
+public class ByteConverter implements Converter<Byte>{
 
-
-	public ConvertException(String message) {
-		super(message);
+	public Byte convert(String value) {	
+		return (value ==null)? null : new Byte(value);		
 	}
-	public ConvertException(Throwable throwable) {
-		super(throwable);
-	}
-	public ConvertException(String message, Throwable throwable) {
-		super(message, throwable);
-	}
+
 }

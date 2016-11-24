@@ -19,9 +19,10 @@ package io.microprofile.config.spi;
 
 import io.microprofile.config.ConfigProvider.ConfigBuilder;
 
+import java.time.Duration;
 import java.util.Map;
 
-import javax.xml.datatype.Duration;
+
 /**
  * <p> Represent a config source, which provides properties. The config source includes: properties, xml, json files or datastore. <p>
  * The default config sources:
