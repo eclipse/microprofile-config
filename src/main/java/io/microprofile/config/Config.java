@@ -20,6 +20,7 @@ package io.microprofile.config;
 import io.microprofile.config.spi.ConfigSource;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * <p> Resolves the property value by searching through all configured {@link ConfigSource}s. 
@@ -34,108 +35,27 @@ public interface Config {
 	
 	/**
 	 * Return the resolved property value with the specified type for the specified property name
+	 * @param <T> the property type
 	 * @param propertyName 
 	 * @param propertyType
-	 * @return the resolved property value or {@code null} if the property does not exist.
+	 * @return the resolved property value as an optional
 	 */
-	<T> T getPropertyValue(String propertyName, Class<T> propertyType);
+	<T> Optional<T> getPropertyValue(String propertyName, Class<T> propertyType);
 	
-
-
-	/**
-	 * Return the resolved property value with the specified type for the specified property name or
-	 * defaultValue if the property does not exist.
-	 * @param propertyName the property name
-	 * @param propertyType the property type
-	 * @param defaultValue the default value
-	 * @return the property value or the defult value if the property does not exist.
-	 */
-	<T> T getPropertyValue(String propertyName, Class<T> propertyType, T defaultValue);
 	
     /**
-     * Get a Boolean associated with the given configuration propertyName.
+     * Get an Optional string associated with the given configuration propertyName.
      *
      * @param propertyName The configuration propertyName.
-     * @return The associated boolean or {@code null} if the property does not exist.
-     *
-     * @throws IllegalArgumentException is thrown if the propertyName maps to an
-     *         object that is not a Boolean.
-     */
-    Boolean getBoolean(String propertyName);
-
-   
-    /**
-     * Get a {@link Boolean} associated with the given configuration propertyName.
-     *
-     * @param propertyName The configuration propertyName.
-     * @param defaultValue The default value.
-     * @return The associated boolean if propertyName is found and has valid
-     *         format, default value otherwise.
-     *
-     * @throws IllegalArgumentException is thrown if the propertyName maps to an
-     *         object that is not a Boolean.
-     */
-    Boolean getBoolean(String propertyName, Boolean defaultValue);
-
-
-
-    /**
-     * Get an integer associated with the given configuration propertyName or {@code null} if the property does not exist.
-     *
-     * @param propertyName The configuration propertyName.
-     * @return The associated integer or {@code null} if the property does not exist.
-     *
-     * @throws IllegalArgumentException is thrown if the propertyName maps to an
-     *         object that is not a Integer.
-     */
-    Integer getInteger(String propertyName);
-
-   
-
-    /**
-     * Get an {@link Integer} associated with the given configuration propertyName.
-     * If the propertyName doesn't map to an existing object, the default value
-     * is returned.
-     *
-     * @param propertyName The configuration propertyName.
-     * @param defaultValue The default value.
-     * @return The associated int if propertyName is found and has valid format, default
-     *         value otherwise.
-     *
-     * @throws IllegalArgumentException is thrown if the propertyName maps to an object that
-     *         is not a Integer.
-     */
-    Integer getInteger(String propertyName, Integer defaultValue);
-
-
-   
-
-    /**
-     * Get a string associated with the given configuration propertyName or {@code null} if the property does not exist.
-     *
-     * @param propertyName The configuration propertyName.
-     * @return The associated string or {@code null} if the property does not exist.
+     * @return The associated Optional string.
      *
      * @throws IllegalArgumentException is thrown if the propertyName maps to an object that
      *         is not a String.
      */
-    String getString(String propertyName);
+    Optional<String> getString(String propertyName);
 
     
-    /**
-     * Get a string associated with the given configuration propertyName.
-     * If the propertyName doesn't map to an existing object, the default value
-     * is returned.
-     *
-     * @param propertyName The configuration propertyName.
-     * @param defaultValue The default value.
-     * @return The associated string if propertyName is found and has valid
-     *         format, default value otherwise.
-     *
-     * @throws IllegalArgumentException is thrown if the propertyName maps to an object that
-     *         is not a String.
-     */
-    String getString(String propertyName, String defaultValue);
+    
 	/**
 	 * Return a collection of property names
 	 * @return the property names
