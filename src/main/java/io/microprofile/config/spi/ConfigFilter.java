@@ -33,13 +33,6 @@ import io.microprofile.config.ConfigProvider;
  */
 public interface ConfigFilter
 {
-    /**
-     * Filter the given configuration value
-     * @param key
-     * @param value
-     * @return the filtered value or the original input String if no filter shall be applied
-     */
-    String filterValue(String key, String value);
 
     /**
      * Filter the given configuration value for usage in logs.

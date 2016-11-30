@@ -17,7 +17,7 @@
 
 package io.microprofile.config.spi;
 
-public class ConvertException extends Exception {
+public final class ConvertException extends Exception {
 
 	/**
 	 * The exception was thrown when unable to convert to the specified type. 

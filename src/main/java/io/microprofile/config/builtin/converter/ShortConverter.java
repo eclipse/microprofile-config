@@ -18,11 +18,15 @@
 package io.microprofile.config.builtin.converter;
 
 import io.microprofile.config.spi.Converter;
-
+/**
+ * Convert the string to a Short value or throw NumberFormatException if unable to convert
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ *
+ */
 public class ShortConverter implements Converter<Short>{
 
 	public Short convert(String value) {		
-		return (value ==null)? null : new Short(value);
+		return new Short(value);
 	}
 
 }

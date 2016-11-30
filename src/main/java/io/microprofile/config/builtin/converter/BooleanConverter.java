@@ -18,11 +18,15 @@
 package io.microprofile.config.builtin.converter;
 
 import io.microprofile.config.spi.Converter;
-
+/**
+ * Covert the string to a boolean. If the string is "true", "yes" or "on" regardless of the case, the return value will be TRUE.
+ * Otherwise, it is FALSE.
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ */
 public class BooleanConverter implements Converter<Boolean>{
 
-	public Boolean convert(String value) {		
-		return Boolean.valueOf(value);
+	public Boolean convert(String value) {	
+		return "true".equalsIgnoreCase(value) || "yes".equalsIgnoreCase(value)||"on".equalsIgnoreCase(value); 
 	}
 
 }

@@ -19,7 +19,6 @@ package io.microprofile.config;
 
 import io.microprofile.config.spi.ConfigSource;
 
-import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -60,13 +59,8 @@ public interface Config {
 	 * Return a collection of property names
 	 * @return the property names
 	 */
-	Collection<String> 	getPropertyNames();
-	/**
-     * Filter the configured value.
-     * This can e.g. be used for decryption.
-     * @return the filtered value
-     */
-    String filterConfigValue(String key, String value);
+	Iterable<String> 	getPropertyNames();
+	
 
     /**
      * Filter the configured value for logging.
@@ -77,6 +71,6 @@ public interface Config {
     /**
      * @return all currently registered {@link ConfigSource}s
      */
-    Collection<ConfigSource> getConfigSources();
+    Iterable<ConfigSource> getConfigSources();
 
 }

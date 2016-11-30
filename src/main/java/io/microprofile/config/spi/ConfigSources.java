@@ -17,7 +17,6 @@
 
 package io.microprofile.config.spi;
 
-import java.util.Collection;
 
 /**
  * Represent a group of {@link ConfigSource}s.
@@ -35,5 +34,5 @@ public interface ConfigSources {
 	 * Return the collection of {@link ConfigSource}s.
 	 * @return the {@link ConfigSource}s specified in the file of config-sources.xml.
 	 */
-	Collection<ConfigSource> getConfigSources();
+	Iterable<ConfigSource> getConfigSources();
 }

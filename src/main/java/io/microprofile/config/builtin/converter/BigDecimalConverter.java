@@ -20,11 +20,15 @@ package io.microprofile.config.builtin.converter;
 import io.microprofile.config.spi.Converter;
 
 import java.math.BigDecimal;
-
+/**
+ * Convert the string to a BigDecimal value or throw NumberFormatException if unable to convert
+ *  @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ *
+ */
 public class BigDecimalConverter implements Converter<BigDecimal>{
 
 	public BigDecimal convert(String value) {		
-		return (value ==null)? null : new BigDecimal(value);
+		return new BigDecimal(value);
 	}
 
 }

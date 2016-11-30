@@ -18,10 +18,14 @@
 package io.microprofile.config.builtin.converter;
 
 import io.microprofile.config.spi.Converter;
-
+/**
+ * Convert the string to a Double value or throw NumberFormatException if unable to convert
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ *
+ */
 public class DoubleConverter implements Converter<Double>{
 
 	public Double convert(String value) {	
-		return (value ==null)? null : new Double(value);
+		return new Double(value);
 	}
 }

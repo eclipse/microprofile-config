@@ -18,7 +18,11 @@
 package io.microprofile.config.builtin.converter;
 
 import io.microprofile.config.spi.Converter;
-
+/**
+ * Convert the string to a Interger value
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ *
+ */
 public class IntegerConverter implements Converter<Integer>{
 
 	public Integer convert(String value) {		

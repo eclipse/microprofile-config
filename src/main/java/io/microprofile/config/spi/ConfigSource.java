@@ -71,11 +71,7 @@ public interface ConfigSource {
      * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getConfigName();
-    /**
-     * Get the refresh rate of the config source in milliseconds
-     * @return the refresh duration
-     */
-    Long getRefreshRate();
+    
 	
 
 }

@@ -23,7 +23,11 @@ import io.microprofile.config.spi.Converter;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+/**
+ * Convert the string to a Double or throw ConvertException if unable to convert
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ *
+ */
 public class URIConverter implements Converter<URI>{
 
 	public URI convert(String value) throws ConvertException {	

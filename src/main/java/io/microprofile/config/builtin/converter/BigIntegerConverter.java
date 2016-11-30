@@ -20,11 +20,15 @@ package io.microprofile.config.builtin.converter;
 import io.microprofile.config.spi.Converter;
 
 import java.math.BigInteger;
-
+/**
+ * Convert the string to a BigInterger value or throw NumberFormatException if unable to convert
+ *  @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ *
+ */
 public class BigIntegerConverter implements Converter<BigInteger>{
 
 	public BigInteger convert(String value) {	
-		return (value ==null)? null : new BigInteger(value);
+		return new BigInteger(value);
 	}
 
 }
