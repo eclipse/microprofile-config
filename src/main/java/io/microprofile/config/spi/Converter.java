@@ -26,7 +26,7 @@ package io.microprofile.config.spi;
  *
  * <p>The Converter for the following types are automatically enabled:
  * <ul>
- *     <li>Boolean, values for {@code true}: (case insensitive) &quot;true&quot;, &quot;1&quot;, &quot;YES&quot;, &quot;Y&quot; &quot;JA&quot; &quot;J&quot;, &quot;OUI&quot;</li>
+ *     <li>Boolean, values for {@code true}: (case insensitive) &quot;true&quot;, &quot;yes&quot;, &quot;on&quot;</li>
  *     <li>Integer</li>
  *     <li>Long</li>
  *     <li>Float, a dot '.' is used to separate the fractional digits</li>
