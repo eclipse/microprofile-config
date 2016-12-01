@@ -42,13 +42,13 @@ public abstract class ConfigProviderResolver  {
     protected ConfigProviderResolver() {
 	}
         
-    public abstract Config getDefaultConfig();
+    public abstract Config getConfig();
     
     public abstract Config getConfig(ClassLoader loader);
     
-    public abstract ConfigBuilder emptyBuilder();
+    public abstract ConfigBuilder getEmptyBuilder();
     
-    public abstract ConfigBuilder builder();
+    public abstract ConfigBuilder getBuilder();
     
     public abstract void releaseConfig(Config config);
     /**  

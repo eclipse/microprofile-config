@@ -68,8 +68,8 @@ public class ConfigProvider {
      *
      * <p>There is exactly a single Config instance per ClassLoader</p>
      */
-    public static Config getDefaultConfig() {
-        return instance.getDefaultConfig();
+    public static Config getConfig() {
+        return instance.getConfig();
     }
 
     /**
@@ -91,16 +91,16 @@ public class ConfigProvider {
      *
      * The ConfigProvider will not manage the Config instance internally
      */
-    public static ConfigBuilder emptyBuilder() {
-        return instance.emptyBuilder();
+    public static ConfigBuilder getEmptyBuilder() {
+        return instance.getEmptyBuilder();
     }
     /**
      * Create a {@link ConfigBuilder} instance.
      * This builder contains the default {@link ConfigSource} and the {@link Converters}.
      * @return the ConfigBuilder instance
      */
-    public static ConfigBuilder builder() {    	
-    	return instance.builder();
+    public static ConfigBuilder getBuilder() {    	
+    	return instance.getBuilder();
     }
 
     /**

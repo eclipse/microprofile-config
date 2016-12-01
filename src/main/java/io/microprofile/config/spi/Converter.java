@@ -40,6 +40,7 @@ package io.microprofile.config.spi;
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
+@FunctionalInterface
 public interface Converter <T> {
 	/**
 	 * Configure the string value to a specified type

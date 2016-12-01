@@ -53,14 +53,11 @@ public interface Config {
      */
     Optional<String> getString(String propertyName);
 
-    
-    
 	/**
 	 * Return a collection of property names
 	 * @return the property names
 	 */
-	Iterable<String> 	getPropertyNames();
-	
+	Iterable<String> 	getPropertyNames();	
 
     /**
      * Filter the configured value for logging.
