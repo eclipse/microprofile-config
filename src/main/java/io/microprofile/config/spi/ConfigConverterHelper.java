@@ -24,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 /**
@@ -33,72 +34,51 @@ import java.util.Map;
  */
 public class ConfigConverterHelper {
 
-	static Map<Type, Converter<?>> converters = null;
-	
-	public  static  Map<Type, Converter<?>> getDefaultConverters() {
-		if (converters == null) {
-			converters = new HashMap<Type, Converter<?>>();
-			converters.put(BigDecimal.class, bigDecimalConverter );
-			converters.put(BigInteger.class, bigIntegerConverter);
-			converters.put(Boolean.class, booleanConverter);
-			converters.put(Byte.class, byteConverter);
-			converters.put(Double.class, doubleConverter);
-			converters.put(Float.class, floatConverter);
-			converters.put(Integer.class, integerConverter);
-			converters.put(Long.class, longConverter);
-			converters.put(Short.class, shortConverter);
-			converters.put(URL.class, urlConverter);
-			converters.put(URI.class, uriConverter);
-		}
-		return converters;
-	}
-
-	
 	
 	/**
 	 * Convert the string to a BigDecimal value or throw NumberFormatException if unable to convert
 	 *  
 	 */
-	static Converter<BigDecimal> bigDecimalConverter = (String value) -> new BigDecimal(value);
+	static Converter<BigDecimal> bigDecimalConverter = BigDecimal::new;
 	/**
 	 * Convert the string to a BigInterger value or throw NumberFormatException if unable to convert
 	 *
 	 */
-	static Converter<BigInteger> bigIntegerConverter = (String value) -> new BigInteger(value);
+	static Converter<BigInteger> bigIntegerConverter = BigInteger::new;
 	/**
 	 * Covert the string to a boolean. If the string is "true", "yes" or "on" regardless of the case, the return value will be TRUE.
 	 * Otherwise, it is FALSE.
 	 */
-	static Converter<Boolean> booleanConverter = (String value) -> Boolean.valueOf(value);
+	static Converter<Boolean> booleanConverter = Boolean::valueOf;
 	/**
 	 * Convert the string to a Byte value or throw NumberFormatException if unable to convert
 	 *
 	 */
-	static Converter<Byte> byteConverter = (String value) -> new Byte(value);	
+	static Converter<Byte> byteConverter = Byte::new;	
 	/**
 	 * Convert the string to a Double value or throw NumberFormatException if unable to convert
 	 *
 	 */
-	static Converter<Double> doubleConverter = (String value) -> new Double(value);
+	static Converter<Double> doubleConverter = Double::new;
 	/**
 	 * Convert the string to a Float value or throw NumberFormatException if unable to convert
 	 */
-	static Converter<Float> floatConverter = (String value) -> new Float(value);
+	static Converter<Float> floatConverter = Float::new;
 	/**
 	 * Convert the string to a Interger value
 	 *
 	 */
-	static Converter<Integer> integerConverter = (String value) -> Integer.getInteger(value);
+	static Converter<Integer> integerConverter = Integer::getInteger;
 	/**
 	 * Convert the string to a Long value
 	 *
 	 */
-	static Converter<Long> longConverter = (String value) -> Long.getLong(value);
+	static Converter<Long> longConverter = Long::getLong;
 	/**
 	 * Convert the string to a Short value or throw NumberFormatException if unable to convert
 	 *
 	 */
-	static Converter<Short> shortConverter = (String value) -> new Short(value);
+	static Converter<Short> shortConverter = Short::new;
 	/**
 	 * Convert the string to a URI or throw ConvertException if unable to convert
 	 *
@@ -126,5 +106,24 @@ public class ConfigConverterHelper {
 		}
 		return url;
 	};	
+	static Map<Type, Converter<?>> converters = null;
+	static
+	{		
+		converters = new HashMap<Type, Converter<?>>();
+		converters.put(BigDecimal.class, bigDecimalConverter );
+		converters.put(BigInteger.class, bigIntegerConverter);
+		converters.put(Boolean.class, booleanConverter);
+		converters.put(Byte.class, byteConverter);
+		converters.put(Double.class, doubleConverter);
+		converters.put(Float.class, floatConverter);
+		converters.put(Integer.class, integerConverter);
+		converters.put(Long.class, longConverter);
+		converters.put(Short.class, shortConverter);
+		converters.put(URL.class, urlConverter);
+		converters.put(URI.class, uriConverter);		
+	}
+	public static Map<Type, Converter<?>> getDefaultConverters() {
+		return Collections.unmodifiableMap(converters);
+	}
 	
 }

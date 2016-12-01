@@ -22,7 +22,7 @@ import io.microprofile.config.ConfigProvider;
 /**
  * <p>A filter which can be added to the
  * {@link ConfigProvider.ConfigBuilder}.
- * The filter can be used to decrypt config values or prepare
+ * The filter can be used to prepare
  * values for logging.</p>
  *
  * <p>Registering a {@code ConfigFilter} can either be done via the
