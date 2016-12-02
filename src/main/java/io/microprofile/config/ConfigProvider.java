@@ -119,7 +119,7 @@ public class ConfigProvider {
      */
     public interface ConfigBuilder {
     	/**
-		 * Add the default config sources including:
+		 * Add the default config sources appearing on the builder's classpath including:
 		 * <ol> 
 		 * <li>System properties</li>
 		 * <li>Environment properties</li>
@@ -127,7 +127,18 @@ public class ConfigProvider {
 		 * <li>/META-INF/config.xml</li>
 		 * <li>/META-INF/config.json</li>
 		 * </ol>
-		 * 
+		 * The format of config.xml should follow the schema http://java.sun.com/dtd/properties.dtd.
+		 * <ul>
+		 * <li>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?></li>
+		 * <li>&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"></li>
+		 * <li>&lt;properties> </li>
+		 * <ul>
+		 * <li>&lt;comment>This is an exmaple of config.xml!&lt;/comment></li>
+		 * <li>&lt;entry key="name">me&lt;/entry></li>
+		 * <li>&lt;entry key="age">24&lt;/entry></li>
+		 * </ul>
+		 * <li>&lt;/properties></li>
+		 * </ul>
 		 * @return the ConfigBuilder without the default config sources
 		 */    	
     	ConfigBuilder addDefaultSources();
