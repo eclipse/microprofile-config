@@ -59,12 +59,7 @@ public interface Config {
 	 */
 	Iterable<String> 	getPropertyNames();	
 
-    /**
-     * Filter the configured value for logging.
-     * This can e.g. be used for displaying ***** instead of a real password.
-     * @return the filtered value
-     */
-    String filterConfigValueForLog(String key, String value);
+   
     /**
      * @return all currently registered {@link ConfigSource}s
      */
