@@ -37,13 +37,13 @@ There are a number of Config support, shown below.
 
 ConfigProvider is the bootstrap class, which has static methods to get hold of config object, which is the aggregated properties from multiple data sources registered explicitly and the default ones.
 The default config sources are:
-<ul>
-<li>System properties (ordinal=400)</li>
-<li>Environment properties (ordinal=300)</li>
-<li>/META-INF/config.properties (ordinal=100)</li>
-<li>/META-INF/config.xml (ordinal=100)</li>
-<li>/META-INF/config.json (ordinal=100)</li>
-</ul>
+
+* System properties (ordinal=400)
+* Environment properties (ordinal=300)
+* /META-INF/config.properties (ordinal=100)
+* /META-INF/config.xml (ordinal=100)
+* /META-INF/config.json (ordinal=100)
+
 If there are some custom config data to be configured, these config source can be added by calling
 ConfigProvider.builder().withSources().
 
