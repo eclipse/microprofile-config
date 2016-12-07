@@ -45,7 +45,7 @@ The default config sources are:
 * /META-INF/config.json (ordinal=100)
 
 If there are some custom config data to be configured, these config source can be added by calling
-ConfigProvider.builder().withSources().
+'ConfigProvider.getBuilder().withSources()'
 
 A 'Config' consists of the information collected from the registered `javax.config.spi.ConfigSource` s.
 These `ConfigSource`s get sorted according to their _ordinal_.
