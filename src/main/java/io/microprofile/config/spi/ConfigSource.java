@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 IBM Corporation and others.
+ * Copyright 2016 Microprofile.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *     Emily Jiang - newly created class
  *******************************************************************************/
-package io.microprofile.config;
+package io.microprofile.config.spi;
+
+
+import io.microprofile.config.ConfigProvider.ConfigBuilder;
 
 import java.util.Map;
+
+
 /**
  * <p> Represent a config source, which provides properties. The config source includes: properties, xml, json files or datastore. <p>
  * The default config sources:
@@ -31,7 +33,9 @@ import java.util.Map;
  * <li>/META-INF/config.json (ordinal=100)</li>
  * </ol>
  * The other custom config source can be added programmatically via {@link ConfigBuilder}. 
- * @author Emily
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
 public interface ConfigSource {
@@ -59,6 +63,15 @@ public interface ConfigSource {
 	 * @param propertyName the property name
 	 * @return the property value 
 	 */
-	String getProperty(String propertyName);
+	String getPropertyValue(String propertyName);
+	
+	/**
+     * The name of the config might be used for logging or analysis of configured values.
+     *
+     * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
+     */
+    String getConfigName();
+    
+	
 
 }

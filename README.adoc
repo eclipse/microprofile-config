@@ -1,0 +1,68 @@
+# microprofile.config.incubator
+//
+// Licensed to the Apache Software Foundation (ASF) under one or more
+// contributor license agreements.  See the NOTICE file distributed with
+// this work for additional information regarding copyright ownership.
+// The ASF licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+# Configuration for MicroProfile
+
+## Status
+
+Config proposal!
+
+== Rational
+
+Typically, majority applications need to be configured based on running environment. The configuration data need to be stored in a different location so that the applications should not need to be repackaged. The configuration data (data source) can come from different locations and in different formats (e.g. system properties, system environment variables, .properties, .yml, datasource). If a property is defined in multiple data sources, which value should be used. Therefore, there should be a policy to order the data sources. Under some circumstances, some data sources may change dynamically. The changed value should be fed into the client without the need of restarting the application. This requirement is particular important for micro services running in a cloud environment.
+
+== Implementaions
+
+There are a number of Config support, shown below.
+Netflix Archaius (https://github.com/Netflix/archaius)
+DeltaSpike Config (https://github.com/struberg/javaConfig/)
+Apache Tamaya (http://tamaya.incubator.apache.org/)
+== Design
+ConfigProvider is the bootstrap class, which has static methods to get hold of config object, which is the aggregated properties from multiple data sources registered explicitly and the default ones.
+The default config sources are:
+
+System properties (ordinal=400)</li>
+Environment properties (ordinal=300)</li>
+/META-INF/config.properties (ordinal=100)</li>
+/META-INF/config.xml (ordinal=100)</li>
+/META-INF/config.json (ordinal=100)</li>
+
+If there are some custom config data to be configured, these config source can be added by calling
+ConfigProvider.builder().withSources().
+
+A 'Config' consists of the information collected from the registered `javax.config.spi.ConfigSource` s.
+These `ConfigSource`s get sorted according to their _ordinal_.
+That way it is possible to overwrite configuration with lower importance from outside.
+
+By default there are 3 default ConfigSources:
+
+* `System.getProperties()` (ordinal=400)
+* `System.getenv()` (ordinal=300)
+* all `META-INF/config.properties` or config.xml or config.json files on the ClassPath. (ordinal=100, separately configurable via a config_ordinal property inside each file)
+
+Therefore, the default values can be specified in the above files and the value can be overwritten on deployment.
+
+== Custom ConfigSources
+
+It is possible to write and register custom `ConfigSource` s.
+An example would be a ConfigSource which gets the configured values from a shared database table in a cluster.
+
+== Building
+
+`$> mvn clean install`
+

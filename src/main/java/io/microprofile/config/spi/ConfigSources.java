@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 IBM Corporation and others.
+ * Copyright 2016 Microprofile.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,24 +12,27 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *     Emily Jiang - newly created class
+ * 
  *******************************************************************************/
 
-package io.microprofile.config;
+package io.microprofile.config.spi;
+
+
 /**
- * <p> A convert to convert from String to any Java type.</p>
+ * Represent a group of {@link ConfigSource}s.
+ * <config-sources>  
+ * <source ordinal="500">http://shared:8080/config.xml</source>  
+ * <source ordinal="450">/cfg/myconf.json</source>
+ * </config-sources>
+
  * @author Emily
  *
- * @param <T> the class type to be coverted to
  */
-public interface Converter <T> {
+public interface ConfigSources {
+
 	/**
-	 * Configure the string value to a specified type
-	 * @param value the string representation of a property value
-	 * @return the converted value
+	 * Return the collection of {@link ConfigSource}s.
+	 * @return the {@link ConfigSource}s specified in the file of config-sources.xml.
 	 */
-	T convert(String value);
+	Iterable<ConfigSource> getConfigSources();
 }
