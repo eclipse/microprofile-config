@@ -39,7 +39,7 @@ public interface Config {
 	 * @param propertyType
 	 * @return the resolved property value as an optional
 	 */
-	<T> Optional<T> getPropertyValue(String propertyName, Class<T> propertyType);
+	<T> Optional<T> getValue(String propertyName, Class<T> propertyType);
 	
 	
     /**
@@ -57,7 +57,7 @@ public interface Config {
 	 * Return a collection of property names
 	 * @return the property names
 	 */
-	Iterable<String> 	getPropertyNames();	
+	Iterable<String> getPropertyNames();	
 
    
     /**
