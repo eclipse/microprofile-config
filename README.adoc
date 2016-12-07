@@ -29,19 +29,22 @@ Typically, majority applications need to be configured based on running environm
 == Implementaions
 
 There are a number of Config support, shown below.
-Netflix Archaius (https://github.com/Netflix/archaius)
-DeltaSpike Config (https://github.com/struberg/javaConfig/)
-Apache Tamaya (http://tamaya.incubator.apache.org/)
+
+* Netflix Archaius (https://github.com/Netflix/archaius)
+* DeltaSpike Config (https://github.com/struberg/javaConfig/)
+* Apache Tamaya (http://tamaya.incubator.apache.org/)
+
 == Design
+
 ConfigProvider is the bootstrap class, which has static methods to get hold of config object, which is the aggregated properties from multiple data sources registered explicitly and the default ones.
 The default config sources are:
-
-System properties (ordinal=400)</li>
-Environment properties (ordinal=300)</li>
-/META-INF/config.properties (ordinal=100)</li>
-/META-INF/config.xml (ordinal=100)</li>
-/META-INF/config.json (ordinal=100)</li>
-
+<ul>
+<li>System properties (ordinal=400)</li>
+<li>Environment properties (ordinal=300)</li>
+<li>/META-INF/config.properties (ordinal=100)</li>
+<li>/META-INF/config.xml (ordinal=100)</li>
+<li>/META-INF/config.json (ordinal=100)</li>
+</ul>
 If there are some custom config data to be configured, these config source can be added by calling
 ConfigProvider.builder().withSources().
 
