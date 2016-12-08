@@ -63,7 +63,7 @@ public interface ConfigSource {
 	 * @param propertyName the property name
 	 * @return the property value 
 	 */
-	String getPropertyValue(String propertyName);
+	String getValue(String propertyName);
 	
 	/**
      * The name of the config might be used for logging or analysis of configured values.
