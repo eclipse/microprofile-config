@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2016 Microprofile.io
+ * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,10 @@
  * limitations under the License.
  * 
  *******************************************************************************/
+/**
+ * Thrown to indicate that converting to a specified type is unsuccessful. 
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ */
 
 package io.microprofile.config.spi;
 

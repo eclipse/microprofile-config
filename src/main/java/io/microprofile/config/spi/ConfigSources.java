@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2016 Microprofile.io
+ * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,7 @@ package io.microprofile.config.spi;
  * <source ordinal="500">http://shared:8080/config.xml</source>  
  * <source ordinal="450">/cfg/myconf.json</source>
  * </config-sources>
-
- * @author Emily
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
 public interface ConfigSources {
