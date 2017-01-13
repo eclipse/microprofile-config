@@ -30,7 +30,7 @@ Typically, the majority of applications need to be configured based on a running
 There are a number of Config supporting projects, such as:
 
 * Netflix Archaius (https://github.com/Netflix/archaius)
-* DeltaSpike Config (https://github.com/struberg/javaConfig/)
+* DeltaSpike Config (http://deltaspike.apache.org/documentation/configuration.html)
 * Apache Tamaya (http://tamaya.incubator.apache.org/)
 
 == Design
