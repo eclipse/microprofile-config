@@ -42,7 +42,6 @@ public interface Config {
 	 */
 	<T> Optional<T> getValue(String propertyName, Class<T> propertyType);
 	
-	
     /**
      * Get an Optional string associated with the given configuration propertyName.
      *
@@ -60,10 +59,8 @@ public interface Config {
 	 */
 	Iterable<String> getPropertyNames();	
 
-   
     /**
      * @return all currently registered {@link ConfigSource}s
      */
     Iterable<ConfigSource> getConfigSources();
-
 }

@@ -76,11 +76,11 @@ public interface ConfigSource {
 	String getValue(String propertyName);
 
 	/**
-	 * The name of the config source might be used for logging or analysis of
+	 * The id of the config source might be used for logging or analysis of
 	 * configured values.
 	 *
-	 * @return the 'name' of the configuration source, e.g. 'property-file
+	 * @return the id of the configuration source, e.g. 'property-file
 	 *         mylocation/myproperty.properties'
 	 */
-	String getName();
+	String getId();
 }
