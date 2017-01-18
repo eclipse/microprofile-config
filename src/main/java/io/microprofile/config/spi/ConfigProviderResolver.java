@@ -23,6 +23,9 @@ import io.microprofile.config.ConfigProvider.ConfigBuilder;
 import java.util.ServiceLoader;
 
 /**
+ * This class is not intended to be used by end-users but for
+ * portable container integration purpose only!
+ *
  * Service provider for ConfigProviderResolver. The implementation registers
  * itself via {@link java.util.ServiceLoader} mechanism.
  *
