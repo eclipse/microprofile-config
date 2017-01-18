@@ -27,11 +27,11 @@ package io.microprofile.config.spi;
  */
 public interface ConfigSources
 {
-  /**
-  * Return the collection of {@link ConfigSource}s.
-  *
-  * @return the {@link ConfigSource}s specified in the file of
-  *         config-sources.xml.
-  */
-  Iterable<ConfigSource> getConfigSources();
+    /**
+    * Return the collection of {@link ConfigSource}s.
+    *
+    * @return the {@link ConfigSource}s specified in the file of
+    *         config-sources.xml.
+    */
+    Iterable<ConfigSource> getConfigSources();
 }

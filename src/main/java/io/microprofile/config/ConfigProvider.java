@@ -71,147 +71,146 @@ import io.microprofile.config.spi.Converter;
  */
 public class ConfigProvider
 {
-
-  private static final ConfigProviderResolver instance = ConfigProviderResolver.instance();
-
-  /**
-   * Provide a {@link Config} based on all {@link ConfigSource}s of the
-   * current Thread Context ClassLoader (TCCL)
-   *
-   * <p>
-   * There is exactly a single Config instance per ClassLoader
-   * </p>
-   */
-  public static Config getConfig()
-  {
-    return instance.getConfig();
-  }
-
-  /**
-   * Provide a {@link Config} based on all {@link ConfigSource}s of the
-   * specified Thread Context ClassLoader (TCCL)
-   *
-   * <p>
-   * There is exactly a single Config instance per ClassLoader
-   * </p>
-   */
-  public static Config getConfig(ClassLoader cl)
-  {
-    return instance.getConfig(cl);
-  }
-
-  /**
-   * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-   * initially contain no {@link ConfigSource} nor any {@link Converters}.
-   * Those have to be added manually.
-   *
-   * The ConfigProvider will not manage the Config instance internally
-   */
-  public static ConfigBuilder getEmptyBuilder()
-  {
-    return instance.getEmptyBuilder();
-  }
-
-  /**
-   * Create a {@link ConfigBuilder} instance. This builder contains the
-   * default {@link ConfigSource} and the {@link Converters}.
-   * 
-   * @return the ConfigBuilder instance
-   */
-  public static ConfigBuilder getBuilder()
-  {
-    return instance.getBuilder();
-  }
-
-  /**
-   * A {@link Config} normally gets released if the ClassLoader it represents
-   * gets destroyed. Invoke this method if you like to destroy the Config
-   * prematurely.
-   */
-  public static void releaseConfig(Config config)
-  {
-    instance.releaseConfig(config);
-  }
-
-  /**
-   * Builder for manually creating an instance of a {@code Config}.
-   *
-   * @see ConfigProvider#newConfig()
-   */
-  public interface ConfigBuilder
-  {
-    /**
-     * Add the default config sources appearing on the builder's classpath
-     * including:
-     * <ol>
-     * <li>System properties</li>
-     * <li>Environment properties</li>
-     * <li>/META-INF/config.properties</li>
-     * <li>/META-INF/config.xml</li>
-     * <li>/META-INF/config.json</li>
-     * </ol>
-     * The format of config.xml should follow the schema
-     * http://java.sun.com/dtd/properties.dtd.
-     * <ul>
-     * <li>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?></li>
-     * <li>&lt;!DOCTYPE properties SYSTEM
-     * "http://java.sun.com/dtd/properties.dtd"></li>
-     * <li>&lt;properties></li>
-     * <ul>
-     * <li>&lt;comment>This is an exmaple of config.xml!&lt;/comment></li>
-     * <li>&lt;entry key="name">me&lt;/entry></li>
-     * <li>&lt;entry key="age">24&lt;/entry></li>
-     * </ul>
-     * <li>&lt;/properties></li> </ul>
-     * 
-     * @return the ConfigBuilder without the default config sources
-     */
-    ConfigBuilder addDefaultSources();
+    private static final ConfigProviderResolver instance = ConfigProviderResolver.instance();
 
     /**
-     * Return the ConfigBuilder for a given classloader
-     * 
-     * @param loader
-     * @return the ConfigureBuilder for the given classloader
+     * Provide a {@link Config} based on all {@link ConfigSource}s of the
+     * current Thread Context ClassLoader (TCCL)
+     *
+     * <p>
+     * There is exactly a single Config instance per ClassLoader
+     * </p>
      */
-    ConfigBuilder forClassLoader(ClassLoader loader);
+    public static Config getConfig()
+    {
+        return instance.getConfig();
+    }
 
     /**
-     * Add the specified {@link ConfigSource}.
-     * 
-     * @param sources
-     * @return the ConfigBuilder with the configured sources
+     * Provide a {@link Config} based on all {@link ConfigSource}s of the
+     * specified Thread Context ClassLoader (TCCL)
+     *
+     * <p>
+     * There is exactly a single Config instance per ClassLoader
+     * </p>
      */
-    ConfigBuilder withSources(ConfigSource... sources);
+    public static Config getConfig(ClassLoader cl)
+    {
+        return instance.getConfig(cl);
+    }
 
     /**
-     * Add the specified {@link ConfigSources}
-     * 
-     * @param sources
-     * @return the ConfigBuilder with the configured ConfigSources
+     * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
+     * initially contain no {@link ConfigSource} nor any {@link Converters}.
+     * Those have to be added manually.
+     *
+     * The ConfigProvider will not manage the Config instance internally
      */
-    ConfigBuilder withSources(ConfigSources... sources);
+    public static ConfigBuilder getEmptyBuilder()
+    {
+        return instance.getEmptyBuilder();
+    }
 
     /**
-     * Add the default built-in converters
-     * 
-     * @return the ConfigBuilder with the default converters
+     * Create a {@link ConfigBuilder} instance. This builder contains the
+     * default {@link ConfigSource} and the {@link Converters}.
+     *
+     * @return the ConfigBuilder instance
      */
-    ConfigBuilder addDefaultConverters();
+    public static ConfigBuilder getBuilder()
+    {
+        return instance.getBuilder();
+    }
 
     /**
-     * Add the specified {@link Converter}
-     * 
-     * @param converters
-     * @return the ConfigBuilder with the added converters
+     * A {@link Config} normally gets released if the ClassLoader it represents
+     * gets destroyed. Invoke this method if you like to destroy the Config
+     * prematurely.
      */
-    ConfigBuilder withConverters(Converter<?>... converters);
+    public static void releaseConfig(Config config)
+    {
+        instance.releaseConfig(config);
+    }
 
     /**
-     * Build the {@link Config} object.
-     * 
-     * @return
+     * Builder for manually creating an instance of a {@code Config}.
+     *
+     * @see ConfigProvider#newConfig()
      */
-    Config build();
-  }
+    public interface ConfigBuilder
+    {
+        /**
+         * Add the default config sources appearing on the builder's classpath
+         * including:
+         * <ol>
+         * <li>System properties</li>
+         * <li>Environment properties</li>
+         * <li>/META-INF/config.properties</li>
+         * <li>/META-INF/config.xml</li>
+         * <li>/META-INF/config.json</li>
+         * </ol>
+         * The format of config.xml should follow the schema
+         * http://java.sun.com/dtd/properties.dtd.
+         * <ul>
+         * <li>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?></li>
+         * <li>&lt;!DOCTYPE properties SYSTEM
+         * "http://java.sun.com/dtd/properties.dtd"></li>
+         * <li>&lt;properties></li>
+         * <ul>
+         * <li>&lt;comment>This is an exmaple of config.xml!&lt;/comment></li>
+         * <li>&lt;entry key="name">me&lt;/entry></li>
+         * <li>&lt;entry key="age">24&lt;/entry></li>
+         * </ul>
+         * <li>&lt;/properties></li> </ul>
+         *
+         * @return the ConfigBuilder without the default config sources
+         */
+        ConfigBuilder addDefaultSources();
+
+        /**
+         * Return the ConfigBuilder for a given classloader
+         *
+         * @param loader
+         * @return the ConfigureBuilder for the given classloader
+         */
+        ConfigBuilder forClassLoader(ClassLoader loader);
+
+        /**
+         * Add the specified {@link ConfigSource}.
+         *
+         * @param sources
+         * @return the ConfigBuilder with the configured sources
+         */
+        ConfigBuilder withSources(ConfigSource... sources);
+
+        /**
+         * Add the specified {@link ConfigSources}
+         *
+         * @param sources
+         * @return the ConfigBuilder with the configured ConfigSources
+         */
+        ConfigBuilder withSources(ConfigSources... sources);
+
+        /**
+         * Add the default built-in converters
+         *
+         * @return the ConfigBuilder with the default converters
+         */
+        ConfigBuilder addDefaultConverters();
+
+        /**
+         * Add the specified {@link Converter}
+         *
+         * @param converters
+         * @return the ConfigBuilder with the added converters
+         */
+        ConfigBuilder withConverters(Converter<?>... converters);
+
+        /**
+         * Build the {@link Config} object.
+         *
+         * @return
+         */
+        Config build();
+    }
 }

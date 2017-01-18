@@ -44,10 +44,10 @@ package io.microprofile.config.spi;
 @FunctionalInterface
 public interface Converter<T>
 {
-  /**
-   * Configure the string value to a specified type
-   * @param value the string representation of a property value
-   * @return the converted value
-   */
-  T convert(String value) throws ConvertException;
+    /**
+     * Configure the string value to a specified type
+     * @param value the string representation of a property value
+     * @return the converted value
+     */
+    T convert(String value) throws ConvertException;
 }
