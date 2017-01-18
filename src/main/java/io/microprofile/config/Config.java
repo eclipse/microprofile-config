@@ -34,8 +34,7 @@ import java.util.Optional;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
-public interface Config
-{
+public interface Config {
     /**
      * Return the resolved property value with the specified type for the
      * specified property name

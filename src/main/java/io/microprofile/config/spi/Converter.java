@@ -42,8 +42,7 @@ package io.microprofile.config.spi;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 @FunctionalInterface
-public interface Converter<T>
-{
+public interface Converter<T> {
     /**
      * Configure the string value to a specified type
      * @param value the string representation of a property value

@@ -25,8 +25,7 @@ package io.microprofile.config.spi;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
-public interface ConfigSources
-{
+public interface ConfigSources {
     /**
     * Return the collection of {@link ConfigSource}s.
     *

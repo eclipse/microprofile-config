@@ -31,18 +31,15 @@ import java.util.logging.Logger;
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-public abstract class ConfigProviderResolver
-{
-    private static final ThreadLocal<ServiceLoader<ConfigProviderResolver>> threadLoader = new ThreadLocal<ServiceLoader<ConfigProviderResolver>>() {
+public abstract class ConfigProviderResolver {
+    private static final ThreadLocal<ServiceLoader<ConfigProviderResolver>> THREAD_LOCAL = new ThreadLocal<ServiceLoader<ConfigProviderResolver>>() {
         @Override
-        protected ServiceLoader<ConfigProviderResolver> initialValue()
-        {
+        protected ServiceLoader<ConfigProviderResolver> initialValue() {
             return ServiceLoader.load(ConfigProviderResolver.class);
         }
     };
 
-    protected ConfigProviderResolver()
-    {
+    protected ConfigProviderResolver() {
     }
 
     private static ConfigProviderResolver instance = null;
@@ -62,10 +59,9 @@ public abstract class ConfigProviderResolver
      *
      * @return
      */
-    public static ConfigProviderResolver instance()
-    {
+    public static ConfigProviderResolver instance() {
         if (instance == null) {
-            ServiceLoader<ConfigProviderResolver> sl = threadLoader.get();
+            ServiceLoader<ConfigProviderResolver> sl = THREAD_LOCAL.get();
             for (ConfigProviderResolver cpr : sl) {
                 if (instance != null) {
                     Logger.getLogger(ConfigProviderResolver.class.getName()).warning(
@@ -90,8 +86,7 @@ public abstract class ConfigProviderResolver
      * @param resolver
      *            set the instance.
      */
-    public static void setInstance(ConfigProviderResolver resolver)
-    {
+    public static void setInstance(ConfigProviderResolver resolver) {
         instance = resolver;
     }
 }
