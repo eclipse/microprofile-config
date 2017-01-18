@@ -36,42 +36,42 @@ import java.util.Optional;
  */
 public interface Config
 {
-  /**
-   * Return the resolved property value with the specified type for the
-   * specified property name
-   * 
-   * @param <T>
-   *            the property type
-   * @param propertyName
-   * @param propertyType
-   * @return the resolved property value as an optional
-   */
-  <T> Optional<T> getValue(String propertyName, Class<T> propertyType);
+    /**
+     * Return the resolved property value with the specified type for the
+     * specified property name
+     * 
+     * @param <T>
+     *            the property type
+     * @param propertyName
+     * @param propertyType
+     * @return the resolved property value as an optional
+     */
+    <T> Optional<T> getValue(String propertyName, Class<T> propertyType);
 
-  /**
-   * Get an Optional string associated with the given configuration
-   * propertyName.
-   *
-   * @param propertyName
-   *            The configuration propertyName.
-   * @return The associated Optional string.
-   *
-   * @throws IllegalArgumentException
-   *             is thrown if the propertyName maps to an object that is not a
-   *             String.
-   */
-  Optional<String> getString(String propertyName);
+    /**
+     * Get an Optional string associated with the given configuration
+     * propertyName.
+     *
+     * @param propertyName
+     *            The configuration propertyName.
+     * @return The associated Optional string.
+     *
+     * @throws IllegalArgumentException
+     *             is thrown if the propertyName maps to an object that is not a
+     *             String.
+     */
+    Optional<String> getString(String propertyName);
 
-  /**
-   * Return a collection of property names
-   * 
-   * @return the property names
-   */
-  Iterable<String> getPropertyNames();
+    /**
+     * Return a collection of property names
+     * 
+     * @return the property names
+     */
+    Iterable<String> getPropertyNames();
 
-  /**
-   * @return all currently registered {@link ConfigSource}s
-   */
-  Iterable<ConfigSource> getConfigSources();
+    /**
+     * @return all currently registered {@link ConfigSource}s
+     */
+    Iterable<ConfigSource> getConfigSources();
 
 }

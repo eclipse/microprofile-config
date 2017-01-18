@@ -38,39 +38,39 @@ import java.util.Map;
  */
 public interface ConfigSource
 {
-  /**
-   * Return the properties in this config source
-   * @return the map containing the properties in this config source
-   */
-  Map<String, String> getProperties();
+    /**
+     * Return the properties in this config source
+     * @return the map containing the properties in this config source
+     */
+    Map<String, String> getProperties();
 
-  /**
-   * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value 
-   * in the config source with the highest ordinal will be used.
-   * The ordinal for the default config sources:
-   *  <ol> 
-   * <li>System properties (ordinal=400)</li>
-   * <li>Environment properties (ordinal=300)</li>
-   * <li>/META-INF/config.properties (ordinal=100)</li>
-   * <li>/META-INF/config.xml (ordinal=100)</li>
-   * <li>/META-INF/config.json (ordinal=100)</li>
-   * </ol>
-   * @return the ordinal value
-   */
-  int getOrdinal();
+    /**
+    * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
+    * in the config source with the highest ordinal will be used.
+    * The ordinal for the default config sources:
+    *  <ol>
+    * <li>System properties (ordinal=400)</li>
+    * <li>Environment properties (ordinal=300)</li>
+    * <li>/META-INF/config.properties (ordinal=100)</li>
+    * <li>/META-INF/config.xml (ordinal=100)</li>
+    * <li>/META-INF/config.json (ordinal=100)</li>
+    * </ol>
+    * @return the ordinal value
+    */
+    int getOrdinal();
 
-  /**
-   * Return the value for the specified property in this config source.
-   * @param propertyName the property name
-   * @return the property value 
-   */
-  String getValue(String propertyName);
+    /**
+     * Return the value for the specified property in this config source.
+     * @param propertyName the property name
+     * @return the property value
+     */
+    String getValue(String propertyName);
 
-  /**
-   * The id of the config might be used for logging or analysis of configured values.
-   *
-   * @return the unique 'id' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
-   */
-  String getId();
+    /**
+     * The id of the config might be used for logging or analysis of configured values.
+     *
+     * @return the unique 'id' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
+     */
+    String getId();
 
 }
