@@ -29,10 +29,8 @@
 
     <modules>
         <module>api</module>
-<!--
         <module>tck</module>
         <module>spec</module>
--->
     </modules>
 
     <build>
@@ -106,7 +104,7 @@
                                     <property name="option" value="EOL" />
                                 </module>
                                 <module name="RightCurly">
-                                    <property name="option" value="SAME" />
+                                    <property name="option" value="ALONE" />
                                 </module>
                                 <module name="EmptyStatement" />
                                 <module name="EqualsHashCode" />

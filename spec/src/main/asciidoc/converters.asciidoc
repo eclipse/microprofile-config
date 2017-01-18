@@ -1,0 +1,49 @@
+//
+// Licensed under the Apache License, Version 2.0 (the "License").
+// See the NOTICE file distributed with this work
+// for additional information regarding copyright ownership.
+// The author licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+[[converter]]
+== Converter
+
+For providing typeseafe configuration we need to convert from the configured Strings into target types.
+This happens by providing `Converter` s in the `Config`.
+
+=== Built-in Converters
+
+The following `Converter` s are provided by Microprofile-Config by default:
+
+* `Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "JA" "J", "OUI".
+  Any other value will be interpreted as `false`
+* `Integer`
+* `Long`
+* `Float` , a dot '.' is used to separate the fractional digits
+* `Double` , a dot '.' is used to separate the fractional digits
+* `java.util.Date` in ISO-8601 format (https://www.ietf.org/rfc/rfc3339.txt), e.g. YYYY-MM-DD. Remaining fractions are set to 0.
+* Java8 `LocalDate` and in ISO-8601 format
+* Java8 `LocalDateTime` and in ISO-8601 format
+
+
+=== Adding custom Converters
+
+A custom `Converter` must implement the generic interface `io.microprofile.config.spi.Converter`.
+The TypedParameter of the interface is the target type the String is converted to 
+You have to register your implementation in a file `/META-INF/services/io.microprofile.config.spi.Converter` by writing the fully qualified class name of the custom implementation into it.
+
+A custom `Converter` can define a priority with the `@javax.annotation.Priority` annotation.
+If a Priority annotation isn't applied, a default priority of 100 is assumed.
+The `Config` will use the `Converter` with the highest `Priority` for each target type.
+
+A custom `Converter` for a target type of any of the built-in Converters will overwrite the default Converter.

@@ -101,7 +101,8 @@ public final class ConfigConverterHelper {
         URI uri = null;
         try {
             uri = new URI(value);
-        } catch (URISyntaxException use) {
+        }
+        catch (URISyntaxException use) {
             throw new ConvertException(use);
         }
         return uri;
@@ -115,7 +116,8 @@ public final class ConfigConverterHelper {
         URL url;
         try {
             url = new URL(value);
-        } catch (MalformedURLException mfue) {
+        }
+        catch (MalformedURLException mfue) {
             throw new ConvertException(mfue);
         }
         return url;

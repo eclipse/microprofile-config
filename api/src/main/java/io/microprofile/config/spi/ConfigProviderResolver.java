@@ -92,7 +92,8 @@ public abstract class ConfigProviderResolver {
                 if (instance != null) {
                     throw new IllegalStateException("Multiple ConfigResolverProvider implementations found: " + spi.getClass().getName()
                             + " and " + instance.getClass().getName());
-                } else {
+                }
+                else {
                     instance = spi;
                 }
             }

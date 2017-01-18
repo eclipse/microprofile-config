@@ -1,0 +1,137 @@
+//
+// Licensed under the Apache License, Version 2.0 (the "License").
+// See the NOTICE file distributed with this work
+// for additional information regarding copyright ownership.
+// The author licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+[[configsource]]
+== ConfigSource
+
+A `ConfigSource` is exactly what its name says: a source for configured values.
+The `Config` uses all configured implementations of `ConfigSource` to look up the property in question.
+
+=== ConfigSource Ordering
+
+Each `ConfigSource` has a specified `ordinal`, which is used to determine the importance of the values taken from the associated `ConfigSource`.
+A higher `ordinal` means that the values taken from this `ConfigSource` will override values from lower-priority `ConfigSource` s.
+This allows a configuration to be customized from outside a binary, assuming that external `ConfigSource` s have higher `ordinal` values than the ones whose values originate within the release binaries.
+
+It can also be used to implement a drop-in configuration approach.
+Simply create a jar containing a `ConfigSource` with a higher ordinal and override configuration values in it.
+If the jar is present on the classpath then it will override configuration values from `ConfigSource` s with lower `ordinal` values.
+
+The ordinal for property file based `ConfigSource` s can be configured using the key `config_ordinal` inside the property file.
+
+[source, text]
+----
+config_ordinal = 120
+com.acme.myproject.someserver.url = http://more_important.server/some/endpoint
+----
+
+[[default_configsources]]
+=== Default ConfigSources
+
+A Microprofile-Config implementation must provide `ConfigSource` s for the following data out of the box:
+
+* System properties (ordinal=400)
+* Environment properties (ordinal=300).
+  The built in `ConfigSource` for the environment provides an all upper-case fallback lookup where dots are replaced with underlines.
+  An environment setting `ACME_MYKEY=bla` machtches a lookup for `config.getValue("acme.mykey")`.
+* A `ConfigSource` for each property file `META-INF/java-config.properties` found on the classpath. (default ordinal = 100)
+
+=== Custom ConfigSources
+
+`ConfigSource` s are discovered using the `java.util.ServiceLoader` mechanism.
+
+To add a custom `ConfigSource`, implement the interface `io.microprofile.config.spi.ConfigSource`.
+
+[source, java]
+----
+public class CustomDbConfigSource implements ConfigSource {
+
+    @Override
+    public int getOrdinal() {
+        return 112;
+    }
+
+    @Override
+    public Map<String, String> getProperties() {
+        return readPropertiesFromDb();
+    }
+
+    @Override
+    public String getPropertyValue(String key) {
+        return readPropertyFromDb(key);
+    }
+
+    @Override
+    public String getConfigName() {
+        return "customDbConfig";
+    }
+
+    // + methods to read from the DB
+}
+
+----
+
+Then register your implementation in a resource file `/META-INF/services/io.microprofile.config.spi.ConfigSource` by including the fully-qualified class name of the custom implementation in the file.
+
+
+=== Custom ConfigSources via ConfigSourceProvider
+
+If you need dynamic `ConfigSource` s you can also register a `ConfigSourceProvider` in a similar manner.
+This is useful if you are required to dynamically pick up multiple `ConfigSource` s of the same kind;
+for example, to pick up all `myproject.properties` resources from all the JARs in your classpath.
+
+A custom `ConfigSourceProvider` must implement the interface `io.microprofile.config.spi.ConfigSourceProvider`.
+Register your implementation in a resource file `/META-INF/services/io.microprofile.config.spi.ConfigSourceProvider` by including the fully-qualified class name of the custom implementation/s in the file.
+
+An example which registers all YAML files with the name `exampleconfig.yaml`:
+
+[source, java]
+----
+public class ExampleYamlConfigSourceProvider
+        implements io.microprofile.config.spi.ConfigSourceProvider {
+    @Override
+    public List<ConfigSource> getConfigSources(ClassLoader forClassLoader) {
+        List<ConfigSource> configSources = new ArrayList<>();
+
+        Enumeration<URL> yamlFiles
+            = forClassLoader.getResources("sampleconfig.yaml");
+        while (yamlFiles.hasMoreElements()) {
+            configSources.add(new SampleYamlConfigSource(yamlFiles.nextElement()));
+        }
+        return configSources;
+    }
+}
+----
+
+Please note that a single `ConfigSource` should be either registered directly or via a `ConfigSourceProvider`, but never both ways.
+
+
+=== ConfigSource and Mutable Data
+
+A `Config` instance provides no caching but iterates over all `ConfigSources` for each `getValue(String)` operation.
+A `ConfigSource` is allowed to cache the underlying values itself.
+
+Users might use the `cacheFor(long, TimeUnit)` method of a `ConfigValue` to pick up values which might change at runtime without penetrating the configuration system.
+
+
+=== Manually adding ConfigSources
+
+A user can manually register `ConfigSource` s by using the method `void addConfigSources(List<ConfigSource> configSourcesToAdd)`.
+This will add the given list to the already registered `ConfigSources` of the current `Config` instance.
+
+The order in which the `ConfigSources` are evaluated when using `Config#getValue(String key)` is independent of the order in which they were added to the `Config`; this depends only on the `ordinal` values of the available `ConfigSources`.
+

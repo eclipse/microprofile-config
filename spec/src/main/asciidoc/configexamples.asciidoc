@@ -1,0 +1,92 @@
+//
+// Licensed under the Apache License, Version 2.0 (the "License").
+// See the NOTICE file distributed with this work
+// for additional information regarding copyright ownership.
+// The author licenses this file to You under the Apache License, Version 2.0
+// (the "License"); you may not use this file except in compliance with
+// the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+[[configexamples]]
+== Configuration Usage Examples
+
+An application can access it's configured values via a `Config` instance.
+A user can use the `ConfigProvider` to access the `Config` of an application or simply use `@Inject Config` within CDI managed components.
+
+=== Simple Example
+
+[source, java]
+----
+ppublic class ConfigUsageSample {
+
+    public void useTheConfig() {
+        // get access to the Config instance
+        Config config = ConfigProvider.getConfig();
+
+        String serverUrl = config.getValue("com.acme.myproject.someserver.url");
+        Integer serverPort = config.getValue("com.acme.myproject.someserver.port",
+                                             Integer.class);
+
+        callToServer(serverUrl, serverPort);
+    }
+}
+----
+
+If you need to access a different server then you can e.g. change the configuration via a `-D` system property:
+
+[source, text]
+----
+$> java -jar some.jar -Dcom.acme.myproject.someserver.url=http://other.server/other/endpoint
+----
+
+Note that the way to inject this configuration into the application can be extended by providing custom `ConfigSource` s.
+
+
+
+=== Some advanced features
+
+It is also possible to dynamically pick up values which might change at runtime.
+For example if the configured values get picked up from a custom <<configsource>> which picks up it's values from a Database.
+
+[source, java]
+----
+@ApplicationScoped
+public class DynamicConfigUsageSample {
+
+    private @Inject Config config;
+
+    private ConfigValue<String>  serverUrlCfg;
+    private ConfigValue<Integer> serverPortCfg
+
+    @PostConstruct
+    private void init() {
+        serverUrlCfg= config.access("com.acme.myproject.someserver.url")
+                .cacheFor(5, TimeUnit.MINUTES)
+                .logChanges(true)
+                .evaluateVariables(true);
+
+        serverPortCfg = config.access("com.acme.myproject.someserver.port")
+                .as(Integer.class)
+                .cacheFor(5, TimeUnit.MINUTES)
+                .logChanges(true)
+                .evaluateVariables(true)
+                .withDefault(8080);
+    }
+
+    public void useTheConfig() {
+        callToServer(serverUrlCfg.getValue(), serverPortCfg.getValue());
+    }
+}
+----
+
+The `cacheFor(5, TimeUnit.MINUTES)` will have the `ConfigValue` behave like a local cache and thus reduce load on the configuration system.
+5 minutes after `getValue()` got called the last time any fresh value will get picked up.
+If `logChanges(true)` is set then any value change will get logged.
