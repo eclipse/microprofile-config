@@ -12,26 +12,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  *******************************************************************************/
 
 package io.microprofile.config.spi;
 
-
 /**
- * Represent a group of {@link ConfigSource}s.
- * <config-sources>  
- * <source ordinal="500">http://shared:8080/config.xml</source>  
- * <source ordinal="450">/cfg/myconf.json</source>
- * </config-sources>
+ * Represent a group of {@link ConfigSource}s. <config-sources>
+ * <source>http://shared:8080/config.xml</source>
+ * <source>/cfg/myconf.json</source> </config-sources>
+ *
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
-public interface ConfigSources {
-
-	/**
-	 * Return the collection of {@link ConfigSource}s.
-	 * @return the {@link ConfigSource}s specified in the file of config-sources.xml.
-	 */
-	Iterable<ConfigSource> getConfigSources();
+public interface ConfigSources
+{
+  /**
+  * Return the collection of {@link ConfigSource}s.
+  *
+  * @return the {@link ConfigSource}s specified in the file of
+  *         config-sources.xml.
+  */
+  Iterable<ConfigSource> getConfigSources();
 }

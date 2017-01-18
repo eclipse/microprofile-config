@@ -12,10 +12,11 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  *******************************************************************************/
 
 package io.microprofile.config.spi;
+
 /**
  * <p>A very simple interface for conversion of configuration values from String to any Java type.</p>
  *
@@ -41,11 +42,12 @@ package io.microprofile.config.spi;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 @FunctionalInterface
-public interface Converter <T> {
-	/**
-	 * Configure the string value to a specified type
-	 * @param value the string representation of a property value
-	 * @return the converted value
-	 */
-	T convert(String value) throws ConvertException;
+public interface Converter<T>
+{
+  /**
+   * Configure the string value to a specified type
+   * @param value the string representation of a property value
+   * @return the converted value
+   */
+  T convert(String value) throws ConvertException;
 }
