@@ -16,62 +16,61 @@
  *******************************************************************************/
 package io.microprofile.config.spi;
 
-
 import io.microprofile.config.ConfigProvider.ConfigBuilder;
 
 import java.util.Map;
 
-
 /**
  * <p> Represent a config source, which provides properties. The config source includes: properties, xml, json files or datastore. <p>
  * The default config sources:
- * <ol> 
+ * <ol>
  * <li>System properties (ordinal=400)</li>
  * <li>Environment properties (ordinal=300)</li>
  * <li>/META-INF/config.properties (ordinal=100)</li>
  * <li>/META-INF/config.xml (ordinal=100)</li>
  * <li>/META-INF/config.json (ordinal=100)</li>
  * </ol>
- * The other custom config source can be added programmatically via {@link ConfigBuilder}. 
+ * The other custom config source can be added programmatically via {@link ConfigBuilder}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
-public interface ConfigSource {
-	/**
-	 * Return the properties in this config source
-	 * @return the map containing the properties in this config source
-	 */
-	Map<String, String> getProperties();
-	/**
-	 * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value 
-	 * in the config source with the highest ordinal will be used.
-	 * The ordinal for the default config sources:
-	 *  <ol> 
-	 * <li>System properties (ordinal=400)</li>
-	 * <li>Environment properties (ordinal=300)</li>
-	 * <li>/META-INF/config.properties (ordinal=100)</li>
-	 * <li>/META-INF/config.xml (ordinal=100)</li>
-	 * <li>/META-INF/config.json (ordinal=100)</li>
-	 * </ol>
-	 * @return the ordinal value
-	 */
-	int getOrdinal();
-	/**
-	 * Return the value for the specified property in this config source.
-	 * @param propertyName the property name
-	 * @return the property value 
-	 */
-	String getValue(String propertyName);
-	
-	/**
-     * The name of the config might be used for logging or analysis of configured values.
-     *
-     * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
-     */
-    String getConfigName();
-    
-	
+public interface ConfigSource
+{
+  /**
+   * Return the properties in this config source
+   * @return the map containing the properties in this config source
+   */
+  Map<String, String> getProperties();
+
+  /**
+   * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value 
+   * in the config source with the highest ordinal will be used.
+   * The ordinal for the default config sources:
+   *  <ol> 
+   * <li>System properties (ordinal=400)</li>
+   * <li>Environment properties (ordinal=300)</li>
+   * <li>/META-INF/config.properties (ordinal=100)</li>
+   * <li>/META-INF/config.xml (ordinal=100)</li>
+   * <li>/META-INF/config.json (ordinal=100)</li>
+   * </ol>
+   * @return the ordinal value
+   */
+  int getOrdinal();
+
+  /**
+   * Return the value for the specified property in this config source.
+   * @param propertyName the property name
+   * @return the property value 
+   */
+  String getValue(String propertyName);
+
+  /**
+   * The id of the config might be used for logging or analysis of configured values.
+   *
+   * @return the unique 'id' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
+   */
+  String getId();
 
 }

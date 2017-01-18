@@ -31,64 +31,66 @@ import java.util.logging.Logger;
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-public abstract class ConfigProviderResolver {
-	private static final ThreadLocal<ServiceLoader<ConfigProviderResolver>> threadLoader = new ThreadLocal<ServiceLoader<ConfigProviderResolver>>() {
-		@Override
-		protected ServiceLoader<ConfigProviderResolver> initialValue() {
-			return ServiceLoader.load(ConfigProviderResolver.class);
-		}
-	};
+public abstract class ConfigProviderResolver
+{
+  private static final ThreadLocal<ServiceLoader<ConfigProviderResolver>> threadLoader = new ThreadLocal<ServiceLoader<ConfigProviderResolver>>() {
+    @Override
+    protected ServiceLoader<ConfigProviderResolver> initialValue()
+    {
+      return ServiceLoader.load(ConfigProviderResolver.class);
+    }
+  };
 
-	protected ConfigProviderResolver() {
-	}
+  protected ConfigProviderResolver()
+  {
+  }
 
-	private static ConfigProviderResolver instance = null;
+  private static ConfigProviderResolver instance = null;
 
-	public abstract Config getConfig();
+  public abstract Config getConfig();
 
-	public abstract Config getConfig(ClassLoader loader);
+  public abstract Config getConfig(ClassLoader loader);
 
-	public abstract ConfigBuilder getEmptyBuilder();
+  public abstract ConfigBuilder getEmptyBuilder();
 
-	public abstract ConfigBuilder getBuilder();
+  public abstract ConfigBuilder getBuilder();
 
-	public abstract void releaseConfig(Config config);
+  public abstract void releaseConfig(Config config);
 
-	/**
-	 * Creates a ConfigProviderResolver object
-	 *
-	 * @return
-	 */
-	public static ConfigProviderResolver instance() {
-		if (instance == null) {
-			ServiceLoader<ConfigProviderResolver> sl = threadLoader.get();
-			for (ConfigProviderResolver cpr : sl) {
-				if (instance != null) {
-					Logger.getLogger(ConfigProviderResolver.class.getName())
-							.warning(
-									"Multiple ConfigProviderResolver found. Ignoring "
-											+ cpr.getClass().getName());
-				} else {
-					instance = cpr;
-				}
-			}
-			if (instance == null) {
-				throw new IllegalStateException(
-						"No ConfigProviderResolver implementation found!");
-			}
-		}
-		return instance;
+  /**
+   * Creates a ConfigProviderResolver object
+   *
+   * @return
+   */
+  public static ConfigProviderResolver instance()
+  {
+    if (instance == null) {
+      ServiceLoader<ConfigProviderResolver> sl = threadLoader.get();
+      for (ConfigProviderResolver cpr : sl) {
+        if (instance != null) {
+          Logger.getLogger(ConfigProviderResolver.class.getName()).warning(
+              "Multiple ConfigProviderResolver found. Ignoring " + cpr.getClass().getName());
+        } else {
+          instance = cpr;
+        }
+      }
+      if (instance == null) {
+        throw new IllegalStateException("No ConfigProviderResolver implementation found!");
+      }
+    }
+    return instance;
 
-	}
+  }
 
-	/**
-	 * Set the instance. It is used by OSGi environment while service loader
-	 * pattern is not supported.
-	 *
-	 * @param resolver
-	 *            set the instance.
-	 */
-	public static void setInstance(ConfigProviderResolver resolver) {
-		instance = resolver;
-	}
+  /**
+   * Set the instance. It is used by OSGi environment while service loader
+   * pattern is not supported.
+   *
+   * @param resolver
+   *            set the instance.
+   */
+  public static void setInstance(ConfigProviderResolver resolver)
+  {
+    instance = resolver;
+  }
 }
