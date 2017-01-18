@@ -24,52 +24,71 @@ import java.util.ServiceLoader;
 import java.util.logging.Logger;
 
 /**
- * Service provider for ConfigProviderResolver.
- * The implementation registers itself via {@link java.util.ServiceLoader} mechanism.
+ * Service provider for ConfigProviderResolver. The implementation registers
+ * itself via {@link java.util.ServiceLoader} mechanism.
+ *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
- * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a> 
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-public abstract class ConfigProviderResolver  {
-	private static final ThreadLocal<ServiceLoader<ConfigProviderResolver>> threadLoader =
-	        new ThreadLocal<ServiceLoader<ConfigProviderResolver>>() {
-	            @Override
-	            protected ServiceLoader<ConfigProviderResolver> initialValue() {
-	                return ServiceLoader.load(ConfigProviderResolver.class);
-	            }
-	        };
-	        
-    protected ConfigProviderResolver() {
-	}
-        
-    public abstract Config getConfig();
-    
-    public abstract Config getConfig(ClassLoader loader);
-    
-    public abstract ConfigBuilder getEmptyBuilder();
-    
-    public abstract ConfigBuilder getBuilder();
-    
-    public abstract void releaseConfig(Config config);
-    /**  
-     * Creates a ConfigProviderResolver object
-     * @return
-     */
-    public static ConfigProviderResolver instance() {
-    	ServiceLoader<ConfigProviderResolver> sl = threadLoader.get();
-    	ConfigProviderResolver instance = null;
-        for (ConfigProviderResolver cpr : sl) {
-            if (instance != null) {
-                Logger.getLogger(ConfigProviderResolver.class.getName()).warning("Multiple ConfigProviderResolver found. Ignoring " + cpr.getClass().getName());
-            }
-            else {
-                instance = cpr;
-            }
-        }
-        if (instance == null) {
-            throw new IllegalStateException("No ConfigProviderResolver implementation found!");
-        }
-        return instance;
+public abstract class ConfigProviderResolver {
+	private static final ThreadLocal<ServiceLoader<ConfigProviderResolver>> threadLoader = new ThreadLocal<ServiceLoader<ConfigProviderResolver>>() {
+		@Override
+		protected ServiceLoader<ConfigProviderResolver> initialValue() {
+			return ServiceLoader.load(ConfigProviderResolver.class);
+		}
+	};
 
-    }
+	protected ConfigProviderResolver() {
+	}
+
+	private static ConfigProviderResolver instance = null;
+
+	public abstract Config getConfig();
+
+	public abstract Config getConfig(ClassLoader loader);
+
+	public abstract ConfigBuilder getEmptyBuilder();
+
+	public abstract ConfigBuilder getBuilder();
+
+	public abstract void releaseConfig(Config config);
+
+	/**
+	 * Creates a ConfigProviderResolver object
+	 *
+	 * @return
+	 */
+	public static ConfigProviderResolver instance() {
+		if (instance == null) {
+			ServiceLoader<ConfigProviderResolver> sl = threadLoader.get();
+			for (ConfigProviderResolver cpr : sl) {
+				if (instance != null) {
+					Logger.getLogger(ConfigProviderResolver.class.getName())
+							.warning(
+									"Multiple ConfigProviderResolver found. Ignoring "
+											+ cpr.getClass().getName());
+				} else {
+					instance = cpr;
+				}
+			}
+			if (instance == null) {
+				throw new IllegalStateException(
+						"No ConfigProviderResolver implementation found!");
+			}
+		}
+		return instance;
+
+	}
+
+	/**
+	 * Set the instance. It is used by OSGi environment while service loader
+	 * pattern is not supported.
+	 *
+	 * @param resolver
+	 *            set the instance.
+	 */
+	public static void setInstance(ConfigProviderResolver resolver) {
+		instance = resolver;
+	}
 }
