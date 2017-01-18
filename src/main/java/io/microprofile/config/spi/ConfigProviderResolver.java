@@ -21,9 +21,11 @@ import io.microprofile.config.Config;
 import io.microprofile.config.ConfigProvider.ConfigBuilder;
 
 import java.util.ServiceLoader;
-import java.util.logging.Logger;
 
 /**
+ * This class is not intended to be used by end-users but for
+ * portable container integration purpose only!
+ *
  * Service provider for ConfigProviderResolver. The implementation registers
  * itself via {@link java.util.ServiceLoader} mechanism.
  *
@@ -31,21 +33,11 @@ import java.util.logging.Logger;
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-public abstract class ConfigProviderResolver
-{
-    private static final ThreadLocal<ServiceLoader<ConfigProviderResolver>> threadLoader = new ThreadLocal<ServiceLoader<ConfigProviderResolver>>() {
-        @Override
-        protected ServiceLoader<ConfigProviderResolver> initialValue()
-        {
-            return ServiceLoader.load(ConfigProviderResolver.class);
-        }
-    };
-
-    protected ConfigProviderResolver()
-    {
+public abstract class ConfigProviderResolver {
+    protected ConfigProviderResolver() {
     }
 
-    private static ConfigProviderResolver instance = null;
+    private static volatile ConfigProviderResolver instance = null;
 
     public abstract Config getConfig();
 
@@ -62,26 +54,52 @@ public abstract class ConfigProviderResolver
      *
      * @return
      */
-    public static ConfigProviderResolver instance()
-    {
+    public static ConfigProviderResolver instance() {
         if (instance == null) {
-            ServiceLoader<ConfigProviderResolver> sl = threadLoader.get();
-            for (ConfigProviderResolver cpr : sl) {
-                if (instance != null) {
-                    Logger.getLogger(ConfigProviderResolver.class.getName()).warning(
-                                    "Multiple ConfigProviderResolver found. Ignoring "
-                                                    + cpr.getClass().getName());
-                } else {
-                    instance = cpr;
-                }
+            synchronized (ConfigProviderResolver.class) {
+            if (instance != null) {
+                return instance;
             }
-            if (instance == null) {
+            ClassLoader cl = Thread.currentThread().getContextClassLoader();
+            if (cl == null) {
+                cl = ConfigProviderResolver.class.getClassLoader();
+            }
+
+            ConfigProviderResolver newInstance = loadSpi(cl);
+
+            if (newInstance == null) {
                 throw new IllegalStateException("No ConfigProviderResolver implementation found!");
+            }
+
+            instance = newInstance;
+        }
+    }
+
+        return instance;
+}
+
+    private static ConfigProviderResolver loadSpi(ClassLoader cl) {
+        if (cl == null) {
+            return null;
+        }
+
+        // start from the root CL and go back down to the TCCL
+        ConfigProviderResolver instance = loadSpi(cl.getParent());
+
+        if (instance == null) {
+            ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(ConfigProviderResolver.class, cl);
+            for (ConfigProviderResolver spi : sl) {
+                if (instance != null) {
+                    throw new IllegalStateException("Multiple ConfigResolverProvider implementations found: " + spi.getClass().getName()
+                            + " and " + instance.getClass().getName());
+                } else {
+                    instance = spi;
+                }
             }
         }
         return instance;
-
     }
+
 
     /**
      * Set the instance. It is used by OSGi environment while service loader
@@ -90,8 +108,7 @@ public abstract class ConfigProviderResolver
      * @param resolver
      *            set the instance.
      */
-    public static void setInstance(ConfigProviderResolver resolver)
-    {
+    public static void setInstance(ConfigProviderResolver resolver) {
         instance = resolver;
     }
 }

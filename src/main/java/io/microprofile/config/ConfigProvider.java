@@ -58,9 +58,9 @@ import io.microprofile.config.spi.Converter;
  *
  * <pre>
  * String restUrl = ConfigProvider.getConfig().getValue(
- * 		&quot;myproject.some.remote.service.url&quot;);
+ *         &quot;myproject.some.remote.service.url&quot;);
  * Integer port = ConfigProvider.getConfig().getValue(
- * 		&quot;myproject.some.remote.service.port&quot;, Integer.class);
+ *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
  * </pre>
  *
  * </p>
@@ -69,57 +69,55 @@ import io.microprofile.config.spi.Converter;
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-public class ConfigProvider
-{
-    private static final ConfigProviderResolver instance = ConfigProviderResolver.instance();
+public final class ConfigProvider {
+    private static final ConfigProviderResolver INSTANCE = ConfigProviderResolver.instance();
+
+    private ConfigProvider() {
+    }
 
     /**
-     * Provide a {@link Config} based on all {@link ConfigSource}s of the
+     * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
      * current Thread Context ClassLoader (TCCL)
      *
      * <p>
      * There is exactly a single Config instance per ClassLoader
      * </p>
      */
-    public static Config getConfig()
-    {
-        return instance.getConfig();
+    public static Config getConfig() {
+        return INSTANCE.getConfig();
     }
 
     /**
-     * Provide a {@link Config} based on all {@link ConfigSource}s of the
+     * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
      * specified Thread Context ClassLoader (TCCL)
      *
      * <p>
      * There is exactly a single Config instance per ClassLoader
      * </p>
      */
-    public static Config getConfig(ClassLoader cl)
-    {
-        return instance.getConfig(cl);
+    public static Config getConfig(ClassLoader cl) {
+        return INSTANCE.getConfig(cl);
     }
 
     /**
      * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} nor any {@link Converters}.
+     * initially contain no {@link ConfigSource} nor any {@link Converter Converters}.
      * Those have to be added manually.
      *
      * The ConfigProvider will not manage the Config instance internally
      */
-    public static ConfigBuilder getEmptyBuilder()
-    {
-        return instance.getEmptyBuilder();
+    public static ConfigBuilder getEmptyBuilder() {
+        return INSTANCE.getEmptyBuilder();
     }
 
     /**
      * Create a {@link ConfigBuilder} instance. This builder contains the
-     * default {@link ConfigSource} and the {@link Converters}.
+     * default {@link ConfigSource} and the {@link Converter Converters}.
      *
      * @return the ConfigBuilder instance
      */
-    public static ConfigBuilder getBuilder()
-    {
-        return instance.getBuilder();
+    public static ConfigBuilder getBuilder() {
+        return INSTANCE.getBuilder();
     }
 
     /**
@@ -127,9 +125,8 @@ public class ConfigProvider
      * gets destroyed. Invoke this method if you like to destroy the Config
      * prematurely.
      */
-    public static void releaseConfig(Config config)
-    {
-        instance.releaseConfig(config);
+    public static void releaseConfig(Config config) {
+        INSTANCE.releaseConfig(config);
     }
 
     /**
@@ -137,8 +134,7 @@ public class ConfigProvider
      *
      * @see ConfigProvider#newConfig()
      */
-    public interface ConfigBuilder
-    {
+    public interface ConfigBuilder {
         /**
          * Add the default config sources appearing on the builder's classpath
          * including:

@@ -21,26 +21,22 @@
 
 package io.microprofile.config.spi;
 
-public final class ConvertException extends Exception
-{
+public final class ConvertException extends Exception {
 
     /**
      * The exception was thrown when unable to convert to the specified type. 
      */
     private static final long serialVersionUID = 1L;
 
-    public ConvertException(String message)
-    {
+    public ConvertException(String message) {
         super(message);
     }
 
-    public ConvertException(Throwable throwable)
-    {
+    public ConvertException(Throwable throwable) {
         super(throwable);
     }
 
-    public ConvertException(String message, Throwable throwable)
-    {
+    public ConvertException(String message, Throwable throwable) {
         super(message, throwable);
     }
 }

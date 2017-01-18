@@ -16,7 +16,6 @@
  *******************************************************************************/
 package io.microprofile.config.spi;
 
-import io.microprofile.config.ConfigProvider.ConfigBuilder;
 
 import java.util.Map;
 
@@ -30,14 +29,13 @@ import java.util.Map;
  * <li>/META-INF/config.xml (ordinal=100)</li>
  * <li>/META-INF/config.json (ordinal=100)</li>
  * </ol>
- * The other custom config source can be added programmatically via {@link ConfigBuilder}.
+ * The other custom config source can be added programmatically via {@link io.microprofile.config.ConfigProvider.ConfigBuilder}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
-public interface ConfigSource
-{
+public interface ConfigSource {
     /**
      * Return the properties in this config source
      * @return the map containing the properties in this config source
