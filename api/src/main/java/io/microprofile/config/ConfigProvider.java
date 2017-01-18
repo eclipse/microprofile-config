@@ -180,14 +180,6 @@ public final class ConfigProvider {
         ConfigBuilder withSources(ConfigSource... sources);
 
         /**
-         * Add the specified {@link ConfigSources}
-         *
-         * @param sources
-         * @return the ConfigBuilder with the configured ConfigSources
-         */
-        ConfigBuilder withSources(ConfigSources... sources);
-
-        /**
          * Add the default built-in converters
          *
          * @return the ConfigBuilder with the default converters

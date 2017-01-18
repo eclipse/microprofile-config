@@ -48,7 +48,7 @@ A Microprofile-Config implementation must provide `ConfigSource` s for the follo
 * Environment properties (ordinal=300).
   The built in `ConfigSource` for the environment provides an all upper-case fallback lookup where dots are replaced with underlines.
   An environment setting `ACME_MYKEY=bla` machtches a lookup for `config.getValue("acme.mykey")`.
-* A `ConfigSource` for each property file `META-INF/java-config.properties` found on the classpath. (default ordinal = 100)
+* A `ConfigSource` for each property file `META-INF/microprofile-config.properties` found on the classpath. (default ordinal = 100)
 
 === Custom ConfigSources
 
