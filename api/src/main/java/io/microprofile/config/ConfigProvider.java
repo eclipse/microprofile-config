@@ -40,19 +40,17 @@ import io.microprofile.config.spi.Converter;
  * </p>
  *
  * <p>
- * A 'Configuration' consists of the information collected from the registered
- * {@link ConfigSource}s. These {@link ConfigSource}s get sorted according to
- * their <em>ordinal</em> defined via {@link ConfigSource#getOrdinal()}. That
- * way it is possible to overwrite configuration with lower importance from
- * outside.
+ * A 'Configuration' consists of the information collected from the registered {@link ConfigSource ConfigSources}.
+ * These {@link ConfigSource ConfigSources} get sorted according to
+ * their <em>ordinal</em> defined via {@link ConfigSource#getOrdinal()}.
+ * That way it is possible to overwrite configuration with lower importance from outside.
  * </p>
  *
  * <p>
- * It is also possible to register custom {@link ConfigSource}s to flexibly
+ * It is also possible to register custom {@link ConfigSource ConfigSources} to flexibly
  * extend the configuration mechanism. An example would be to pick up
- * configuration values from a database table./p>
+ * configuration values from a database table.</p>
  *
- * <p>
  * Example usage:
  *
  * <pre>
@@ -62,7 +60,6 @@ import io.microprofile.config.spi.Converter;
  *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
  * </pre>
  *
- * </p>
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
@@ -131,7 +128,7 @@ public final class ConfigProvider {
     /**
      * Builder for manually creating an instance of a {@code Config}.
      *
-     * @see ConfigProvider#newConfig()
+     * @see ConfigProvider#getBuilder()
      */
     public interface ConfigBuilder {
         /**
@@ -141,22 +138,7 @@ public final class ConfigProvider {
          * <li>System properties</li>
          * <li>Environment properties</li>
          * <li>/META-INF/config.properties</li>
-         * <li>/META-INF/config.xml</li>
-         * <li>/META-INF/config.json</li>
          * </ol>
-         * The format of config.xml should follow the schema
-         * http://java.sun.com/dtd/properties.dtd.
-         * <ul>
-         * <li>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?></li>
-         * <li>&lt;!DOCTYPE properties SYSTEM
-         * "http://java.sun.com/dtd/properties.dtd"></li>
-         * <li>&lt;properties></li>
-         * <ul>
-         * <li>&lt;comment>This is an exmaple of config.xml!&lt;/comment></li>
-         * <li>&lt;entry key="name">me&lt;/entry></li>
-         * <li>&lt;entry key="age">24&lt;/entry></li>
-         * </ul>
-         * <li>&lt;/properties></li> </ul>
          *
          * @return the ConfigBuilder without the default config sources
          */

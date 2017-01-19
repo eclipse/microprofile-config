@@ -25,16 +25,15 @@ package io.microprofile.config.spi;
  *
  * <p>If multiple Converter get found the one with the highest priority will be used.</p>
  *
- * <p>The Converter for the following types are automatically enabled:
+ * <p>The Converter for the following types are automatically enabled:</p>
  * <ul>
  *     <li>Boolean, values for {@code true}: (case insensitive) &quot;true&quot;, &quot;yes&quot;, &quot;on&quot;</li>
  *     <li>Integer</li>
  *     <li>Long</li>
  *     <li>Float, a dot '.' is used to separate the fractional digits</li>
- *     <li>Double, a dot '.' is used to separate the fractional digits</>
+ *     <li>Double, a dot '.' is used to separate the fractional digits</li>
  * </ul>
  *
- * </p>
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rsmeral@jboss.org">Ron Smeral</a>
