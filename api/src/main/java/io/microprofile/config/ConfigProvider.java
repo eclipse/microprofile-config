@@ -20,7 +20,6 @@ package io.microprofile.config;
 
 import io.microprofile.config.spi.ConfigProviderResolver;
 import io.microprofile.config.spi.ConfigSource;
-import io.microprofile.config.spi.ConfigSources;
 import io.microprofile.config.spi.Converter;
 
 /**
