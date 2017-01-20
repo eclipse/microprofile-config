@@ -18,9 +18,8 @@
 package io.microprofile.config.spi;
 
 /**
- * <p>Implement this interfaces to provide a ConfigSource provider which
- * is able to maintain multiple ConfigSources. This is e.g. needed if
- * there are multiple property files of a given name.</p>
+ * <p>Implement this interfaces to provide multiple ConfigSources.
+ * This is e.g. needed if there are multiple property files of a given name.</p>
  *
  * <p>If a ConfigSource like JNDI only exists once, then there is no need
  * to implement it via the ConfigSourceProvider but should directly

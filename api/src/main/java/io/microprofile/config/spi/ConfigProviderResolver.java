@@ -60,6 +60,7 @@ public abstract class ConfigProviderResolver {
             if (instance != null) {
                 return instance;
             }
+            //X TODO think about wrapping this into a doPrivileged block
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
             if (cl == null) {
                 cl = ConfigProviderResolver.class.getClassLoader();

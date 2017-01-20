@@ -40,10 +40,12 @@ public interface Config {
      * specified property name
      * 
      * @param <T>
-     *            the property type
+     *             the property type
      * @param propertyName
+     *             The configuration propertyName.
      * @param propertyType
-     * @return the resolved property value as an optional
+     *             The type into which the resolve property value should get converted
+     * @return the resolved property value as an Optional of the requested type.
      */
     <T> Optional<T> getValue(String propertyName, Class<T> propertyType);
 
@@ -52,8 +54,8 @@ public interface Config {
      * propertyName.
      *
      * @param propertyName
-     *            The configuration propertyName.
-     * @return The associated Optional string.
+     *             The configuration propertyName.
+     * @return The resolved property value as a String-Optional.
      *
      * @throws IllegalArgumentException
      *             is thrown if the propertyName maps to an object that is not a
@@ -62,9 +64,10 @@ public interface Config {
     Optional<String> getString(String propertyName);
 
     /**
-     * Return a collection of property names
+     * Return a collection of property names.
+     * This is
      * 
-     * @return the property names
+     * @return the names of all cofigured keys of the underlying configuration.
      */
     Iterable<String> getPropertyNames();
 

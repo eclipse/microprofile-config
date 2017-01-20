@@ -46,12 +46,10 @@ public interface ConfigSource {
     * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
     * in the config source with the highest ordinal will be used.
     * The ordinal for the default config sources:
-    *  <ol>
-    * <li>System properties (ordinal=400)</li>
-    * <li>Environment properties (ordinal=300)</li>
-    * <li>/META-INF/config.properties (ordinal=100)</li>
-    * <li>/META-INF/config.xml (ordinal=100)</li>
-    * <li>/META-INF/config.json (ordinal=100)</li>
+    * <ol>
+    *  <li>System properties (ordinal=400)</li>
+    *  <li>Environment properties (ordinal=300)</li>
+    *  <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
     * </ol>
     * @return the ordinal value
     */
