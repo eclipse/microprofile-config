@@ -39,45 +39,61 @@ public abstract class ConfigProviderResolver {
 
     private static volatile ConfigProviderResolver instance = null;
 
+    /**
+     * @see io.microprofile.config.ConfigProvider#getConfig()
+     */
     public abstract Config getConfig();
 
+    /**
+     * @see io.microprofile.config.ConfigProvider#getConfig(ClassLoader)
+     */
     public abstract Config getConfig(ClassLoader loader);
 
     public abstract ConfigBuilder getEmptyBuilder();
 
+    /**
+     * @see io.microprofile.config.ConfigProvider#getBuilder()
+     */
     public abstract ConfigBuilder getBuilder();
 
+    /**
+     * @see io.microprofile.config.ConfigProvider#registerConfig(Config, ClassLoader)
+     */
+    public abstract void registerConfig(Config config, ClassLoader classLoader);
+
+    /**
+     * @see io.microprofile.config.ConfigProvider#releaseConfig(Config)
+     */
     public abstract void releaseConfig(Config config);
 
     /**
      * Creates a ConfigProviderResolver object
-     *
-     * @return
+     * Only used internally from within {@link io.microprofile.config.ConfigProvider}
      */
     public static ConfigProviderResolver instance() {
         if (instance == null) {
             synchronized (ConfigProviderResolver.class) {
-            if (instance != null) {
-                return instance;
-            }
-            //X TODO think about wrapping this into a doPrivileged block
-            ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            if (cl == null) {
-                cl = ConfigProviderResolver.class.getClassLoader();
-            }
+                if (instance != null) {
+                    return instance;
+                }
+                //X TODO think about wrapping this into a doPrivileged block
+                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                if (cl == null) {
+                    cl = ConfigProviderResolver.class.getClassLoader();
+                }
 
-            ConfigProviderResolver newInstance = loadSpi(cl);
+                ConfigProviderResolver newInstance = loadSpi(cl);
 
-            if (newInstance == null) {
-                throw new IllegalStateException("No ConfigProviderResolver implementation found!");
+                if (newInstance == null) {
+                    throw new IllegalStateException("No ConfigProviderResolver implementation found!");
+                }
+
+                instance = newInstance;
             }
-
-            instance = newInstance;
         }
-    }
 
         return instance;
-}
+    }
 
     private static ConfigProviderResolver loadSpi(ClassLoader cl) {
         if (cl == null) {

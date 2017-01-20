@@ -117,9 +117,27 @@ public final class ConfigProvider {
     }
 
     /**
-     * A {@link Config} normally gets released if the ClassLoader it represents
-     * gets destroyed. Invoke this method if you like to destroy the Config
-     * prematurely.
+     * Register a given {@link Config} within the Application (or Module) identified by the given ClassLoader.
+     * If the ClassLoader is {@code null} then the current Application will be used.
+     *
+     * @param config
+     *          which should get registerd
+     * @param classLoader
+     *          which identifies the Application or Module the given Config should get associated with.
+     *
+     * @throws IllegalStateException
+     *          if there is already a Config registered within the Application.
+     *          A user could explicitly use {@link #releaseConfig(Config)} for this case.
+     */
+    public static void registerConfig(Config config, ClassLoader classLoader) {
+        INSTANCE.registerConfig(config, classLoader);
+    }
+
+    /**
+     * A {@link Config} normally gets released if the Application it is associated with gets destroyed.
+     * Invoke this method if you like to destroy the Config prematurely.
+     *
+     * If the given Config is associated within an Application then it will be unregistered.
      */
     public static void releaseConfig(Config config) {
         INSTANCE.releaseConfig(config);
