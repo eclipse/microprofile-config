@@ -1,5 +1,7 @@
 *.class
 .settings/
+api/.checkstyle
 target/
+tck/.checkstyle
 .project
 .classpath
