@@ -1,4 +1,5 @@
-/*******************************************************************************
+/*
+ *******************************************************************************
  * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,9 +58,9 @@ public abstract class ConfigProviderResolver {
     public abstract ConfigBuilder getBuilder();
 
     /**
-     * @see io.microprofile.config.ConfigProvider#registerConfig(Config, ClassLoader)
+     * @see io.microprofile.config.ConfigProvider#setConfig(Config, ClassLoader)
      */
-    public abstract void registerConfig(Config config, ClassLoader classLoader);
+    public abstract void setConfig(Config config, ClassLoader classLoader);
 
     /**
      * @see io.microprofile.config.ConfigProvider#releaseConfig(Config)

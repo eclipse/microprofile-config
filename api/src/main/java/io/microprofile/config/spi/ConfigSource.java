@@ -1,4 +1,5 @@
-/*******************************************************************************
+/*
+ ******************************************************************************
  * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,9 +26,7 @@ import java.util.Map;
  * <ol>
  * <li>System properties (ordinal=400)</li>
  * <li>Environment properties (ordinal=300)</li>
- * <li>/META-INF/config.properties (ordinal=100)</li>
- * <li>/META-INF/config.xml (ordinal=100)</li>
- * <li>/META-INF/config.json (ordinal=100)</li>
+ * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
  * The other custom config source can be added programmatically via {@link io.microprofile.config.ConfigProvider.ConfigBuilder}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
