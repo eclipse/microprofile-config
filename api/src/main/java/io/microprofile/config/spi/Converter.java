@@ -1,4 +1,5 @@
-/*******************************************************************************
+/*
+ *******************************************************************************
  * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,6 +47,7 @@ public interface Converter<T> {
      * Configure the string value to a specified type
      * @param value the string representation of a property value
      * @return the converted value
+     * @throws ConvertException if the value cannot be converted to the specified type.
      */
     T convert(String value) throws ConvertException;
 }

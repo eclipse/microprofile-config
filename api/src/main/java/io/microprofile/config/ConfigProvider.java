@@ -1,4 +1,5 @@
-/*******************************************************************************
+/*
+ *******************************************************************************
  * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +22,7 @@ package io.microprofile.config;
 import io.microprofile.config.spi.ConfigProviderResolver;
 import io.microprofile.config.spi.ConfigSource;
 import io.microprofile.config.spi.Converter;
+
 
 /**
  * <p>
@@ -74,7 +76,7 @@ public final class ConfigProvider {
     /**
      * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
      * current Thread Context ClassLoader (TCCL)
-     *
+     * The {@link Config} will be stored for future retrieval.
      * <p>
      * There is exactly a single Config instance per ClassLoader
      * </p>
@@ -85,7 +87,7 @@ public final class ConfigProvider {
 
     /**
      * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
-     * specified Thread Context ClassLoader (TCCL)
+     * specified ClassLoader
      *
      * <p>
      * There is exactly a single Config instance per ClassLoader
@@ -97,20 +99,10 @@ public final class ConfigProvider {
 
     /**
      * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} nor any {@link Converter Converters}.
-     * Those have to be added manually.
+     * initially contain no {@link ConfigSource} but with default {@link Converter Converters}.
+     * The {@link ConfigSource} and custom written {@link Converter Converters} will have to be added manually.
      *
      * The ConfigProvider will not manage the Config instance internally
-     */
-    public static ConfigBuilder getEmptyBuilder() {
-        return INSTANCE.getEmptyBuilder();
-    }
-
-    /**
-     * Create a {@link ConfigBuilder} instance. This builder contains the
-     * default {@link ConfigSource} and the {@link Converter Converters}.
-     *
-     * @return the ConfigBuilder instance
      */
     public static ConfigBuilder getBuilder() {
         return INSTANCE.getBuilder();
@@ -129,8 +121,8 @@ public final class ConfigProvider {
      *          if there is already a Config registered within the Application.
      *          A user could explicitly use {@link #releaseConfig(Config)} for this case.
      */
-    public static void registerConfig(Config config, ClassLoader classLoader) {
-        INSTANCE.registerConfig(config, classLoader);
+    public static void setConfig(Config config, ClassLoader classLoader) {
+        INSTANCE.setConfig(config, classLoader);
     }
 
     /**
@@ -177,13 +169,6 @@ public final class ConfigProvider {
          * @return the ConfigBuilder with the configured sources
          */
         ConfigBuilder withSources(ConfigSource... sources);
-
-        /**
-         * Add the default built-in converters
-         *
-         * @return the ConfigBuilder with the default converters
-         */
-        ConfigBuilder addDefaultConverters();
 
         /**
          * Add the specified {@link Converter}
