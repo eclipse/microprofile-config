@@ -13,6 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *     IBM Corp. - initial API and implementation
+ *     Werner Keil - fix issue #7
+ *     Mark Struberg - fix issues #18, #21, #23
  *******************************************************************************/
 
 package io.microprofile.config;

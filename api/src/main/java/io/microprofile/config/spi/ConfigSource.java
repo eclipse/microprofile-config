@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2016, 2017 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,11 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
+ * Contributors:
+ *     IBM Corp. - initial API and implementation
+ *     Werner Keil - fix issue #7
+ *     Mark Struberg - fix issues #18, #21, #23
  *******************************************************************************/
 package io.microprofile.config.spi;
 
@@ -32,6 +36,7 @@ import java.util.Map;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:werner@catmedia.us">Werner Keil</a>
  *
  */
 public interface ConfigSource {
