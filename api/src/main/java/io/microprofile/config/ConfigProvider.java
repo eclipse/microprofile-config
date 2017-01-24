@@ -56,10 +56,10 @@ import io.microprofile.config.spi.Converter;
  * Example usage:
  *
  * <pre>
- * String restUrl = ConfigProvider.getConfig().getValue(
- *         &quot;myproject.some.remote.service.url&quot;);
+ * String restUrl = ConfigProvider.getConfig().getString(
+ *         &quot;myproject.some.remote.service.url&quot;).get();
  * Integer port = ConfigProvider.getConfig().getValue(
- *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
+ *         &quot;myproject.some.remote.service.port&quot;, Integer.class).get();
  * </pre>
  *
  *
