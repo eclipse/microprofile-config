@@ -3,5 +3,6 @@
 api/.checkstyle
 target/
 tck/.checkstyle
+tck/test-output/
 .project
 .classpath
