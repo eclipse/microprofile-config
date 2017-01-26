@@ -45,8 +45,29 @@ public class ConfigExtension implements Extension {
         return config;
     }
 
+    /**
+     * This method should be used if another Extension needs the Config
+     * in a BeforeBeanDiscoveryEvent.
+     * This is needed since the order in which the Extensions will get invoked is random.
+     *
+     * @return the Config
+     */
+    public Config getConfig(BeanManager beanManager) {
+        if (config == null) {
+            buildConfig(beanManager);
+        }
+        return config;
+    }
+
+
     // trigger the creation of the Config subsystem early on
     public void initConfig(@Observes BeforeBeanDiscovery bbd, BeanManager beanManager) {
+        if (config == null) {
+            buildConfig(beanManager);
+        }
+    }
+
+    private void buildConfig(BeanManager beanManager) {
         ConfigBuilder configBuilder = newConfigBuilder();
 
         // give other Extensions a way to tweak the config, add ConfigSources etc
