@@ -21,7 +21,7 @@ package org.eclipse.microprofile.config;
 
 import javax.enterprise.inject.spi.CDI;
 
-import org.eclipse.microprofile.config.spi.internal.ConfigExtension;
+import org.eclipse.microprofile.config.spi.ConfigExtension;
 
 
 /**

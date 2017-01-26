@@ -22,25 +22,26 @@ import org.eclipse.microprofile.config.Config;
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public interface ConfigBuilder {
+public abstract class ConfigBuilder {
     /**
      * Trigger this method to prevent picking up the default ConfigSources for environment,
      * system properties and META-INF/microprofile-config.properties.
      */
-    ConfigBuilder ignoreDefaultSources();
+    public abstract ConfigBuilder ignoreDefaultSources();
 
-    ConfigBuilder withSources(ConfigSource... sources);
+    public abstract ConfigBuilder withSources(ConfigSource... sources);
 
-    ConfigBuilder withConverters(Converter<?>... filters);
+    public abstract ConfigBuilder withConverters(Converter<?>... filters);
 
     /**
      * Add ConfigSources based on the given resource, e.g. "META-INF/myconfig.properties"
      * @param resourceUrl the resource to look for
      */
-    ConfigBuilder withResources(String resourceUrl);
+    public abstract ConfigBuilder withResources(String resourceUrl);
 
     /**
+     * This method should only get called by the {@link ConfigExtension}
      * @return the final Config
      */
-    Config build();
+    protected abstract Config build();
 }

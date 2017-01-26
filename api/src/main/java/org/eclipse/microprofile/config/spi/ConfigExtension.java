@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.eclipse.microprofile.config.spi.internal;
+package org.eclipse.microprofile.config.spi;
 
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
@@ -24,7 +24,6 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigBuilder;
 
 /**
  * This is the central part of the purely CDI based Configuration approach.
@@ -46,7 +45,7 @@ public class ConfigExtension implements Extension {
     }
 
     /**
-     * This method should be used if another Extension needs the Config
+     * This method can be used if another Extension needs the Config
      * in a BeforeBeanDiscoveryEvent.
      * This is needed since the order in which the Extensions will get invoked is random.
      *
