@@ -115,7 +115,6 @@
                                 <module name="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck">
                                     <property name="severity" value="ignore" />
                                 </module>
-                                <module name="HideUtilityClassConstructor" />
                                 <module name="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck">
                                     <property name="packageAllowed" value="false" />
                                     <property name="protectedAllowed" value="true" />

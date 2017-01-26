@@ -28,7 +28,7 @@ import java.util.Map;
  * <li>Environment properties (ordinal=300)</li>
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
- * The other custom config source can be added programmatically via {@link io.microprofile.config.ConfigProvider.ConfigBuilder}.
+ * The other custom config source can be added programmatically via {@link ConfigBuilder}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
