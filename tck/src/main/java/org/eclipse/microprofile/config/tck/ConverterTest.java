@@ -18,13 +18,22 @@ package org.eclipse.microprofile.config.tck;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class ConverterTest {
+public class ConverterTest extends AbstractTest {
+
+    @Deployment
+    public static JavaArchive deploy() {
+        return allIn("converterTest.jar").addClass(ConverterTest.class);
+    }
+
 
     @Test
     public void testIntegerConverter() {

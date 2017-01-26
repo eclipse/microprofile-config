@@ -22,6 +22,9 @@ import java.util.Properties;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
+import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -29,7 +32,13 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class ConfigProviderTest {
+
+public class ConfigProviderTest extends AbstractTest {
+
+    @Deployment
+    public static JavaArchive deploy() {
+        return allIn("configProviderTest.jar").addClass(ConfigProviderTest.class);
+    }
 
     @Test
     public void testEnvironmentConfigSource() {
@@ -69,7 +78,7 @@ public class ConfigProviderTest {
     @Test
     public void testNonExistingConfigKey() {
         Config config = ConfigProvider.getConfig();
-        Assert.assertNull(config.getValue("tck.config.test.keydoesnotexist").get());
+        Assert.assertFalse(config.getValue("tck.config.test.keydoesnotexist").isPresent());
     }
 
 }
