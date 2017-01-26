@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  *******************************************************************************/
-package io.microprofile.config.spi;
+package org.eclipse.microprofile.config.spi;
 
 
 import java.util.Map;

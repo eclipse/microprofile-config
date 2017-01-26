@@ -17,11 +17,11 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config;
+package org.eclipse.microprofile.config;
 
 import javax.enterprise.inject.spi.CDI;
 
-import io.microprofile.config.spi.internal.ConfigExtension;
+import org.eclipse.microprofile.config.spi.internal.ConfigExtension;
 
 
 /**
@@ -46,7 +46,7 @@ import io.microprofile.config.spi.internal.ConfigExtension;
  */
 public final class ConfigProvider {
     /**
-     * Provide a {@link Config} based on all {@link io.microprofile.config.spi.ConfigSource ConfigSources}
+     * Provide a {@link Config} based on all {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}
      *
      * <p>There is exactly a single Config instance per Application</p>
      * of the current Thread Context ClassLoader (TCCL)

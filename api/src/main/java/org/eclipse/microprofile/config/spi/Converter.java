@@ -16,7 +16,7 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config.spi;
+package org.eclipse.microprofile.config.spi;
 
 import java.text.ParseException;
 

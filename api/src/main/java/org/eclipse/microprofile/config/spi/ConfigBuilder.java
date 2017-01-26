@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microprofile.config.spi;
+package org.eclipse.microprofile.config.spi;
 
-import io.microprofile.config.Config;
+import org.eclipse.microprofile.config.Config;
 
 /**
  * Builder for manually creating an instance of a {@code Config}.

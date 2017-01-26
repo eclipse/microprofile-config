@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microprofile.config.spi.internal;
+package org.eclipse.microprofile.config.spi.internal;
 
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
@@ -23,8 +23,8 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
-import io.microprofile.config.Config;
-import io.microprofile.config.spi.ConfigBuilder;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.spi.ConfigBuilder;
 
 /**
  * This is the central part of the purely CDI based Configuration approach.

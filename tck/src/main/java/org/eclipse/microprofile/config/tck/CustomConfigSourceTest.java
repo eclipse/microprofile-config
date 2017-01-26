@@ -14,17 +14,22 @@
  * limitations under the License.
  *
  */
-package io.microprofile.config.tck.converters;
+package org.eclipse.microprofile.config.tck;
 
-import io.microprofile.config.spi.Converter;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class DuckConverter implements Converter<Duck> {
+public class CustomConfigSourceTest {
 
-    @Override
-    public Duck convert(String value) {
-        return new Duck(value);
+    @Test
+    public void testConfigSourceProvider() {
+        Config config = ConfigProvider.getConfig();
+
+        Assert.assertEquals(config.getString("tck.config.test.customDbConfig.key1").get(), "valueFromDb1");
     }
 }

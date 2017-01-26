@@ -14,50 +14,42 @@
  * limitations under the License.
  *
  */
-package io.microprofile.config.tck.configsources;
+package org.eclipse.microprofile.config.tck.configsources;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.ConfigSource;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class CustomDbConfigSource implements ConfigSource {
+public class SampleYamlConfigSource implements ConfigSource {
+    private Map<String, String> config = new HashMap<>();
 
-    private Map<String, String> configValues = new HashMap<>();
-
-    public CustomDbConfigSource() {
-        configValues.put("tck.config.test.customDbConfig.key1", "valueFromDb1");
-        configValues.put("tck.config.test.customDbConfig.key2", "valueFromDb2");
+    public SampleYamlConfigSource(URL url) {
+        config.put("tck.config.test.sampleyaml.key1", "yamlvalue1");
     }
 
     @Override
     public int getOrdinal() {
-        return 112;
+        return 110;
     }
 
     @Override
     public Map<String, String> getProperties() {
-        return readPropertiesFromDb();
+        return config;
     }
 
     @Override
     public String getValue(String key) {
-        return readPropertyFromDb(key);
+        return config.get(key);
     }
 
     @Override
     public String getId() {
-        return "customDbConfig";
+        return null;
     }
 
-    private Map<String, String> readPropertiesFromDb() {
-        return configValues;
-    }
-
-    private String readPropertyFromDb(String key) {
-        return configValues.get(key);
-    }
 }

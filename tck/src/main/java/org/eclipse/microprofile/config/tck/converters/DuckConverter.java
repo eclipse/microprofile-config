@@ -14,20 +14,17 @@
  * limitations under the License.
  *
  */
-package io.microprofile.config.tck.converters;
+package org.eclipse.microprofile.config.tck.converters;
+
+import org.eclipse.microprofile.config.spi.Converter;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class Duck {
-    private final String name;
+public class DuckConverter implements Converter<Duck> {
 
-
-    public Duck(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+    @Override
+    public Duck convert(String value) {
+        return new Duck(value);
     }
 }

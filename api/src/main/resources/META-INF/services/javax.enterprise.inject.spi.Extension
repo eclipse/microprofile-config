@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-io.microprofile.config.internal.ConfigExtension
+org.eclipse.microprofile.config.spi.internal.ConfigExtension
