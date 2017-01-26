@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Mark Struberg and others
+ * Copyright (c) 2009-2017 Mark Struberg and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,24 +12,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-package org.eclipse.microprofile.config.tck;
+package org.eclipse.microprofile.impl.config.converters;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import javax.annotation.Priority;
+
+import org.eclipse.microprofile.config.spi.Converter;
+
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class CustomConfigSourceTest {
+@Priority(1)
+public class IntegerConverter implements Converter<Integer> {
 
-    @Test
-    public void testConfigSourceProvider() {
-        Config config = ConfigProvider.getConfig();
+    public static final IntegerConverter INSTANCE = new IntegerConverter();
 
-        Assert.assertEquals(config.getValue("tck.config.test.customDbConfig.key1").get(), "valueFromDb1");
+    @Override
+    public Integer convert(String value) {
+        return value != null ? Integer.valueOf(value) : null;
     }
 }

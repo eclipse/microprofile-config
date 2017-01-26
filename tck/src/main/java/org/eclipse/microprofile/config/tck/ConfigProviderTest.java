@@ -36,7 +36,7 @@ public class ConfigProviderTest {
         Map<String, String> env = System.getenv();
         Config config = ConfigProvider.getConfig();
         for (Map.Entry<String, String> envEntry : env.entrySet()) {
-            Assert.assertEquals(envEntry.getValue(), config.getString(envEntry.getKey()).get());
+            Assert.assertEquals(envEntry.getValue(), config.getValue(envEntry.getKey()).get());
         }
     }
 
@@ -46,7 +46,7 @@ public class ConfigProviderTest {
         Config config = ConfigProvider.getConfig();
 
         for (Map.Entry<Object, Object> propEntry : properties.entrySet()) {
-            Assert.assertEquals(propEntry.getValue(), config.getString((String) propEntry.getKey()).get());
+            Assert.assertEquals(propEntry.getValue(), config.getValue((String) propEntry.getKey()).get());
         }
     }
 
@@ -57,19 +57,19 @@ public class ConfigProviderTest {
         String configValue = "myDynamicValue;";
 
         System.setProperty(configKey, configValue);
-        Assert.assertEquals(config.getString(configKey).get(), configValue);
+        Assert.assertEquals(config.getValue(configKey).get(), configValue);
     }
 
     @Test
     public void testJavaConfigPropertyFilesConfigSource() {
         Config config = ConfigProvider.getConfig();
-        Assert.assertEquals(config.getString("tck.config.test.javaconfig.properties.key1").get(), "VALue1");
+        Assert.assertEquals(config.getValue("tck.config.test.javaconfig.properties.key1").get(), "VALue1");
     }
 
     @Test
     public void testNonExistingConfigKey() {
         Config config = ConfigProvider.getConfig();
-        Assert.assertNull(config.getString("tck.config.test.keydoesnotexist").get());
+        Assert.assertNull(config.getValue("tck.config.test.keydoesnotexist").get());
     }
 
 }

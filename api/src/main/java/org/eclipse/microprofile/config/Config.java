@@ -61,7 +61,7 @@ public interface Config {
      *             is thrown if the propertyName maps to an object that is not a
      *             String.
      */
-    Optional<String> getString(String propertyName);
+    Optional<String> getValue(String propertyName);
 
     /**
      * Return a collection of property names.

@@ -31,6 +31,7 @@
         <module>api</module>
         <module>tck</module>
         <module>spec</module>
+        <module>impl</module>
     </modules>
 
     <build>

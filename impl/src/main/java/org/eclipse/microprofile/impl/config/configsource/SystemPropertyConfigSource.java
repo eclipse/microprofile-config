@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Mark Struberg and others
+ * Copyright (c) 2009-2017 Mark Struberg and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,24 +12,33 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
-package org.eclipse.microprofile.config.tck;
+package org.eclipse.microprofile.impl.config.configsource;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import java.util.Map;
 
 /**
+ * ConfigSource which uses {@link System#getProperties()}
+ *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class CustomConfigSourceTest {
+public class SystemPropertyConfigSource extends BaseConfigSource {
+    public SystemPropertyConfigSource() {
+        initOrdinal(400);
+    }
 
-    @Test
-    public void testConfigSourceProvider() {
-        Config config = ConfigProvider.getConfig();
+    @Override
+    public Map<String, String> getProperties() {
+        return (Map) System.getProperties();
+    }
 
-        Assert.assertEquals(config.getValue("tck.config.test.customDbConfig.key1").get(), "valueFromDb1");
+    @Override
+    public String getValue(String key) {
+        return System.getProperty(key);
+    }
+
+    @Override
+    public String getId() {
+        return "system-properties";
     }
 }
