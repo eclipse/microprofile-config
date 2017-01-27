@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.microprofile.incubator</groupId>
+    <groupId>org.eclipse.microprofile.incubator</groupId>
     <artifactId>microprofile.config.parent</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -31,6 +31,7 @@
         <module>api</module>
         <module>tck</module>
         <module>spec</module>
+        <module>impl</module>
     </modules>
 
     <build>
@@ -115,7 +116,6 @@
                                 <module name="com.puppycrawl.tools.checkstyle.checks.design.DesignForExtensionCheck">
                                     <property name="severity" value="ignore" />
                                 </module>
-                                <module name="HideUtilityClassConstructor" />
                                 <module name="com.puppycrawl.tools.checkstyle.checks.design.VisibilityModifierCheck">
                                     <property name="packageAllowed" value="false" />
                                     <property name="protectedAllowed" value="true" />
