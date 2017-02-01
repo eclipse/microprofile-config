@@ -128,39 +128,39 @@ public class CDIPlainInjectionTest {
 
         @Inject
         @ConfigProperty("my.string.property")
-        String stringProperty;
+        private String stringProperty;
 
         @Inject
         @ConfigProperty("my.boolean.property")
-        Boolean boolProperty;
+        private Boolean boolProperty;
 
         @Inject
         @ConfigProperty("my.int.property")
-        Integer intProperty;
+        private Integer intProperty;
 
         @Inject
         @ConfigProperty("my.long.property")
-        Long longProperty;
+        private Long longProperty;
 
         @Inject
         @ConfigProperty("my.float.property")
-        Float floatProperty;
+        private Float floatProperty;
 
         @Inject
         @ConfigProperty("my.double.property")
-        Double doubleProperty;
+        private Double doubleProperty;
 
         @Inject
         @ConfigProperty("my.date.property")
-        Date dateProperty;
+        private Date dateProperty;
 
         @Inject
         @ConfigProperty("my.localdate.property")
-        LocalDate localDateProperty;
+        private LocalDate localDateProperty;
 
         @Inject
         @ConfigProperty("my.datetime.property")
-        LocalDateTime dateTimeProperty;
+        private LocalDateTime dateTimeProperty;
 
     }
 
@@ -169,11 +169,11 @@ public class CDIPlainInjectionTest {
 
         @Inject
         @ConfigProperty("my.string.property")
-        Optional<String> stringProperty;
+        private Optional<String> stringProperty;
 
         @Inject
         @ConfigProperty("non-existent.string.property")
-        Optional<String> noStringProperty;
+        private Optional<String> noStringProperty;
 
     }
 
@@ -182,7 +182,7 @@ public class CDIPlainInjectionTest {
 
         @Inject
         @ConfigProperty("my.int.property")
-        Instance<Integer> intPropertyProvider;
+        private Instance<Integer> intPropertyProvider;
 
         public Integer getIntProperty() {
             if (intPropertyProvider.isUnsatisfied()) {
@@ -199,7 +199,7 @@ public class CDIPlainInjectionTest {
     public static class CustomConfigBean {
 
         @Inject
-        CustomConfig config;
+        private CustomConfig config;
 
         public Integer getIntProperty() {
             return config.getIntProperty();

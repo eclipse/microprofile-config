@@ -18,7 +18,7 @@ public final class AdditionalMatchers {
     public static Matcher<Float> floatCloseTo(float value, float range) {
         return new BaseMatcher<Float>() {
             
-            Matcher<Double> doubleMatcher = null;
+            private Matcher<Double> doubleMatcher = null;
             
             @Override
             public boolean matches(Object item) {

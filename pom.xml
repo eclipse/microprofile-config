@@ -15,6 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <checkstyle.version>2.17</checkstyle.version>
+        <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
     </properties>
 
     <licenses>
@@ -96,7 +97,7 @@
                                 </module>
                                 <module name="LocalVariableName" />
                                 <module name="MethodName">
-                                    <property name="format" value="^_?[a-z][a-zA-Z0-9]*$" />
+                                    <property name="format" value="${checkstyle.methodNameFormat}" />
                                 </module>
                                 <module name="PackageName" />
                                 <module name="LocalFinalVariableName" />
