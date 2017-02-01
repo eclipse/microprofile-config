@@ -29,15 +29,18 @@ import javax.inject.Qualifier;
  * 
  *    {@code @Inject}
  *    {@code @ConfigProperty("my.long.property")}
- *    Long injectedLongValue;  // injects value of my.long.property property
+ *    Long injectedLongValue;  
+ *            // injects value of my.long.property property
  *
  *    {@code @Inject}
  *    {@code @ConfigProperty("my.long.property")}
- *    java.util.Optional{@code <Long>} injectedOptionalLongValue;  // injects value of my.long.property property exists, or empty Optional if not
+ *    java.util.Optional{@code <Long>} injectedOptionalLongValue;  
+ *            // injects value of my.long.property property exists, or empty Optional if not
  *
  *    {@code @Inject}
  *    {@code @ConfigProperty("my.long.property")}
- *    javax.inject.Provider{@code <Long>} longValueInjector;  // injects a provider for the value of my.long.property property to resolve the property dynamically
+ *    javax.inject.Provider{@code <Long>} longValueInjector;  
+ *            // injects a provider for the value of my.long.property property to resolve the property dynamically
  * </code>
  * </pre>
  * @author Ondrej Mihalyi

@@ -8,8 +8,10 @@ import java.util.Date;
 import java.util.Optional;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
+import static org.eclipse.microprofile.config.tck.CDITestsFunctions.ensure_property_defined;
+import static org.eclipse.microprofile.config.tck.CDITestsFunctions.ensure_property_undefined;
+import static org.eclipse.microprofile.config.tck.CDITestsFunctions.get_bean_of_type;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
@@ -26,7 +28,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- *
+ * Test cases for CDI-based API that test retrieving values from the configuration. 
+ * The tests depend only on CDI 1.2. They are designed to run with CDI arquillian connector, 
+ * but they should run with any container that provides CDI 1.2.
  * @author Ondrej Mihalyi
  */
 @RunWith(Arquillian.class)
@@ -107,20 +111,6 @@ public class CDIPlainInjectionTest {
         ensure_property_defined("my.datetime.property", "2015-01-30T10:00");
     }
 
-    private void ensure_property_defined(String key, String value) {
-        // setting configuration via system properties
-        System.setProperty(key, value);
-    }
-
-    private void ensure_property_undefined(String key) {
-        // clearing configuration in system properties if previously set
-        System.getProperties().remove(key);
-    }
-
-    private static <T> T get_bean_of_type(Class<T> beanClass) {
-        return CDI.current().select(beanClass).get();
-    }
-
     private void clear_all_property_values() {
         ensure_property_undefined("my.string.property");
         ensure_property_undefined("my.boolean.property");
@@ -197,7 +187,8 @@ public class CDIPlainInjectionTest {
         public Integer getIntProperty() {
             if (intPropertyProvider.isUnsatisfied()) {
                 return null;
-            } else {
+            } 
+            else {
                 return intPropertyProvider.get();
             }
         }

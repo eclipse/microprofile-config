@@ -6,10 +6,11 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ServiceLoader;
+import javax.enterprise.inject.spi.CDI;
 import org.jboss.shrinkwrap.api.Archive;
 
 /**
- *
+ * Utility class for common functionality used in test scenarios.
  * @author Ondrej Mihalyi
  */
 public final class CDITestsFunctions {
@@ -38,6 +39,20 @@ public final class CDITestsFunctions {
 
     public static LocalDateTime toLocalDateTime(String isoDateTime) {
         return LocalDateTime.parse(isoDateTime);
+    }
+
+    public static void ensure_property_defined(String key, String value) {
+        // setting configuration via system properties
+        System.setProperty(key, value);
+    }
+
+    public static void ensure_property_undefined(String key) {
+        // clearing configuration in system properties if previously set
+        System.getProperties().remove(key);
+    }
+
+    public static <T> T get_bean_of_type(Class<T> beanClass) {
+        return CDI.current().select(beanClass).get();
     }
 
 }
