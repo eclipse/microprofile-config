@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
@@ -66,7 +66,7 @@ public class CDIPlainInjectionTest {
         assertThat(bean.stringProperty.isPresent(), is(true));
         assertThat(bean.stringProperty.get(), is(equalTo("text")));
     }
-        
+
     @Test
     public void can_inject_dynamic_values_via_CDI_provider() {
         clear_all_property_values();
@@ -116,7 +116,7 @@ public class CDIPlainInjectionTest {
         // clearing configuration in system properties if previously set
         System.getProperties().remove(key);
     }
-    
+
     private static <T> T get_bean_of_type(Class<T> beanClass) {
         return CDI.current().select(beanClass).get();
     }
@@ -186,20 +186,19 @@ public class CDIPlainInjectionTest {
         Optional<String> noStringProperty;
 
     }
-    
+
     @Dependent
     public static class DynamicValuesBean {
 
         @Inject
         @ConfigProperty("my.int.property")
-        Provider<Integer> intPropertyProvider;
+        Instance<Integer> intPropertyProvider;
 
         public Integer getIntProperty() {
-            try {
-                return intPropertyProvider.get();
-            } 
-            catch (Exception e) {
+            if (intPropertyProvider.isUnsatisfied()) {
                 return null;
+            } else {
+                return intPropertyProvider.get();
             }
         }
 
