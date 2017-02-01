@@ -1,7 +1,23 @@
+/*
+ * Copyright (c) 2016-2017 Ondrej Mihalyi, Payara Services Ltd. and others
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package org.eclipse.microprofile.config.tck;
 
 import io.microprofile.config.inject.ConfigProperty;
-import io.microprofile.config.inject.ConfigRegistry;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -9,9 +25,10 @@ import java.util.Optional;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
-import static org.eclipse.microprofile.config.tck.CDITestsFunctions.ensure_property_defined;
-import static org.eclipse.microprofile.config.tck.CDITestsFunctions.ensure_property_undefined;
-import static org.eclipse.microprofile.config.tck.CDITestsFunctions.get_bean_of_type;
+import org.eclipse.microprofile.config.ConfigValue;
+import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_defined;
+import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_undefined;
+import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.get_bean_of_type;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,8 +46,7 @@ import org.junit.runner.RunWith;
 
 /**
  * Test cases for CDI-based API that test retrieving values from the configuration. 
- * The tests depend only on CDI 1.2. They are designed to run with CDI arquillian connector, 
- * but they should run with any container that provides CDI 1.2.
+ * The tests depend only on CDI 1.2. 
  * @author Ondrej Mihalyi
  */
 @RunWith(Arquillian.class)
@@ -38,8 +54,8 @@ public class CDIPlainInjectionTest {
 
     @Deployment
     public static Archive deployment() {
-        return CDITestsFunctions.add_implementation_resources(ShrinkWrap.create(JavaArchive.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml"));
+        return ShrinkWrap.create(JavaArchive.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
@@ -72,31 +88,17 @@ public class CDIPlainInjectionTest {
     }
 
     @Test
-    public void can_inject_dynamic_values_via_CDI_provider() {
+    public void can_inject_dynamic_values_via_ConfigValue() {
         clear_all_property_values();
 
         DynamicValuesBean bean = get_bean_of_type(DynamicValuesBean.class);
 
-        assertThat(bean.getIntProperty(), is(nullValue()));
+        assertThat(bean.getIntPropertyValue().isValueAvailable(), is(false));
 
         ensure_all_property_values_are_defined();
 
-        assertThat(bean.getIntProperty(), is(equalTo(5)));
-    }
-
-    @Test
-    public void can_inject_dynamic_values_via_custom_interface() {
-        clear_all_property_values();
-
-        CustomConfigBean bean = get_bean_of_type(CustomConfigBean.class);
-
-        assertThat(bean.getIntProperty(), is(nullValue()));
-        assertThat(bean.getStringProperty(), is(nullValue()));
-
-        ensure_all_property_values_are_defined();
-
-        assertThat(bean.getIntProperty(), is(equalTo(5)));
-        assertThat(bean.getStringProperty(), is(equalTo("text")));
+        assertThat(bean.getIntPropertyValue().isValueAvailable(), is(true));
+        assertThat(bean.getIntPropertyValue().getValue(), is(equalTo(5)));
     }
 
     private void ensure_all_property_values_are_defined() {
@@ -182,44 +184,12 @@ public class CDIPlainInjectionTest {
 
         @Inject
         @ConfigProperty("my.int.property")
-        private Instance<Integer> intPropertyProvider;
+        private ConfigValue<Integer> intPropertyValue;
 
-        public Integer getIntProperty() {
-            if (intPropertyProvider.isUnsatisfied()) {
-                return null;
-            } 
-            else {
-                return intPropertyProvider.get();
-            }
+        public ConfigValue<Integer> getIntPropertyValue() {
+            return intPropertyValue;
         }
-
-    }
-
-    @Dependent
-    public static class CustomConfigBean {
-
-        @Inject
-        private CustomConfig config;
-
-        public Integer getIntProperty() {
-            return config.getIntProperty();
-        }
-
-        public String getStringProperty() {
-            return config.getStringProperty().orElse(null);
-        }
-
-    }
-
-    @ConfigRegistry
-    public interface CustomConfig {
-
-        @ConfigProperty("my.integer.property")
-        Integer getIntProperty();
-
-        @ConfigProperty("my.string.property")
-        Optional<String> getStringProperty();
-
+        
     }
 
 }

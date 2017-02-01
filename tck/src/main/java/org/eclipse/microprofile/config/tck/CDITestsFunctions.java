@@ -1,13 +1,27 @@
+/*
+ * Copyright (c) 2016-2017 Ondrej Mihalyi, Payara Services Ltd. and others
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package org.eclipse.microprofile.config.tck;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.ServiceLoader;
 import javax.enterprise.inject.spi.CDI;
-import org.jboss.shrinkwrap.api.Archive;
 
 /**
  * Utility class for common functionality used in test scenarios.
@@ -17,16 +31,6 @@ public final class CDITestsFunctions {
     
     private CDITestsFunctions() {
         // utility class
-    }
-
-    public static Archive add_implementation_resources(Archive deployment) {
-        Iterator<MicroProfileConfigTestConnector> itConnectors = ServiceLoader.load(MicroProfileConfigTestConnector.class).iterator();
-        if (itConnectors.hasNext()) {
-            return itConnectors.next().modifyDeployment(deployment);
-        } 
-        else {
-            return deployment;
-        }
     }
 
     public static Date toDate(String isoDateTime) {
