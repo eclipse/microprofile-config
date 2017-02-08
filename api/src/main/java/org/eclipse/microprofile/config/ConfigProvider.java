@@ -17,11 +17,11 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config;
+package org.eclipse.microprofile.config;
 
-import io.microprofile.config.spi.ConfigProviderResolver;
-import io.microprofile.config.spi.ConfigSource;
-import io.microprofile.config.spi.Converter;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.Converter;
 
 
 /**

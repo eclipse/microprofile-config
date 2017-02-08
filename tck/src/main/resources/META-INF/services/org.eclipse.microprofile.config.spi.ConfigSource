@@ -15,4 +15,4 @@
 # under the License.
 #
 
-io.microprofile.config.tck.configsources.CustomDbConfigSource
+org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource

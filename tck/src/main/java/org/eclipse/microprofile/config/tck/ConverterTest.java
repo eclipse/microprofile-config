@@ -14,10 +14,10 @@
  * limitations under the License.
  *
  */
-package io.microprofile.config.tck;
+package org.eclipse.microprofile.config.tck;
 
-import io.microprofile.config.Config;
-import io.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -16,7 +16,7 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config.spi;
+package org.eclipse.microprofile.config.spi;
 
 /**
  * <p>A very simple interface for conversion of configuration values from String to any Java type.</p>

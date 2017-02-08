@@ -15,9 +15,9 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config;
+package org.eclipse.microprofile.config;
 
-import io.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.ConfigSource;
 
 import java.util.Optional;
 

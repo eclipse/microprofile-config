@@ -16,7 +16,8 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config.spi;
+package org.eclipse.microprofile.config.spi;
+
 
 /**
  * <p>Implement this interfaces to provide multiple ConfigSources.
@@ -35,12 +36,13 @@ package io.microprofile.config.spi;
  *
  */
 public interface ConfigSourceProvider {
+
     /**
      * Return the collection of {@link ConfigSource}s.
      * For each e.g. property file, we return a single ConfigSource or an empty list if no ConfigSource exists.
      *
      * @param forClassLoader the classloader which should be used if any is needed
-     * @return the {@link ConfigSource ConfigSources} to register within the {@link io.microprofile.config.Config}.
+     * @return the {@link ConfigSource ConfigSources} to register within the {@link org.eclipse.microprofile.config.Config}.
      */
     Iterable<ConfigSource> getConfigSources(ClassLoader forClassLoader);
 }

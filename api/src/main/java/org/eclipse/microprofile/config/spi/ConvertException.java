@@ -19,7 +19,7 @@
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 
-package io.microprofile.config.spi;
+package org.eclipse.microprofile.config.spi;
 
 public final class ConvertException extends Exception {
 

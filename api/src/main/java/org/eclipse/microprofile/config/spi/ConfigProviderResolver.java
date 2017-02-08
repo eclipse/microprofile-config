@@ -16,10 +16,10 @@
  *
  *******************************************************************************/
 
-package io.microprofile.config.spi;
+package org.eclipse.microprofile.config.spi;
 
-import io.microprofile.config.Config;
-import io.microprofile.config.ConfigProvider.ConfigBuilder;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider.ConfigBuilder;
 
 import java.util.ServiceLoader;
 
@@ -41,35 +41,35 @@ public abstract class ConfigProviderResolver {
     private static volatile ConfigProviderResolver instance = null;
 
     /**
-     * @see io.microprofile.config.ConfigProvider#getConfig()
+     * @see org.eclipse.microprofile.config.ConfigProvider#getConfig()
      */
     public abstract Config getConfig();
 
     /**
-     * @see io.microprofile.config.ConfigProvider#getConfig(ClassLoader)
+     * @see org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)
      */
     public abstract Config getConfig(ClassLoader loader);
 
     public abstract ConfigBuilder getEmptyBuilder();
 
     /**
-     * @see io.microprofile.config.ConfigProvider#getBuilder()
+     * @see org.eclipse.microprofile.config.ConfigProvider#getBuilder()
      */
     public abstract ConfigBuilder getBuilder();
 
     /**
-     * @see io.microprofile.config.ConfigProvider#setConfig(Config, ClassLoader)
+     * @see org.eclipse.microprofile.config.ConfigProvider#setConfig(Config, ClassLoader)
      */
     public abstract void setConfig(Config config, ClassLoader classLoader);
 
     /**
-     * @see io.microprofile.config.ConfigProvider#releaseConfig(Config)
+     * @see org.eclipse.microprofile.config.ConfigProvider#releaseConfig(Config)
      */
     public abstract void releaseConfig(Config config);
 
     /**
      * Creates a ConfigProviderResolver object
-     * Only used internally from within {@link io.microprofile.config.ConfigProvider}
+     * Only used internally from within {@link org.eclipse.microprofile.config.ConfigProvider}
      */
     public static ConfigProviderResolver instance() {
         if (instance == null) {

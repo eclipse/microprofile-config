@@ -14,22 +14,20 @@
  * limitations under the License.
  *
  */
-package io.microprofile.config.tck;
-
-import io.microprofile.config.Config;
-import io.microprofile.config.ConfigProvider;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+package org.eclipse.microprofile.config.tck.converters;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class CustomConfigSourceTest {
+public class Duck {
+    private final String name;
 
-    @Test
-    public void testConfigSourceProvider() {
-        Config config = ConfigProvider.getConfig();
 
-        Assert.assertEquals(config.getString("tck.config.test.customDbConfig.key1").get(), "valueFromDb1");
+    public Duck(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

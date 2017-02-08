@@ -15,4 +15,4 @@
 # under the License.
 #
 
-io.microprofile.config.tck.configsources.CustomConfigSourceProvider
+org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider
