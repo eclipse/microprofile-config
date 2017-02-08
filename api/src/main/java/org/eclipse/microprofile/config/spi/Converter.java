@@ -35,6 +35,15 @@ import java.text.ParseException;
  *     <li>Long</li>
  *     <li>Float, a dot '.' is used to separate the fractional digits</li>
  *     <li>Double, a dot '.' is used to separate the fractional digits</li>
+ *     <li>Duration</li>
+ *     <li>LocalDateTime</li>
+ *     <li>LocalDate</li>
+ *     <li>LocalTime</li>
+ *     <li>OffsetDateTime</li>
+ *     <li>OffsetTime</li>
+ *     <li>Date</li>
+ *     <li>Instant</li>     
+ *     
  * </ul>
  *
  *
