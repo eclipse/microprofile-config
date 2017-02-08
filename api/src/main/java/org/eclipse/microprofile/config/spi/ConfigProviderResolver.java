@@ -18,10 +18,12 @@
 
 package org.eclipse.microprofile.config.spi;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.ServiceLoader;
+
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider.ConfigBuilder;
-
-import java.util.ServiceLoader;
 
 /**
  * This class is not intended to be used by end-users but for
@@ -77,8 +79,13 @@ public abstract class ConfigProviderResolver {
                 if (instance != null) {
                     return instance;
                 }
-                //X TODO think about wrapping this into a doPrivileged block
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                
+                ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                    @Override
+                    public ClassLoader run()  {
+                        return Thread.currentThread().getContextClassLoader();
+                    }                                  
+                });
                 if (cl == null) {
                     cl = ConfigProviderResolver.class.getClassLoader();
                 }
