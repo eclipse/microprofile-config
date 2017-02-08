@@ -39,7 +39,7 @@ import java.text.ParseException;
  *
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- * @author <a href="mailto:rsmeral@jboss.org">Ron Smeral</a>
+ * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */

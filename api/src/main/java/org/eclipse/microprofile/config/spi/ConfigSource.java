@@ -29,6 +29,10 @@ import java.util.Map;
  * <li>Environment properties (ordinal=300)</li>
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
+ * 
+ * <p>A ConfigSource will get picked up via the
+ * {@link java.util.ServiceLoader} mechanism and must get registered via
+ * META-INF/services/javax.config.spi.ConfigSource</p>
  * The other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider.ConfigBuilder}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>

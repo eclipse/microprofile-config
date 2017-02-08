@@ -17,16 +17,16 @@
 
 package org.eclipse.microprofile.config;
 
-import org.eclipse.microprofile.config.spi.ConfigSource;
-
 import java.util.Optional;
+
+import org.eclipse.microprofile.config.spi.ConfigSource;
 
 /**
  * <p>
  * Resolves the property value by searching through all configured
- * {@link ConfigSource}s. If the same property is specified in multiple
- * {@link ConfigSource}s, the value in the {@link ConfigSource} with the highest
- * ordinal will be used. If multiple {@link ConfigSource}s are specified with
+ * {@link ConfigSource configsources}. If the same property is specified in multiple
+ * {@link ConfigSource configsources}, the value in the {@link ConfigSource} with the highest
+ * ordinal will be used. If multiple {@link ConfigSource configsources} are specified with
  * the same ordinal, non portable behaviour will occur if they contain the same key.
  * <p>
  *
@@ -36,7 +36,7 @@ import java.util.Optional;
  * <pre>
  * public void doSomething(
  *   Config cfg = ConfigProvider.getConfig();
- *   String archiveUrl = cfg.getValue("my.project.archive.endpoint");
+ *   String archiveUrl = cfg.getString("my.project.archive.endpoint");
  *   Integer archivePort = cfg.getValue("my.project.archive.port", Integer.class);
  * </pre>
  *
@@ -77,15 +77,14 @@ public interface Config {
 
     /**
      * Return a collection of property names.
-     * This is
-     * 
-     * @return the names of all cofigured keys of the underlying configuration.
+     * @return the names of all configured keys of the underlying configuration.
      */
     Iterable<String> getPropertyNames();
 
     /**
-     * @return all currently registered {@link ConfigSource}s
+     * @return all currently registered {@link ConfigSource configsources}
      */
     Iterable<ConfigSource> getConfigSources();
 
 }
+

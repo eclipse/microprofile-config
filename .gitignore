@@ -3,5 +3,7 @@
 api/.checkstyle
 target/
 tck/.checkstyle
+tck/bin/
 .project
+build/
 .classpath

@@ -56,7 +56,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * Example usage:
  *
  * <pre>
- * String restUrl = ConfigProvider.getConfig().getValue(
+ * String restUrl = ConfigProvider.getConfig().getString(
  *         &quot;myproject.some.remote.service.url&quot;);
  * Integer port = ConfigProvider.getConfig().getValue(
  *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
@@ -113,7 +113,7 @@ public final class ConfigProvider {
      * If the ClassLoader is {@code null} then the current Application will be used.
      *
      * @param config
-     *          which should get registerd
+     *          which should get registered
      * @param classLoader
      *          which identifies the Application or Module the given Config should get associated with.
      *
@@ -147,7 +147,7 @@ public final class ConfigProvider {
          * <ol>
          * <li>System properties</li>
          * <li>Environment properties</li>
-         * <li>/META-INF/config.properties</li>
+         * <li>/META-INF/microprofile-config.properties</li>
          * </ol>
          *
          * @return the ConfigBuilder without the default config sources
@@ -181,7 +181,7 @@ public final class ConfigProvider {
         /**
          * Build the {@link Config} object.
          *
-         * @return
+         * @return the Config object
          */
         Config build();
     }
