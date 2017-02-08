@@ -27,8 +27,18 @@ import java.util.Optional;
  * {@link ConfigSource}s. If the same property is specified in multiple
  * {@link ConfigSource}s, the value in the {@link ConfigSource} with the highest
  * ordinal will be used. If multiple {@link ConfigSource}s are specified with
- * the same ordinal, non portable behaviour will occur.
+ * the same ordinal, non portable behaviour will occur if they contain the same key.
  * <p>
+ *
+ * <h3>Usage</h3>
+ * For accessing the config you can use the {@link ConfigProvider}:
+ *
+ * <pre>
+ * public void doSomething(
+ *   Config cfg = ConfigProvider.getConfig();
+ *   String archiveUrl = cfg.getValue("my.project.archive.endpoint");
+ *   Integer archivePort = cfg.getValue("my.project.archive.port", Integer.class);
+ * </pre>
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -37,7 +47,9 @@ import java.util.Optional;
 public interface Config {
     /**
      * Return the resolved property value with the specified type for the
-     * specified property name
+     * specified property name from the underlying {@link ConfigSource ConfigSources}.
+     *
+     * If this method gets used very often then consider to locally store the configured value.
      * 
      * @param <T>
      *             the property type
