@@ -30,6 +30,7 @@ There are a number of Config supporting projects, such as:
 
 * Netflix Archaius (https://github.com/Netflix/archaius)
 * DeltaSpike Config (http://deltaspike.apache.org/documentation/configuration.html)
+* Extracted parts of DeltaSpike Config (https://github.com/struberg/javaConfig/)
 * Apache Tamaya (http://tamaya.incubator.apache.org/)
 
 == Design
@@ -52,7 +53,7 @@ By default there are 3 default ConfigSources:
 
 * `System.getProperties()` (ordinal=400)
 * `System.getenv()` (ordinal=300)
-* all `META-INF/config.properties` or config.xml or config.json files on the ClassPath. (ordinal=100, separately configurable via a config_ordinal property inside each file)
+* all `META-INF/config.properties` or config.xml or config.json files on the ClassPath. (default ordinal=100, separately configurable via a config_ordinal property inside each file)
 
 Therefore, the default values can be specified in the above files packaged with the application and the value can be overwritten later on deployment.
 
