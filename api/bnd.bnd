@@ -1,0 +1,4 @@
+-exportcontents: \
+    org.eclipse.microprofile.*
+Bundle-SymbolicName: org.eclipse.microprofile.config
+Bundle-Name: MicroProfile Config Bundle
