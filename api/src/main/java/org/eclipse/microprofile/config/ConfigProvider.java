@@ -150,7 +150,7 @@ public final class ConfigProvider {
          * <li>/META-INF/microprofile-config.properties</li>
          * </ol>
          *
-         * @return the ConfigBuilder without the default config sources
+         * @return the ConfigBuilder with the default config sources
          */
         ConfigBuilder addDefaultSources();
 
