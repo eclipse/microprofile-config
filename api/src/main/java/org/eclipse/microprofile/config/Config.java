@@ -1,4 +1,5 @@
-/*******************************************************************************
+/*
+ *******************************************************************************
  * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * {@link ConfigSource configsources}. If the same property is specified in multiple
  * {@link ConfigSource configsources}, the value in the {@link ConfigSource} with the highest
  * ordinal will be used. If multiple {@link ConfigSource configsources} are specified with
- * the same ordinal, non portable behaviour will occur if they contain the same key.
+ * the same ordinal, no defined ordering will be applied if they contain the same key.
  * <p>
  *
  * <h3>Usage</h3>
@@ -58,6 +59,7 @@ public interface Config {
      * @param propertyType
      *             The type into which the resolve property value should get converted
      * @return the resolved property value as an Optional of the requested type.
+     * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
      */
     <T> Optional<T> getValue(String propertyName, Class<T> propertyType);
 
@@ -87,4 +89,3 @@ public interface Config {
     Iterable<ConfigSource> getConfigSources();
 
 }
-

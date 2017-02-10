@@ -52,8 +52,6 @@ public abstract class ConfigProviderResolver {
      */
     public abstract Config getConfig(ClassLoader loader);
 
-    public abstract ConfigBuilder getEmptyBuilder();
-
     /**
      * @see org.eclipse.microprofile.config.ConfigProvider#getBuilder()
      */

@@ -24,8 +24,7 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-
+    
     <build>
         <plugins>
             <plugin>
@@ -40,7 +39,31 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
+            <plugin>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>bnd-maven-plugin</artifactId>
+                <version>2.4.1</version>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>bnd-process</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <Bundle-SymbolicName>org.eclipse.microprofile.config</Bundle-SymbolicName>
+                    <Bundle-Name>MicroProfile config bundle</Bundle-Name>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

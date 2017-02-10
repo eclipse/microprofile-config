@@ -1,5 +1,5 @@
 /*
- *******************************************************************************
+ ********************************************************************************
  * Copyright (c) 2016 IBM Corp. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +17,6 @@
  *******************************************************************************/
 
 package org.eclipse.microprofile.config.spi;
-
-import java.text.ParseException;
 
 /**
  * <p>A very simple interface for conversion of configuration values from String to any Java type.</p>
@@ -58,7 +56,7 @@ public interface Converter<T> {
      * Configure the string value to a specified type
      * @param value the string representation of a property value
      * @return the converted value
-     * @throws java.text.ParseException if the value cannot be converted to the specified type.
+     * The {@link IllegalArgumentException} will be thrown if the value cannot be converted to the specified type.
      */
-    T convert(String value) throws ParseException;
+    T convert(String value);
 }

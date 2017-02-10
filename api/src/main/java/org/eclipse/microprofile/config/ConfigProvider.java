@@ -23,7 +23,6 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.Converter;
 
-
 /**
  * <p>
  * This is the central class to access a {@link Config}.
@@ -99,8 +98,9 @@ public final class ConfigProvider {
 
     /**
      * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} but with default {@link Converter Converters}.
-     * The {@link ConfigSource} and custom written {@link Converter Converters} will have to be added manually.
+     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} and auto discovered
+     * {@link ConfigSource configsources} and {@link Converter converters}.
+     * Other undiscovered {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
      *
      * The ConfigProvider will not manage the Config instance internally
      */
