@@ -23,10 +23,17 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.Converter;
 
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Iterator;
+import java.util.ServiceLoader;
+
 /**
  * <p>
  * This is the central class to access a {@link Config}.
  * </p>
+ *
+ * <p>It enables to access a {@link ConfigBuilder} to build a ready to use {@link Config} instance.</p>
  *
  * <p>
  * A {@link Config} contains the configuration for a certain situation. That
@@ -34,11 +41,6 @@ import org.eclipse.microprofile.config.spi.Converter;
  * created Configuration
  * </p>
  *
- * <p>
- * The default usage is to use {@link #getConfig()} to automatically pick up the
- * 'Configuration' for the Thread Context ClassLoader (See
- * {@link Thread#getContextClassLoader()}).
- * </p>
  *
  * <p>
  * A 'Configuration' consists of the information collected from the registered {@link ConfigSource ConfigSources}.
@@ -55,7 +57,16 @@ import org.eclipse.microprofile.config.spi.Converter;
  * Example usage:
  *
  * <pre>
- * String restUrl = ConfigProvider.getConfig().getString(
+ * String restUrl = ConfigProviderResolver.lookup().getString(
+ *         &quot;myproject.some.remote.service.url&quot;);
+ * Integer port = ConfigProvider.getConfig().getValue(
+ *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
+ * </pre>
+ *
+ * Or for a not managed or custom configuration instance:
+ *
+ * <pre>
+ * String restUrl = ConfigProvider.newBuilde().build().getString(
  *         &quot;myproject.some.remote.service.url&quot;);
  * Integer port = ConfigProvider.getConfig().getValue(
  *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
@@ -67,33 +78,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 public final class ConfigProvider {
-    private static final ConfigProviderResolver INSTANCE = ConfigProviderResolver.instance();
-
     private ConfigProvider() {
-    }
-
-    /**
-     * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
-     * current Thread Context ClassLoader (TCCL)
-     * The {@link Config} will be stored for future retrieval.
-     * <p>
-     * There is exactly a single Config instance per ClassLoader
-     * </p>
-     */
-    public static Config getConfig() {
-        return INSTANCE.getConfig();
-    }
-
-    /**
-     * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
-     * specified ClassLoader
-     *
-     * <p>
-     * There is exactly a single Config instance per ClassLoader
-     * </p>
-     */
-    public static Config getConfig(ClassLoader cl) {
-        return INSTANCE.getConfig(cl);
     }
 
     /**
@@ -104,41 +89,32 @@ public final class ConfigProvider {
      *
      * The ConfigProvider will not manage the Config instance internally
      */
-    public static ConfigBuilder getBuilder() {
-        return INSTANCE.getBuilder();
-    }
+    public static ConfigBuilder newBuilder() {
+        ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+            @Override
+            public ClassLoader run()  {
+                return Thread.currentThread().getContextClassLoader();
+            }
+        });
+        if (cl == null) {
+            cl = ConfigProviderResolver.class.getClassLoader();
+        }
 
-    /**
-     * Register a given {@link Config} within the Application (or Module) identified by the given ClassLoader.
-     * If the ClassLoader is {@code null} then the current Application will be used.
-     *
-     * @param config
-     *          which should get registered
-     * @param classLoader
-     *          which identifies the Application or Module the given Config should get associated with.
-     *
-     * @throws IllegalStateException
-     *          if there is already a Config registered within the Application.
-     *          A user could explicitly use {@link #releaseConfig(Config)} for this case.
-     */
-    public static void setConfig(Config config, ClassLoader classLoader) {
-        INSTANCE.setConfig(config, classLoader);
-    }
-
-    /**
-     * A {@link Config} normally gets released if the Application it is associated with gets destroyed.
-     * Invoke this method if you like to destroy the Config prematurely.
-     *
-     * If the given Config is associated within an Application then it will be unregistered.
-     */
-    public static void releaseConfig(Config config) {
-        INSTANCE.releaseConfig(config);
+        final Iterator<ConfigBuilder> it = ServiceLoader.load(ConfigBuilder.class, cl).iterator();
+        if (!it.hasNext()) {
+            throw new IllegalStateException("No ConfigBuilder implementation, did you add a config-api implementation to your classpath?");
+        }
+        final ConfigBuilder builder = it.next();
+        if (it.hasNext()) {
+            throw new IllegalStateException("Found " + builder + " and " + it.next() + " as ConfigBuilder implementations");
+        }
+        return builder;
     }
 
     /**
      * Builder for manually creating an instance of a {@code Config}.
      *
-     * @see ConfigProvider#getBuilder()
+     * @see ConfigProvider#newBuilder()
      */
     public interface ConfigBuilder {
         /**

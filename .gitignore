@@ -7,3 +7,5 @@ tck/bin/
 .project
 build/
 .classpath
+.idea
+*.iml
