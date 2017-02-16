@@ -64,12 +64,12 @@ public interface Config {
     <T> Optional<T> getValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Get an Optional string associated with the given configuration
+     * Get an Optional raw string value associated with the given configuration
      * propertyName.
      *
      * @param propertyName
      *             The configuration propertyName.
-     * @return The resolved property value as a String-Optional.
+     * @return The resolved property value as a String-Optional, which will bypass converters.
      *
      * @throws IllegalArgumentException
      *             is thrown if the propertyName maps to an object that is not a

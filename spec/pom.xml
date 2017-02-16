@@ -4,12 +4,12 @@
 
     <parent>
         <!-- This is just for now and will not work if the API has a separate release cycle than the rest. -->
-        <groupId>org.eclipse.microprofile.incubator</groupId>
+        <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile.config.parent</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.eclipse.microprofile.incubator.specs</groupId>
+    <groupId>org.eclipse.microprofile.config.specs</groupId>
     <artifactId>microprofile-config-spec</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
