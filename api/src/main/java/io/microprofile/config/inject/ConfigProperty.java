@@ -62,8 +62,12 @@ import javax.inject.Qualifier;
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 public @interface ConfigProperty {
     /**
+     * The kay of the config property used to look up the configuration value. 
+     * If it is not specified, it will be derived automatically as{@code <class_name>.<injetion_point_name>}, 
+     * where {@code injection_point_name} is either a field name or a property name in case of field/property injection. Otherwise the value has to be provided.
+     * 
      * @return Name (key) of the config property to inject
      */
     @Nonbinding
-    String value();
+    String value() default "";
 }
