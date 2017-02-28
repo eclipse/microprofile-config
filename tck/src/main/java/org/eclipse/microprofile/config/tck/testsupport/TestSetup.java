@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Ondrej Mihalyi, Payara Services Ltd. and others
+ * Copyright (c) 2016-2017 Payara Services Ltd. and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
