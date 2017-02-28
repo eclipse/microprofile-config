@@ -15,10 +15,8 @@
  *
  */
 
-package org.eclipse.microprofile.config.tck;
+package org.eclipse.microprofile.config.tck.testsupport;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import javax.enterprise.inject.spi.CDI;
@@ -27,22 +25,14 @@ import javax.enterprise.inject.spi.CDI;
  * Utility class for common functionality used in test scenarios.
  * @author Ondrej Mihalyi
  */
-public final class CDITestsFunctions {
+public final class TestSetup {
     
-    private CDITestsFunctions() {
+    private TestSetup() {
         // utility class
     }
 
     public static Date toDate(String isoDateTime) {
         return Date.from(ZonedDateTime.parse(isoDateTime).toInstant());
-    }
-
-    public static LocalDate toLocalDate(String isoDateTime) {
-        return LocalDate.parse(isoDateTime);
-    }
-
-    public static LocalDateTime toLocalDateTime(String isoDateTime) {
-        return LocalDateTime.parse(isoDateTime);
     }
 
     public static void ensure_property_defined(String key, String value) {

@@ -17,13 +17,13 @@
 
 package org.eclipse.microprofile.config.tck;
 
+import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
 import io.microprofile.config.inject.ConfigProperty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.eclipse.microprofile.config.ConfigValue;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_defined;
@@ -33,7 +33,6 @@ import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.fl
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -70,9 +69,9 @@ public class CDIPlainInjectionTest {
         assertThat(bean.longProperty, is(equalTo(10L)));
         assertThat(bean.floatProperty, is(floatCloseTo(10.5f, 0.1f)));
         assertThat(bean.doubleProperty, is(closeTo(11.5, 0.1)));
-        assertThat(bean.dateProperty, is(equalTo(CDITestsFunctions.toDate("2017-01-30"))));
-        assertThat(bean.localDateProperty, is(CDITestsFunctions.toDate("2016-01-30")));
-        assertThat(bean.dateTimeProperty, is(CDITestsFunctions.toDate("2015-01-30T10:00")));
+        assertThat(bean.dateProperty, is(equalTo(TestSetup.toDate("2017-01-30"))));
+        assertThat(bean.localDateProperty, is(TestSetup.toDate("2016-01-30")));
+        assertThat(bean.dateTimeProperty, is(TestSetup.toDate("2015-01-30T10:00")));
     }
 
     @Test

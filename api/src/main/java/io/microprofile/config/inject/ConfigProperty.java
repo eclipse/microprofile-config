@@ -39,14 +39,14 @@ import javax.inject.Qualifier;
  * <pre>
  * <code>
  * 
- *    {@code @Inject}
- *    {@code @ConfigProperty("my.long.property")}
+ *    {@literal @Inject}
+ *    {@literal @ConfigProperty("my.long.property")}
  *    Long injectedLongValue;  
  *            // injects value of my.long.property property
  *
- *    {@code @Inject}
- *    {@code @ConfigProperty("my.long.property")}
- *    java.util.Optional{@code <Long>} injectedOptionalLongValue;  
+ *    {@literal @Inject}
+ *    {@literal @ConfigProperty("my.long.property")}
+ *    java.util.Optional{@literal <Long>} injectedOptionalLongValue;  
  *            // injects value of my.long.property property exists, or empty Optional if not
  *
  *   {@literal @Inject}
