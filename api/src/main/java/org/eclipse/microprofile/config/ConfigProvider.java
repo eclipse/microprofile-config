@@ -23,6 +23,8 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.Converter;
 
+import java.util.Comparator;
+
 /**
  * <p>
  * This is the central class to access a {@link Config}.
@@ -43,7 +45,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * <p>
  * A 'Configuration' consists of the information collected from the registered {@link ConfigSource ConfigSources}.
  * These {@link ConfigSource ConfigSources} get sorted according to
- * their <em>ordinal</em> defined via {@link ConfigSource#getOrdinal()}.
+ * the {@link Comparator<ConfigSource>} registered.
  * That way it is possible to overwrite configuration with lower importance from outside.
  * </p>
  *
@@ -73,6 +75,16 @@ public final class ConfigProvider {
     }
 
     /**
+     * Sets the default config source comparator to define the ordering of auto-discovered
+     * config sources.
+     * @param comparator the new comparator to be used, not null.
+     * @return the previous intance, never null.
+     */
+    public static Comparator<ConfigSource> setDefaultComparator(Comparator<ConfigSource> comparator){
+        return INSTANCE.setDefaultComparator(comparator);
+    }
+
+    /**
      * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
      * current Thread Context ClassLoader (TCCL)
      * The {@link Config} will be stored for future retrieval.
@@ -98,14 +110,33 @@ public final class ConfigProvider {
 
     /**
      * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} and auto discovered
-     * {@link ConfigSource configsources} and {@link Converter converters}.
-     * Other undiscovered {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
+     * initially contain no {@link ConfigSource} and no {@link Converter Converters}.
+     * Other {@link ConfigSource} and {@link Converter Converters} will have to be added manually
+     * or auto-discovery can be used to populate the builder using {@link ConfigBuilder#addDefaultSources()} or
+     * {@link ConfigBuilder#addDefaultConverters()}.
      *
-     * The ConfigProvider will not manage the Config instance internally
+     * The ConfigProvider will not manage the Config instance internally.
+     *
+     * @return the ConfigureBuilder for the given classloader.
      */
     public static ConfigBuilder getBuilder() {
         return INSTANCE.getBuilder();
+    }
+
+    /**
+     * Create a fresh {@link ConfigBuilder} instance for a given classloader. This ConfigBuilder will
+     * initially contain no {@link ConfigSource} or {@link Converter Converters}.
+     * Other {@link ConfigSource} and {@link Converter Converters} will have to be added manually
+     * or auto-discovery can be used to populate the builder using {@link ConfigBuilder#addDefaultSources()} or
+     * {@link ConfigBuilder#addDefaultConverters()}.
+     *
+     * The ConfigProvider will not manage the Config instance internally.
+     *
+     * @param loader the classloader to be used, not null.
+     * @return the ConfigureBuilder for the given classloader.
+     */
+    public static ConfigBuilder getBuilder(ClassLoader loader) {
+        return INSTANCE.getBuilder(loader);
     }
 
     /**
@@ -143,7 +174,7 @@ public final class ConfigProvider {
     public interface ConfigBuilder {
         /**
          * Add the default config sources appearing on the builder's classpath
-         * including:
+         * using auto-discovery, at least:
          * <ol>
          * <li>System properties</li>
          * <li>Environment properties</li>
@@ -155,15 +186,24 @@ public final class ConfigProvider {
         ConfigBuilder addDefaultSources();
 
         /**
-         * Return the ConfigBuilder for a given classloader
+         * Add the default converters appearing on the builder's classpath
+         * using auto-discovery.
          *
-         * @param loader
-         * @return the ConfigureBuilder for the given classloader
+         * @return the ConfigBuilder with the default connverters.
          */
-        ConfigBuilder forClassLoader(ClassLoader loader);
+        ConfigBuilder addDefaultConverters();
 
         /**
-         * Add the specified {@link ConfigSource}.
+         * Sort the config sources loaded into this builder using the given
+         * {@link Comparator<ConfigSource>}.
+         * @param comparator the Comparator to be used, not null.
+         * @return the ConfigBuilder with its config sources sorted.
+         */
+        ConfigBuilder sortConfigSources(Comparator<ConfigSource> comparator);
+
+        /**
+         * Add the specified {@link ConfigSource}. The config sources are appended in the order given.
+         * First instances have precedence over later ones.
          *
          * @param sources
          * @return the ConfigBuilder with the configured sources
@@ -171,7 +211,8 @@ public final class ConfigProvider {
         ConfigBuilder withSources(ConfigSource... sources);
 
         /**
-         * Add the specified {@link Converter}
+         * Add the specified {@link Converter}.  The converters are appended in the order given.
+         * First instances have precedence over later ones.
          *
          * @param converters
          * @return the ConfigBuilder with the added converters

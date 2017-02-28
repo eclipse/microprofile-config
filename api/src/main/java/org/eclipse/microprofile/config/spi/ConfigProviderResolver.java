@@ -20,6 +20,7 @@ package org.eclipse.microprofile.config.spi;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Comparator;
 import java.util.ServiceLoader;
 
 import org.eclipse.microprofile.config.Config;
@@ -43,6 +44,15 @@ public abstract class ConfigProviderResolver {
     private static volatile ConfigProviderResolver instance = null;
 
     /**
+     * Sets the default config source comparator to define the ordering of auto-discovered
+     * config sources.
+     * @see org.eclipse.microprofile.config.ConfigProvider#setDefaultComparator(Comparator<ConfigSource>)
+     * @param comparator the new comparator to be used, not null.
+     * @return the previous intance, never null.
+     */
+    public abstract Comparator<ConfigSource> setDefaultComparator(Comparator<ConfigSource> comparator);
+
+    /**
      * @see org.eclipse.microprofile.config.ConfigProvider#getConfig()
      */
     public abstract Config getConfig();
@@ -56,6 +66,12 @@ public abstract class ConfigProviderResolver {
      * @see org.eclipse.microprofile.config.ConfigProvider#getBuilder()
      */
     public abstract ConfigBuilder getBuilder();
+
+    /**
+     * @see org.eclipse.microprofile.config.ConfigProvider#getBuilder(ClassLoader)
+     */
+    public abstract ConfigBuilder getBuilder(ClassLoader loader);
+
 
     /**
      * @see org.eclipse.microprofile.config.ConfigProvider#setConfig(Config, ClassLoader)
@@ -135,4 +151,6 @@ public abstract class ConfigProviderResolver {
     public static void setInstance(ConfigProviderResolver resolver) {
         instance = resolver;
     }
+
+
 }

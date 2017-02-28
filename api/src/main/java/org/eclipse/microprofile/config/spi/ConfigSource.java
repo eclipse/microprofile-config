@@ -44,18 +44,18 @@ public interface ConfigSource {
      */
     Map<String, String> getProperties();
 
-    /**
-    * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
-    * in the config source with the highest ordinal will be used.
-    * The ordinal for the default config sources:
-    * <ol>
-    *  <li>System properties (ordinal=400)</li>
-    *  <li>Environment properties (ordinal=300)</li>
-    *  <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
-    * </ol>
-    * @return the ordinal value
-    */
-    int getOrdinal();
+//    /**
+//    * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
+//    * in the config source with the highest ordinal will be used.
+//    * The ordinal for the default config sources:
+//    * <ol>
+//    *  <li>System properties (ordinal=400)</li>
+//    *  <li>Environment properties (ordinal=300)</li>
+//    *  <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
+//    * </ol>
+//    * @return the ordinal value
+//    */
+//    int getOrdinal();
 
     /**
      * Return the value for the specified property in this config source.

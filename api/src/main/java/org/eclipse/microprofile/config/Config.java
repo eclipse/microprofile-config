@@ -84,6 +84,7 @@ public interface Config {
     Iterable<String> getPropertyNames();
 
     /**
+     * Access the config sources in order of therir precedence, returning the most significant first.
      * @return all currently registered {@link ConfigSource configsources}
      */
     Iterable<ConfigSource> getConfigSources();
