@@ -58,46 +58,18 @@ public class CDIPlainInjectionTest {
     }
 
     @Test
-    public void can_inject_simple_values_when_defined() {
-        ensure_all_property_values_are_defined();
-
-        SimpleValuesBean bean = get_bean_of_type(SimpleValuesBean.class);
-
-        assertThat(bean.stringProperty, is(equalTo("text")));
-        assertThat(bean.boolProperty, is(true));
-        assertThat(bean.intProperty, is(equalTo(5)));
-        assertThat(bean.longProperty, is(equalTo(10L)));
-        assertThat(bean.floatProperty, is(floatCloseTo(10.5f, 0.1f)));
-        assertThat(bean.doubleProperty, is(closeTo(11.5, 0.1)));
-        assertThat(bean.dateProperty, is(equalTo(TestSetup.toDate("2017-01-30"))));
-        assertThat(bean.localDateProperty, is(TestSetup.toDate("2016-01-30")));
-        assertThat(bean.dateTimeProperty, is(TestSetup.toDate("2015-01-30T10:00")));
-    }
-
-    @Test
-    public void can_inject_optional_values() {
-        ensure_property_undefined("non-existent.string.property");
-        ensure_property_defined("my.string.property", "text");
-
-        OptionalValuesBean bean = get_bean_of_type(OptionalValuesBean.class);
-
-        assertThat(bean.noStringProperty.isPresent(), is(false));
-        assertThat(bean.stringProperty.isPresent(), is(true));
-        assertThat(bean.stringProperty.get(), is(equalTo("text")));
-    }
-
-    @Test
     public void can_inject_dynamic_values_via_ConfigValue() {
         clear_all_property_values();
 
         DynamicValuesBean bean = get_bean_of_type(DynamicValuesBean.class);
+        ConfigValue<Integer> intPropertyValue = bean.getIntPropertyValue();
 
-        assertThat(bean.getIntPropertyValue().isValueAvailable(), is(false));
+        assertThat(intPropertyValue.isValueAvailable(), is(false));
 
         ensure_all_property_values_are_defined();
 
-        assertThat(bean.getIntPropertyValue().isValueAvailable(), is(true));
-        assertThat(bean.getIntPropertyValue().getValue(), is(equalTo(5)));
+        assertThat(intPropertyValue.isValueAvailable(), is(true));
+        assertThat(intPropertyValue.getValue(), is(equalTo(5)));
     }
 
     private void ensure_all_property_values_are_defined() {
@@ -122,60 +94,6 @@ public class CDIPlainInjectionTest {
         ensure_property_undefined("my.date.property");
         ensure_property_undefined("my.localdate.property");
         ensure_property_undefined("my.datetime.property");
-    }
-
-    @Dependent
-    public static class SimpleValuesBean {
-
-        @Inject
-        @ConfigProperty("my.string.property")
-        private String stringProperty;
-
-        @Inject
-        @ConfigProperty("my.boolean.property")
-        private Boolean boolProperty;
-
-        @Inject
-        @ConfigProperty("my.int.property")
-        private Integer intProperty;
-
-        @Inject
-        @ConfigProperty("my.long.property")
-        private Long longProperty;
-
-        @Inject
-        @ConfigProperty("my.float.property")
-        private Float floatProperty;
-
-        @Inject
-        @ConfigProperty("my.double.property")
-        private Double doubleProperty;
-
-        @Inject
-        @ConfigProperty("my.date.property")
-        private Date dateProperty;
-
-        @Inject
-        @ConfigProperty("my.localdate.property")
-        private LocalDate localDateProperty;
-
-        @Inject
-        @ConfigProperty("my.datetime.property")
-        private LocalDateTime dateTimeProperty;
-
-    }
-
-    @Dependent
-    public static class OptionalValuesBean {
-
-        @Inject
-        @ConfigProperty("my.string.property")
-        private Optional<String> stringProperty;
-
-        @Inject
-        @ConfigProperty("non-existent.string.property")
-        private Optional<String> noStringProperty;
-
     }
 
     @Dependent

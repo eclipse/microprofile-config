@@ -29,25 +29,11 @@ import javax.inject.Qualifier;
 
 /**
  * Binds the injection point with a configured value.
- * Should annotate injection points of type String and all types with appropriate converters. 
- * <p>
- * The injection point can be of type {@code Optional<TYPE>}, where {@code TYPE} is one of supported types. 
- * In that case, the optional value will be defined if the property exists in the coniguration. 
- * Otherwise the value will not be present.
+ * Should annotate injection points of type ConfigValue<T>, where T can be String and all types which have appropriate converters. 
  * <p>
  * Example:
  * <pre>
  * <code>
- * 
- *    {@literal @Inject}
- *    {@literal @ConfigProperty("my.long.property")}
- *    Long injectedLongValue;  
- *            // injects value of my.long.property property
- *
- *    {@literal @Inject}
- *    {@literal @ConfigProperty("my.long.property")}
- *    java.util.Optional{@literal <Long>} injectedOptionalLongValue;  
- *            // injects value of my.long.property property exists, or empty Optional if not
  *
  *   {@literal @Inject}
  *   {@literal @ConfigProperty("my.long.property")}
