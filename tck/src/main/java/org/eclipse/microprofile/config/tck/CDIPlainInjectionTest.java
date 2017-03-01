@@ -17,20 +17,13 @@
 
 package org.eclipse.microprofile.config.tck;
 
-import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
 import io.microprofile.config.inject.ConfigProperty;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import org.eclipse.microprofile.config.ConfigValue;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_defined;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_undefined;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.get_bean_of_type;
-import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
-import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import org.jboss.arquillian.container.test.api.Deployment;
