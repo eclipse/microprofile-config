@@ -7,3 +7,4 @@ tck/bin/
 .project
 build/
 .classpath
+test-output
