@@ -42,7 +42,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * A 'Configuration' consists of the information collected from the registered {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
  * These {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} get sorted according to
  * their <em>ordinal</em> defined via {@link org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal()}.
- * That way it is possible to overwrite configuration with lower importance from outside.
+ * That way it is possible to overwrite configuration by providing in a ConfigSource with higher importance from outside.
  * </p>
  *
  * <p>
@@ -59,6 +59,8 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
  * </pre>
  *
+ * For more advanced use cases like e.g. registering a manually created {@link Config} please see
+ * {@link ConfigProviderResolver#setConfig(Config, ClassLoader)} and {@link ConfigProviderResolver#getBuilder()}.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
