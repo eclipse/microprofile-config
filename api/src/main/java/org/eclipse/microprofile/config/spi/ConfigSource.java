@@ -69,6 +69,6 @@ public interface ConfigSource {
      *
      * @return the unique 'id' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
-    String getId();
+    String getName();
 
 }
