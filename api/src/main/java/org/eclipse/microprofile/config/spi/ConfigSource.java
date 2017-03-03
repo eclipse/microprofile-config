@@ -45,17 +45,27 @@ public interface ConfigSource {
     Map<String, String> getProperties();
 
     /**
-    * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
-    * in the config source with the highest ordinal will be used.
-    * The ordinal for the default config sources:
-    * <ol>
-    *  <li>System properties (ordinal=400)</li>
-    *  <li>Environment properties (ordinal=300)</li>
-    *  <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
-    * </ol>
-    * @return the ordinal value
-    */
-    int getOrdinal();
+     * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
+     * in the config source with the highest ordinal will be used.
+     * Note that this property only gets evaluated during ConfigSource discovery.
+     *
+     * The ordinal for the default config sources:
+     * <ol>
+     *  <li>System properties (ordinal=400)</li>
+     *  <li>Environment properties (ordinal=300)</li>
+     *  <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
+     * </ol>
+     *
+     *
+     * Any ConfigSource part of an application will typically use an ordinal between 0 and 200.
+     * ConfigSource provided by the container or 'environment' typlically use an ordinal higher than 200.
+     * A framework which intends have values overwritten by the application will use ordinals between 0 and 100.
+     *
+     * @return the ordinal value
+     */
+    default int getOrdinal() {
+        return 100;
+    }
 
     /**
      * Return the value for the specified property in this config source.
