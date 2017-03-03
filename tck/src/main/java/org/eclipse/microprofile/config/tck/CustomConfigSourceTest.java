@@ -17,7 +17,7 @@
 package org.eclipse.microprofile.config.tck;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -28,7 +28,7 @@ public class CustomConfigSourceTest {
 
     @Test
     public void testConfigSourceProvider() {
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
 
         Assert.assertEquals(config.getString("tck.config.test.customDbConfig.key1").get(), "valueFromDb1");
     }

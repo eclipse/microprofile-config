@@ -17,7 +17,7 @@
 package org.eclipse.microprofile.config.tck;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -28,7 +28,7 @@ public class ConverterTest {
 
     @Test
     public void testIntegerConverter() {
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
         Integer value = config.getValue("tck.config.test.javaconfig.converter.integervalue", Integer.class).get();
         Assert.assertEquals(value, Integer.valueOf(1234));
 
@@ -36,7 +36,7 @@ public class ConverterTest {
 
     @Test
     public void testFloatConverter() {
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
         Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class).get();
         Assert.assertEquals(value, Float.valueOf(12.34f));
 

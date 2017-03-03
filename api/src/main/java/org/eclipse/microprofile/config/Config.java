@@ -45,7 +45,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
-public interface Config {
+public interface Config extends AutoCloseable {
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
@@ -87,5 +87,11 @@ public interface Config {
      * @return all currently registered {@link ConfigSource configsources}
      */
     Iterable<ConfigSource> getConfigSources();
+
+    /**
+     * Let the implementation release any resource it can need and then the config is no more usable.
+     */
+    @Override
+    void close();
 
 }

@@ -20,8 +20,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -30,11 +31,16 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
 public class ConfigProviderTest {
+    @Test
+    public void testCustomUnmanagedConfigInstance() {
+        Config c = ConfigProvider.newBuilder().build();
+        Assert.assertNotNull(c);
+    }
 
     @Test
     public void testEnvironmentConfigSource() {
         Map<String, String> env = System.getenv();
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
         for (Map.Entry<String, String> envEntry : env.entrySet()) {
             Assert.assertEquals(envEntry.getValue(), config.getString(envEntry.getKey()).get());
         }
@@ -43,7 +49,7 @@ public class ConfigProviderTest {
     @Test
     public void testPropertyConfigSource() {
         Properties properties = System.getProperties();
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
 
         for (Map.Entry<Object, Object> propEntry : properties.entrySet()) {
             Assert.assertEquals(propEntry.getValue(), config.getString((String) propEntry.getKey()).get());
@@ -52,7 +58,7 @@ public class ConfigProviderTest {
 
     @Test
     public void testDynamicValueInPropertyConfigSource() {
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
         String configKey = "tck.config.test.systemproperty.dynamic.value";
         String configValue = "myDynamicValue;";
 
@@ -62,13 +68,13 @@ public class ConfigProviderTest {
 
     @Test
     public void testJavaConfigPropertyFilesConfigSource() {
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
         Assert.assertEquals(config.getString("tck.config.test.javaconfig.properties.key1").get(), "VALue1");
     }
 
     @Test
     public void testNonExistingConfigKey() {
-        Config config = ConfigProvider.getConfig();
+        Config config = ConfigProviderResolver.lookup();
         Assert.assertNull(config.getString("tck.config.test.keydoesnotexist").get());
     }
 
