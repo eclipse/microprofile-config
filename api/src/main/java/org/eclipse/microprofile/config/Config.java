@@ -51,7 +51,7 @@ public interface Config {
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *
      * If this method gets used very often then consider to locally store the configured value.
-     * 
+     *
      * @param <T>
      *             the property type
      * @param propertyName
@@ -88,4 +88,15 @@ public interface Config {
      */
     Iterable<ConfigSource> getConfigSources();
 
+    /**
+     * Returns an instance of the specific class, allowing to access additional
+     * APIs offered by specific providers.
+     *
+     * @param type Class representing the type to unwrap to
+     * @param <T> The type to unwrap to
+     * @return An instance of the given type
+     * @throws IllegalArgumentException If the current provider does not
+     * support unwrapping to the given type
+     */
+    <T> T unwrap(Class<T> type);
 }
