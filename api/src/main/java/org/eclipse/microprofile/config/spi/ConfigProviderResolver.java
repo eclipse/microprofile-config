@@ -27,10 +27,10 @@ import org.eclipse.microprofile.config.ConfigProvider.ConfigBuilder;
 
 /**
  * This class is not intended to be used by end-users but for
- * portable container integration purpose only!
+ * portable container integration purpose only.
  *
  * Service provider for ConfigProviderResolver. The implementation registers
- * itself via {@link java.util.ServiceLoader} mechanism.
+ * itself via the {@link java.util.ServiceLoader} mechanism.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
@@ -77,12 +77,12 @@ public abstract class ConfigProviderResolver {
                 if (instance != null) {
                     return instance;
                 }
-                
+
                 ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
                     @Override
-                    public ClassLoader run()  {
+                    public ClassLoader run() {
                         return Thread.currentThread().getContextClassLoader();
-                    }                                  
+                    }
                 });
                 if (cl == null) {
                     cl = ConfigProviderResolver.class.getClassLoader();
@@ -91,7 +91,8 @@ public abstract class ConfigProviderResolver {
                 ConfigProviderResolver newInstance = loadSpi(cl);
 
                 if (newInstance == null) {
-                    throw new IllegalStateException("No ConfigProviderResolver implementation found!");
+                    throw new IllegalStateException(
+                                    "No ConfigProviderResolver implementation found!");
                 }
 
                 instance = newInstance;
@@ -110,20 +111,21 @@ public abstract class ConfigProviderResolver {
         ConfigProviderResolver instance = loadSpi(cl.getParent());
 
         if (instance == null) {
-            ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(ConfigProviderResolver.class, cl);
+            ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(
+                            ConfigProviderResolver.class, cl);
             for (ConfigProviderResolver spi : sl) {
                 if (instance != null) {
-                    throw new IllegalStateException("Multiple ConfigResolverProvider implementations found: " + spi.getClass().getName()
-                            + " and " + instance.getClass().getName());
-                }
-                else {
+                    throw new IllegalStateException(
+                                    "Multiple ConfigResolverProvider implementations found: "
+                                                    + spi.getClass().getName() + " and "
+                                                    + instance.getClass().getName());
+                } else {
                     instance = spi;
                 }
             }
         }
         return instance;
     }
-
 
     /**
      * Set the instance. It is used by OSGi environment while service loader

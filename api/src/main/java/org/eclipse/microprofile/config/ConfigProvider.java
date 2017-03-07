@@ -29,7 +29,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * </p>
  *
  * <p>
- * A {@link Config} contains the configuration for a certain situation. That
+ * A {@link Config} contains the configuration for a certain situation. This
  * might be the configuration found in a certain ClassLoader or even a manually
  * created Configuration
  * </p>
@@ -44,7 +44,8 @@ import org.eclipse.microprofile.config.spi.Converter;
  * A 'Configuration' consists of the information collected from the registered {@link ConfigSource ConfigSources}.
  * These {@link ConfigSource ConfigSources} get sorted according to
  * their <em>ordinal</em> defined via {@link ConfigSource#getOrdinal()}.
- * That way it is possible to overwrite configuration with lower importance from outside.
+ * Thus it is possible to override configuration packaged with an application with configuration 
+ * from outside the application package.
  * </p>
  *
  * <p>
@@ -110,12 +111,12 @@ public final class ConfigProvider {
 
     /**
      * Register a given {@link Config} within the Application (or Module) identified by the given ClassLoader.
-     * If the ClassLoader is {@code null} then the current Application will be used.
+     * If the ClassLoader is {@code null} then the current thread's ContextClassLoader will be used.
      *
      * @param config
-     *          which should get registered
+     *          the config that will be registered
      * @param classLoader
-     *          which identifies the Application or Module the given Config should get associated with.
+     *          the Application or Module the given Config will be associated with.
      *
      * @throws IllegalStateException
      *          if there is already a Config registered within the Application.
@@ -127,7 +128,7 @@ public final class ConfigProvider {
 
     /**
      * A {@link Config} normally gets released if the Application it is associated with gets destroyed.
-     * Invoke this method if you like to destroy the Config prematurely.
+     * Invoke this method if you would like to destroy the Config prematurely.
      *
      * If the given Config is associated within an Application then it will be unregistered.
      */
@@ -142,7 +143,7 @@ public final class ConfigProvider {
      */
     public interface ConfigBuilder {
         /**
-         * Add the default config sources appearing on the builder's classpath
+         * Add the default config sources that are on the builder's classpath
          * including:
          * <ol>
          * <li>System properties</li>

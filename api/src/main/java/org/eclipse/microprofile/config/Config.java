@@ -50,14 +50,14 @@ public interface Config {
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *
-     * If this method gets used very often then consider to locally store the configured value.
+     * If this method is used frequently consider caching the value.
      * 
      * @param <T>
      *             the property type
      * @param propertyName
      *             The configuration propertyName.
      * @param propertyType
-     *             The type into which the resolve property value should get converted
+     *             The type into which the resolve property value should be converted
      * @return the resolved property value as an Optional of the requested type.
      * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
      */
@@ -69,13 +69,11 @@ public interface Config {
      *
      * @param propertyName
      *             The configuration propertyName.
-     * @return The resolved property value as a String-Optional, which will bypass converters.
+     * @return The resolved property value as a String, which will bypass any converters.
      *
-     * @throws IllegalArgumentException
-     *             is thrown if the propertyName maps to an object that is not a
-     *             String.
+     * 
      */
-    Optional<String> getString(String propertyName);
+    String getRawString(String propertyName);
 
     /**
      * Return a collection of property names.
