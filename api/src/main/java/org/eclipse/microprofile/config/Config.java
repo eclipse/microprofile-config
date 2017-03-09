@@ -78,14 +78,23 @@ public interface Config {
     Optional<String> getString(String propertyName);
 
     /**
+     * Create a {@link ConfigValue} to access the underlying configuration.
+     *
+     * @param key the property key
+     */
+    ConfigValue<String> access(String key);
+
+
+    /**
      * Return a collection of property names.
      * @return the names of all configured keys of the underlying configuration.
      */
     Iterable<String> getPropertyNames();
 
     /**
-     * @return all currently registered {@link ConfigSource configsources}
+     *
+     * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
      */
-    Iterable<ConfigSource> getConfigSources();
+    ConfigSource[] getConfigSources();
 
 }

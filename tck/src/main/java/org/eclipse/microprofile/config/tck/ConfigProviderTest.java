@@ -69,7 +69,7 @@ public class ConfigProviderTest {
     @Test
     public void testNonExistingConfigKey() {
         Config config = ConfigProvider.getConfig();
-        Assert.assertNull(config.getString("tck.config.test.keydoesnotexist").get());
+        Assert.assertFalse(config.getString("tck.config.test.keydoesnotexist").isPresent());
     }
 
 }
