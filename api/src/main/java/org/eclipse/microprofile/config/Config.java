@@ -50,8 +50,10 @@ public interface Config {
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *
+     * An empty string representation is interpreted as not-existing configuration.
+     *
      * If this method gets used very often then consider to locally store the configured value.
-     * 
+     *
      * @param <T>
      *             the property type
      * @param propertyName
@@ -66,6 +68,8 @@ public interface Config {
     /**
      * Get an Optional raw string value associated with the given configuration
      * propertyName.
+     *
+     * An empty value string is interpreted as not-existing configuration.
      *
      * @param propertyName
      *             The configuration propertyName.
