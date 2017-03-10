@@ -98,6 +98,6 @@ public interface Config {
     /**
      * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
      */
-    ConfigSource[] getConfigSources();
+    Iterable<ConfigSource> getConfigSources();
 
 }
