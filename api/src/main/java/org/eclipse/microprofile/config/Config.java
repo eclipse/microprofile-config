@@ -84,8 +84,8 @@ public interface Config {
     Iterable<String> getPropertyNames();
 
     /**
-     * @return all currently registered {@link ConfigSource configsources}
+     * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
      */
-    Iterable<ConfigSource> getConfigSources();
+    ConfigSource[] getConfigSources();
 
 }
