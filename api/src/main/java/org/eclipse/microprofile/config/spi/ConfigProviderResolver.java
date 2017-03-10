@@ -74,7 +74,7 @@ public abstract class ConfigProviderResolver {
      *          if there is already a Config registered within the Application.
      *          A user could explicitly use {@link #releaseConfig(Config)} for this case.
      */
-    public abstract void setConfig(Config config, ClassLoader classLoader);
+    public abstract void registerConfig(Config config, ClassLoader classLoader);
 
     /**
      * A {@link Config} normally gets released if the Application it is associated with gets destroyed.
