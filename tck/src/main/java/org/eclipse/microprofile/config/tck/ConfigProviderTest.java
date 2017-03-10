@@ -47,7 +47,7 @@ public class ConfigProviderTest {
         Config config = ConfigProvider.getConfig();
 
         for (Map.Entry<Object, Object> propEntry : properties.entrySet()) {
-            Assert.assertEquals(propEntry.getValue(), config.getString((String) propEntry.getKey()).get());
+            Assert.assertEquals(propEntry.getValue(), config.getString((String) propEntry.getKey()).orElse(""));
         }
     }
 
