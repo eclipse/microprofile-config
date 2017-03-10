@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
+import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -70,6 +71,27 @@ public class ConfigProviderTest {
     public void testNonExistingConfigKey() {
         Config config = ConfigProvider.getConfig();
         Assert.assertFalse(config.getString("tck.config.test.keydoesnotexist").isPresent());
+    }
+
+    @Test
+    public void testEmptyConfigTreatedAsNotExisting() {
+        Config config = ConfigProvider.getConfig();
+        Assert.assertFalse(config.getString("tck.config.test.javaconfig.emptyvalue").isPresent());
+    }
+
+    @Test
+    public void testGetConfigSources() {
+        Config config = ConfigProvider.getConfig();
+        Iterable<ConfigSource> configSources = config.getConfigSources();
+        Assert.assertNotNull(configSources);
+
+        // check descending sorting
+        int prevOrdinal = Integer.MAX_VALUE;
+        for (ConfigSource configSource : configSources) {
+            Assert.assertTrue(configSource.getOrdinal() <= prevOrdinal);
+            prevOrdinal = configSource.getOrdinal();
+        }
+
     }
 
 }
