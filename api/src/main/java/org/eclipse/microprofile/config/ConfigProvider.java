@@ -60,7 +60,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * </pre>
  *
  * For more advanced use cases like e.g. registering a manually created {@link Config} please see
- * {@link ConfigProviderResolver#setConfig(Config, ClassLoader)} and {@link ConfigProviderResolver#getBuilder()}.
+ * {@link ConfigProviderResolver#registerConfig(Config, ClassLoader)} and {@link ConfigProviderResolver#getBuilder()}.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
