@@ -21,6 +21,7 @@ import org.eclipse.microprofile.config.tck.converters.DuckConverter;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.UrlAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
 
@@ -34,9 +35,20 @@ public class AbstractTest extends Arquillian {
                 .create(JavaArchive.class, testName)
                 .addPackage(CustomDbConfigSource.class.getPackage())
                 .addPackage(DuckConverter.class.getPackage())
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .as(JavaArchive.class);
+
+        addFile(testJar, "META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource");
+        addFile(testJar, "META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider");
+        addFile(testJar, "META-INF/microprofile-config.properties");
+        addFile(testJar, "sampleconfig.yaml");
 
         return testJar;
+    }
+
+    private static void addFile(JavaArchive archive, String originalPath) {
+        archive.addAsResource(new UrlAsset(Thread.currentThread().getContextClassLoader().getResource("internal/" + originalPath)),
+                originalPath);
     }
 
 }
