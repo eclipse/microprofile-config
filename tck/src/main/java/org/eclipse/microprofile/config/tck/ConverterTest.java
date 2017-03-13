@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,8 +33,8 @@ public class ConverterTest extends AbstractTest {
     private @Inject Config config;
 
     @Deployment
-    public static JavaArchive deploy() {
-        return allIn("converterTest.jar").addClass(ConverterTest.class);
+    public static WebArchive deploy() {
+        return allIn("converterTest").addClass(ConverterTest.class);
     }
 
 

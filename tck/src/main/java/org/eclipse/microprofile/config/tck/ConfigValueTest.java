@@ -17,8 +17,10 @@
 package org.eclipse.microprofile.config.tck;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.ConfigValue;
+import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -27,12 +29,20 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class ConfigValueTest {
+public class ConfigValueTest extends AbstractTest {
 
-    private Config config = ConfigProvider.getConfig();
+    @Inject
+    private Config config;
+
+    @Deployment
+    public static WebArchive deploy() {
+        return allIn("configValueTest").addClass(ConfigProviderTest.class);
+    }
 
     @Test
     public void testget() {
