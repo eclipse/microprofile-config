@@ -14,6 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *   2015-04-30 - Ron Smeral
+ *      Initially authored in Apache DeltaSpike 25b2b8cc0c955a28743f
+ *   2016-07-14 - Mark Struberg
+ *      JavaDoc + priority
+ *   2016-12-01 - Emily Jiang / IBM Corp
+ *      Marking as FunctionalInterface + JavaDoc + additional types
+ *
  *******************************************************************************/
 
 package org.eclipse.microprofile.config.spi;
@@ -45,9 +53,8 @@ package org.eclipse.microprofile.config.spi;
  * </ul>
  *
  *
- * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
- * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 @FunctionalInterface

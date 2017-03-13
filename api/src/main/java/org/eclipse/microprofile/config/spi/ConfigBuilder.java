@@ -1,6 +1,6 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016-2017 Mark Struberg and others
+ * Copyright (c) 2016-2017 Romain Manni-Bucau and others
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *   2016-07-20 - Romain Manni-Bucau
+ *      Initial ConfigBuilder PR    0945b23cbf9dadb75fb9
+ *   2016-07-17 - Mark Struberg
+ *      Merged and JavaDoc          c8525998a43fe798f367
+ *   2016-11-14 - Emily Jiang / IBM
+ *      API improvements + JavaDoc  f53258b8eca1253fee52
+ *
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
@@ -24,10 +32,9 @@ import org.eclipse.microprofile.config.Config;
  *
  * @see ConfigProviderResolver#getBuilder()
  *
- * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
-
  */
 public interface ConfigBuilder {
     /**
