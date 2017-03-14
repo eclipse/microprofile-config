@@ -59,6 +59,22 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  */
 public interface Config {
     /**
+     * Return the resolved property value with a String for the
+     * specified property name from the underlying {@link ConfigSource ConfigSources}.
+     *
+     * An empty string representation is interpreted as not-existing configuration.
+     *
+     * If this method is used very often then consider to locally store the configured value.
+     *
+     * 
+     * @param propertyName
+     *             The configuration propertyName.
+     * 
+     * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
+     */
+    Optional<String> getValue(String propertyName);
+    
+    /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *

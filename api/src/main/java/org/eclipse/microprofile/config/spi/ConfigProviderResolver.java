@@ -137,7 +137,8 @@ public abstract class ConfigProviderResolver {
                                     "Multiple ConfigResolverProvider implementations found: "
                                                     + spi.getClass().getName() + " and "
                                                     + instance.getClass().getName());
-                } else {
+                } 
+                else {
                     instance = spi;
                 }
             }
