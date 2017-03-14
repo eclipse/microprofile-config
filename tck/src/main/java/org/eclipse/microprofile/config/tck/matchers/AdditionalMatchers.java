@@ -39,7 +39,12 @@ public final class AdditionalMatchers {
             
             @Override
             public boolean matches(Object item) {
-                return (doubleMatcher = closeTo(value, range)).matches(item);
+                if (item instanceof Float) {
+                    return (doubleMatcher = closeTo(value, range)).matches(((Float)item).doubleValue());
+                }
+                else {
+                    return (doubleMatcher = closeTo(value, range)).matches(item);
+                }
             }
 
             @Override
