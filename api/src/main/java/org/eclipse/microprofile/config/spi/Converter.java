@@ -32,7 +32,7 @@ package org.eclipse.microprofile.config.spi;
  * <p>A Converter can specify a {@link javax.annotation.Priority}.
  * If no priority is explicitly assigned, the value of 100 is assumed.</p>
  *
- * <p>If multiple Converter get found the one with the highest priority will be used.</p>
+ * <p>If multiple Converters are found, the one with the highest priority will be used.</p>
  *
  * <p>The Converter for the following types are automatically enabled:</p>
  * <ul>

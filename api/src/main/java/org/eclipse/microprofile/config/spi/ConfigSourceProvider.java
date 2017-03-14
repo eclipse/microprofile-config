@@ -26,17 +26,16 @@
 
 package org.eclipse.microprofile.config.spi;
 
-
 /**
  * <p>Implement this interfaces to provide multiple ConfigSources.
- * This is e.g. needed if there are multiple property files of a given name.</p>
+ * This is needed if there are multiple property files of a given name.</p>
  *
- * <p>If a ConfigSource like JNDI only exists once, then there is no need
- * to implement it via the ConfigSourceProvider but should directly
- * expose a {@link ConfigSource}.</p>
+ * <p>If a single ConfigSource exists, then there is no need
+ * to register it using a custom implementation of ConfigSourceProvider, it can be 
+ * registered directly as a {@link ConfigSource}.</p>
  *
  * <p>A ConfigSourceProvider will get picked up via the
- * {@link java.util.ServiceLoader} mechanism and must get registered via
+ * {@link java.util.ServiceLoader} mechanism and can be registered via
  * META-INF/services/javax.config.spi.ConfigSourceProvider</p>
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>

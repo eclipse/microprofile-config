@@ -30,7 +30,7 @@ package org.eclipse.microprofile.config.spi;
 import java.util.Map;
 
 /**
- * <p> Represent a config source, which provides properties. The config source includes: properties, xml, json files or datastore. <p>
+ * <p> Represent a config source, which provides properties. The config source can encapsulate: properties, xml, json files or datastore data. <p>
  * The default config sources:
  * <ol>
  * <li>System properties (ordinal=400)</li>
@@ -38,10 +38,10 @@ import java.util.Map;
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
  * 
- * <p>A ConfigSource will get picked up via the
- * {@link java.util.ServiceLoader} mechanism and must get registered via
+ * <p>ConfigSource will get picked up via the
+ * {@link java.util.ServiceLoader} mechanism and and can be registered via
  * META-INF/services/javax.config.spi.ConfigSource</p>
- * The other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
+ * Other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
