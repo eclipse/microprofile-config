@@ -41,7 +41,7 @@ import java.util.Map;
  * <p>A ConfigSource will get picked up via the
  * {@link java.util.ServiceLoader} mechanism and must get registered via
  * META-INF/services/javax.config.spi.ConfigSource</p>
- * The other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
+ * The other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}. << How?
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
