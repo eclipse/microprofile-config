@@ -23,7 +23,6 @@ import java.security.PrivilegedAction;
 import java.util.ServiceLoader;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider.ConfigBuilder;
 
 /**
  * This class is not intended to be used by end-users but for
@@ -53,17 +52,35 @@ public abstract class ConfigProviderResolver {
     public abstract Config getConfig(ClassLoader loader);
 
     /**
-     * @see org.eclipse.microprofile.config.ConfigProvider#getBuilder()
+     * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
+     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} and auto discovered
+     * {@link ConfigSource configsources} and {@link Converter converters}.
+     * Other undiscovered {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
+     *
+     * The ConfigProvider will not manage the Config instance internally
      */
     public abstract ConfigBuilder getBuilder();
 
     /**
-     * @see org.eclipse.microprofile.config.ConfigProvider#setConfig(Config, ClassLoader)
+     * Register a given {@link Config} within the Application (or Module) identified by the given ClassLoader.
+     * If the ClassLoader is {@code null} then the current Application will be used.
+     *
+     * @param config
+     *          which should get registered
+     * @param classLoader
+     *          which identifies the Application or Module the given Config should get associated with.
+     *
+     * @throws IllegalStateException
+     *          if there is already a Config registered within the Application.
+     *          A user could explicitly use {@link #releaseConfig(Config)} for this case.
      */
-    public abstract void setConfig(Config config, ClassLoader classLoader);
+    public abstract void registerConfig(Config config, ClassLoader classLoader);
 
     /**
-     * @see org.eclipse.microprofile.config.ConfigProvider#releaseConfig(Config)
+     * A {@link Config} normally gets released if the Application it is associated with gets destroyed.
+     * Invoke this method if you like to destroy the Config prematurely.
+     *
+     * If the given Config is associated within an Application then it will be unregistered.
      */
     public abstract void releaseConfig(Config config);
 
@@ -101,6 +118,7 @@ public abstract class ConfigProviderResolver {
 
         return instance;
     }
+
 
     private static ConfigProviderResolver loadSpi(ClassLoader cl) {
         if (cl == null) {

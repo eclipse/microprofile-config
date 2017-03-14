@@ -14,6 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *   2011-12-28 - Mark Struberg & Gerhard Petracek
+ *      Initially authored in Apache DeltaSpike as ConfigResolver fb0131106481f0b9a8fd
+ *   2015-04-30 - Ron Smeral
+ *      Typesafe Config authored in Apache DeltaSpike 25b2b8cc0c955a28743f
+ *   2016-07-14 - Mark Struberg
+ *      Extracted the Config part out of Apache DeltaSpike and proposed as Microprofile-Config
+ *   2016-11-14 - Emily Jiang / IBM Corp
+ *      Experiments with separate methods per type, JavaDoc, method renaming
+ *
  *******************************************************************************/
 
 package org.eclipse.microprofile.config;
@@ -42,6 +52,8 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * </pre>
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
+ * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
@@ -50,8 +62,10 @@ public interface Config {
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *
-     * If this method is used frequently consider caching the value.
-     * 
+     * An empty string representation is interpreted as not-existing configuration.
+     *
+     * If this method is used very often then consider to locally store the configured value.
+     *
      * @param <T>
      *             the property type
      * @param propertyName
@@ -66,6 +80,8 @@ public interface Config {
     /**
      * Get an Optional raw string value associated with the given configuration
      * propertyName.
+     *
+     * An empty value string is interpreted as not-existing configuration.
      *
      * @param propertyName
      *             The configuration propertyName.
@@ -82,7 +98,7 @@ public interface Config {
     Iterable<String> getPropertyNames();
 
     /**
-     * @return all currently registered {@link ConfigSource configsources}
+     * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
      */
     Iterable<ConfigSource> getConfigSources();
 

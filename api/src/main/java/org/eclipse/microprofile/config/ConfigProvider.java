@@ -14,14 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *   2016-07-14 - Mark Struberg
+ *      Initial revision            cf41cf130bcaf5447ff8
+ *   2016-07-20 - Romain Manni-Bucau
+ *      Initial ConfigBuilder PR    0945b23cbf9dadb75fb9
+ *   2016-11-14 - Emily Jiang / IBM Corp
+ *      SPI reworked into own ConfigProviderResolver
+ *   2016-12-02 - Viktor Klang
+ *      removed ConfigFilter and security related functionality.
  *
  *******************************************************************************/
 
 package org.eclipse.microprofile.config;
 
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.Converter;
 
 /**
  * <p>
@@ -41,15 +48,14 @@ import org.eclipse.microprofile.config.spi.Converter;
  * </p>
  *
  * <p>
- * A 'Configuration' consists of the information collected from the registered {@link ConfigSource ConfigSources}.
- * These {@link ConfigSource ConfigSources} get sorted according to
- * their <em>ordinal</em> defined via {@link ConfigSource#getOrdinal()}.
- * Thus it is possible to override configuration packaged with an application with configuration 
- * from outside the application package.
+ * A 'Configuration' consists of the information collected from the registered {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
+ * These {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} get sorted according to
+ * their <em>ordinal</em> defined via {@link org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal()}.
+ * Thus it is possible to overwrite configuration by providing in a ConfigSource with higher importance from outside.
  * </p>
  *
  * <p>
- * It is also possible to register custom {@link ConfigSource ConfigSources} to flexibly
+ * It is also possible to register custom {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} to flexibly
  * extend the configuration mechanism. An example would be to pick up
  * configuration values from a database table.</p>
  *
@@ -62,10 +68,13 @@ import org.eclipse.microprofile.config.spi.Converter;
  *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
  * </pre>
  *
+ * For more advanced use cases like e.g. registering a manually created {@link Config} please see
+ * {@link ConfigProviderResolver#registerConfig(Config, ClassLoader)} and {@link ConfigProviderResolver#getBuilder()}.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:viktor.klang@gmail.com">Viktor Klang</a>
  */
 public final class ConfigProvider {
     private static final ConfigProviderResolver INSTANCE = ConfigProviderResolver.instance();
@@ -74,7 +83,7 @@ public final class ConfigProvider {
     }
 
     /**
-     * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
+     * Provide a {@link Config} based on all {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} of the
      * current Thread Context ClassLoader (TCCL)
      * The {@link Config} will be stored for future retrieval.
      * <p>
@@ -86,7 +95,7 @@ public final class ConfigProvider {
     }
 
     /**
-     * Provide a {@link Config} based on all {@link ConfigSource ConfigSources} of the
+     * Provide a {@link Config} based on all {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} of the
      * specified ClassLoader
      *
      * <p>
@@ -95,95 +104,5 @@ public final class ConfigProvider {
      */
     public static Config getConfig(ClassLoader cl) {
         return INSTANCE.getConfig(cl);
-    }
-
-    /**
-     * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} and auto discovered
-     * {@link ConfigSource configsources} and {@link Converter converters}.
-     * Other undiscovered {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
-     *
-     * The ConfigProvider will not manage the Config instance internally
-     */
-    public static ConfigBuilder getBuilder() {
-        return INSTANCE.getBuilder();
-    }
-
-    /**
-     * Register a given {@link Config} within the Application (or Module) identified by the given ClassLoader.
-     * If the ClassLoader is {@code null} then the current thread's ContextClassLoader will be used.
-     *
-     * @param config
-     *          the config that will be registered
-     * @param classLoader
-     *          the Application or Module the given Config will be associated with.
-     *
-     * @throws IllegalStateException
-     *          if there is already a Config registered within the Application.
-     *          A user could explicitly use {@link #releaseConfig(Config)} for this case.
-     */
-    public static void setConfig(Config config, ClassLoader classLoader) {
-        INSTANCE.setConfig(config, classLoader);
-    }
-
-    /**
-     * A {@link Config} normally gets released if the Application it is associated with gets destroyed.
-     * Invoke this method if you would like to destroy the Config prematurely.
-     *
-     * If the given Config is associated within an Application then it will be unregistered.
-     */
-    public static void releaseConfig(Config config) {
-        INSTANCE.releaseConfig(config);
-    }
-
-    /**
-     * Builder for manually creating an instance of a {@code Config}.
-     *
-     * @see ConfigProvider#getBuilder()
-     */
-    public interface ConfigBuilder {
-        /**
-         * Add the default config sources that are on the builder's classpath
-         * including:
-         * <ol>
-         * <li>System properties</li>
-         * <li>Environment properties</li>
-         * <li>/META-INF/microprofile-config.properties</li>
-         * </ol>
-         *
-         * @return the ConfigBuilder with the default config sources
-         */
-        ConfigBuilder addDefaultSources();
-
-        /**
-         * Return the ConfigBuilder for a given classloader
-         *
-         * @param loader
-         * @return the ConfigureBuilder for the given classloader
-         */
-        ConfigBuilder forClassLoader(ClassLoader loader);
-
-        /**
-         * Add the specified {@link ConfigSource}.
-         *
-         * @param sources
-         * @return the ConfigBuilder with the configured sources
-         */
-        ConfigBuilder withSources(ConfigSource... sources);
-
-        /**
-         * Add the specified {@link Converter}
-         *
-         * @param converters
-         * @return the ConfigBuilder with the added converters
-         */
-        ConfigBuilder withConverters(Converter<?>... converters);
-
-        /**
-         * Build the {@link Config} object.
-         *
-         * @return the Config object
-         */
-        Config build();
     }
 }
