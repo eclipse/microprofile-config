@@ -15,7 +15,7 @@
  *
  */
 
-package io.microprofile.config.inject;
+package org.eclipse.microprofile.config.inject;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.ElementType.FIELD;
@@ -29,7 +29,8 @@ import javax.inject.Qualifier;
 
 /**
  * Binds the injection point with a configured value.
- * Should annotate injection points of type {@code TYPE} or {@code ConfigValue<TYPE>}, where {@code TYPE} can be {@code String} and all types which have appropriate converters. 
+ * Should annotate injection points of type {@code TYPE} or {@code ConfigValue<TYPE>}, 
+ * where {@code TYPE} can be {@code String} and all types which have appropriate converters. 
  * <p>
  * Example:
  * <pre>

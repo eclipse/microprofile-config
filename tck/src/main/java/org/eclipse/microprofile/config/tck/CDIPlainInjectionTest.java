@@ -17,12 +17,12 @@
 
 package org.eclipse.microprofile.config.tck;
 
-import io.microprofile.config.inject.ConfigProperty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_defined;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_undefined;
@@ -137,4 +137,4 @@ public class CDIPlainInjectionTest {
 
     }    
     
-}
+} 
