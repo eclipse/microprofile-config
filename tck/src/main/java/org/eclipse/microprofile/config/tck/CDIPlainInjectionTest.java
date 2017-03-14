@@ -38,7 +38,7 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +53,8 @@ public class CDIPlainInjectionTest {
 
     @Deployment
     public static Archive deployment() {
-        return ShrinkWrap.create(JavaArchive.class)
+        return ShrinkWrap.create(WebArchive.class)
+                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
@@ -114,39 +115,39 @@ public class CDIPlainInjectionTest {
     @Dependent
     public static class SimpleValuesBean {
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.string.property")
         private String stringProperty;
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.boolean.property")
         private Boolean boolProperty;
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.int.property")
         private Integer intProperty;
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.long.property")
         private Long longProperty;
 
         @Inject
-        @ConfigProperty("my.float.property")
+//        @ConfigProperty("my.float.property")
         private Float floatProperty;
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.double.property")
         private Double doubleProperty;
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.date.property")
         private Date dateProperty;
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.localdate.property")
         private LocalDate localDateProperty;
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.datetime.property")
         private LocalDateTime dateTimeProperty;
 
@@ -155,7 +156,7 @@ public class CDIPlainInjectionTest {
     @Dependent
     public static class DynamicValuesBean {
 
-        @Inject
+//        @Inject
         @ConfigProperty("my.int.property")
         private Instance<Integer> intPropertyProvider;
 
