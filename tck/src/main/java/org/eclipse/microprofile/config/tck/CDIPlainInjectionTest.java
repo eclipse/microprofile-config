@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
@@ -31,6 +32,7 @@ import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.toDate;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.nullValue;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -72,6 +74,19 @@ public class CDIPlainInjectionTest {
         assertThat(bean.dateTimeProperty, is(toDate("2015-01-30T10:00")));
     }
 
+    @Test
+    public void can_inject_dynamic_values_via_CDI_provider() {
+        clear_all_property_values();
+
+        DynamicValuesBean bean = get_bean_of_type(DynamicValuesBean.class);
+
+        assertThat(bean.getIntProperty(), is(nullValue()));
+
+        ensure_all_property_values_are_defined();
+
+        assertThat(bean.getIntProperty(), is(equalTo(5)));
+    }
+    
     private void ensure_all_property_values_are_defined() {
         ensure_property_defined("my.string.property", "text");
         ensure_property_defined("my.boolean.property", "true");
@@ -137,4 +152,21 @@ public class CDIPlainInjectionTest {
 
     }    
     
-} 
+    @Dependent
+    public static class DynamicValuesBean {
+
+        @Inject
+        @ConfigProperty("my.int.property")
+        private Instance<Integer> intPropertyProvider;
+
+        public Integer getIntProperty() {
+            if (intPropertyProvider.isUnsatisfied()) {
+                return null;
+            } 
+            else {
+                return intPropertyProvider.get();
+            }
+        }
+
+    }
+}
