@@ -69,6 +69,7 @@ public interface Config {
      * 
      * @param propertyName
      *             The configuration propertyName.
+     * @return the resolved property value as an Optional String.
      * 
      * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
      */
