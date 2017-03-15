@@ -39,8 +39,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * {@link ConfigSource configsources}, the value in the {@link ConfigSource} with the highest
  * ordinal will be used. If multiple {@link ConfigSource configsources} are specified with
  * the same ordinal, no defined ordering will be applied if they contain the same key.
- * <p>
- *
+ * 
  * <h3>Usage</h3>
  * For accessing the config you can use the {@link ConfigProvider}:
  *

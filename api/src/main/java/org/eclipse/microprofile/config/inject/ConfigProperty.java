@@ -17,13 +17,15 @@
 
 package org.eclipse.microprofile.config.inject;
 
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
@@ -36,14 +38,16 @@ import javax.inject.Qualifier;
  * <pre>
  * <code>
  *    {@literal @Inject}
- *    {@literal @ConfigProperty("my.long.property")}
+ *    {@literal @ConfigProperty(name="my.long.property" defaultValue="123")}
  *    Long injectedLongValue;  
- *            // injects value of my.long.property property 
+ *    Injects value of my.long.property property. The injected value is static and does not change even if the underline 
+ *    property value changes. It is recommended for a static property or used by a bean with RequestScoped.
+ *             
  * 
  *   {@literal @Inject}
- *   {@literal @ConfigProperty("my.long.property")}
- *   {@literal ConfigValue<Long>} longConfigValue;  
- *            // injects a ConfigValue for the value of my.long.property property to resolve the property dynamically
+ *   {@literal @ConfigProperty(name = "my.long.property" defaultValue="123")}
+ *   {@literal Provider<Long>} longConfigValue;  
+ *   // injects a Provider for the value of my.long.property property to resolve the property dynamically
  * </code>
  * </pre>
  * @author Ondrej Mihalyi
@@ -53,14 +57,20 @@ import javax.inject.Qualifier;
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 public @interface ConfigProperty {
     /**
-     * The kay of the config property used to look up the configuration value. 
+     * The key of the config property used to look up the configuration value. 
      * If it is not specified, it will be derived automatically as {@code <class_name>.<injetion_point_name>}, 
-     * where {@code injection_point_name} is either a field name or a property name in case of field/property injection, 
-     * {@code class_name} is the simple name of the class being injected to. 
+     * where {@code injection_point_name} is the field name, 
+     * {@code class_name} is the simple name of the class being injected to with the first letter decaptialised. 
      * If one of the {@code class_name} or {@code injection_point_name} cannot be determined, the value has to be provided.
      * 
      * @return Name (key) of the config property to inject
      */
     @Nonbinding
-    String value() default "";
+    String name() default "";
+    /**
+     * The default value if the property does not exist
+     * @return the default value as a string
+     */
+    @Nonbinding
+    String defaultValue() default "";
 }

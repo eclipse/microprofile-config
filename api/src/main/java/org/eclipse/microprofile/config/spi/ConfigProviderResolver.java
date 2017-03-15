@@ -43,21 +43,24 @@ public abstract class ConfigProviderResolver {
 
     /**
      * @see org.eclipse.microprofile.config.ConfigProvider#getConfig()
+     * @return config the config object for the Thread Context Classloader
      */
     public abstract Config getConfig();
 
     /**
      * @see org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)
+     * @param loader the classloader
+     * @return config the config object for the specified classloader
      */
     public abstract Config getConfig(ClassLoader loader);
 
     /**
      * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} and auto discovered
-     * {@link ConfigSource configsources} and {@link Converter converters}.
-     * Other undiscovered {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
+     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} 
+     * The other {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
      *
      * The ConfigProvider will not manage the Config instance internally
+     * @return the configbuilder with the default converters
      */
     public abstract ConfigBuilder getBuilder();
 
@@ -81,12 +84,14 @@ public abstract class ConfigProviderResolver {
      * Invoke this method if you like to destroy the Config prematurely.
      *
      * If the given Config is associated within an Application then it will be unregistered.
+     * @param config the config to be released
      */
     public abstract void releaseConfig(Config config);
 
     /**
      * Creates a ConfigProviderResolver object
      * Only used internally from within {@link org.eclipse.microprofile.config.ConfigProvider}
+     * @return ConfigProviderResolver an instance of ConfigProviderResolver     
      */
     public static ConfigProviderResolver instance() {
         if (instance == null) {
