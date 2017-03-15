@@ -79,23 +79,6 @@ public interface Config {
     <T> T getValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Return the resolved property value with a String for the
-     * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
-     * An empty string representation is interpreted as not-existing configuration.
-     *
-     * If this method is used very often then consider to locally store the configured value.
-     *
-     * 
-     * @param propertyName
-     *             The configuration propertyName.
-     * @return the resolved property value as an Optional String.
-     * 
-     * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
-     */
-    Optional<String> getValue(String propertyName);
-    
-    /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *
@@ -116,20 +99,6 @@ public interface Config {
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Get an Optional raw string value associated with the given configuration
-     * propertyName.
-     *
-     * An empty value string is interpreted as not-existing configuration.
-     *
-     * @param propertyName
-     *             The configuration propertyName.
-     * @return The resolved property value as a String, which will bypass any converters.
-     *
-     * 
-     */
-    String getRawString(String propertyName);
-
-    /**
      * Return a collection of property names.
      * @return the names of all configured keys of the underlying configuration.
      */
@@ -139,5 +108,4 @@ public interface Config {
      * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
      */
     Iterable<ConfigSource> getConfigSources();
-
 }
