@@ -14,6 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *   2016-07-14 - Mark Struberg
+ *      Initial revision            cf41cf130bcaf5447ff8
+ *   2016-07-20 - Romain Manni-Bucau
+ *      Initial ConfigBuilder PR    0945b23cbf9dadb75fb9
+ *   2016-11-14 - Emily Jiang / IBM Corp
+ *      SPI reworked into own ConfigProviderResolver
+ *   2016-12-02 - Viktor Klang
+ *      removed ConfigFilter and security related functionality.
  *
  *******************************************************************************/
 
@@ -65,6 +74,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:viktor.klang@gmail.com">Viktor Klang</a>
  */
 public final class ConfigProvider {
     private static final ConfigProviderResolver INSTANCE = ConfigProviderResolver.instance();

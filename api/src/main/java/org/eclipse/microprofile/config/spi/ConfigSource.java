@@ -14,6 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *   2009       - Mark Struberg
+ *      Ordinal solution in Apache OpenWebBeans
+ *   2011-12-28 - Mark Struberg & Gerhard Petracek
+ *      Contributed to Apache DeltaSpike fb0131106481f0b9a8fd
+ *   2016-07-14 - Mark Struberg
+ *      Extracted the Config part out of DeltaSpike and proposed as Microprofile-Config cf41cf130bcaf5447ff8
+ *   2016-11-14 - Emily Jiang / IBM Corp
+ *      Methods renamed, JavaDoc and cleanup
+ *
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
@@ -75,9 +85,9 @@ public interface ConfigSource {
     String getValue(String propertyName);
 
     /**
-     * The id of the config might be used for logging or analysis of configured values.
+     * The name of the config might be used for logging or analysis of configured values.
      *
-     * @return the unique 'id' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
+     * @return the unique 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getName();
 

@@ -15,6 +15,7 @@
 
     <properties>
         <arquillian.version>1.1.7.Final</arquillian.version>
+        <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9_]*$</checkstyle.methodNameFormat>
     </properties>
 
     <dependencyManagement>
@@ -35,6 +36,14 @@
             <groupId>org.eclipse.microprofile.apis</groupId>
             <artifactId>microprofile-config_1.0_api</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -72,6 +81,18 @@
         </dependency>
 
 
-    </dependencies>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>compile</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.jboss.shrinkwrap</groupId>
+            <artifactId>shrinkwrap-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+    
 </project>
