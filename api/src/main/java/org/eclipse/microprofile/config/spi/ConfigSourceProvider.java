@@ -14,24 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * Contributors:
+ *   2011-12-28 - Mark Struberg & Gerhard Petracek
+ *      Initially authored in Apache DeltaSpike fb0131106481f0b9a8fd
+ *   2016-07-14 - Mark Struberg
+ *      Extracted the Config part out of Apache DeltaSpike and proposed as Microprofile-Config
+ *   2016-11-14 - Emily Jiang / IBM Corp
+ *      Methods renamed, JavaDoc and cleanup
+ *
  *******************************************************************************/
 
 package org.eclipse.microprofile.config.spi;
 
-
 /**
  * <p>Implement this interfaces to provide multiple ConfigSources.
- * This is e.g. needed if there are multiple property files of a given name.</p>
+ * This is needed if there are multiple property files of a given name.</p>
  *
- * <p>If a ConfigSource like JNDI only exists once, then there is no need
- * to implement it via the ConfigSourceProvider but should directly
- * expose a {@link ConfigSource}.</p>
+ * <p>If a single ConfigSource exists, then there is no need
+ * to register it using a custom implementation of ConfigSourceProvider, it can be 
+ * registered directly as a {@link ConfigSource}.</p>
  *
  * <p>A ConfigSourceProvider will get picked up via the
- * {@link java.util.ServiceLoader} mechanism and must get registered via
+ * {@link java.util.ServiceLoader} mechanism and can be registered via
  * META-INF/services/javax.config.spi.ConfigSourceProvider</p>
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  *
  */
