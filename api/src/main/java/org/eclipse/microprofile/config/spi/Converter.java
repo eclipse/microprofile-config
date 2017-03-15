@@ -48,8 +48,8 @@ package org.eclipse.microprofile.config.spi;
  *     <li>OffsetDateTime</li>
  *     <li>OffsetTime</li>
  *     <li>Date</li>
- *     <li>Instant</li>     
- *     
+ *     <li>Instant</li>
+ *
  * </ul>
  *
  *
@@ -63,7 +63,8 @@ public interface Converter<T> {
      * Configure the string value to a specified type
      * @param value the string representation of a property value
      * @return the converted value
-     * The {@link IllegalArgumentException} will be thrown if the value cannot be converted to the specified type.
+     *
+     * @throws IllegalArgumentException if the value cannot be converted to the specified type.
      */
     T convert(String value);
 }
