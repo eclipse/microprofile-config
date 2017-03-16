@@ -17,25 +17,27 @@
 
 package org.eclipse.microprofile.config.tck;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_defined;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_undefined;
 import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.get_bean_of_type;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
+
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -103,27 +105,27 @@ public class CDIPlainInjectionTest {
     public static class SimpleValuesBean {
 
         @Inject
-        @ConfigProperty("my.string.property")
+        @ConfigProperty(name="my.string.property")
         private String stringProperty;
 
         @Inject
-        @ConfigProperty("my.boolean.property")
+        @ConfigProperty(name="my.boolean.property")
         private Boolean boolProperty;
 
         @Inject
-        @ConfigProperty("my.int.property")
+        @ConfigProperty(name="my.int.property")
         private Integer intProperty;
 
         @Inject
-        @ConfigProperty("my.long.property")
+        @ConfigProperty(name="my.long.property")
         private Long longProperty;
 
         @Inject
-        @ConfigProperty("my.float.property")
+        @ConfigProperty(name="my.float.property")
         private Float floatProperty;
 
         @Inject
-        @ConfigProperty("my.double.property")
+        @ConfigProperty(name="my.double.property")
         private Double doubleProperty;
 
     }    
@@ -132,7 +134,7 @@ public class CDIPlainInjectionTest {
     public static class DynamicValuesBean {
 
         @Inject
-        @ConfigProperty("my.int.property")
+        @ConfigProperty(name="my.int.property")
         private Instance<Integer> intPropertyProvider;
 
         public Integer getIntProperty() {

@@ -27,6 +27,7 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
+import java.time.Duration;
 import java.util.Map;
 
 /**
@@ -70,7 +71,7 @@ public interface ConfigSource {
      * Any ConfigSource part of an application will typically use an ordinal between 0 and 200.
      * ConfigSource provided by the container or 'environment' typlically use an ordinal higher than 200.
      * A framework which intends have values overwritten by the application will use ordinals between 0 and 100.
-     *
+     * The property "config_ordinal" can be specified to override the default value.
      * @return the ordinal value
      */
     default int getOrdinal() {
@@ -87,8 +88,16 @@ public interface ConfigSource {
     /**
      * The name of the config might be used for logging or analysis of configured values.
      *
-     * @return the unique 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
+     * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getName();
+    /**
+     * Get the refresh duration. null means this is the static source.
+     * @return the refresh duration. null means no refresh is needed.
+     * 
+     */
+    default Duration getRefreshDuration() {
+        return null;
+    };
 
 }

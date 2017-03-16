@@ -89,6 +89,7 @@ public final class ConfigProvider {
      * <p>
      * There is exactly a single Config instance per ClassLoader
      * </p>
+     * @return the config object for the thread context classloader
      */
     public static Config getConfig() {
         return INSTANCE.getConfig();
@@ -101,6 +102,8 @@ public final class ConfigProvider {
      * <p>
      * There is exactly a single Config instance per ClassLoader
      * </p>
+     * @param cl the specified classloader
+     * @return the config for the specified classloader
      */
     public static Config getConfig(ClassLoader cl) {
         return INSTANCE.getConfig(cl);
