@@ -56,8 +56,9 @@ public interface ConfigSource {
     Map<String, String> getProperties();
 
     /**
-     * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
-     * in the config source with the highest ordinal will be used.
+     * Return the ordinal for this config source. If a property is specified in multiple config sources, the value
+     * in the config source with the highest ordinal takes precedence. For the config sources with the same ordinal value, the config source names will
+     * be used for sorting according to string sorting criteria.
      * Note that this property only gets evaluated during ConfigSource discovery.
      *
      * The ordinal for the default config sources:
@@ -69,9 +70,10 @@ public interface ConfigSource {
      *
      *
      * Any ConfigSource part of an application will typically use an ordinal between 0 and 200.
-     * ConfigSource provided by the container or 'environment' typlically use an ordinal higher than 200.
+     * ConfigSource provided by the container or 'environment' typically use an ordinal higher than 200.
      * A framework which intends have values overwritten by the application will use ordinals between 0 and 100.
      * The property "config_ordinal" can be specified to override the default value.
+     * 
      * @return the ordinal value
      */
     default int getOrdinal() {
