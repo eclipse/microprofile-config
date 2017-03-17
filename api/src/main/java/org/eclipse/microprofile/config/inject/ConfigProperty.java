@@ -62,6 +62,7 @@ import javax.inject.Qualifier;
  *
  * The next sample injects a Provider for the value of my.long.property property to resolve the property dynamically.
  * Each invocation to {@code Provider#get()} will resolve the latest value from underlying {@link org.eclipse.microprofile.config.Config} again.
+ * Instances of {@code Provider<T>} are guaranteed to be Serializable.
  * <pre>
  * &#064;Inject
  * &#064;ConfigProperty(name = "my.long.property" defaultValue="123")
