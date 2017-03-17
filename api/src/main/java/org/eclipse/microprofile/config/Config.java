@@ -54,26 +54,29 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:gunnar@hibernate.org">Gunnar Morling</a>
  *
  */
 public interface Config {
+
     /**
-     * Return the resolved property value with a String for the
+     * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *
-     * An empty string representation is interpreted as not-existing configuration.
+     * If this method gets used very often then consider to locally store the configured value.
      *
-     * If this method is used very often then consider to locally store the configured value.
-     *
-     * 
+     * @param <T>
+     *             the property type
      * @param propertyName
      *             The configuration propertyName.
-     * @return the resolved property value as an Optional String.
-     * 
-     * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
+     * @param propertyType
+     *             The type into which the resolve property value should get converted
+     * @return the resolved property value as an Optional of the requested type.
+     * @throws IllegalArgumentException if the property cannot be converted to the specified type.
+     * @throws IllegalStateException if the property isn't present in the configuration.
      */
-    Optional<String> getValue(String propertyName);
-    
+    <T> T getValue(String propertyName, Class<T> propertyType);
+
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
@@ -89,23 +92,10 @@ public interface Config {
      * @param propertyType
      *             The type into which the resolve property value should be converted
      * @return the resolved property value as an Optional of the requested type.
-     * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
+     *
+     * @throws IllegalArgumentException if the property cannot be converted to the specified type.
      */
-    <T> Optional<T> getValue(String propertyName, Class<T> propertyType);
-
-    /**
-     * Get an Optional raw string value associated with the given configuration
-     * propertyName.
-     *
-     * An empty value string is interpreted as not-existing configuration.
-     *
-     * @param propertyName
-     *             The configuration propertyName.
-     * @return The resolved property value as a String, which will bypass any converters.
-     *
-     * 
-     */
-    String getRawString(String propertyName);
+    <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
      * Return a collection of property names.
@@ -117,5 +107,4 @@ public interface Config {
      * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
      */
     Iterable<ConfigSource> getConfigSources();
-
 }
