@@ -56,7 +56,10 @@ public class ConfigProviderTest extends AbstractTest {
         Properties properties = System.getProperties();
 
         for (Map.Entry<Object, Object> propEntry : properties.entrySet()) {
-            Assert.assertEquals(propEntry.getValue(), config.getValue((String) propEntry.getKey(), String.class));
+            String propValue = (String) propEntry.getValue();
+            if (propValue != null && propValue.length() > 0) {
+                Assert.assertEquals(propValue, config.getValue((String) propEntry.getKey(), String.class));
+            }
         }
     }
 
