@@ -27,7 +27,6 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
-import java.time.Duration;
 import java.util.Map;
 
 /**
