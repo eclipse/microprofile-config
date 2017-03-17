@@ -93,13 +93,5 @@ public interface ConfigSource {
      * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getName();
-    /**
-     * Get the refresh duration. null means this is the static source.
-     * @return the refresh duration. null means no refresh is needed.
-     * 
-     */
-    default Duration getRefreshDuration() {
-        return null;
-    };
-
+    
 }
