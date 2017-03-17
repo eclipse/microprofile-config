@@ -27,10 +27,11 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
+import java.time.Duration;
 import java.util.Map;
 
 /**
- * <p> Represent a config source, which provides properties. The config source includes: properties, xml, json files or datastore. <p>
+ * <p> Represent a config source, which provides properties. The config source can encapsulate: properties, xml, json files or datastore data. <p>
  * The default config sources:
  * <ol>
  * <li>System properties (ordinal=400)</li>
@@ -38,10 +39,10 @@ import java.util.Map;
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
  * 
- * <p>A ConfigSource will get picked up via the
- * {@link java.util.ServiceLoader} mechanism and must get registered via
+ * <p>ConfigSource will get picked up via the
+ * {@link java.util.ServiceLoader} mechanism and and can be registered via
  * META-INF/services/javax.config.spi.ConfigSource</p>
- * The other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
+ * Other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -55,8 +56,10 @@ public interface ConfigSource {
     Map<String, String> getProperties();
 
     /**
-     * Return the ordinal for this config source. The higher the more important. If a property is specified in multiple config sources, the value
-     * in the config source with the highest ordinal will be used.
+     * Return the ordinal for this config source. If a property is specified in multiple config sources, the value
+     * in the config source with the highest ordinal takes precedence.
+     * For the config sources with the same ordinal value, the config source names will
+     * be used for sorting according to string sorting criteria.
      * Note that this property only gets evaluated during ConfigSource discovery.
      *
      * The ordinal for the default config sources:
@@ -68,9 +71,10 @@ public interface ConfigSource {
      *
      *
      * Any ConfigSource part of an application will typically use an ordinal between 0 and 200.
-     * ConfigSource provided by the container or 'environment' typlically use an ordinal higher than 200.
+     * ConfigSource provided by the container or 'environment' typically use an ordinal higher than 200.
      * A framework which intends have values overwritten by the application will use ordinals between 0 and 100.
-     *
+     * The property "config_ordinal" can be specified to override the default value.
+     * 
      * @return the ordinal value
      */
     default int getOrdinal() {
@@ -87,8 +91,16 @@ public interface ConfigSource {
     /**
      * The name of the config might be used for logging or analysis of configured values.
      *
-     * @return the unique 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
+     * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getName();
+    /**
+     * Get the refresh duration. null means this is the static source.
+     * @return the refresh duration. null means no refresh is needed.
+     * 
+     */
+    default Duration getRefreshDuration() {
+        return null;
+    };
 
 }

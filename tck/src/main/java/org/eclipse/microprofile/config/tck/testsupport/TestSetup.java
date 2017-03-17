@@ -35,17 +35,17 @@ public final class TestSetup {
         return Date.from(ZonedDateTime.parse(isoDateTime).toInstant());
     }
 
-    public static void ensure_property_defined(String key, String value) {
+    public static void ensurePropertyDefined(String key, String value) {
         // setting configuration via system properties
         System.setProperty(key, value);
     }
 
-    public static void ensure_property_undefined(String key) {
+    public static void ensurePropertyUndefined(String key) {
         // clearing configuration in system properties if previously set
         System.getProperties().remove(key);
     }
 
-    public static <T> T get_bean_of_type(Class<T> beanClass) {
+    public static <T> T getBeanOfType(Class<T> beanClass) {
         return CDI.current().select(beanClass).get();
     }
 

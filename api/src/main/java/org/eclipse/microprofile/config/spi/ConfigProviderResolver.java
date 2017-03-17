@@ -26,10 +26,10 @@ import org.eclipse.microprofile.config.Config;
 
 /**
  * This class is not intended to be used by end-users but for
- * portable container integration purpose only!
+ * portable container integration purpose only.
  *
  * Service provider for ConfigProviderResolver. The implementation registers
- * itself via {@link java.util.ServiceLoader} mechanism.
+ * itself via the {@link java.util.ServiceLoader} mechanism.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
@@ -43,21 +43,24 @@ public abstract class ConfigProviderResolver {
 
     /**
      * @see org.eclipse.microprofile.config.ConfigProvider#getConfig()
+     * @return config the config object for the Thread Context Classloader
      */
     public abstract Config getConfig();
 
     /**
      * @see org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)
+     * @param loader the classloader
+     * @return config the config object for the specified classloader
      */
     public abstract Config getConfig(ClassLoader loader);
 
     /**
      * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} and auto discovered
-     * {@link ConfigSource configsources} and {@link Converter converters}.
-     * Other undiscovered {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
+     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} 
+     * The other {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
      *
      * The ConfigProvider will not manage the Config instance internally
+     * @return the configbuilder with the default converters
      */
     public abstract ConfigBuilder getBuilder();
 
@@ -81,12 +84,14 @@ public abstract class ConfigProviderResolver {
      * Invoke this method if you like to destroy the Config prematurely.
      *
      * If the given Config is associated within an Application then it will be unregistered.
+     * @param config the config to be released
      */
     public abstract void releaseConfig(Config config);
 
     /**
      * Creates a ConfigProviderResolver object
      * Only used internally from within {@link org.eclipse.microprofile.config.ConfigProvider}
+     * @return ConfigProviderResolver an instance of ConfigProviderResolver     
      */
     public static ConfigProviderResolver instance() {
         if (instance == null) {
@@ -94,12 +99,12 @@ public abstract class ConfigProviderResolver {
                 if (instance != null) {
                     return instance;
                 }
-                
+
                 ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
                     @Override
-                    public ClassLoader run()  {
+                    public ClassLoader run() {
                         return Thread.currentThread().getContextClassLoader();
-                    }                                  
+                    }
                 });
                 if (cl == null) {
                     cl = ConfigProviderResolver.class.getClassLoader();
@@ -108,7 +113,8 @@ public abstract class ConfigProviderResolver {
                 ConfigProviderResolver newInstance = loadSpi(cl);
 
                 if (newInstance == null) {
-                    throw new IllegalStateException("No ConfigProviderResolver implementation found!");
+                    throw new IllegalStateException(
+                                    "No ConfigProviderResolver implementation found!");
                 }
 
                 instance = newInstance;
@@ -128,12 +134,15 @@ public abstract class ConfigProviderResolver {
         ConfigProviderResolver instance = loadSpi(cl.getParent());
 
         if (instance == null) {
-            ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(ConfigProviderResolver.class, cl);
+            ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(
+                            ConfigProviderResolver.class, cl);
             for (ConfigProviderResolver spi : sl) {
                 if (instance != null) {
-                    throw new IllegalStateException("Multiple ConfigResolverProvider implementations found: " + spi.getClass().getName()
-                            + " and " + instance.getClass().getName());
-                }
+                    throw new IllegalStateException(
+                                    "Multiple ConfigResolverProvider implementations found: "
+                                                    + spi.getClass().getName() + " and "
+                                                    + instance.getClass().getName());
+                } 
                 else {
                     instance = spi;
                 }
@@ -141,7 +150,6 @@ public abstract class ConfigProviderResolver {
         }
         return instance;
     }
-
 
     /**
      * Set the instance. It is used by OSGi environment while service loader

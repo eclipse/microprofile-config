@@ -22,7 +22,6 @@ import java.util.Properties;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
-
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -48,7 +47,7 @@ public class ConfigProviderTest extends AbstractTest {
     public void testEnvironmentConfigSource() {
         Map<String, String> env = System.getenv();
         for (Map.Entry<String, String> envEntry : env.entrySet()) {
-            Assert.assertEquals(envEntry.getValue(), config.getString(envEntry.getKey()).get());
+            Assert.assertEquals(envEntry.getValue(), config.getValue(envEntry.getKey(), String.class));
         }
     }
 
@@ -57,7 +56,7 @@ public class ConfigProviderTest extends AbstractTest {
         Properties properties = System.getProperties();
 
         for (Map.Entry<Object, Object> propEntry : properties.entrySet()) {
-            Assert.assertEquals(propEntry.getValue(), config.getString((String) propEntry.getKey()).orElse(""));
+            Assert.assertEquals(propEntry.getValue(), config.getValue((String) propEntry.getKey(), String.class));
         }
     }
 
@@ -67,22 +66,22 @@ public class ConfigProviderTest extends AbstractTest {
         String configValue = "myDynamicValue;";
 
         System.setProperty(configKey, configValue);
-        Assert.assertEquals(config.getString(configKey).get(), configValue);
+        Assert.assertEquals(config.getValue(configKey, String.class), configValue);
     }
 
     @Test
     public void testJavaConfigPropertyFilesConfigSource() {
-        Assert.assertEquals(config.getString("tck.config.test.javaconfig.properties.key1").get(), "VALue1");
+        Assert.assertEquals(config.getValue("tck.config.test.javaconfig.properties.key1", String.class), "VALue1");
     }
 
     @Test
     public void testNonExistingConfigKey() {
-        Assert.assertFalse(config.getString("tck.config.test.keydoesnotexist").isPresent());
+        Assert.assertFalse(config.getOptionalValue("tck.config.test.keydoesnotexist", String.class).isPresent());
     }
 
     @Test
     public void testEmptyConfigTreatedAsNotExisting() {
-        Assert.assertFalse(config.getString("tck.config.test.javaconfig.emptyvalue").isPresent());
+        Assert.assertFalse(config.getOptionalValue("tck.config.test.javaconfig.emptyvalue", String.class).isPresent());
     }
 
     @Test

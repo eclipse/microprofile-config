@@ -40,6 +40,6 @@ public class CustomConfigSourceTest extends AbstractTest {
 
     @Test
     public void testConfigSourceProvider() {
-        Assert.assertEquals(config.getString("tck.config.test.customDbConfig.key1").get(), "valueFromDb1");
+        Assert.assertEquals(config.getValue("tck.config.test.customDbConfig.key1", String.class), "valueFromDb1");
     }
 }

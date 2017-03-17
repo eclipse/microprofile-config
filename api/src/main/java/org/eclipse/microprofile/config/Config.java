@@ -39,8 +39,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * {@link ConfigSource configsources}, the value in the {@link ConfigSource} with the highest
  * ordinal will be used. If multiple {@link ConfigSource configsources} are specified with
  * the same ordinal, no defined ordering will be applied if they contain the same key.
- * <p>
- *
+ * 
  * <h3>Usage</h3>
  * For accessing the config you can use the {@link ConfigProvider}:
  *
@@ -55,14 +54,14 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:gunnar@hibernate.org">Gunnar Morling</a>
  *
  */
 public interface Config {
+
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
-     * An empty string representation is interpreted as not-existing configuration.
      *
      * If this method gets used very often then consider to locally store the configured value.
      *
@@ -73,25 +72,30 @@ public interface Config {
      * @param propertyType
      *             The type into which the resolve property value should get converted
      * @return the resolved property value as an Optional of the requested type.
-     * The {@link IllegalArgumentException} will be thrown if the property cannot be converted to the specified type.
+     * @throws IllegalArgumentException if the property cannot be converted to the specified type.
+     * @throws IllegalStateException if the property isn't present in the configuration.
      */
-    <T> Optional<T> getValue(String propertyName, Class<T> propertyType);
+    <T> T getValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Get an Optional raw string value associated with the given configuration
-     * propertyName.
+     * Return the resolved property value with the specified type for the
+     * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *
-     * An empty value string is interpreted as not-existing configuration.
+     * An empty string representation is interpreted as not-existing configuration.
      *
+     * If this method is used very often then consider to locally store the configured value.
+     *
+     * @param <T>
+     *             the property type
      * @param propertyName
      *             The configuration propertyName.
-     * @return The resolved property value as a String-Optional, which will bypass converters.
+     * @param propertyType
+     *             The type into which the resolve property value should be converted
+     * @return the resolved property value as an Optional of the requested type.
      *
-     * @throws IllegalArgumentException
-     *             is thrown if the propertyName maps to an object that is not a
-     *             String.
+     * @throws IllegalArgumentException if the property cannot be converted to the specified type.
      */
-    Optional<String> getString(String propertyName);
+    <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
      * Create a {@link ConfigValue} to access the underlying configuration.
@@ -111,5 +115,4 @@ public interface Config {
      * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
      */
     Iterable<ConfigSource> getConfigSources();
-
 }

@@ -36,7 +36,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * </p>
  *
  * <p>
- * A {@link Config} contains the configuration for a certain situation. That
+ * A {@link Config} contains the configuration for a certain situation. This
  * might be the configuration found in a certain ClassLoader or even a manually
  * created Configuration
  * </p>
@@ -51,7 +51,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * A 'Configuration' consists of the information collected from the registered {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
  * These {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} get sorted according to
  * their <em>ordinal</em> defined via {@link org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal()}.
- * That way it is possible to overwrite configuration by providing in a ConfigSource with higher importance from outside.
+ * Thus it is possible to overwrite configuration by providing in a ConfigSource with higher importance from outside.
  * </p>
  *
  * <p>
@@ -89,6 +89,7 @@ public final class ConfigProvider {
      * <p>
      * There is exactly a single Config instance per ClassLoader
      * </p>
+     * @return the config object for the thread context classloader
      */
     public static Config getConfig() {
         return INSTANCE.getConfig();
@@ -101,9 +102,10 @@ public final class ConfigProvider {
      * <p>
      * There is exactly a single Config instance per ClassLoader
      * </p>
+     * @param cl the specified classloader
+     * @return the config for the specified classloader
      */
     public static Config getConfig(ClassLoader cl) {
         return INSTANCE.getConfig(cl);
     }
-
 }

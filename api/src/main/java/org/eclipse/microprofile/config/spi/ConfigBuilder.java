@@ -53,7 +53,7 @@ public interface ConfigBuilder {
     /**
      * Return the ConfigBuilder for a given classloader
      *
-     * @param loader
+     * @param loader the specified classloader
      * @return the ConfigureBuilder for the given classloader
      */
     ConfigBuilder forClassLoader(ClassLoader loader);
@@ -61,7 +61,7 @@ public interface ConfigBuilder {
     /**
      * Add the specified {@link ConfigSource}.
      *
-     * @param sources
+     * @param sources the config sources
      * @return the ConfigBuilder with the configured sources
      */
     ConfigBuilder withSources(ConfigSource... sources);
@@ -69,7 +69,7 @@ public interface ConfigBuilder {
     /**
      * Add the specified {@link Converter}
      *
-     * @param converters
+     * @param converters the converters
      * @return the ConfigBuilder with the added converters
      */
     ConfigBuilder withConverters(Converter<?>... converters);

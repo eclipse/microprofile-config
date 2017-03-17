@@ -23,14 +23,14 @@ import javax.inject.Provider;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
-import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_defined;
-import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.ensure_property_undefined;
-import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.get_bean_of_type;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.getBeanOfType;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertThat;
+
+import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -57,7 +57,7 @@ public class CDIPlainInjectionTest extends Arquillian {
     public void can_inject_simple_values_when_defined() {
         ensure_all_property_values_are_defined();
 
-        SimpleValuesBean bean = get_bean_of_type(SimpleValuesBean.class);
+        SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
         assertThat(bean.stringProperty, is(equalTo("text")));
         assertThat(bean.boolProperty, is(true));
@@ -71,7 +71,7 @@ public class CDIPlainInjectionTest extends Arquillian {
     public void can_inject_dynamic_values_via_CDI_provider() {
         clear_all_property_values();
 
-        DynamicValuesBean bean = get_bean_of_type(DynamicValuesBean.class);
+        DynamicValuesBean bean = getBeanOfType(DynamicValuesBean.class);
 
         assertThat(bean.getIntProperty(), is(nullValue()));
 
@@ -81,48 +81,48 @@ public class CDIPlainInjectionTest extends Arquillian {
     }
     
     private void ensure_all_property_values_are_defined() {
-        ensure_property_defined("my.string.property", "text");
-        ensure_property_defined("my.boolean.property", "true");
-        ensure_property_defined("my.int.property", "5");
-        ensure_property_defined("my.long.property", "10");
-        ensure_property_defined("my.float.property", "10.5");
-        ensure_property_defined("my.double.property", "11.5");
+        TestSetup.ensurePropertyDefined("my.string.property", "text");
+        TestSetup.ensurePropertyDefined("my.boolean.property", "true");
+        TestSetup.ensurePropertyDefined("my.int.property", "5");
+        TestSetup.ensurePropertyDefined("my.long.property", "10");
+        TestSetup.ensurePropertyDefined("my.float.property", "10.5");
+        TestSetup.ensurePropertyDefined("my.double.property", "11.5");
     }
 
     private void clear_all_property_values() {
-        ensure_property_undefined("my.string.property");
-        ensure_property_undefined("my.boolean.property");
-        ensure_property_undefined("my.int.property");
-        ensure_property_undefined("my.long.property");
-        ensure_property_undefined("my.float.property");
-        ensure_property_undefined("my.double.property");
+        TestSetup.ensurePropertyUndefined("my.string.property");
+        TestSetup.ensurePropertyUndefined("my.boolean.property");
+        TestSetup.ensurePropertyUndefined("my.int.property");
+        TestSetup.ensurePropertyUndefined("my.long.property");
+        TestSetup.ensurePropertyUndefined("my.float.property");
+        TestSetup.ensurePropertyUndefined("my.double.property");
     }
 
     @Dependent
     public static class SimpleValuesBean {
 
         @Inject
-        @ConfigProperty("my.string.property")
+        @ConfigProperty(name="my.string.property")
         private String stringProperty;
 
         @Inject
-        @ConfigProperty("my.boolean.property")
+        @ConfigProperty(name="my.boolean.property")
         private Boolean boolProperty;
 
         @Inject
-        @ConfigProperty("my.int.property")
+        @ConfigProperty(name="my.int.property")
         private Integer intProperty;
 
         @Inject
-        @ConfigProperty("my.long.property")
+        @ConfigProperty(name="my.long.property")
         private Long longProperty;
 
         @Inject
-        @ConfigProperty("my.float.property")
+        @ConfigProperty(name="my.float.property")
         private Float floatProperty;
 
         @Inject
-        @ConfigProperty("my.double.property")
+        @ConfigProperty(name="my.double.property")
         private Double doubleProperty;
 
     }    
@@ -131,7 +131,7 @@ public class CDIPlainInjectionTest extends Arquillian {
     public static class DynamicValuesBean {
 
         @Inject
-        @ConfigProperty("my.int.property")
+        @ConfigProperty(name="my.int.property")
         private Provider<Integer> intPropertyProvider;
 
         public Integer getIntProperty() {

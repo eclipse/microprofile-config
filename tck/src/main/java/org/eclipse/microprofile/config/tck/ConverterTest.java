@@ -40,17 +40,13 @@ public class ConverterTest extends AbstractTest {
 
     @Test
     public void testIntegerConverter() {
-        Integer value = config.getValue("tck.config.test.javaconfig.converter.integervalue", Integer.class).get();
+        Integer value = config.getValue("tck.config.test.javaconfig.converter.integervalue", Integer.class);
         Assert.assertEquals(value, Integer.valueOf(1234));
-
     }
 
     @Test
     public void testFloatConverter() {
-        Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class).get();
+        Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class);
         Assert.assertEquals(value, Float.valueOf(12.34f));
-
     }
-
-
 }
