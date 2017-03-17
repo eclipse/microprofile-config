@@ -16,26 +16,36 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class ConverterTest {
+public class ConverterTest extends AbstractTest {
+
+    private @Inject Config config;
+
+    @Deployment
+    public static WebArchive deploy() {
+        return allIn("converterTest").addClass(ConverterTest.class);
+    }
+
 
     @Test
     public void testIntegerConverter() {
-        Config config = ConfigProvider.getConfig();
         Integer value = config.getValue("tck.config.test.javaconfig.converter.integervalue", Integer.class);
         Assert.assertEquals(value, Integer.valueOf(1234));
     }
 
     @Test
     public void testFloatConverter() {
-        Config config = ConfigProvider.getConfig();
         Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class);
         Assert.assertEquals(value, Float.valueOf(12.34f));
     }

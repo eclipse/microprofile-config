@@ -16,20 +16,30 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class CustomConfigSourceTest {
+public class CustomConfigSourceTest extends AbstractTest {
+
+    private @Inject Config config;
+
+    @Deployment
+    public static WebArchive deploy() {
+        return allIn("customConfigSourceTest").addClass(CustomConfigSourceTest.class);
+    }
+
 
     @Test
     public void testConfigSourceProvider() {
-        Config config = ConfigProvider.getConfig();
-
         Assert.assertEquals(config.getValue("tck.config.test.customDbConfig.key1", String.class), "valueFromDb1");
     }
 }
