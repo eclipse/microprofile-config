@@ -56,7 +56,7 @@ public class AbstractTest extends Arquillian {
         return war;
     }
 
-    private static void addFile(JavaArchive archive, String originalPath) {
+    public static void addFile(JavaArchive archive, String originalPath) {
         archive.addAsResource(new UrlAsset(Thread.currentThread().getContextClassLoader().getResource("internal/" + originalPath)),
                 originalPath);
     }

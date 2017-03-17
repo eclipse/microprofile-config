@@ -25,6 +25,10 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -34,13 +38,26 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
 
-public class ConfigProviderTest extends AbstractTest {
+public class ConfigProviderTest extends Arquillian {
 
     private @Inject Config config;
 
     @Deployment
     public static WebArchive deploy() {
-        return allIn("configProviderTest").addClass(ConfigProviderTest.class);
+        JavaArchive testJar = ShrinkWrap
+                .create(JavaArchive.class, "configProviderTest.jar")
+                .addPackage(AbstractTest.class.getPackage())
+                .addClass(ConfigProviderTest.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .as(JavaArchive.class);
+
+        AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
+        //X AbstractTest.addFile(testJar, "sampleconfig.yaml");
+
+        WebArchive war = ShrinkWrap
+                .create(WebArchive.class, "configProviderTest.war")
+                .addAsLibrary(testJar);
+        return war;
     }
 
     @Test

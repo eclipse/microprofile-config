@@ -19,22 +19,46 @@ package org.eclipse.microprofile.config.tck;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
+import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
+
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class CustomConfigSourceTest extends AbstractTest {
+public class CustomConfigSourceTest extends Arquillian {
 
     private @Inject Config config;
 
     @Deployment
     public static WebArchive deploy() {
-        return allIn("customConfigSourceTest").addClass(CustomConfigSourceTest.class);
+        JavaArchive testJar = ShrinkWrap
+                .create(JavaArchive.class, "customConfigSourceTest.jar")
+                .addPackage(AbstractTest.class.getPackage())
+                .addPackage(CustomConfigSourceTest.class.getPackage())
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
+                .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
+                .as(JavaArchive.class);
+
+        addFile(testJar, "META-INF/microprofile-config.properties");
+
+        WebArchive war = ShrinkWrap
+                .create(WebArchive.class, "customConfigSourceTest.war")
+                .addAsLibrary(testJar);
+        return war;
     }
 
 
