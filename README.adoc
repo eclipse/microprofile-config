@@ -59,7 +59,7 @@ By default there are 3 default ConfigSources:
 
 * `System.getProperties()` (ordinal=400)
 * `System.getenv()` (ordinal=300)
-* all `META-INF/java-config.properties` files on the ClassPath.
+* all `META-INF/microprofile-config.properties` files on the ClassPath.
 (default ordinal=100, separately configurable via a config_ordinal property inside each file)
 
 Therefore, the default values can be specified in the above files packaged with the application and the value can be overwritten later for each deployment.

@@ -17,6 +17,14 @@
  *******************************************************************************/
 
 /**
+ * <p>This package contains classes which are used to extens the standard functionality in a portable way.
+ * <p>A user can provide own {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} and
+ * {@link org.eclipse.microprofile.config.spi.Converter Converters} to extend the information available in the Config.
+ *
+ * <p>The package also contains the class {@link org.eclipse.microprofile.config.spi.ConfigProviderResolver}
+ * which is used to pick up the actual implementation.
+ *
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @version 1.0
  */
 package org.eclipse.microprofile.config.spi;

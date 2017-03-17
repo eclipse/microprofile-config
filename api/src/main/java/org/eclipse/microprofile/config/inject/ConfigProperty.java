@@ -33,7 +33,6 @@ import javax.inject.Qualifier;
  * Binds the injection point with a configured value.
  * Should annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or {@code javax.inject.Provider<TYPE>},
  * where {@code TYPE} can be {@code String} and all types which have appropriate converters. 
- * <p>
  *
  * <h3>Examples</h3>
  *

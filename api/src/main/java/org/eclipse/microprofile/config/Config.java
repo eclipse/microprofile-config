@@ -35,9 +35,9 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 /**
  * <p>
  * Resolves the property value by searching through all configured
- * {@link ConfigSource configsources}. If the same property is specified in multiple
- * {@link ConfigSource configsources}, the value in the {@link ConfigSource} with the highest
- * ordinal will be used. If multiple {@link ConfigSource configsources} are specified with
+ * {@link ConfigSource ConfigSources}. If the same property is specified in multiple
+ * {@link ConfigSource ConfigSources}, the value in the {@link ConfigSource} with the highest
+ * ordinal will be used. If multiple {@link ConfigSource ConfigSources} are specified with
  * the same ordinal, no defined ordering will be applied if they contain the same key.
  * 
  * <h3>Usage</h3>
@@ -46,7 +46,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * <pre>
  * public void doSomething(
  *   Config cfg = ConfigProvider.getConfig();
- *   String archiveUrl = cfg.getString("my.project.archive.endpoint");
+ *   String archiveUrl = cfg.getString("my.project.archive.endpoint", String.class);
  *   Integer archivePort = cfg.getValue("my.project.archive.port", Integer.class);
  * </pre>
  *
@@ -104,7 +104,7 @@ public interface Config {
     Iterable<String> getPropertyNames();
 
     /**
-     * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal
+     * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal and ConfigSource name
      */
     Iterable<ConfigSource> getConfigSources();
 }
