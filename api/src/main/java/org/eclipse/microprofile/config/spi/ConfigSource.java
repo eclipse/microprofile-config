@@ -27,7 +27,6 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
-import java.time.Duration;
 import java.util.Map;
 
 /**
@@ -57,8 +56,8 @@ public interface ConfigSource {
 
     /**
      * Return the ordinal for this config source. If a property is specified in multiple config sources, the value
-     * in the config source with the highest ordinal takes precedence. For the config sources with the same ordinal value, the config source names will
-     * be used for sorting according to string sorting criteria.
+     * in the config source with the highest ordinal takes precedence. For the config sources with the same ordinal value, 
+     * the config source names will be used for sorting according to string sorting criteria.
      * Note that this property only gets evaluated during ConfigSource discovery.
      *
      * The ordinal for the default config sources:
