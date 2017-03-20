@@ -73,7 +73,7 @@ public interface Config {
      *             The type into which the resolve property value should get converted
      * @return the resolved property value as an Optional of the requested type.
      * @throws IllegalArgumentException if the property cannot be converted to the specified type.
-     * @throws IllegalStateException if the property isn't present in the configuration.
+     * @throws java.util.NoSuchElementException if the property isn't present in the configuration.
      */
     <T> T getValue(String propertyName, Class<T> propertyType);
 

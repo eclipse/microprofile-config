@@ -17,6 +17,7 @@
 package org.eclipse.microprofile.config.tck;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -99,9 +100,19 @@ public class ConfigProviderTest extends Arquillian {
         Assert.assertFalse(config.getOptionalValue("tck.config.test.keydoesnotexist", String.class).isPresent());
     }
 
+    @Test(expectedExceptions = NoSuchElementException.class)
+    public void testNonExistingConfigKeyGet() {
+        config.getValue("tck.config.test.keydoesnotexist", String.class);
+    }
+
     @Test
     public void testEmptyConfigTreatedAsNotExisting() {
         Assert.assertFalse(config.getOptionalValue("tck.config.test.javaconfig.emptyvalue", String.class).isPresent());
+    }
+
+    @Test
+    public void testEmptyConfigTreatedAsNotExistingGet() {
+        config.getValue("tck.config.test.javaconfig.emptyvalue", String.class);
     }
 
     @Test
