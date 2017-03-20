@@ -17,6 +17,9 @@
 
 package org.eclipse.microprofile.config.tck;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -29,6 +32,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -49,6 +53,7 @@ public class CDIPlainInjectionTest extends Arquillian {
     public static Archive deployment() {
         return ShrinkWrap.create(WebArchive.class)
                 .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class)
+                .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
@@ -137,5 +142,35 @@ public class CDIPlainInjectionTest extends Arquillian {
             return intPropertyProvider.get();
         }
 
+    }
+    
+    public static class TestConfigSource implements ConfigSource {
+
+        private Map<String, String> properties;
+
+        public TestConfigSource() {
+            properties = new HashMap<>();
+            properties.put("my.string.property", "text");
+            properties.put("my.boolean.property", "true");
+            properties.put("my.int.property", "5");
+            properties.put("my.long.property", "10");
+            properties.put("my.float.property", "10.5");
+            properties.put("my.double.property", "11.5");
+        }
+
+        @Override
+        public Map<String, String> getProperties() {
+            return properties;
+        }
+
+        @Override
+        public String getValue(String propertyName) {
+            return properties.get(propertyName);
+        }
+
+        @Override
+        public String getName() {
+            return this.getClass().getName();
+        }
     }
 }
