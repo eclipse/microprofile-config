@@ -16,18 +16,9 @@
  */
 package org.eclipse.microprofile.config.tck.base;
 
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
-import org.eclipse.microprofile.config.tck.ConfigProviderTest;
-import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
-import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
-import org.eclipse.microprofile.config.tck.converters.DuckConverter;
 import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.UrlAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 
 /**
@@ -35,30 +26,15 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
  */
 public class AbstractTest extends Arquillian {
 
-    protected static WebArchive allIn(String testName) {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, testName + ".jar")
-                .addPackage(AbstractTest.class.getPackage())
-                .addPackage(ConfigProviderTest.class.getPackage())
-                .addPackage(CustomDbConfigSource.class.getPackage())
-                .addPackage(DuckConverter.class.getPackage())
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
-                .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
-                .as(JavaArchive.class);
-
-        addFile(testJar, "META-INF/microprofile-config.properties");
-        addFile(testJar, "sampleconfig.yaml");
-
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, testName + ".war")
-                .addAsLibrary(testJar);
-        return war;
-    }
 
     public static void addFile(JavaArchive archive, String originalPath) {
         archive.addAsResource(new UrlAsset(Thread.currentThread().getContextClassLoader().getResource("internal/" + originalPath)),
                 originalPath);
+    }
+
+    public static void addFile(JavaArchive archive, String originalFile, String targetFile) {
+        archive.addAsResource(new UrlAsset(Thread.currentThread().getContextClassLoader().getResource(originalFile)),
+                targetFile);
     }
 
 }

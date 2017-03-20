@@ -61,6 +61,7 @@ import javax.inject.Qualifier;
  *
  * The next sample injects a Provider for the value of my.long.property property to resolve the property dynamically.
  * Each invocation to {@code Provider#get()} will resolve the latest value from underlying {@link org.eclipse.microprofile.config.Config} again.
+ * The existence of configured values will get checked during startup.
  * Instances of {@code Provider<T>} are guaranteed to be Serializable.
  * <pre>
  * &#064;Inject
@@ -68,6 +69,8 @@ import javax.inject.Qualifier;
  * private Provider&lt;Long&gt; longConfigValue;
  * </pre>
  *
+ * <p>If {@code ConfigProperty} is used with a type where no {@link org.eclipse.microprofile.config.spi.Converter} exists,
+ * a deployment error is thrown.
  *
  * @author Ondrej Mihalyi
  * @author Emily Jiang
@@ -90,9 +93,12 @@ public @interface ConfigProperty {
     String name() default "";
 
     /**
-     * The default value if the configured property value does not exist.
-     * If the target Type is not String a proper {@link org.eclipse.microprofile.config.spi.Converter} will get applied.
+     * <p>The default value if the configured property value does not exist.
+     *
+     * <p>If the target Type is not String a proper {@link org.eclipse.microprofile.config.spi.Converter} will get applied.
      * That means that any default value string should follow the formatting rules of the registered Converters.
+     *
+     * <p>If
      * @return the default value as a string
      */
     @Nonbinding
