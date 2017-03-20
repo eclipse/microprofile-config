@@ -44,8 +44,7 @@ public class ConverterTest extends AbstractTest {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "converterTest.jar")
-                .addPackage(AbstractTest.class.getPackage())
-                .addPackage(ConfigProviderTest.class.getPackage())
+                .addClass(ConfigProviderTest.class)
                 .addPackage(CustomDbConfigSource.class.getPackage())
                 .addPackage(DuckConverter.class.getPackage())
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")

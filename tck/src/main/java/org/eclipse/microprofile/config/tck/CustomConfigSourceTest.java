@@ -21,7 +21,6 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
-import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -46,8 +45,7 @@ public class CustomConfigSourceTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "customConfigSourceTest.jar")
-                .addPackage(AbstractTest.class.getPackage())
-                .addPackage(CustomConfigSourceTest.class.getPackage())
+                .addClass(CustomConfigSourceTest.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
