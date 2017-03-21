@@ -62,7 +62,6 @@ public class WrongConverterOnInstanceInjectionTest extends Arquillian {
     @RequestScoped
     public static class ConfigOwner {
 
-
         @Inject
         @ConfigProperty(name="my.long.value")
         private Long configValue;

@@ -26,28 +26,31 @@ import org.jboss.arquillian.container.test.api.ShouldThrowException;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
 /**
- * Verify that injectng a native value which is not configured will lead to a deployment error.
+ * Verify that a Convertr exists which can handle the configured string.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class MissingValueOnInstanceInjectionTest extends Arquillian {
+public class MissingConverterOnInstanceInjectionTest extends Arquillian {
 
     @ShouldThrowException(DeploymentException.class)
     @Deployment
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "missingValueOnInstanceInjectionTest.jar")
-                .addClass(MissingValueOwner.class)
+                .create(JavaArchive.class, "missingConverterOnInstanceInjectionTest.jar")
+                .addClass(ConfigOwner.class)
+                .addClass(CustomType.class)
+                .addAsManifestResource(new StringAsset("my.customtype.value=xxxxx"), "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
         WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "missingValueOnInstanceInjectionTest.war")
+                .create(WebArchive.class, "missingConverterOnInstanceInjectionTest.war")
                 .addAsLibrary(testJar);
         return war;
     }
@@ -58,10 +61,14 @@ public class MissingValueOnInstanceInjectionTest extends Arquillian {
 
 
     @RequestScoped
-    public static class MissingValueOwner {
+    public static class ConfigOwner {
 
         @Inject
-        @ConfigProperty(name="not.existing.value")
-        private Long configValue;
+        @ConfigProperty(name="my.customtype.value")
+        private CustomType configValue;
+    }
+
+    public static class CustomType {
+
     }
 }
