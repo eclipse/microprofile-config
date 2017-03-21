@@ -33,31 +33,24 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 /**
  * <p>
  * This is the central class to access a {@link Config}.
- * </p>
- *
- * <p>
- * A {@link Config} contains the configuration for a certain situation. This
- * might be the configuration found in a certain ClassLoader or even a manually
- * created Configuration
- * </p>
+ * A {@link Config} provides access to application Configuration.
+ * That might be auto-discovered {@code Config} or even manually created one.
  *
  * <p>
  * The default usage is to use {@link #getConfig()} to automatically pick up the
  * 'Configuration' for the Thread Context ClassLoader (See
  * {@link Thread#getContextClassLoader()}).
- * </p>
  *
  * <p>
  * A 'Configuration' consists of the information collected from the registered {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
  * These {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} get sorted according to
  * their <em>ordinal</em> defined via {@link org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal()}.
  * Thus it is possible to overwrite configuration by providing in a ConfigSource with higher importance from outside.
- * </p>
  *
  * <p>
  * It is also possible to register custom {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} to flexibly
  * extend the configuration mechanism. An example would be to pick up
- * configuration values from a database table.</p>
+ * configuration values from a database table.
  *
  * Example usage:
  *
@@ -86,7 +79,7 @@ public final class ConfigProvider {
      * The {@link Config} will be stored for future retrieval.
      * <p>
      * There is exactly a single Config instance per ClassLoader
-     * </p>
+     *
      * @return the config object for the thread context classloader
      */
     public static Config getConfig() {
@@ -99,7 +92,7 @@ public final class ConfigProvider {
      *
      * <p>
      * There is exactly a single Config instance per ClassLoader
-     * </p>
+     *
      * @param cl the specified classloader
      * @return the config for the specified classloader
      */

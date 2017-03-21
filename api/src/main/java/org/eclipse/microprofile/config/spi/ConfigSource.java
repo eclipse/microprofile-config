@@ -40,8 +40,9 @@ import java.util.Map;
  * 
  * <p>ConfigSource will get picked up via the
  * {@link java.util.ServiceLoader} mechanism and and can be registered via
- * META-INF/services/javax.config.spi.ConfigSource</p>
- * Other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
+ * META-INF/services/javax.config.spi.ConfigSource
+ *
+ * <p>Other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>

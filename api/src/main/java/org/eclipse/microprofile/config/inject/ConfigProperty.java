@@ -31,33 +31,39 @@ import javax.inject.Qualifier;
 
 /**
  * Binds the injection point with a configured value.
- * Should annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or {@code javax.inject.Provider<TYPE>},
+ * Can be used to annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or {@code javax.inject.Provider<TYPE>},
  * where {@code TYPE} can be {@code String} and all types which have appropriate converters. 
  *
- * <h3>Examples</h3>
+ * <h2>Examples</h2>
  *
- * The first sample injects the configured value of the my.long.property property.
- * The injected value is static and does not change even if the underline
+ * <h3>Injecting Native Values</h3>
+ *
+ * The first sample injects the configured value of the {@code my.long.property} property.
+ * The injected value does not change even if the underline
  * property value changes in the {@link org.eclipse.microprofile.config.Config}.
  * If no configured value exists for this property and no {@link #defaultValue()} is provided,
  * a {@code DeplymentException} will be thrown during startup.
  *
- * It is recommended for a static property or used by a bean with RequestScoped.
- * A further recommendation is to use the built in {@code META-INF/microprofile-config.properties} file mechanism with
- * an ordinal &lt;= 100 to provide default values inside an Application.
+ * <p>Injecting a native value is recommended for a property that does not change at runtime or used by a bean with RequestScoped.
+ * <p>A further recommendation is to use the built in {@code META-INF/microprofile-config.properties} file mechanism
+ * to provide default values inside an Application.
  * <pre>
  * &#064;Inject
  * &#064;ConfigProperty(name="my.long.property", defaultValue="123")
  * private Long injectedLongValue;
  * </pre>
  *
+ * <h3>Injecting Optional Values</h3>
+ *
  * The following code injects an Optional value of my.long.property property.
- * Countrary to natively injecting the configured value this will not lead to a DeploymentException if the configuration is missing.
+ * Countrary to natively injecting the configured value this will not lead to a DeploymentException if the configured value is missing.
  * <pre>
  * &#064;Inject
  * &#064;ConfigProperty(name = "my.optional.int.property")
  * private Optional&lt;Integer&gt; intConfigValue;
  * </pre>
+ *
+ * <h3>Injecting Dynamic Values</h3>
  *
  * The next sample injects a Provider for the value of my.long.property property to resolve the property dynamically.
  * Each invocation to {@code Provider#get()} will resolve the latest value from underlying {@link org.eclipse.microprofile.config.Config} again.

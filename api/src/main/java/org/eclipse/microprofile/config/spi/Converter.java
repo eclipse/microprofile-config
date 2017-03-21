@@ -27,14 +27,14 @@
 package org.eclipse.microprofile.config.spi;
 
 /**
- * <p>A very simple interface for conversion of configuration values from String to any Java type.</p>
+ * <p>A very simple interface for conversion of configuration values from String to any Java type.
  *
  * <p>A Converter can specify a {@link javax.annotation.Priority}.
- * If no priority is explicitly assigned, the value of 100 is assumed.</p>
+ * If no priority is explicitly assigned, the value of 100 is assumed.
  *
- * <p>If multiple Converters are found, the one with the highest priority will be used.</p>
+ * <p>If multiple Converters are found, the one with the highest priority will be used.
  *
- * <p>The Converter for the following types are automatically enabled:</p>
+ * <p>The Converter for the following types are automatically enabled:
  * <ul>
  *     <li>Boolean, values for {@code true}: (case insensitive) &quot;true&quot;, &quot;yes&quot;, &quot;on&quot;</li>
  *     <li>Integer</li>
