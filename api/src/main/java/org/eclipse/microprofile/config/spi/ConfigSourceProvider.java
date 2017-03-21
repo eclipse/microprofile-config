@@ -28,15 +28,17 @@ package org.eclipse.microprofile.config.spi;
 
 /**
  * <p>Implement this interfaces to provide multiple ConfigSources.
- * This is needed if there are multiple property files of a given name.
+ * This is e.g. needed if there are multiple property files of a given name on the classpath
+ * but they are not all known at compile time.
  *
  * <p>If a single ConfigSource exists, then there is no need
  * to register it using a custom implementation of ConfigSourceProvider, it can be 
  * registered directly as a {@link ConfigSource}.
  *
  * <p>A ConfigSourceProvider will get picked up via the
- * {@link java.util.ServiceLoader} mechanism and can be registered via
- * META-INF/services/javax.config.spi.ConfigSourceProvider
+ * {@link java.util.ServiceLoader} mechanism and can be registered by providing a
+ * {@code META-INF/services/javax.config.spi.ConfigSourceProvider} file which contains
+ * the fully qualified classname of the custom ConfigSourceProvider.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>

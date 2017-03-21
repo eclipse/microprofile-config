@@ -30,19 +30,28 @@ package org.eclipse.microprofile.config.spi;
 import java.util.Map;
 
 /**
- * <p> Represent a config source, which provides properties. The config source can encapsulate: properties, xml, json files or datastore data. <p>
- * The default config sources:
+ * <p>Implement this interfaces to provide a ConfigSource.
+ * A ConfigSource provides configuration values from a specific place, like JNDI configuration, a properties file, etc.
+ * A ConfigSource is always read-only, any potential updates of the configured values must be handled directly inside each ConfigSource.
+ *
+ * <p>
+ * The default config sources always available by default are:
  * <ol>
  * <li>System properties (ordinal=400)</li>
  * <li>Environment properties (ordinal=300)</li>
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
  * 
- * <p>ConfigSource will get picked up via the
- * {@link java.util.ServiceLoader} mechanism and and can be registered via
- * META-INF/services/javax.config.spi.ConfigSource
+ * <p>Custom ConfigSource will get picked up via the {@link java.util.ServiceLoader} mechanism and and can be registered by
+ * providing a file
+ * <pre>
+ *     META-INF/services/javax.config.spi.ConfigSource
+ * </pre>
+ * which contains the fully qualified {@code ConfigSource} implementation class name as content.
  *
- * <p>Other custom config source can be added programmatically via {@link org.eclipse.microprofile.config.ConfigProvider}.
+ * <p>Adding a dynamic amount of custom config sources can be done programmatically via
+ * {@link org.eclipse.microprofile.config.spi.ConfigSourceProvider}.
+ *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
