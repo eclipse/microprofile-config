@@ -38,7 +38,6 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-
 public class ConfigProviderTest extends Arquillian {
 
     private @Inject Config config;
