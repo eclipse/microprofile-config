@@ -17,12 +17,13 @@
  *******************************************************************************/
 
 /**
- * <h1>Configuration for Java Microprofile</h1>
+ * <p>Configuration for Java Microprofile
  *
  * <h2>Rational</h2>
  *
- * <p>Many project artifacts (e.g. WAR, EAR) should only be created once and then get installed at different customers, stages, etc
- * They need to target those different execution environments without necessity of any repackaging.
+ * <p>For many project artifacts (e.g. WAR, EAR) it should be possible to build them only once
+ * and then install them at different customers, stages, etc.
+ * They need to target those different execution environments without the necessity of any repackaging.
  * In other words: depending on the situation they need different configuration.
  *
  * <p>This is easily achievable by having a set of default configuration values inside the project artifact.
@@ -32,7 +33,7 @@
  *
  * <p>A 'Configuration' consists of the information collected from the registered
  * {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
- * These `ConfigSource`s get sorted according to their <i>ordinal</i>.
+ * These {@code ConfigSources} get sorted according to their <i>ordinal</i>.
  * That way it is possible to overwrite configuration with lower importance from outside.
  *
  * <p>By default there are 3 ConfigSources:
@@ -44,8 +45,8 @@
  *  (ordinal=100, separately configurable via a config_ordinal property inside each file)</li>
  * </ul>
  *
- * <p>That means that one can put the default configuration in a `META-INF/microprofile-config.properties` anywhere on the classpath.
- * And Operations can later simply e.g set a system property to change this default configuration.
+ * <p>That means that one can put the default configuration in a {@code META-INF/microprofile-config.properties} anywhere on the classpath.
+ * and the Operations team can later simply e.g set a system property to change this default configuration.
  *
  * <p>It is of course also possible to register own {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
  * A {@code ConfigSource} could e.g. read configuration values from a database table, a remote server, etc
