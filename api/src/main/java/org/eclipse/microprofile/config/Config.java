@@ -37,10 +37,12 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * Resolves the property value by searching through all configured
  * {@link ConfigSource ConfigSources}. If the same property is specified in multiple
  * {@link ConfigSource ConfigSources}, the value in the {@link ConfigSource} with the highest
- * ordinal will be used. If multiple {@link ConfigSource ConfigSources} are specified with
- * the same ordinal, no defined ordering will be applied if they contain the same key.
+ * ordinal will be used.
+ * <p>If multiple {@link ConfigSource ConfigSources} are specified with
+ * the same ordinal, the {@link ConfigSource#getName()} will be used for sorting.
  * 
  * <h3>Usage</h3>
+ *
  * For accessing the config you can use the {@link ConfigProvider}:
  *
  * <pre>
@@ -49,6 +51,20 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  *   String archiveUrl = cfg.getString("my.project.archive.endpoint", String.class);
  *   Integer archivePort = cfg.getValue("my.project.archive.port", Integer.class);
  * </pre>
+ *
+ * <p>It is also possible to inject the Config if a DI container is available:
+ *
+ * <pre>
+ * public class MyService {
+ *     &#064;Inject
+ *     private Config config;
+ * }
+ * </pre>
+ *
+ * <p>See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} for accessing a configured value.
+ *
+ * <p>Configured values can also be accessed via injection.
+ * See {@link org.eclipse.microprofile.config.inject.ConfigProperty} for more information.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>

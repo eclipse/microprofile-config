@@ -62,10 +62,8 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * Example usage:
  *
  * <pre>
- * String restUrl = ConfigProvider.getConfig().getString(
- *         &quot;myproject.some.remote.service.url&quot;);
- * Integer port = ConfigProvider.getConfig().getValue(
- *         &quot;myproject.some.remote.service.port&quot;, Integer.class);
+ * String restUrl = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.url&quot;, String.class);
+ * Integer port = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.port&quot;, Integer.class);
  * </pre>
  *
  * For more advanced use cases like e.g. registering a manually created {@link Config} please see

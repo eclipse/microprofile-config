@@ -32,7 +32,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
 /**
- * Verify that a Convertr exists which can handle the configured string.
+ * Verify that a Converter exists which can handle the configured string.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
