@@ -27,31 +27,38 @@
 package org.eclipse.microprofile.config.spi;
 
 /**
- * <p>A very simple interface for conversion of configuration values from String to any Java type.
- *
- * <p>A Converter can specify a {@link javax.annotation.Priority}.
- * If no priority is explicitly assigned, the value of 100 is assumed.
- *
- * <p>If multiple Converters are found, the one with the highest priority will be used.
- *
- * <p>The Converter for the following types are automatically enabled:
+ * <p>Interface for converting configured values from String to any Java type.
+ **
+ * <p>Converters for the following types are provided by default:
  * <ul>
- *     <li>Boolean, values for {@code true}: (case insensitive) &quot;true&quot;, &quot;yes&quot;, &quot;on&quot;</li>
- *     <li>Integer</li>
- *     <li>Long</li>
- *     <li>Float, a dot '.' is used to separate the fractional digits</li>
- *     <li>Double, a dot '.' is used to separate the fractional digits</li>
- *     <li>Duration</li>
- *     <li>LocalDateTime</li>
- *     <li>LocalDate</li>
- *     <li>LocalTime</li>
- *     <li>OffsetDateTime</li>
- *     <li>OffsetTime</li>
- *     <li>Date</li>
- *     <li>Instant</li>
+ *     <li>{@code Boolean}, values for {@code true}: (case insensitive)
+ *     &quot;true&quot;, &quot;yes&quot;, &quot;Y&quot;, &quot;on&quot;, &quot;1&quot;</li>
+ *     <li>{@code Integer}</li>
+ *     <li>{@code Long}</li>
+ *     <li>{@code Float}, a dot '.' is used to separate the fractional digits</li>
+ *     <li>{@code Double}, a dot '.' is used to separate the fractional digits</li>
+ *     <li>{@code java.time.Duration} as defined in {@link java.time.Duration#parse(CharSequence)}</li>
+ *     <li>{@code java.time.LocalDateTime} as defined in {@link java.time.LocalDateTime#parse(CharSequence)}</li>
+ *     <li>{@code java.time.LocalDate} as defined in {@link java.time.LocalDate#parse(CharSequence)}</li>
+ *     <li>{@code java.time.LocalTime} as defined in {@link java.time.LocalTime#parse(CharSequence)}</li>
+ *     <li>{@code OffsetDateTime} as defined in {@link java.time.OffsetDateTime#parse(CharSequence)}</li>
+ *     <li>{@code OffsetTime} as defined in {@link java.time.OffsetTime#parse(CharSequence)}</li>
+ *     <li>{@code Date} in various ISO-8601 formats.
+ *          'yyyy-MM-dd', 'yyyy-MM-ddThh:mm:ss' (timezone from current Locale), 'yyyy-MM-ddThh:mm:ssZ',
+ *          'yyyy-MM-ddThh:mm:ss±hh:mm' (time zone designator)
+ *          missing information is set to 0.</li>
+ *     <li>{@code Instant}</li>
  *
  * </ul>
  *
+ * <p>Custom Converters will get picked up via the {@link java.util.ServiceLoader} mechanism and and can be registered by
+ * providing a file<br>
+ * <code>META-INF/services/org.eclipse.microprofile.config.spi.Converter</code><br>
+ * which contains the fully qualified {@code Converter} implementation class name as content.
+ *
+ * <p>A Converter can specify a {@link javax.annotation.Priority}.
+ * If no priority is explicitly assigned, the value of 100 is assumed.
+ * If multiple Converters are registered for the same type, the one with the highest priority will be used.
  *
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
