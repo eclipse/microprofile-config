@@ -16,6 +16,11 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
@@ -107,6 +112,51 @@ public class ConverterTest extends Arquillian {
     public void testDouble_Broken() {
         Double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue.broken", Double.class);
     }
+
+    @Test
+    public void testDuration() {
+        Duration value = config.getValue("tck.config.test.javaconfig.converter.durationvalue", Duration.class);
+        Assert.assertEquals(value, Duration.parse("PT15M"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDuration_Broken() {
+        Duration value = config.getValue("tck.config.test.javaconfig.converter.durationvalue.broken", Duration.class);
+    }
+
+    @Test
+    public void testLocalTime() {
+        LocalTime value = config.getValue("tck.config.test.javaconfig.converter.localtimevalue", LocalTime.class);
+        Assert.assertEquals(value, LocalTime.parse("10:37"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testLocalTime_Broken() {
+        LocalTime value = config.getValue("tck.config.test.javaconfig.converter.localtimevalue.broken", LocalTime.class);
+    }
+
+    @Test
+    public void testLocalDate() {
+        LocalDate value = config.getValue("tck.config.test.javaconfig.converter.localdatevalue", LocalDate.class);
+        Assert.assertEquals(value, LocalDate.parse("2017-12-24"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testLocalDate_Broken() {
+        LocalDate value = config.getValue("tck.config.test.javaconfig.converter.localdatevalue.broken", LocalDate.class);
+    }
+
+    @Test
+    public void testLocalDateTime() {
+        LocalDateTime value = config.getValue("tck.config.test.javaconfig.converter.localdatetimevalue", LocalDateTime.class);
+        Assert.assertEquals(value, LocalDateTime.parse("2017-12-24T10:25:30"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testLocalDateTime_Broken() {
+        LocalDateTime value = config.getValue("tck.config.test.javaconfig.converter.localdatetimevalue.broken", LocalDateTime.class);
+    }
+
 
     @Test
     public void testBoolean() {
