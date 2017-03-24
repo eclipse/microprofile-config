@@ -18,8 +18,10 @@
 == Accessing or Creating a certain Configuration
 
 
-For manually accessing the `ConfigProvider` is the central class to access a configuration.
+For using Microprofile-Config in a programmatic way the `ConfigProvider` class is the central point to access a configuration.
 It allows access to different configurations (represented by a `Config` instance) based on the application in which it is used.
+The `ConfigProvider` internally delegates through to the `ConfigProviderResolver` which contains more low-level functionality.
+
 We distinguish 5 different ways to create or `Config` instance:
 
 * In CDI manged components a user can use `@Inject` to access the current application configuration.
@@ -35,22 +37,26 @@ We distinguish 5 different ways to create or `Config` instance:
   E.g. if you need the Config for a class in a shared EAR lib folder.
   Subsequent calls to this method for a certain Application will return the same `Config` instance.
 
-* A factory method `ConfigProvider#newConfig()` to create an empty `Config` object which can be filled manually via a builder.
-  This configuration instance will not be shared by the `ConfigProvider`.
+* A factory method `ConfigProviderResolver#getBuilder()` to create a `Config` object which can be filled manually via a builder.
+  This configuration instance will by default not be shared by the `ConfigProvider`.
   This method is intended be used if a IoT container or any other external Factory can be used to give access to a manually created shared `Config`.
 
-* A factory method `ConfigProvider#registerConfig()` to create an empty `Config` object which can be filled manually via a builder.
-  This configuration instance *will* be shared by the `ConfigProvider`.
-  Any subsequent call to `ConfigProvider#getConfig()` will return the registered `Config` instance.
+* A factory method `ConfigProvider#registerConfig()` can be used to register a `Config` within the application.
+  This configuration instance *will* be shared by `ConfigProvider#getConfig()`.
+  Any subsequent call to `ConfigProvider#getConfig()` will return the registered `Config` instance for this application.
 
 
-All methods in the `ConfigProvider` and `Config` implementations are thread safe and reentrant.
+All methods in the `ConfigProvider`, `ConfigProviderResolver` and `Config` implementations are thread safe and reentrant.
+
+`Config` instances managed by the appliation are `Serializable`.
 
 If a `Config` is bound to an Application it is ensured that it gets properly removed if the Application gets destroyed.
 The Config system deos not create any memory leaks in that case.
 
-A `Config` can be release manually by calling `ConfigProvider#release(Config)`.
-ConfigSources which implement the `java.io.Closeable` interface will be properly destroyed.
+A `Config` can be released manually by calling `ConfigProvider#release(Config)`.
+This will unbind the current `Config` from the application.
+<<configsource, ConfigSources>> which implement the `java.io.Closeable` interface will be properly destroyed.
+<<converter, Converters>> which implement the `java.io.Closeable` interface will be properly destroyed.
 Any subsequent call to `ConfigProvider#getConfig()` or `ConfigProvider#getConfig(ClassLoader forClassLoader)` will result in a new `Config` instance.
 
 <<<

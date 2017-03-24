@@ -15,7 +15,7 @@
 //
 
 [[configsource]]
-== ConfigSource
+== ConfigSources
 
 A `ConfigSource` is exactly what its name says: a source for configured values.
 The `Config` uses all configured implementations of `ConfigSource` to look up the property in question.
@@ -49,6 +49,7 @@ A Microprofile-Config implementation must provide `ConfigSource` s for the follo
   An environment setting `ACME_MYKEY=bla` machtches a lookup for `config.getValue("acme.mykey")`.
 * A `ConfigSource` for each property file `META-INF/microprofile-config.properties` found on the classpath. (default ordinal = 100)
 
+[[custom_configsources]]
 === Custom ConfigSources
 
 `ConfigSource` s are discovered using the `java.util.ServiceLoader` mechanism.
@@ -70,12 +71,12 @@ public class CustomDbConfigSource implements ConfigSource {
     }
 
     @Override
-    public String getPropertyValue(String key) {
+    public String getValue(String key) {
         return readPropertyFromDb(key);
     }
 
     @Override
-    public String getConfigName() {
+    public String getName() {
         return "customDbConfig";
     }
 
@@ -89,8 +90,8 @@ Then register your implementation in a resource file `/META-INF/services/org.ecl
 
 === Custom ConfigSources via ConfigSourceProvider
 
-If you need dynamic `ConfigSource` s you can also register a `ConfigSourceProvider` in a similar manner.
-This is useful if you are required to dynamically pick up multiple `ConfigSource` s of the same kind;
+If you need dynamic <<configsource,ConfigSources>> you can also register a `ConfigSourceProvider` in a similar manner.
+This is useful if you are required to dynamically pick up multiple <<configsource,ConfigSources>> of the same kind;
 for example, to pick up all `myproject.properties` resources from all the JARs in your classpath.
 
 A custom `ConfigSourceProvider` must implement the interface `org.eclipse.microprofile.config.spi.ConfigSourceProvider`.
@@ -123,14 +124,4 @@ Please note that a single `ConfigSource` should be either registered directly or
 
 A `Config` instance provides no caching but iterates over all `ConfigSources` for each `getValue(String)` operation.
 A `ConfigSource` is allowed to cache the underlying values itself.
-
-Users might use the `cacheFor(long, TimeUnit)` method of a `ConfigValue` to pick up values which might change at runtime without penetrating the configuration system.
-
-
-=== Manually adding ConfigSources
-
-A user can manually register `ConfigSource` s by using the method `void addConfigSources(List<ConfigSource> configSourcesToAdd)`.
-This will add the given list to the already registered `ConfigSources` of the current `Config` instance.
-
-The order in which the `ConfigSources` are evaluated when using `Config#getValue(String key)` is independent of the order in which they were added to the `Config`; this depends only on the `ordinal` values of the available `ConfigSources`.
 

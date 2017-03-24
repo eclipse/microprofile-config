@@ -18,21 +18,20 @@
 == Configuration Usage Examples
 
 An application can access it's configured values via a `Config` instance.
-A user can use the `ConfigProvider` to access the `Config` of an application or simply use `@Inject Config` within CDI managed components.
+A user can use the `ConfigProvider` to access the `Config` of an application or simply use `@Inject Config` within Depencency-Injection managed components.
 
-=== Simple Example
+=== Simple Programmatic Example
 
 [source, java]
 ----
-ppublic class ConfigUsageSample {
+public class ConfigUsageSample {
 
     public void useTheConfig() {
         // get access to the Config instance
         Config config = ConfigProvider.getConfig();
 
-        String serverUrl = config.getValue("com.acme.myproject.someserver.url");
-        Integer serverPort = config.getValue("com.acme.myproject.someserver.port",
-                                             Integer.class);
+        String serverUrl = config.getValue("acme.myprj.some.url", String.class);
+        Integer serverPort = config.getValue("acme.myprj.some.port", Integer.class);
 
         callToServer(serverUrl, serverPort);
     }
@@ -43,49 +42,35 @@ If you need to access a different server then you can e.g. change the configurat
 
 [source, text]
 ----
-$> java -jar some.jar -Dcom.acme.myproject.someserver.url=http://other.server/other/endpoint
+$> java -jar some.jar -Dacme.myprj.some.url=http://other.server/other/endpoint
 ----
 
-Note that the way to inject this configuration into the application can be extended by providing custom `ConfigSource` s.
+Note that this is only one example how to possibly configure your application.
+One can also register <<custom_configsources, Custom ConfigSources>> to e.g. pick up values from a database table, etc.
 
+=== Simple Dependency Injection Example
 
-
-=== Some advanced features
-
-It is also possible to dynamically pick up values which might change at runtime.
-For example if the configured values get picked up from a custom <<configsource>> which picks up it's values from a Database.
+Microprofile-Config also provides ways to inject configured values into your beans using the `@Inject` and the `@ConfigProperty` qualifier.
 
 [source, java]
 ----
 @ApplicationScoped
-public class DynamicConfigUsageSample {
+public class InjectedConfigUsageSample {
 
-    private @Inject Config config;
+    @Inject
+    private Config config;
 
-    private ConfigValue<String>  serverUrlCfg;
-    private ConfigValue<Integer> serverPortCfg
+    @Inject
+    @ConfigProperty(name="myprj.some.url")
+    private String someUrl;
 
-    @PostConstruct
-    private void init() {
-        serverUrlCfg= config.access("com.acme.myproject.someserver.url")
-                .cacheFor(5, TimeUnit.MINUTES)
-                .logChanges(true)
-                .evaluateVariables(true);
+    @Inject
+    @ConfigProperty(name="myprj.some.port")
+    private Optional<Integer> somePort;
 
-        serverPortCfg = config.access("com.acme.myproject.someserver.port")
-                .as(Integer.class)
-                .cacheFor(5, TimeUnit.MINUTES)
-                .logChanges(true)
-                .evaluateVariables(true)
-                .withDefault(8080);
-    }
-
-    public void useTheConfig() {
-        callToServer(serverUrlCfg.getValue(), serverPortCfg.getValue());
-    }
+    @Inject
+    @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
+    private javax.inject.Provider<Long> timeout;
 }
 ----
 
-The `cacheFor(5, TimeUnit.MINUTES)` will have the `ConfigValue` behave like a local cache and thus reduce load on the configuration system.
-5 minutes after `getValue()` got called the last time any fresh value will get picked up.
-If `logChanges(true)` is set then any value change will get logged.

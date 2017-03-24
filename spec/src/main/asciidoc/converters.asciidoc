@@ -31,14 +31,18 @@ The following `Converter` s are provided by Microprofile-Config by default:
 * `Float` , a dot '.' is used to separate the fractional digits
 * `Double` , a dot '.' is used to separate the fractional digits
 * `java.util.Date` in ISO-8601 format (https://www.ietf.org/rfc/rfc3339.txt), e.g. YYYY-MM-DD. Remaining fractions are set to 0.
-* Java8 `LocalDate` and in ISO-8601 format
-* Java8 `LocalDateTime` and in ISO-8601 format
+* Java8 `Duration`
+* Java8 `LocalTime`
+* Java8 `LocalDate`
+* Java8 `LocalDateTime`
+
+All built-in `Converter` have the `@Priority` of `1`.
 
 
 === Adding custom Converters
 
 A custom `Converter` must implement the generic interface `org.eclipse.microprofile.config.spi.Converter`.
-The TypedParameter of the interface is the target type the String is converted to 
+The Type parameter of the interface is the target type the String is converted to.
 You have to register your implementation in a file `/META-INF/services/org.eclipse.microprofile.config.spi.Converter` by writing the fully qualified class name of the custom implementation into it.
 
 A custom `Converter` can define a priority with the `@javax.annotation.Priority` annotation.
