@@ -8,3 +8,4 @@ tck/bin/
 build/
 .classpath
 test-output
+/*.log
