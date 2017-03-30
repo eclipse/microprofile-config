@@ -51,7 +51,7 @@ All methods in the `ConfigProvider`, `ConfigProviderResolver` and `Config` imple
 `Config` instances managed by the appliation are `Serializable`.
 
 If a `Config` is bound to an Application it is ensured that it gets properly removed if the Application gets destroyed.
-The Config system deos not create any memory leaks in that case.
+The Config system does not create any memory leaks in that case.
 
 A `Config` can be released manually by calling `ConfigProvider#release(Config)`.
 This will unbind the current `Config` from the application.
