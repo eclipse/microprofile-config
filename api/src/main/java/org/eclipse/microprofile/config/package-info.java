@@ -67,7 +67,8 @@
  *  &#064;ConfigProperty(name="myproject.some.endpoint.url");
  *  private String restUrl;
  *  </pre>
- *
+ *  
+ * @author <a href="emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @version 1.0
  */

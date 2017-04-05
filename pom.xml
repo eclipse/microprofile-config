@@ -186,6 +186,8 @@
                         <exclude>.travis.yml.*</exclude>
                         <exclude>bnd.bnd</exclude>
                         <exclude>*.log</exclude>
+                        <exclude>.checkstyle</exclude>
+                        <exclude>.factorypath</exclude>
                     </excludes>
                 </configuration>
             </plugin>

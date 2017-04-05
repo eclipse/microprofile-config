@@ -104,7 +104,7 @@ public @interface ConfigProperty {
      * <p>If the target Type is not String a proper {@link org.eclipse.microprofile.config.spi.Converter} will get applied.
      * That means that any default value string should follow the formatting rules of the registered Converters.
      *
-     * <p>If
+     * 
      * @return the default value as a string
      */
     @Nonbinding

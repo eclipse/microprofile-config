@@ -28,12 +28,18 @@
  *
  * <p>The following types can be injected:
  * <ul>
- *     <li><code>T</code> where T is a Type where a {@link org.eclipse.microprofile.config.spi.Converter} exists.</li>
- *     <li><code>Optional&lt;T&gt;</code> where T is a Type where a {@link org.eclipse.microprofile.config.spi.Converter} exists.</li>
- *     <li><code>Provider&lt;T&gt;</code> where T is a Type where a {@link org.eclipse.microprofile.config.spi.Converter} exists.</li>
+ * 
+ *     <li><code>T</code> where T is a Type where a {@link org.eclipse.microprofile.config.spi.Converter} exists and the property must exist.</li>
+ *     <li><code>
+ *     Optional&lt;T&gt;</code> where T is a Type where a {@link org.eclipse.microprofile.config.spi.Converter} exists where the property may exist.
+ *     </li>
+ *     <li><code>
+ *     Provider&lt;T&gt;</code> where T is a Type where a {@link org.eclipse.microprofile.config.spi.Converter} exists where the property may exist.
+ *     </li>
  * </ul>
- *
+ * 
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @version 1.0
  */
 package org.eclipse.microprofile.config.inject;
