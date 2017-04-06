@@ -56,7 +56,7 @@ package org.eclipse.microprofile.config.spi;
  * <code>META-INF/services/org.eclipse.microprofile.config.spi.Converter</code><br>
  * which contains the fully qualified {@code Converter} implementation class name as content.
  *
- * <p>A Converter can specify a {@link javax.annotation.Priority}.
+ * <p>A Converter can specify a {@code javax.annotation.Priority}.
  * If no priority is explicitly assigned, the value of 100 is assumed.
  * If multiple Converters are registered for the same type, the one with the highest priority will be used.
  *
