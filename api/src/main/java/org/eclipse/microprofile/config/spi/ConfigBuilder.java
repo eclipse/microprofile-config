@@ -51,6 +51,12 @@ public interface ConfigBuilder {
     ConfigBuilder addDefaultSources();
 
     /**
+     * Add the config sources appearing to be loaded via service loader pattern
+     *
+     * @return the ConfigBuilder with the autodiscovered config sources
+     */
+    ConfigBuilder addDiscoveredSources();
+    /**
      * Return the ConfigBuilder for a given classloader
      *
      * @param loader the specified classloader
