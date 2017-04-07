@@ -16,15 +16,12 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.tck;
 
-import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
-import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -36,8 +33,9 @@ import org.testng.annotations.Test;
  * Verify the method addDiscoveredSources() on ConfigBuilder.
  *
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class AutoDiscoveredConfigSourceTest{
+public class AutoDiscoveredConfigSourceTest extends Arquillian {
 
     @Deployment
     public static WebArchive deploy() {
@@ -46,10 +44,8 @@ public class AutoDiscoveredConfigSourceTest{
                 .addClass(AutoDiscoveredConfigSourceTest.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
-                .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
                 .as(JavaArchive.class);
 
-        addFile(testJar, "META-INF/services/org.eclipse.microprfile.config.spi.ConfigSource");
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "customConfigSourceTest.war")
                 .addAsLibrary(testJar);
