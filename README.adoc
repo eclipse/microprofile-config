@@ -18,7 +18,7 @@
 
 ## Status
 
-MicroProfile Config proposal!
+MicroProfile Config Specification
 
 == Rational
 
@@ -34,14 +34,17 @@ The changed values should be fed into the client without the need for restarting
 This requirement is particularly important for micro services running in a cloud environment.
 The MicroProfile Config approach allows to pick up configured values immediately after they got changed.
 
-== Implementaions
+== Related projects
 
 There are a number of Config supporting projects, such as:
 
 * Netflix Archaius (https://github.com/Netflix/archaius)
 * DeltaSpike Config (http://deltaspike.apache.org/documentation/configuration.html)
-* Extracted parts of DeltaSpike Config (https://github.com/struberg/javaConfig/)
 * Apache Tamaya (http://tamaya.incubator.apache.org/)
+
+== Implementations
+
+* Implementation of MicroProfile Config (https://github.com/struberg/javaConfig/)
 
 == Design
 
