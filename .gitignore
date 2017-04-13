@@ -1,11 +1,15 @@
 *.class
 .settings/
-api/.checkstyle
+.checkstyle
 target/
-tck/.checkstyle
 tck/bin/
 .project
 build/
 .classpath
+.factorypath
 test-output
 /*.log
+.idea
+*.iml
+*.iwl
+*.ipr
