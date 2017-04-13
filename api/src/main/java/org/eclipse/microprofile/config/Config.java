@@ -40,6 +40,9 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * ordinal will be used.
  * <p>If multiple {@link ConfigSource ConfigSources} are specified with
  * the same ordinal, the {@link ConfigSource#getName()} will be used for sorting.
+ * <p>
+ * The config objects produced via the injection model <pre>@Inject Config</pre> are guaranteed to be serializable, while
+ * the programmatically created ones are not required to be serializable.
  * 
  * <h3>Usage</h3>
  *
