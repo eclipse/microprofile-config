@@ -1,5 +1,6 @@
 //
-// Copyright (c) 2016-2017 Mark Struberg and others
+// Copyright (c) 2016-2017 Eclipse Microprofile Contributors:
+// Mark Struberg
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +19,8 @@
 
 Any Microprofile 1.1 and higher release must pass this test suite.
 The TCK uses `testng`
+
+== Dependencies
 
 To enable the tests in your project you need to add the following dependency to your build:
 
@@ -43,6 +46,8 @@ To enable the tests in your project you need to add the following dependency to 
 </dependency>
 ----
 
+== Declaring the Tests to run
+
 You also need to specify which tests you want to run, e.g. create a file `tck-suite.xml` in your project which contains the following content:
 [source, xml]
 ----
@@ -59,6 +64,8 @@ You also need to specify which tests you want to run, e.g. create a file `tck-su
 
 </suite>
 ----
+
+== Configuration in Apache Maven pom.xml
 
 If you use Apache Maven then the tests are run via the `maven-surefire-plugin`
 [source, xml]
@@ -78,3 +85,11 @@ If you use Apache Maven then the tests are run via the `maven-surefire-plugin`
     </plugins>
 </build>
 ----
+
+== Deploying additional Implementation Artifacts
+
+If your implementation needs additional Artifacts in the test Deployments then you have to add them via an Arquillian Extension as shown here:
+
+https://github.com/struberg/javaConfig/blob/master/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigExtension.java
+https://github.com/struberg/javaConfig/blob/master/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigArchiveProcessor.java
+https://github.com/struberg/javaConfig/blob/master/impl/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension
