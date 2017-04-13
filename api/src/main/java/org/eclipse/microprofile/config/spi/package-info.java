@@ -17,7 +17,7 @@
  *******************************************************************************/
 
 /**
- * <p>This package contains classes which are used to extends the standard functionality in a portable way.
+ * <p>This package contains classes which are used to extend the standard functionality in a portable way.
  * <p>A user can provide own {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} and
  * {@link org.eclipse.microprofile.config.spi.Converter Converters} to extend the information available in the Config.
  *
