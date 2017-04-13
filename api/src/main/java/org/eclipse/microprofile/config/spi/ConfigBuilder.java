@@ -1,6 +1,9 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016-2017 Romain Manni-Bucau and others
+ * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
