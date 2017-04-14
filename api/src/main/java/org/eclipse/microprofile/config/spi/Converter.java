@@ -64,7 +64,6 @@ package org.eclipse.microprofile.config.spi;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
-@FunctionalInterface
 public interface Converter<T> {
     /**
      * Configure the string value to a specified type
