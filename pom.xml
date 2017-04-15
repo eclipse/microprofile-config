@@ -192,7 +192,17 @@ SPDX-License-Identifier: Apache-2.0
                         <exclude>*.log</exclude>
                         <exclude>.checkstyle</exclude>
                         <exclude>.factorypath</exclude>
+                        <exclude>.editorconfig</exclude>
                     </excludes>
+                    <licenses>
+                        <license implementation="org.apache.rat.analysis.license.SimplePatternBasedLicense">
+                            <licenseFamilyCategory>AL   </licenseFamilyCategory>
+                            <licenseFamilyName>Apache License Version 2.0</licenseFamilyName>
+                            <patterns>
+                                <pattern>SPDX-License-Identifier: Apache-2.0</pattern>
+                            </patterns>
+                        </license>
+                    </licenses>
                 </configuration>
             </plugin>
 
