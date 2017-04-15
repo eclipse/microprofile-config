@@ -1,5 +1,8 @@
 //
-// Copyright (c) 2016, 2017 IBM Corp. and others
+// Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+//
+// See the NOTICES file(s) distributed with this work for additional
+// information regarding copyright ownership.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +37,7 @@ The changed values should be fed into the client without the need for restarting
 This requirement is particularly important for micro services running in a cloud environment.
 The MicroProfile Config approach allows to pick up configured values immediately after they got changed.
 
-== Implementaions
+== Implementations
 
 There are a number of Config supporting projects, such as:
 

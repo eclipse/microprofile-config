@@ -1,6 +1,9 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2011-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -32,7 +35,7 @@ package org.eclipse.microprofile.config.spi;
  * but they are not all known at compile time.
  *
  * <p>If a single ConfigSource exists, then there is no need
- * to register it using a custom implementation of ConfigSourceProvider, it can be 
+ * to register it using a custom implementation of ConfigSourceProvider, it can be
  * registered directly as a {@link ConfigSource}.
  *
  * <p>A ConfigSourceProvider will get picked up via the

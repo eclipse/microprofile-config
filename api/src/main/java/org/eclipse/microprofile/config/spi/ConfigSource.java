@@ -1,6 +1,9 @@
 /*
  ******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2009-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -41,7 +44,7 @@ import java.util.Map;
  * <li>Environment properties (ordinal=300)</li>
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
- * 
+ *
  * <p>Custom ConfigSource will get picked up via the {@link java.util.ServiceLoader} mechanism and and can be registered by
  * providing a file
  * <pre>
@@ -83,7 +86,7 @@ public interface ConfigSource {
      * ConfigSource provided by the container or 'environment' typically use an ordinal higher than 200.
      * A framework which intends have values overwritten by the application will use ordinals between 0 and 100.
      * The property "config_ordinal" can be specified to override the default value.
-     * 
+     *
      * @return the ordinal value
      */
     default int getOrdinal() {
@@ -103,5 +106,5 @@ public interface ConfigSource {
      * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getName();
-    
+
 }

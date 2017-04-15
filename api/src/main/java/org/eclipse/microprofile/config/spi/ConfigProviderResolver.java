@@ -1,6 +1,9 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -13,7 +16,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  *******************************************************************************/
 
 package org.eclipse.microprofile.config.spi;
@@ -56,7 +58,7 @@ public abstract class ConfigProviderResolver {
 
     /**
      * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} but with default {@link Converter Converters} 
+     * initially contain no {@link ConfigSource} but with default {@link Converter Converters}
      * The other {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
      *
      * The ConfigProvider will not manage the Config instance internally
@@ -91,7 +93,7 @@ public abstract class ConfigProviderResolver {
     /**
      * Creates a ConfigProviderResolver object
      * Only used internally from within {@link org.eclipse.microprofile.config.ConfigProvider}
-     * @return ConfigProviderResolver an instance of ConfigProviderResolver     
+     * @return ConfigProviderResolver an instance of ConfigProviderResolver
      */
     public static ConfigProviderResolver instance() {
         if (instance == null) {
@@ -142,7 +144,7 @@ public abstract class ConfigProviderResolver {
                                     "Multiple ConfigResolverProvider implementations found: "
                                                     + spi.getClass().getName() + " and "
                                                     + instance.getClass().getName());
-                } 
+                }
                 else {
                     instance = spi;
                 }

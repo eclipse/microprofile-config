@@ -1,6 +1,9 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -13,7 +16,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  *******************************************************************************/
 
 /**
@@ -67,7 +69,7 @@
  *  &#064;ConfigProperty(name="myproject.some.endpoint.url");
  *  private String restUrl;
  *  </pre>
- *  
+ *
  * @author <a href="emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @version 1.0

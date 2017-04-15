@@ -1,6 +1,9 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -51,7 +54,7 @@ public class AutoDiscoveredConfigSourceTest extends Arquillian {
                 .addAsLibrary(testJar);
         return war;
     }
-    
+
     @Test
     public void testConfigSourceProvider() {
         Config config = ConfigProviderResolver.instance().getBuilder().addDefaultSources().addDiscoveredSources().build();

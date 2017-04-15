@@ -1,6 +1,9 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -13,7 +16,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  *******************************************************************************/
 
 /**
@@ -25,19 +27,19 @@
  * which is used to pick up the actual implementation.
  * <h2>Usage</h2>
  * <p>This is used to build up a builder and manually add {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}..</p>
- *  
+ *
  *
  * <ol>
- * <li>Create a builder:  
+ * <li>Create a builder:
  * <pre>ConfigProviderResolver resolver = ConfigProviderResolver.instance(); </pre>
  * <pre>ConfigBuilder builder = resolver.getBuilder();</pre>
  * </li>
- * <li>Add config sources and build: 
- * <pre> 
- * Config config = builder.addDefaultSources().withSources(mySource).withConverters(myConverter).build; 
+ * <li>Add config sources and build:
+ * <pre>
+ * Config config = builder.addDefaultSources().withSources(mySource).withConverters(myConverter).build;
  * </pre>
  * </li>
- * <li>(optional)Manage the lifecycle of the config 
+ * <li>(optional)Manage the lifecycle of the config
  * <pre> resolver.registerConfig(config, classloader);</pre>
  * <pre> resolver.releaseConfig(config);</pre>
  * </li>

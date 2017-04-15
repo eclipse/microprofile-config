@@ -1,6 +1,9 @@
 /*
  *******************************************************************************
- * Copyright (c) 2016 IBM Corp. and others
+ * Copyright (c) 2011-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -43,7 +46,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * <p>
  * The config objects produced via the injection model <pre>@Inject Config</pre> are guaranteed to be serializable, while
  * the programmatically created ones are not required to be serializable.
- * 
+ *
  * <h3>Usage</h3>
  *
  * For accessing the config you can use the {@link ConfigProvider}:
