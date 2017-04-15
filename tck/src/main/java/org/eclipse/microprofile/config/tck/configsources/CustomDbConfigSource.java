@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICES file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -64,5 +64,5 @@ public class CustomDbConfigSource implements ConfigSource {
         return configValues.get(key);
     }
 
-   
+
 }
