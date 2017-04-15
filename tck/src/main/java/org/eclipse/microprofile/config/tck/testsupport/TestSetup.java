@@ -1,5 +1,8 @@
 /*
- * Copyright (c) 2016-2017 Payara Services Ltd. and others
+ * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -12,7 +15,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.eclipse.microprofile.config.tck.testsupport;
@@ -26,7 +28,7 @@ import javax.enterprise.inject.spi.CDI;
  * @author Ondrej Mihalyi
  */
 public final class TestSetup {
-    
+
     private TestSetup() {
         // utility class
     }

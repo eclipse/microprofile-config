@@ -1,5 +1,8 @@
 /*
- * Copyright (c) 2016-2017 Payara Services Ltd., IBM Corp. and others
+ * Copyright (c) 2016-1027 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICES file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * You may not use this file except in compliance with the License.
@@ -12,7 +15,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.eclipse.microprofile.config.inject;
@@ -32,7 +34,7 @@ import javax.inject.Qualifier;
 /**
  * Binds the injection point with a configured value.
  * Can be used to annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or {@code javax.inject.Provider<TYPE>},
- * where {@code TYPE} can be {@code String} and all types which have appropriate converters. 
+ * where {@code TYPE} can be {@code String} and all types which have appropriate converters.
  *
  * <h2>Examples</h2>
  *
@@ -87,12 +89,12 @@ import javax.inject.Qualifier;
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 public @interface ConfigProperty {
     /**
-     * The key of the config property used to look up the configuration value. 
+     * The key of the config property used to look up the configuration value.
      * If it is not specified, it will be derived automatically as {@code <class_name>.<injetion_point_name>},
      * where {@code injection_point_name} is the field name or parameter name,
      * {@code class_name} is the fully qualified name of the class being injected to with the first letter decaptialised.
      * If one of the {@code class_name} or {@code injection_point_name} cannot be determined, the value has to be provided.
-     * 
+     *
      * @return Name (key) of the config property to inject
      */
     @Nonbinding
@@ -104,7 +106,7 @@ public @interface ConfigProperty {
      * <p>If the target Type is not String a proper {@link org.eclipse.microprofile.config.spi.Converter} will get applied.
      * That means that any default value string should follow the formatting rules of the registered Converters.
      *
-     * 
+     *
      * @return the default value as a string
      */
     @Nonbinding
