@@ -193,6 +193,7 @@
                         <exclude>*.log</exclude>
                         <exclude>.checkstyle</exclude>
                         <exclude>.factorypath</exclude>
+                        <exclude>.editorconfig</exclude>
                     </excludes>
                 </configuration>
             </plugin>
