@@ -2,7 +2,7 @@
  *******************************************************************************
  * Copyright (c) 2011-2017 Contributors to the Eclipse Foundation
  *
- * See the NOTICES file(s) distributed with this work for additional
+ * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
