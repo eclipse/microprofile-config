@@ -71,6 +71,7 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.longProperty, is(equalTo(10L)));
         assertThat(bean.floatProperty, is(floatCloseTo(10.5f, 0.1f)));
         assertThat(bean.doubleProperty, is(closeTo(11.5, 0.1)));
+        assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(3.1415, 0.1)));
     }
 
     @Test
@@ -130,6 +131,12 @@ public class CDIPlainInjectionTest extends Arquillian {
         @Inject
         @ConfigProperty(name="my.double.property")
         private Double doubleProperty;
+
+        // the property is not configured in any ConfigSource but its defaultValue will
+        // be used to set the field.
+        @Inject
+        @ConfigProperty(name="my.not.configured.double.property", defaultValue = "3.1415")
+        private Double doublePropertyWithDefaultValue;
 
     }
 
