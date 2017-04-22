@@ -25,7 +25,6 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -50,7 +49,7 @@ public class CdiOptionalInjectionTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "cdiOptionalInjectionTest.jar")
                 .addClasses(CdiOptionalInjectionTest.class, OptionalValuesBean.class)
-                .addAsManifestResource(new StringAsset("my.int.property=1234\nmy.string.property=hello"),
+                .addAsManifestResource(new StringAsset("my.optional.int.property=1234\nmy.optional.string.property=hello"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -64,9 +63,6 @@ public class CdiOptionalInjectionTest extends Arquillian {
 
     @Test
     public void testOptionalInjection() {
-        TestSetup.ensurePropertyUndefined("my.int.property");
-        TestSetup.ensurePropertyUndefined("my.string.property");
-
         Assert.assertTrue(optionalValuesBean.getIntProperty().isPresent());
         Assert.assertEquals(optionalValuesBean.getIntProperty().get(), Integer.valueOf(1234));
 
@@ -81,7 +77,7 @@ public class CdiOptionalInjectionTest extends Arquillian {
     @Dependent
     public static class OptionalValuesBean {
         @Inject
-        @ConfigProperty(name="my.int.property")
+        @ConfigProperty(name="my.optional.int.property")
         private Optional<Integer> intProperty;
 
         @Inject
@@ -91,7 +87,7 @@ public class CdiOptionalInjectionTest extends Arquillian {
         private Optional<String> stringValue;
 
         @Inject
-        public void setStringValue(@ConfigProperty(name="my.string.property") Optional<String> stringValue) {
+        public void setStringValue(@ConfigProperty(name="my.optional.string.property") Optional<String> stringValue) {
             this.stringValue = stringValue;
         }
 
