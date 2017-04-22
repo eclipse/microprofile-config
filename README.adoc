@@ -37,14 +37,22 @@ The changed values should be fed into the client without the need for restarting
 This requirement is particularly important for micro services running in a cloud environment.
 The MicroProfile Config approach allows to pick up configured values immediately after they got changed.
 
-== Implementations
+== Influences and History
 
-There are a number of Config supporting projects, such as:
+There are a number of Config projects which directly influenced this proposal and acted as basis for this API, such as:
 
-* Netflix Archaius (https://github.com/Netflix/archaius)
 * DeltaSpike Config (http://deltaspike.apache.org/documentation/configuration.html)
 * Extracted parts of DeltaSpike Config (https://github.com/struberg/javaConfig/)
 * Apache Tamaya (http://tamaya.incubator.apache.org/)
+
+== Implementations
+
+Microprofile Config does not contain an implementation itself but only provides the specified API and, a TCK and documentation.
+
+The following Implementations are available 
+
+* Apache Geronimo Config (https://svn.apache.org/repos/asf/geronimo/components/config/trunk)
+
 
 == Design
 
