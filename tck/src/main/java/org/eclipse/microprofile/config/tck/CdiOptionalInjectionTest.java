@@ -25,6 +25,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -63,6 +64,9 @@ public class CdiOptionalInjectionTest extends Arquillian {
 
     @Test
     public void testOptionalInjection() {
+        TestSetup.ensurePropertyUndefined("my.int.property");
+        TestSetup.ensurePropertyUndefined("my.string.property");
+
         Assert.assertTrue(optionalValuesBean.getIntProperty().isPresent());
         Assert.assertEquals(optionalValuesBean.getIntProperty().get(), Integer.valueOf(1234));
 
