@@ -18,6 +18,7 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import java.io.*;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -27,6 +28,8 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -127,6 +130,23 @@ public class ConfigProviderTest extends Arquillian {
             prevOrdinal = configSource.getOrdinal();
         }
 
+    }
+    
+    @Test
+    public void testInjectedConfigSerializable() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ObjectOutputStream out = new ObjectOutputStream(byteArrayOutputStream)) {
+            out.writeObject(config);
+        } catch (IOException ex) {
+            Assert.fail("Injected config should be serializable, but could not serialize it", ex);
+        }
+        Object readObject = null;
+        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
+            readObject = in.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            Assert.fail("Injected config should be serializable, but could not deserialize a previously serialized instance", ex);
+        }
+        MatcherAssert.assertThat("Deserialized object", readObject, CoreMatchers.instanceOf(Config.class));
     }
 
 }
