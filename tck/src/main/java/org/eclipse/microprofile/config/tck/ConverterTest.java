@@ -27,6 +27,7 @@ import java.time.LocalTime;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
@@ -70,6 +71,10 @@ public class ConverterTest extends Arquillian {
                 .addAsLibrary(testJar);
         return war;
     }
+
+    @Inject
+    @ConfigProperty(name = "tck.config.test.javaconfig.converter.duckname")
+    private Duck namedDuck;
 
 
     @Test
@@ -187,4 +192,7 @@ public class ConverterTest extends Arquillian {
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", Boolean.class));
     }
 
+    public void testCustomConverter() {
+        Assert.assertEquals(namedDuck.getName(), "Hannelore");
+    }
 }
