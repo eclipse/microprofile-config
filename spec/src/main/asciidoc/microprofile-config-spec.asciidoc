@@ -16,8 +16,8 @@
 //
 
 = Configuration for Microprofile
-:author: Mark Struberg
-:email: struberg@apache.org
+:authors: Mark Struberg, Emily Jiang
+:email: struberg@apache.org, emijiang@uk.ibm.com
 :revnumber: 0.3
 :revdate: 2017-01-18
 :revremark: Proposal
@@ -36,7 +36,7 @@ endif::[]
 
 include::license-alv2.asciidoc[]
 
-=== Microprofile Proposal - WORK IN PROGRESS!
+=== Microprofile Config
 
 
 include::architecture.asciidoc[]
