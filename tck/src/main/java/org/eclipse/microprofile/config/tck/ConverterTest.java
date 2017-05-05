@@ -30,6 +30,7 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
+import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
@@ -61,6 +62,7 @@ public class ConverterTest extends Arquillian {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
+                .addAsServiceProvider(Converter.class, DuckConverter.class)
                 .as(JavaArchive.class);
 
         AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
@@ -192,6 +194,7 @@ public class ConverterTest extends Arquillian {
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", Boolean.class));
     }
 
+    @Test
     public void testCustomConverter() {
         Assert.assertEquals(namedDuck.getName(), "Hannelore");
     }

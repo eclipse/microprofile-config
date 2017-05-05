@@ -57,12 +57,16 @@ public abstract class ConfigProviderResolver {
     public abstract Config getConfig(ClassLoader loader);
 
     /**
-     * Create a fresh {@link ConfigBuilder} instance. This ConfigBuilder will
-     * initially contain no {@link ConfigSource} but with default {@link Converter Converters}
-     * The other {@link ConfigSource} and {@link Converter Converters} will have to be added manually.
+     * Create a fresh {@link ConfigBuilder} instance.
+     *
+     * This ConfigBuilder will initially contain no {@link ConfigSource}. The other {@link ConfigSource} will have
+     * to be added manually or discovered by calling {@link ConfigBuilder#addDiscoveredSources()}.
+     *
+     * This ConfigBuilder will initially contain default {@link Converter Converters} as well as any converters
+     * discovered using the ServiceLoader pattern.
      *
      * The ConfigProvider will not manage the Config instance internally
-     * @return the configbuilder with the default converters
+     * @return a fresh ConfigBuilder
      */
     public abstract ConfigBuilder getBuilder();
 
