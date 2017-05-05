@@ -22,7 +22,10 @@ package org.eclipse.microprofile.config.tck;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
+import org.eclipse.microprofile.config.tck.converters.Pizza;
+import org.eclipse.microprofile.config.tck.converters.PizzaConverter;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -44,10 +47,11 @@ public class AutoDiscoveredConfigSourceTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "customConfigSourceTest.jar")
-                .addClass(AutoDiscoveredConfigSourceTest.class)
+                .addClasses(AutoDiscoveredConfigSourceTest.class, CustomDbConfigSource.class, Pizza.class, PizzaConverter.class)                
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
-                .as(JavaArchive.class);
+                .addAsServiceProvider(Converter.class, PizzaConverter.class)
+                .as(JavaArchive.class); 
 
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "customConfigSourceTest.war")
@@ -56,8 +60,29 @@ public class AutoDiscoveredConfigSourceTest extends Arquillian {
     }
 
     @Test
-    public void testConfigSourceProvider() {
+    public void testAutoDiscoveredConfigureSources() {
         Config config = ConfigProviderResolver.instance().getBuilder().addDefaultSources().addDiscoveredSources().build();
         Assert.assertEquals(config.getValue("tck.config.test.customDbConfig.key1", String.class), "valueFromDb1");
+    }
+    @Test
+    public void testAutoDiscoveredConverterManuallyAdded() {
+               
+        Config config = ConfigProviderResolver.instance().getBuilder().addDefaultSources().addDiscoveredSources().addDiscoveredConverters().build();
+        Pizza dVaule = config.getValue("tck.config.test.customDbConfig.key3", Pizza.class);
+        Assert.assertEquals(dVaule.getSize(), "big");
+        Assert.assertEquals(dVaule.getFlavor(), "cheese");
+    }
+    
+    @Test
+    public void testAutoDiscoveredConverterNotAddedAutomatically() {               
+        Config config = ConfigProviderResolver.instance().getBuilder().addDefaultSources().addDiscoveredSources().build();
+        try {
+            Pizza dVaule = config.getValue("tck.config.test.customDbConfig.key3", Pizza.class);
+            Assert.fail("The auto discovered converter should not be added automatically.");
+        } 
+        catch (Exception e) {
+            Assert.assertTrue( e instanceof IllegalArgumentException);
+        }
+       
     }
 }

@@ -34,6 +34,7 @@ public class CustomDbConfigSource implements ConfigSource {
     public CustomDbConfigSource() {
         configValues.put("tck.config.test.customDbConfig.key1", "valueFromDb1");
         configValues.put("tck.config.test.customDbConfig.key2", "valueFromDb2");
+        configValues.put("tck.config.test.customDbConfig.key3", "big:cheese");
     }
 
     @Override
