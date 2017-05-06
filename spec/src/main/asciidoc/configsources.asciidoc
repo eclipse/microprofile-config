@@ -1,19 +1,23 @@
 //
-// Copyright (c) 2016-2017 Eclipse Microprofile Contributors:
-// Mark Struberg
+// Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
+// You may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//    http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
+// Contributors:
+// Mark Struberg
+// Emily Jiang
 
 [[configsource]]
 == ConfigSources
@@ -24,14 +28,14 @@ The `Config` uses all configured implementations of `ConfigSource` to look up th
 === ConfigSource Ordering
 
 Each `ConfigSource` has a specified `ordinal`, which is used to determine the importance of the values taken from the associated `ConfigSource`.
-A higher `ordinal` means that the values taken from this `ConfigSource` will override values from lower-priority `ConfigSource` s.
+A higher `ordinal` means that the values taken from this `ConfigSource` will override values from lower-priority <<ConfigSource,ConfigSources>>.
 This allows a configuration to be customized from outside a binary, assuming that external `ConfigSource` s have higher `ordinal` values than the ones whose values originate within the release binaries.
 
 It can also be used to implement a drop-in configuration approach.
 Simply create a jar containing a `ConfigSource` with a higher ordinal and override configuration values in it.
-If the jar is present on the classpath then it will override configuration values from `ConfigSource` s with lower `ordinal` values.
+If the jar is present on the classpath then it will override configuration values from <<ConfigSource,ConfigSources>> with lower `ordinal` values.
 
-The ordinal for property file based `ConfigSource` s can be configured using the key `config_ordinal` inside the property file.
+The ordinal for property file based <<ConfigSource,ConfigSources>> can be configured using the key `config_ordinal` inside the property file.
 
 [source, text]
 ----
@@ -42,18 +46,16 @@ com.acme.myproject.someserver.url = http://more_important.server/some/endpoint
 [[default_configsources]]
 === Default ConfigSources
 
-A Microprofile-Config implementation must provide `ConfigSource` s for the following data out of the box:
+A Microprofile-Config implementation must provide <<ConfigSource,ConfigSources>> for the following data out of the box:
 
 * System properties (ordinal=400)
-* Environment properties (ordinal=300).
-  The built in `ConfigSource` for the environment provides an all upper-case fallback lookup where dots are replaced with underlines.
-  An environment setting `ACME_MYKEY=bla` machtches a lookup for `config.getValue("acme.mykey")`.
+* Environment properties (ordinal=300).  
 * A `ConfigSource` for each property file `META-INF/microprofile-config.properties` found on the classpath. (default ordinal = 100)
 
 [[custom_configsources]]
 === Custom ConfigSources
 
-`ConfigSource` s are discovered using the `java.util.ServiceLoader` mechanism.
+<<configsource,ConfigSources>> are discovered using the `java.util.ServiceLoader` mechanism.
 
 To add a custom `ConfigSource`, implement the interface `org.eclipse.microprofile.config.spi.ConfigSource`.
 
@@ -80,8 +82,7 @@ public class CustomDbConfigSource implements ConfigSource {
     public String getName() {
         return "customDbConfig";
     }
-
-    // + methods to read from the DB
+    
 }
 
 ----
@@ -92,7 +93,7 @@ Then register your implementation in a resource file `/META-INF/services/org.ecl
 === Custom ConfigSources via ConfigSourceProvider
 
 If you need dynamic <<configsource,ConfigSources>> you can also register a `ConfigSourceProvider` in a similar manner.
-This is useful if you are required to dynamically pick up multiple <<configsource,ConfigSources>> of the same kind;
+This is useful if you need to dynamically pick up multiple <<configsource,ConfigSources>> of the same kind;
 for example, to pick up all `myproject.properties` resources from all the JARs in your classpath.
 
 A custom `ConfigSourceProvider` must implement the interface `org.eclipse.microprofile.config.spi.ConfigSourceProvider`.

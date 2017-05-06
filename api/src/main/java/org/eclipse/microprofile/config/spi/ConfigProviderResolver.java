@@ -62,8 +62,8 @@ public abstract class ConfigProviderResolver {
      * This ConfigBuilder will initially contain no {@link ConfigSource}. The other {@link ConfigSource} will have
      * to be added manually or discovered by calling {@link ConfigBuilder#addDiscoveredSources()}.
      *
-     * This ConfigBuilder will initially contain default {@link Converter Converters} as well as any converters
-     * discovered using the ServiceLoader pattern.
+     * This ConfigBuilder will initially contain default {@link Converter Converters}. Any other converters will need to 
+     * be added manually. 
      *
      * The ConfigProvider will not manage the Config instance internally
      * @return a fresh ConfigBuilder

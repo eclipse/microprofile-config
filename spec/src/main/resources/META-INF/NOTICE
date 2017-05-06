@@ -9,5 +9,6 @@ PackageHomePage: http://www.eclipse.org/microprofile
 PackageLicenseDeclared: Apache-2.0
 
 PackageCopyrightText: <text>
-Mark Struberg
+Mark Struberg struberg@apache.org
+Emily Jiang emijiang@uk.ibm.com
 </text>

@@ -59,6 +59,13 @@ public interface ConfigBuilder {
      * @return the ConfigBuilder with the autodiscovered config sources
      */
     ConfigBuilder addDiscoveredSources();
+    
+    /**
+     * Add the converters to be loaded via service loader pattern
+     *
+     * @return the ConfigBuilder with the autodiscovered converters
+     */
+    ConfigBuilder addDiscoveredConverters();
     /**
      * Return the ConfigBuilder for a given classloader
      *
