@@ -35,6 +35,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers;
 import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -54,7 +55,7 @@ public class CDIPlainInjectionTest extends Arquillian {
     @Deployment
     public static Archive deployment() {
         return ShrinkWrap.create(WebArchive.class)
-                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class)
+                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class, TestSetup.class, AdditionalMatchers.class)
                 .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
