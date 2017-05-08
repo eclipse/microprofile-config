@@ -48,7 +48,7 @@ public class CustomConfigSourceTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "customConfigSourceTest.jar")
-                .addClass(CustomConfigSourceTest.class)
+                .addClasses(CustomConfigSourceTest.class, CustomDbConfigSource.class, CustomConfigSourceProvider.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)

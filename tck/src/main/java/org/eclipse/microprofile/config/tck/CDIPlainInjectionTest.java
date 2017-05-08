@@ -23,19 +23,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
-import static org.eclipse.microprofile.config.tck.testsupport.TestSetup.getBeanOfType;
 import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.tck.testsupport.TestSetup;
+import org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -54,7 +54,8 @@ public class CDIPlainInjectionTest extends Arquillian {
     @Deployment
     public static Archive deployment() {
         return ShrinkWrap.create(WebArchive.class)
-                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class)
+                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class, AdditionalMatchers.class
+                           , TestConfigSource.class)
                 .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
@@ -88,21 +89,25 @@ public class CDIPlainInjectionTest extends Arquillian {
     }
 
     private void ensure_all_property_values_are_defined() {
-        TestSetup.ensurePropertyDefined("my.string.property", "text");
-        TestSetup.ensurePropertyDefined("my.boolean.property", "true");
-        TestSetup.ensurePropertyDefined("my.int.property", "5");
-        TestSetup.ensurePropertyDefined("my.long.property", "10");
-        TestSetup.ensurePropertyDefined("my.float.property", "10.5");
-        TestSetup.ensurePropertyDefined("my.double.property", "11.5");
+        System.setProperty("my.string.property", "text");
+        System.setProperty("my.boolean.property", "true");
+        System.setProperty("my.int.property", "5");
+        System.setProperty("my.long.property", "10");
+        System.setProperty("my.float.property", "10.5");
+        System.setProperty("my.double.property", "11.5");
     }
 
     private void clear_all_property_values() {
-        TestSetup.ensurePropertyUndefined("my.string.property");
-        TestSetup.ensurePropertyUndefined("my.boolean.property");
-        TestSetup.ensurePropertyUndefined("my.int.property");
-        TestSetup.ensurePropertyUndefined("my.long.property");
-        TestSetup.ensurePropertyUndefined("my.float.property");
-        TestSetup.ensurePropertyUndefined("my.double.property");
+        System.getProperties().remove("my.string.property");
+        System.getProperties().remove("my.boolean.property");
+        System.getProperties().remove("my.int.property");
+        System.getProperties().remove("my.long.property");
+        System.getProperties().remove("my.float.property");
+        System.getProperties().remove("my.double.property");
+    }
+
+    private <T> T getBeanOfType(Class<T> beanClass) {
+        return CDI.current().select(beanClass).get();
     }
 
     @Dependent
