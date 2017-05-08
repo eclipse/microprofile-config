@@ -39,6 +39,7 @@ import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 public class CustomConfigSourceTest extends Arquillian {
 
@@ -49,6 +50,7 @@ public class CustomConfigSourceTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "customConfigSourceTest.jar")
                 .addClass(CustomConfigSourceTest.class)
+                .addPackage(CustomDbConfigSource.class.getPackage())
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)

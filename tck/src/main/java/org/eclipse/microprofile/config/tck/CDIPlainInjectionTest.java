@@ -49,6 +49,8 @@ import org.testng.annotations.Test;
  * Test cases for CDI-based API that test retrieving values from the configuration.
  * The tests depend only on CDI 1.2.
  * @author Ondrej Mihalyi
+ * @author Emily Jiang
+ * 
  */
 public class CDIPlainInjectionTest extends Arquillian {
 
