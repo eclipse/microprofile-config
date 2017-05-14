@@ -111,17 +111,7 @@ public class ConfigProviderTest extends Arquillian {
     public void testNonExistingConfigKeyGet() {
         config.getValue("tck.config.test.keydoesnotexist", String.class);
     }
-
-    @Test
-    public void testEmptyConfigTreatedAsNotExisting() {
-        Assert.assertFalse(config.getOptionalValue("tck.config.test.javaconfig.emptyvalue", String.class).isPresent());
-    }
-
-    @Test(expectedExceptions = NoSuchElementException.class)
-    public void testEmptyConfigTreatedAsNotExistingGet() {
-        config.getValue("tck.config.test.javaconfig.emptyvalue", String.class);
-    }
-
+    
     @Test
     public void testGetConfigSources() {
         Iterable<ConfigSource> configSources = config.getConfigSources();
