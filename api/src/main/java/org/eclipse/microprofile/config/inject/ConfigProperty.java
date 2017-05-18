@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
-
+ 
 /**
  * Binds the injection point with a configured value.
  * Can be used to annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or {@code javax.inject.Provider<TYPE>},
@@ -43,22 +43,31 @@ import javax.inject.Qualifier;
  * The first sample injects the configured value of the {@code my.long.property} property.
  * The injected value does not change even if the underline
  * property value changes in the {@link org.eclipse.microprofile.config.Config}.
- * If no configured value exists for this property and no {@link #defaultValue()} is provided,
- * a {@code DeplymentException} will be thrown during startup.
- *
- * <p>Injecting a native value is recommended for a property that does not change at runtime or used by a bean with RequestScoped.
+ * 
+ * <p>Injecting a native value is recommended for a mandatory property and its value does not change at runtime or used by a bean with RequestScoped.
  * <p>A further recommendation is to use the built in {@code META-INF/microprofile-config.properties} file mechanism
  * to provide default values inside an Application.
+ * If no configured value exists for this property, a {@code DeplymentException} will be thrown during startup.
  * <pre>
  * &#064;Inject
- * &#064;ConfigProperty(name="my.long.property", defaultValue="123")
+ * &#064;ConfigProperty(name="my.long.property")
  * private Long injectedLongValue;
  * </pre>
+ * 
  *
  * <h3>Injecting Optional Values</h3>
  *
- * The following code injects an Optional value of my.long.property property.
- * Countrary to natively injecting the configured value this will not lead to a DeploymentException if the configured value is missing.
+ * 
+ * Contrary to natively injecting, if the property is not specified, this will not lead to a DeploymentException.
+ * The following code injects a Long value to the {@code my.optional.long.property}. 
+ * If the property does not exist, the value {@code 123} will be assigned. 
+ * to {@code injectedLongValue}.
+ * <pre>
+ * &#064;Inject
+ * &#064;ConfigProperty(name="my.optional.long.property", defaultValue="123")
+ * private Long injectedLongValue;
+ * </pre>
+ * The following code injects an Optional value of {@code my.optional.int.property}.
  * <pre>
  * &#064;Inject
  * &#064;ConfigProperty(name = "my.optional.int.property")
@@ -67,7 +76,7 @@ import javax.inject.Qualifier;
  *
  * <h3>Injecting Dynamic Values</h3>
  *
- * The next sample injects a Provider for the value of my.long.property property to resolve the property dynamically.
+ * The next sample injects a Provider for the value of {@code my.long.property} property to resolve the property dynamically.
  * Each invocation to {@code Provider#get()} will resolve the latest value from underlying {@link org.eclipse.microprofile.config.Config} again.
  * The existence of configured values will get checked during startup.
  * Instances of {@code Provider<T>} are guaranteed to be Serializable.
@@ -78,16 +87,17 @@ import javax.inject.Qualifier;
  * </pre>
  *
  * <p>If {@code ConfigProperty} is used with a type where no {@link org.eclipse.microprofile.config.spi.Converter} exists,
- * a deployment error is thrown.
+ * a deployment error will be thrown.
  *
  * @author Ondrej Mihalyi
- * @author Emily Jiang
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
 @Qualifier
 @Retention(RUNTIME)
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 public @interface ConfigProperty {
+    String UNCONFIGURED_VALUE="org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
     /**
      * The key of the config property used to look up the configuration value.
      * If it is not specified, it will be derived automatically as {@code <class_name>.<injetion_point_name>},
@@ -110,5 +120,5 @@ public @interface ConfigProperty {
      * @return the default value as a string
      */
     @Nonbinding
-    String defaultValue() default "";
+    String defaultValue() default UNCONFIGURED_VALUE;
 }
