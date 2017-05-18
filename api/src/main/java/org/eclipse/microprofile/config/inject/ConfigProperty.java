@@ -59,7 +59,8 @@ import javax.inject.Qualifier;
  *
  * 
  * Contrary to natively injecting, if the property is not specified, this will not lead to a DeploymentException.
- * The following code injects a Long value to the {@code my.optional.long.property}. If the property does not exist, the value {@code 123} will be assigned 
+ * The following code injects a Long value to the {@code my.optional.long.property}. 
+ * If the property does not exist, the value {@code 123} will be assigned. 
  * to {@code injectedLongValue}.
  * <pre>
  * &#064;Inject
