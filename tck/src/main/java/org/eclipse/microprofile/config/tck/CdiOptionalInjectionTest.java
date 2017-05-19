@@ -19,12 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck;
 
-import java.util.Optional;
-
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -48,7 +44,7 @@ public class CdiOptionalInjectionTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "cdiOptionalInjectionTest.jar")
-                .addClasses(CdiOptionalInjectionTest.class)
+                .addClasses(CdiOptionalInjectionTest.class, OptionalValuesBean.class)
                 .addAsManifestResource(new StringAsset("my.optional.int.property=1234\nmy.optional.string.property=hello"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
@@ -70,37 +66,5 @@ public class CdiOptionalInjectionTest extends Arquillian {
 
         Assert.assertTrue(optionalValuesBean.getStringValue().isPresent());
         Assert.assertEquals(optionalValuesBean.getStringValue().get(), "hello");
-    }
-
-
-
-    @Dependent
-    public static class OptionalValuesBean {
-        @Inject
-        @ConfigProperty(name="my.optional.int.property")
-        private Optional<Integer> intProperty;
-
-        @Inject
-        @ConfigProperty(name="my.notexisting.property")
-        private Optional<Integer> notexistingProperty;
-
-        private Optional<String> stringValue;
-
-        @Inject
-        public void setStringValue(@ConfigProperty(name="my.optional.string.property") Optional<String> stringValue) {
-            this.stringValue = stringValue;
-        }
-
-        public Optional<String> getStringValue() {
-            return stringValue;
-        }
-
-        public Optional<Integer> getIntProperty() {
-            return intProperty;
-        }
-
-        public Optional<Integer> getNotexistingProperty() {
-            return notexistingProperty;
-        }
     }
 }
