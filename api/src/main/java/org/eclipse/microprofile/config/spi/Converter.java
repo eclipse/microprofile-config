@@ -46,10 +46,6 @@ package org.eclipse.microprofile.config.spi;
  *     <li>{@code java.time.LocalTime} as defined in {@link java.time.LocalTime#parse(CharSequence)}</li>
  *     <li>{@code OffsetDateTime} as defined in {@link java.time.OffsetDateTime#parse(CharSequence)}</li>
  *     <li>{@code OffsetTime} as defined in {@link java.time.OffsetTime#parse(CharSequence)}</li>
- *     <li>{@code Date} in various ISO-8601 formats.
- *          'yyyy-MM-dd', 'yyyy-MM-ddThh:mm:ss' (timezone from current Locale), 'yyyy-MM-ddThh:mm:ssZ',
- *          'yyyy-MM-ddThh:mm:ss±hh:mm' (time zone designator)
- *          missing information is set to 0.</li>
  *     <li>{@code Instant}</li>
  *
  * </ul>

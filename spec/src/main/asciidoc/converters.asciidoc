@@ -35,7 +35,6 @@ The following `Converter` s are provided by Microprofile-Config by default:
 * `Long`
 * `Float` , a dot '.' is used to separate the fractional digits
 * `Double` , a dot '.' is used to separate the fractional digits
-* `java.util.Date` in ISO-8601 format (https://www.ietf.org/rfc/rfc3339.txt), e.g. YYYY-MM-DD. Remaining fractions are set to 0.
 * `Duration`
 * `LocalTime`
 * `LocalDate`
