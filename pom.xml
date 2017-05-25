@@ -19,7 +19,7 @@
 
     <groupId>org.eclipse.microprofile.config.parent</groupId>
     <artifactId>microprofile-config-parent</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <url>http://microprofile.io</url>
