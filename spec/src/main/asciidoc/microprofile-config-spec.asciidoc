@@ -36,7 +36,7 @@ endif::[]
 
 include::license-alv2.asciidoc[]
 
-=== Microprofile Config
+== Microprofile Config
 
 
 include::architecture.asciidoc[]

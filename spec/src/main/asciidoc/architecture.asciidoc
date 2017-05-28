@@ -46,7 +46,7 @@ com.acme.myproject.someserver.port = 9085
 com.acme.myproject.someserver.active = true
 com.acme.other.stuff.name = Karl
 com.acme.myproject.notify.onerror=karl@mycompany,sue@mcompany
-some.library.own.config=somem value
+some.library.own.config=some value
 ----
 
 
