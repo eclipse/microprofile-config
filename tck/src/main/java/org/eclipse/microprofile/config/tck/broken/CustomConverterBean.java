@@ -32,7 +32,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 public class CustomConverterBean {
 
-	@RequestScoped
+    @RequestScoped
     public static class ConfigOwner {
 
         @Inject
