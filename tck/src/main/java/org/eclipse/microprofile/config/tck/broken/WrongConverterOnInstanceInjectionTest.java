@@ -19,11 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck.broken;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.DeploymentException;
-import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.ShouldThrowException;
 import org.jboss.arquillian.testng.Arquillian;
@@ -62,11 +59,5 @@ public class WrongConverterOnInstanceInjectionTest extends Arquillian {
     }
 
 
-    @RequestScoped
-    public static class ConfigOwner {
-
-        @Inject
-        @ConfigProperty(name="my.long.value")
-        private Long configValue;
-    }
+    
 }
