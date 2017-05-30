@@ -26,8 +26,8 @@
 
     <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-spec</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>MicroProfile Config Specification</name>
 
     <properties>
         <asciidoctor-maven.version>1.5.5</asciidoctor-maven.version>
