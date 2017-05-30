@@ -19,11 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck.broken;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.DeploymentException;
-import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.ShouldThrowException;
 import org.jboss.arquillian.testng.Arquillian;
@@ -46,8 +43,7 @@ public class MissingConverterOnInstanceInjectionTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "missingConverterOnInstanceInjectionTest.jar")
-                .addClass(ConfigOwner.class)
-                .addClass(CustomType.class)
+                .addClass(CustomConverterBean.class)
                 .addAsManifestResource(new StringAsset("my.customtype.value=xxxxx"), "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -62,16 +58,5 @@ public class MissingConverterOnInstanceInjectionTest extends Arquillian {
     public void test() {
     }
 
-
-    @RequestScoped
-    public static class ConfigOwner {
-
-        @Inject
-        @ConfigProperty(name="my.customtype.value")
-        private CustomType configValue;
-    }
-
-    public static class CustomType {
-
-    }
+    
 }

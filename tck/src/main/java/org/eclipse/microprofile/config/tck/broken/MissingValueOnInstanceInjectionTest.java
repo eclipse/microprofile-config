@@ -19,11 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck.broken;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.DeploymentException;
-import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.ShouldThrowException;
 import org.jboss.arquillian.testng.Arquillian;
@@ -45,7 +42,7 @@ public class MissingValueOnInstanceInjectionTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "missingValueOnInstanceInjectionTest.jar")
-                .addClass(MissingValueOwner.class)
+                .addClass(ConfigOwner.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
@@ -60,11 +57,5 @@ public class MissingValueOnInstanceInjectionTest extends Arquillian {
     }
 
 
-    @RequestScoped
-    public static class MissingValueOwner {
-
-        @Inject
-        @ConfigProperty(name="not.existing.value")
-        private Long configValue;
-    }
+    
 }
