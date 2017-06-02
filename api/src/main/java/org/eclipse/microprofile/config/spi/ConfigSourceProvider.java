@@ -40,7 +40,7 @@ package org.eclipse.microprofile.config.spi;
  *
  * <p>A ConfigSourceProvider will get picked up via the
  * {@link java.util.ServiceLoader} mechanism and can be registered by providing a
- * {@code META-INF/services/javax.config.spi.ConfigSourceProvider} file which contains
+ * {@code META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider} file which contains
  * the fully qualified classname of the custom ConfigSourceProvider.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
