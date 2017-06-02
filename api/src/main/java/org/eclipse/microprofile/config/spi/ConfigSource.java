@@ -48,7 +48,7 @@ import java.util.Map;
  * <p>Custom ConfigSource will get picked up via the {@link java.util.ServiceLoader} mechanism and and can be registered by
  * providing a file
  * <pre>
- *     META-INF/services/javax.config.spi.ConfigSource
+ *     META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource
  * </pre>
  * which contains the fully qualified {@code ConfigSource} implementation class name as content.
  *
