@@ -43,6 +43,25 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:git:https://github.com/eclipse/microprofile-config.git</connection>
+        <developerConnection>scm:git:https://github.com/eclipse/microprofile-config.git</developerConnection>
+        <url>https://github.com/eclipse/microprofile-config</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>eclipse.releases.https</id>
+            <name>Eclipse Release Distribution Repository</name>
+            <url>https://repository.eclipse.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>eclipse.snapshots.https</id>
+            <name>Eclipse Development Snapshot Repository</name>
+            <url>https://repository.eclipse.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <modules>
         <module>api</module>
