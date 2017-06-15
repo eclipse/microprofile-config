@@ -1,0 +1,23 @@
+%YAML 1.2
+---
+documentation:
+  - title: Configuration for Microprofile
+    file: spec/src/main/asciidoc/microprofile-config-spec.asciidoc
+
+  - title: Architecture
+    file: spec/src/main/asciidoc/architecture.asciidoc
+
+  - title: Configuration Usage Examples
+    file: spec/src/main/asciidoc/configexamples.asciidoc
+
+  - title: Accessing or Creating a certain Configuration
+    file: spec/src/main/asciidoc/configprovider.asciidoc
+
+  - title: ConfigSources
+    file: spec/src/main/asciidoc/configsources.asciidoc
+
+  - title: Converter
+    file: spec/src/main/asciidoc/converters.asciidoc
+
+  - title: License
+    file: spec/src/main/asciidoc/license-alv2.asciidoc
