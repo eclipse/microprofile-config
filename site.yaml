@@ -1,6 +1,5 @@
 %YAML 1.2
 ---
-friendly_name: "My custom name"
 documentation:
   - title: Configuration for Microprofile
     file: spec/src/main/asciidoc/microprofile-config-spec.asciidoc
