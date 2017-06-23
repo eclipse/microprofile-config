@@ -19,7 +19,7 @@
 
     <parent>
         <!-- This is just for now and will not work if the API has a separate release cycle than the rest. -->
-        <groupId>org.eclipse.microprofile.config.parent</groupId>
+        <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile-config-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -77,4 +77,26 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>eclipse-jarsigner</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.eclipse.cbi.maven.plugins</groupId>
+                        <artifactId>eclipse-jarsigner-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+    
 </project>
