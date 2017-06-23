@@ -89,6 +89,14 @@
         </dependencies>
     </dependencyManagement>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.eclipse.org</id>
+            <name>Project Repository - Releases</name>
+            <url>https://repo.eclipse.org/content/groups/cbi/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -250,4 +258,12 @@
 
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>eclipse-jarsigner</id>
+            <!-- turns on signing of JARs by the Eclipse signer plugin -->
+        </profile>
+    </profiles>
+
 </project>
