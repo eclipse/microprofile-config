@@ -93,7 +93,7 @@ public interface Config {
      *             The configuration propertyName.
      * @param propertyType
      *             The type into which the resolve property value should get converted
-     * @return the resolved property value as an Optional of the requested type.
+     * @return the resolved property value as an object of the requested type.
      * @throws IllegalArgumentException if the property cannot be converted to the specified type.
      * @throws java.util.NoSuchElementException if the property isn't present in the configuration.
      */
