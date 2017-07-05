@@ -52,7 +52,7 @@ Microprofile Config does not contain an implementation itself but only provides 
 The following Implementations are available 
 
 * Apache Geronimo Config (https://svn.apache.org/repos/asf/geronimo/components/config/trunk)
-
+* WebSphere Liberty 2017 March-June Beta so far (https://developer.ibm.com/wasdev/)
 
 == Design
 
