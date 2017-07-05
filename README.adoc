@@ -34,7 +34,7 @@ If the same property is defined in multiple ConfigSources, we apply a policy to 
 
 Under some circumstances, some data sources may change dynamically.
 The changed values should be fed into the client without the need for restarting the application.
-This requirement is particularly important for micro services running in a cloud environment.
+This requirement is particularly important for microservices running in a cloud environment.
 The MicroProfile Config approach allows to pick up configured values immediately after they got changed.
 
 == Influences and History
