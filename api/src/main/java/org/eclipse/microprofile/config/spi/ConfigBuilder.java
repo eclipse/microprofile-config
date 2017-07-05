@@ -83,7 +83,8 @@ public interface ConfigBuilder {
     ConfigBuilder withSources(ConfigSource... sources);
 
     /**
-     * Add the specified {@link Converter}
+     * Add the specified {@link Converter}.
+     * This method uses reflection to determine what type the converter is for. Custom converters should not be created as a lambda expression, as labmda expressions do not offer enough type information to the reflection API. Explicit implementation of a Converter interface is required for a custom converter.
      *
      * @param converters the converters
      * @return the ConfigBuilder with the added converters
