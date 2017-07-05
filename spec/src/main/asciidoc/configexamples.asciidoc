@@ -36,9 +36,8 @@ public class ConfigUsageSample {
         Config config = ConfigProvider.getConfig();
 
         String serverUrl = config.getValue("acme.myprj.some.url", String.class);
-        Integer serverPort = config.getValue("acme.myprj.some.port", Integer.class);
 
-        callToServer(serverUrl, serverPort);
+        callToServer(serverUrl);
     }
 }
 ----
