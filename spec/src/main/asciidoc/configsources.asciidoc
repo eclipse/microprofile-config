@@ -49,7 +49,7 @@ com.acme.myproject.someserver.url = http://more_important.server/some/endpoint
 A Microprofile-Config implementation must provide <<ConfigSource,ConfigSources>> for the following data out of the box:
 
 * System properties (ordinal=400)
-* Environment properties (ordinal=300).  
+* Environment variables (ordinal=300).  
 * A `ConfigSource` for each property file `META-INF/microprofile-config.properties` found on the classpath. (default ordinal = 100)
 
 [[custom_configsources]]
