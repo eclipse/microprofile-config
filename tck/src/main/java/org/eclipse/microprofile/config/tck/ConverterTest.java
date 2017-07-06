@@ -50,6 +50,7 @@ import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 public class ConverterTest extends Arquillian {
 
