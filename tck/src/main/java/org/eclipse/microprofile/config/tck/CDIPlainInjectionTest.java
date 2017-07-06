@@ -19,6 +19,12 @@
 
 package org.eclipse.microprofile.config.tck;
 
+import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,12 +34,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
-import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers;
 import org.jboss.arquillian.container.test.api.Deployment;
