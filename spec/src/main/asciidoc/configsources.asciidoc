@@ -41,7 +41,7 @@ config_ordinal = 120
 com.acme.myproject.someserver.url = http://more_important.server/some/endpoint
 ----
 
-Note that `config_ordinal` can be set within any `ConfigSource` implementation.  The default implementat of `getOrdinal()` will attempt to read this value, if found and a valid integer, the value will be used, otherwise the default of `100` will be returned.
+Note that `config_ordinal` can be set within any `ConfigSource` implementation.  The default implementation of `getOrdinal()` will attempt to read this value, if found and a valid integer, the value will be used, otherwise the default of `100` will be returned.
 
 [[default_configsources]]
 === Default ConfigSources
