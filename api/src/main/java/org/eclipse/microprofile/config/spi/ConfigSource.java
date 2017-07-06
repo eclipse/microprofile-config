@@ -58,9 +58,11 @@ import java.util.Map;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:john.d.ament@gmail.com">John D. Ament</a>
  *
  */
 public interface ConfigSource {
+    String CONFIG_ORDINAL = "config_ordinal";
     /**
      * Return the properties in this config source
      * @return the map containing the properties in this config source
@@ -74,11 +76,11 @@ public interface ConfigSource {
      * be used for sorting according to string sorting criteria.
      * Note that this property only gets evaluated during ConfigSource discovery.
      *
-     * The ordinal for the default config sources:
+     * The default ordinals for the default config sources:
      * <ol>
-     *  <li>System properties (ordinal=400)</li>
-     *  <li>Environment properties (ordinal=300)</li>
-     *  <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
+     *  <li>System properties (default ordinal=400)</li>
+     *  <li>Environment properties (default ordinal=300)</li>
+     *  <li>/META-INF/microprofile-config.properties (default ordinal=100)</li>
      * </ol>
      *
      *
@@ -90,6 +92,15 @@ public interface ConfigSource {
      * @return the ordinal value
      */
     default int getOrdinal() {
+        String configOrdinal = getValue(CONFIG_ORDINAL);
+        if(configOrdinal != null) {
+            try {
+                return Integer.parseInt(configOrdinal);
+            }
+            catch (NumberFormatException ignored) {
+
+            }
+        }
         return 100;
     }
 
