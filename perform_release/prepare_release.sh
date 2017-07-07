@@ -32,7 +32,7 @@ BASE_REVISION=master # branch, tag or revision to make release from
 
 # check that we have all variables
 
-if echo XX"$RELEASE_VERSION"XX"$DEV_VERSION"XX"$GIT_USER"XX"$GIT_EMAIL"XX"$ORIGIN_REMOTE_REPO" | grep XXXX > /dev/null
+if echo XX"$RELEASE_VERSION"XX"$DEV_VERSION"XX"$GIT_USER"XX"$GIT_EMAIL"XX"$ORIGIN_REMOTE_REPO"XX"$BASE_REVISION"XX | grep XXXX > /dev/null
   then
     echo "ERROR: Some of the required environment variables are undefined. Please define and export them before running this script." >&2
     exit
@@ -54,7 +54,7 @@ git checkout "$BASE_REVISION"
 git reset --hard
 git clean -f
 git branch -D "$BRANCH"
-git tag -d "$TAG"
+git tag -d "$TAG" ## it's OK if tag cannot be found
 # create and checkout release branch
 
 git branch "$BRANCH"
@@ -71,6 +71,8 @@ tar -cvzf staging.tar.gz `git status -s | grep '^??' | sed 's/^[?][?] //'`
 # build the artifacts
 
 # publish the release TAG
+### If this fails because the tag already exists in the remote repo, 
+### you can delete the tag with `git tag -d "$TAG" && git push origin :refs/tags/"$TAG"`
 
 git push "$ORIGIN_REMOTE_REPO" "$TAG"
 
