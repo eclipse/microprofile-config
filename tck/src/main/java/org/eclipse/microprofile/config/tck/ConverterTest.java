@@ -185,7 +185,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testOffsetTime() {
         OffsetTime value = config.getValue("tck.config.test.javaconfig.converter.offsettimevalue", OffsetTime.class);
-        Assert.assertEquals(value, OffsetTime.parse("13:45.30.123456789+02:00"));
+        Assert.assertEquals(value, OffsetTime.parse("13:45:30.123456789+02:00"));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
