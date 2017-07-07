@@ -27,7 +27,8 @@
 #DEV_VERSION=1.0-SNAPSHOT
 #GIT_USER='Ondrej Mihalyi'
 #GIT_EMAIL='ondrej.mihalyi@gmail.com'
-#ORIGIN_REMOTE_REPO=origin # - the name of the upstream repository to push changes to. It should be the main repository, not a fork
+ORIGIN_REMOTE_REPO=origin # - the name of the upstream repository to push changes to. It should be the main repository, not a fork
+BASE_REVISION=master # branch, tag or revision to make release from
 
 # check that we have all variables
 
@@ -36,8 +37,6 @@ if echo XX"$RELEASE_VERSION"XX"$DEV_VERSION"XX"$GIT_USER"XX"$GIT_EMAIL"XX"$ORIGI
     echo "ERROR: Some of the required environment variables are undefined. Please define and export them before running this script." >&2
     exit
   fi
-
-exit
 
 # Specify derived variables
 
@@ -51,7 +50,7 @@ git config user.email "$GIT_EMAIL"
 
 # delete release branch and tag
 
-git checkout master
+git checkout "$BASE_REVISION"
 git reset --hard
 git clean -f
 git branch -D "$BRANCH"
