@@ -58,7 +58,9 @@ package org.eclipse.microprofile.config.spi;
  * <p>A Converter can specify a {@code javax.annotation.Priority}.
  * If no priority is explicitly assigned, the value of 100 is assumed.
  * If multiple Converters are registered for the same type, the one with the highest priority will be used.
- *
+ * All Built In Converters have a {@code javax.annotation.Priority} of 1
+ * A Converter should handle null values returning either null or a valid Object of the specified type.
+ * 
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -66,8 +68,8 @@ package org.eclipse.microprofile.config.spi;
 public interface Converter<T> {
     /**
      * Configure the string value to a specified type
-     * @param value the string representation of a property value
-     * @return the converted value
+     * @param value the string representation of a property value.
+     * @return the converted value or null
      *
      * @throws IllegalArgumentException if the value cannot be converted to the specified type.
      */
