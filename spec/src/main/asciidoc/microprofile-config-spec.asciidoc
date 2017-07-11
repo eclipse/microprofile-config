@@ -18,8 +18,8 @@
 = Configuration for Microprofile
 :authors: Mark Struberg, Emily Jiang
 :email: struberg@apache.org, emijiang@uk.ibm.com
-:revnumber: 0.3
-:revdate: 2017-01-18
+:revnumber: 1.0
+:revdate: 2017-07-10
 :revremark: Proposal
 :version-label!:
 :sectanchors:
