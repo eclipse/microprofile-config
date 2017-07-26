@@ -62,13 +62,14 @@ git checkout "$BRANCH"
 
 # prepare release
 
-mvn --batch-mode -DreleaseVersion=$RELEASE_VERSION -DdevelopmentVersion=$DEV_VERSION -Dtag=$TAG release:clean release:prepare
+mvn --batch-mode -DreleaseVersion=$RELEASE_VERSION -DdevelopmentVersion=$DEV_VERSION -Dtag=$TAG release:clean release:prepare 
 
-# save release staging metadata
-
-tar -cvzf staging.tar.gz `git status -s | grep '^??' | sed 's/^[?][?] //'`
-
-# build the artifacts
+# don't continue if the mvn command fails or aborted
+if [[ x$? != x0 ]]
+  then 
+    echo ERROR, aborting
+    exit
+fi
 
 # publish the release TAG
 ### If this fails because the tag already exists in the remote repo, 
