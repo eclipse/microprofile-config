@@ -21,6 +21,7 @@
     <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>MicroProfile Config</name>
+    <description>Eclipse MicroProfile Configuration Feature - Parent POM</description>
 
     <url>http://microprofile.io</url>
 
@@ -41,6 +42,35 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+    
+    <organization>
+        <name>Eclipse Foundation</name>
+        <url>http://www.eclipse.org/</url>
+    </organization>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/eclipse/microprofile-config/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>Emily Jiang</name>
+            <url>https://github.com/Emily-Jiang</url>
+            <organization>IBM</organization>
+            <organizationUrl>https://www.ibm.com</organizationUrl>
+        </developer>    
+        <developer>
+            <name>Mark Struberg</name>
+            <url>https://github.com/struberg</url>
+        </developer>    
+        <developer>
+            <name>Ondro Mihalyi</name>
+            <url>https://github.com/OndrejM</url>
+            <organization>Payara Services</organization>
+            <organizationUrl>https://www.payara.fish</organizationUrl>
+        </developer>    
+    </developers>
 
     <scm>
         <connection>scm:git:https://github.com/eclipse/microprofile-config.git</connection>
@@ -133,6 +163,11 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.10.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -262,6 +297,27 @@
         <profile>
             <id>eclipse-jarsigner</id>
             <!-- turns on signing of JARs by the Eclipse signer plugin -->
+        </profile>
+        <profile>
+            <id>gpg-sign</id>
+            <!-- signs all artifacts, required for deploying to Maven Central -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 
