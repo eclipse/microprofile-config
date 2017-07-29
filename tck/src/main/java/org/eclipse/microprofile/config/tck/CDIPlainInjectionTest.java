@@ -51,11 +51,15 @@ import org.testng.annotations.Test;
  */
 public class CDIPlainInjectionTest extends Arquillian {
 
+    private static final String DEFAULT_PROPERTY_BEAN_KEY = "org.eclipse.microprofile.config.tck.CDIPlainInjectionTest.defaultPropertyBean.configProperty";
+
     @Deployment
     public static Archive deployment() {
+        // this is needed since there's a requirement to validate on start up
+        System.setProperty(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
         return ShrinkWrap.create(WebArchive.class)
-                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class, AdditionalMatchers.class
-                           , TestConfigSource.class)
+                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class,
+                        AdditionalMatchers.class, TestConfigSource.class, DefaultPropertyBean.class)
                 .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
@@ -88,6 +92,17 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.getIntProperty(), is(equalTo(5)));
     }
 
+    @Test
+    public void can_inject_default_property_path() {
+        clear_all_property_values();
+
+        ensure_all_property_values_are_defined();
+
+        DefaultPropertyBean bean = getBeanOfType(DefaultPropertyBean.class);
+
+        assertThat(bean.getConfigProperty(), is(equalTo("pathConfigValue")));
+    }
+
     private void ensure_all_property_values_are_defined() {
         System.setProperty("my.string.property", "text");
         System.setProperty("my.boolean.property", "true");
@@ -95,6 +110,7 @@ public class CDIPlainInjectionTest extends Arquillian {
         System.setProperty("my.long.property", "10");
         System.setProperty("my.float.property", "10.5");
         System.setProperty("my.double.property", "11.5");
+        System.setProperty(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
     }
 
     private void clear_all_property_values() {
@@ -104,6 +120,7 @@ public class CDIPlainInjectionTest extends Arquillian {
         System.getProperties().remove("my.long.property");
         System.getProperties().remove("my.float.property");
         System.getProperties().remove("my.double.property");
+        System.getProperties().remove(DEFAULT_PROPERTY_BEAN_KEY);
     }
 
     private <T> T getBeanOfType(Class<T> beanClass) {
@@ -156,6 +173,17 @@ public class CDIPlainInjectionTest extends Arquillian {
             return intPropertyProvider.get();
         }
 
+    }
+
+    @Dependent
+    public static class DefaultPropertyBean {
+        @Inject
+        @ConfigProperty
+        private String configProperty;
+
+        public String getConfigProperty() {
+            return configProperty;
+        }
     }
 
     public static class TestConfigSource implements ConfigSource {
