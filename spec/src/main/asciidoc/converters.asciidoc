@@ -29,12 +29,12 @@ This happens by providing `Converter` s in the `Config`.
 
 The following `Converter` s are provided by Microprofile-Config by default:
 
-* `Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "ON".
+* `boolean` and `Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "ON".
   Any other value will be interpreted as `false`
-* `Integer`
-* `Long`
-* `Float` , a dot '.' is used to separate the fractional digits
-* `Double` , a dot '.' is used to separate the fractional digits
+* `int` and `Integer`
+* `long` and `Long`
+* `float` and `Float` , a dot '.' is used to separate the fractional digits
+* `double` and `Double` , a dot '.' is used to separate the fractional digits
 * `Duration`
 * `LocalTime`
 * `LocalDate`

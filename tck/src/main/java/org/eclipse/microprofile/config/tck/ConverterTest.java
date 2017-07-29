@@ -89,6 +89,12 @@ public class ConverterTest extends Arquillian {
         Assert.assertEquals(value, Integer.valueOf(1234));
     }
 
+    @Test
+    public void testInt() {
+        int value = config.getValue("tck.config.test.javaconfig.converter.integervalue", int.class);
+        Assert.assertEquals(value, 1234);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testInteger_Broken() {
         Integer value = config.getValue("tck.config.test.javaconfig.converter.integervalue.broken", Integer.class);
@@ -100,26 +106,44 @@ public class ConverterTest extends Arquillian {
         Assert.assertEquals(value, Long.valueOf(1234567890));
     }
 
+    @Test
+    public void testlong() {
+        long primitiveValue = config.getValue("tck.config.test.javaconfig.converter.longvalue", long.class);
+        Assert.assertEquals(primitiveValue, 1234567890L);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testLong_Broken() {
-        Long value = config.getValue("tck.config.test.javaconfig.converter.longvalue.broken", Long.class);
+        config.getValue("tck.config.test.javaconfig.converter.longvalue.broken", Long.class);
     }
 
     @Test
     public void testFloat() {
         Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class);
-        Assert.assertEquals(value, Float.valueOf(12.34f));
+        Assert.assertEquals(value, 12.34f);
+    }
+
+    @Test
+    public void testfloat() {
+        float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", float.class);
+        Assert.assertEquals(value, 12.34f);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testFloat_Broken() {
-        Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue.broken", Float.class);
+        config.getValue("tck.config.test.javaconfig.converter.floatvalue.broken", Float.class);
     }
 
     @Test
     public void testDouble() {
         Double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue", Double.class);
-        Assert.assertEquals(value, Double.valueOf(12.34d));
+        Assert.assertEquals(value, 12.34d);
+    }
+
+    @Test
+    public void testdouble() {
+        double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue", double.class);
+        Assert.assertEquals(value,12.34d);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -208,6 +232,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testBoolean() {
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true", Boolean.class));
+        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true", boolean.class));
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_uppercase", Boolean.class));
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_mixedcase", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.false", Boolean.class));
@@ -229,6 +254,7 @@ public class ConverterTest extends Arquillian {
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_uppercase", Boolean.class));
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_mixedcase", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", Boolean.class));
+        Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", boolean.class));
     }
 
     @Test
