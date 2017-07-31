@@ -67,11 +67,18 @@ public class CDIPlainInjectionTest extends Arquillian {
         SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
         assertThat(bean.stringProperty, is(equalTo("text")));
-        assertThat(bean.boolProperty, is(true));
+        assertThat(bean.booleanProperty, is(true));
         assertThat(bean.intProperty, is(equalTo(5)));
         assertThat(bean.longProperty, is(equalTo(10L)));
         assertThat(bean.floatProperty, is(floatCloseTo(10.5f, 0.1f)));
         assertThat(bean.doubleProperty, is(closeTo(11.5, 0.1)));
+
+        assertThat(bean.booleanObjProperty, is(true));
+        assertThat(bean.integerProperty, is(equalTo(5)));
+        assertThat(bean.longObjProperty, is(equalTo(10L)));
+        assertThat(bean.floatObjProperty, is(floatCloseTo(10.5f, 0.1f)));
+        assertThat(bean.doubleObjProperty, is(closeTo(11.5, 0.1)));
+
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(3.1415, 0.1)));
     }
 
@@ -119,23 +126,43 @@ public class CDIPlainInjectionTest extends Arquillian {
 
         @Inject
         @ConfigProperty(name="my.boolean.property")
-        private Boolean boolProperty;
+        private Boolean booleanObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.boolean.property")
+        private boolean booleanProperty;
 
         @Inject
         @ConfigProperty(name="my.int.property")
-        private Integer intProperty;
+        private Integer integerProperty;
+
+        @Inject
+        @ConfigProperty(name="my.int.property")
+        private int intProperty;
 
         @Inject
         @ConfigProperty(name="my.long.property")
-        private Long longProperty;
+        private Long longObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.long.property")
+        private long longProperty;
 
         @Inject
         @ConfigProperty(name="my.float.property")
-        private Float floatProperty;
+        private Float floatObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.float.property")
+        private float floatProperty;
 
         @Inject
         @ConfigProperty(name="my.double.property")
-        private Double doubleProperty;
+        private Double doubleObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.double.property")
+        private double doubleProperty;
 
         // the property is not configured in any ConfigSource but its defaultValue will
         // be used to set the field.

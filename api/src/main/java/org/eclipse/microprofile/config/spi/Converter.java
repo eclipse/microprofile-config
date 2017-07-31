@@ -34,12 +34,12 @@ package org.eclipse.microprofile.config.spi;
  **
  * <p>Converters for the following types are provided by default:
  * <ul>
- *     <li>{@code Boolean}, values for {@code true}: (case insensitive)
+ *     <li>{@code boolean} and {@code Boolean}, values for {@code true}: (case insensitive)
  *     &quot;true&quot;, &quot;yes&quot;, &quot;Y&quot;, &quot;on&quot;, &quot;1&quot;</li>
- *     <li>{@code Integer}</li>
- *     <li>{@code Long}</li>
- *     <li>{@code Float}, a dot '.' is used to separate the fractional digits</li>
- *     <li>{@code Double}, a dot '.' is used to separate the fractional digits</li>
+ *     <li>{@code int} and {@code Integer}</li>
+ *     <li>{@code long} and {@code Long}</li>
+ *     <li>{@code float} and {@code Float}, a dot '.' is used to separate the fractional digits</li>
+ *     <li>{@code double} and {@code Double}, a dot '.' is used to separate the fractional digits</li>
  *     <li>{@code java.time.Duration} as defined in {@link java.time.Duration#parse(CharSequence)}</li>
  *     <li>{@code java.time.LocalDateTime} as defined in {@link java.time.LocalDateTime#parse(CharSequence)}</li>
  *     <li>{@code java.time.LocalDate} as defined in {@link java.time.LocalDate#parse(CharSequence)}</li>
