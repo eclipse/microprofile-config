@@ -73,7 +73,7 @@ By default there are 3 default ConfigSources:
 * all `META-INF/microprofile-config.properties` files on the ClassPath.
 (default ordinal=100, separately configurable via a config_ordinal property inside each file)
 
-Therefore, the default values can be specified in the above files packaged with the application and the value can be overwritten later for each deployment.
+Therefore, the default values can be specified in the above files packaged with the application and the value can be overwritten later for each deployment. A higher ordinal number takes precedence over a lower number.
 
 == Custom ConfigSources
 
