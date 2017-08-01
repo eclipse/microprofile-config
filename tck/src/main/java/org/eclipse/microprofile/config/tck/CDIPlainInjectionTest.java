@@ -51,7 +51,8 @@ import org.testng.annotations.Test;
  */
 public class CDIPlainInjectionTest extends Arquillian {
 
-    private static final String DEFAULT_PROPERTY_BEAN_KEY = "org.eclipse.microprofile.config.tck.CDIPlainInjectionTest.defaultPropertyBean.configProperty";
+    private static final String DEFAULT_PROPERTY_BEAN_KEY =
+            "org.eclipse.microprofile.config.tck.CDIPlainInjectionTest.defaultPropertyBean.configProperty";
 
     @Deployment
     public static Archive deployment() {
