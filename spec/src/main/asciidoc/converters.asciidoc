@@ -18,6 +18,7 @@
 // Contributors:
 // Mark Struberg
 // Emily Jiang
+// John D. Ament
 
 [[converter]]
 == Converter
@@ -42,6 +43,7 @@ The following `Converter` s are provided by Microprofile-Config by default:
 * `OffsetDateTime`
 * `OffsetTime`
 * `Instant`
+* `URL`
 
 All built-in `Converter` have the `@Priority` of `1`.
 

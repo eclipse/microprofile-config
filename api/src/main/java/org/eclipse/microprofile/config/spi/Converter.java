@@ -47,6 +47,7 @@ package org.eclipse.microprofile.config.spi;
  *     <li>{@code OffsetDateTime} as defined in {@link java.time.OffsetDateTime#parse(CharSequence)}</li>
  *     <li>{@code OffsetTime} as defined in {@link java.time.OffsetTime#parse(CharSequence)}</li>
  *     <li>{@code Instant}</li>
+ *     <li>{@code URL} as defined by {@link java.net.URL#URL(java.lang.String)}</li>
  *
  * </ul>
  *
@@ -64,6 +65,7 @@ package org.eclipse.microprofile.config.spi;
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:john.d.ament@gmail.com">John D. Ament</a>
  */
 public interface Converter<T> {
     /**
