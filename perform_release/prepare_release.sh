@@ -48,7 +48,7 @@ do
     fi
 done
 if [ ${#missing_vars[@]} != 0 ]; then
-    echo "ERROR: the following required variables are not defined: ${missing_vars[@]}}"
+    echo "ERROR: the following required variables are not defined: ${missing_vars[@]}"
     exit 1
 fi
 
