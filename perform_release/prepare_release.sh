@@ -16,6 +16,7 @@
 ## See the License for the specific language governing permissions and
 ## limitations under the License.
 #######################################################################
+#set -v
 
 ##################################
 # Specify the following variables
@@ -30,13 +31,26 @@
 ORIGIN_REMOTE_REPO=origin # - the name of the upstream repository to push changes to. It should be the main repository, not a fork
 BASE_REVISION=master # branch, tag or revision to make release from
 
-# check that we have all variables
+# try to read in these variables from a release.conf file
+if [ -e release.conf ]; then
+    source release.conf
+fi
 
-if echo XX"$RELEASE_VERSION"XX"$DEV_VERSION"XX"$GIT_USER"XX"$GIT_EMAIL"XX"$ORIGIN_REMOTE_REPO"XX"$BASE_REVISION"XX | grep XXXX > /dev/null
-  then
-    echo "ERROR: Some of the required environment variables are undefined. Please define and export them before running this script." >&2
-    exit
-  fi
+# check that we have all variables, noting each one that is missing
+declare -a release_vars=("RELEASE_VERSION" "DEV_VERSION" "GIT_USER" "GIT_EMAIL" "ORIGIN_REMOTE_REPO" "BASE_REVISION")
+declare -a missing_vars=()
+for v in "${release_vars[@]}"
+do
+    # echo "Checking ${v}=${!v}"
+    if [ "X${!v}" = "X" ]; then
+        echo "${v} is not defined"
+        missing_vars+=("${v}")
+    fi
+done
+if [ ${#missing_vars[@]} != 0 ]; then
+    echo "ERROR: the following required variables are not defined: ${missing_vars[@]}"
+    exit 1
+fi
 
 # Specify derived variables
 
@@ -62,17 +76,17 @@ git checkout "$BRANCH"
 
 # prepare release
 
-mvn --batch-mode -DreleaseVersion=$RELEASE_VERSION -DdevelopmentVersion=$DEV_VERSION -Dtag=$TAG release:clean release:prepare 
+mvn --batch-mode -DreleaseVersion=$RELEASE_VERSION -DdevelopmentVersion=$DEV_VERSION -Dtag=$TAG release:clean release:prepare
 
 # don't continue if the mvn command fails or aborted
 if [[ x$? != x0 ]]
-  then 
+  then
     echo ERROR, aborting
     exit
 fi
 
 # publish the release TAG
-### If this fails because the tag already exists in the remote repo, 
+### If this fails because the tag already exists in the remote repo,
 ### you can delete the tag with `git tag -d "$TAG" && git push origin :refs/tags/"$TAG"`
 
 git push "$ORIGIN_REMOTE_REPO" "$TAG"
