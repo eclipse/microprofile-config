@@ -1,6 +1,5 @@
 //
-// Copyright (c) 2016-2017 Eclipse Microprofile Contributors:
-// Mark Struberg
+// Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +16,7 @@
 
 = Running the Microprofile Config TCK
 
-Any Microprofile 1.1 and higher release must pass this test suite.
+Any Microprofile 1.2 and higher release must pass this test suite.
 The TCK uses `testng`
 
 == Dependencies
@@ -26,16 +25,20 @@ To enable the tests in your project you need to add the following dependency to 
 
 [source, xml]
 ----
+<properties>
+   <microprofile.config.version>1.1-SNAPSHOT</microprofile.config.version>
+</properties>
+
 <dependency>
-    <groupId>org.eclipse.microprofile.apis</groupId>
-    <artifactId>microprofile-config_1.0_api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>org.eclipse.microprofile.config</groupId>
+    <artifactId>microprofile-config-api</artifactId>
+    <version>${microprofile.config.version}</version>
 </dependency>
 
 <dependency>
-    <groupId>org.eclipse.microprofile.config.tck</groupId>
+    <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-tck</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${microprofile.config.version}</version>
     <scope>test</scope>
 </dependency>
 <dependency>
@@ -55,7 +58,7 @@ You also need to specify which tests you want to run, e.g. create a file `tck-su
 
 <suite name="microprofile-config-TCK" verbose="2" configfailurepolicy="continue" >
 
-    <test name="microprofile-config 1.0 TCK">
+    <test name="microprofile-config 1.1 TCK">
         <packages>
             <package name="org.eclipse.microprofile.config.tck.*">
             </package>
@@ -84,6 +87,23 @@ If you use Apache Maven then the tests are run via the `maven-surefire-plugin`
         </plugin>
     </plugins>
 </build>
+----
+
+== Using Surefire
+
+If you don't want to use a tck-suite.xml file, you can also just use in line surefire configuration
+
+[source, xml]
+----
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <configuration>
+        <dependenciesToScan>
+            <dependency>org.eclipse.microprofile.config:microprofile-config-tck</dependency>
+        </dependenciesToScan>
+    </configuration>
+</plugin>
 ----
 
 == Deploying additional Implementation Artifacts

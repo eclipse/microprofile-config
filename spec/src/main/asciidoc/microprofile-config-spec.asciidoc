@@ -16,9 +16,9 @@
 //
 
 = Configuration for Microprofile
-:authors: Mark Struberg, Emily Jiang
-:email: struberg@apache.org, emijiang@uk.ibm.com
-:revnumber: 1.0
+:authors: Mark Struberg, Emily Jiang, John D. Ament
+:email: struberg@apache.org, emijiang@uk.ibm.com, john.d.ament@gmail.com
+:revnumber: 1.1
 :revdate: 2017-07-10
 :revremark: Proposal
 :version-label!:
