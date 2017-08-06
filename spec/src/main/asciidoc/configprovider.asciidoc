@@ -44,11 +44,11 @@ There are 4 different ways to create an `Config` instance:
 * A factory method `ConfigProviderResolver#getBuilder()` to create a `ConfigBuilder` object.
 The builder has no config sources but with only the default converters added. The `ConfigBuilder` object can be filled manually via `ConfigBuilder#withSources(ConfigSources... sources)`.
    This configuration instance will by default not be shared by the `ConfigProvider`.
-  This method is intended be used if a IoT container or any other external Factory can be used to give access to a manually created shared `Config`.
+  This method is intended be used if a IoC container or any other external Factory can be used to give access to a manually created shared `Config`.
 
 The `Config` object created via builder pattern can be managed as follows:
 
-* A factory method `ConfigProvider#registerConfig(Config config, ClassLader classloader)` can be used to register a `Config` within the application.
+* A factory method `ConfigProvider#registerConfig(Config config, ClassLoader classloader)` can be used to register a `Config` within the application.
   This configuration instance *will* be shared by `ConfigProvider#getConfig()`.
   Any subsequent call to `ConfigProvider#getConfig()` will return the registered `Config` instance for this application.
   
@@ -61,8 +61,7 @@ All methods in the `ConfigProvider`, `ConfigProviderResolver` and `Config` imple
 
 The `Config` instances created via CDI are `Serializable`.
 
-If a `Config` is bound to an Application, it gets properly removed if the Application gets destroyed.
-The Config system does not create any memory leaks in that case.
+If a `Config` instance is created via `@Inject Config` or `ConfigProvider#getConfig()` or via the builder pattern but later called `ConfigProvider#registerConfig(Config config, Classloader classloader)`, the `Config` instance will be released when the application is closed. 
 
 
 

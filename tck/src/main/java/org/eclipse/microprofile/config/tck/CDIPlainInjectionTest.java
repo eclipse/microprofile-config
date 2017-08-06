@@ -19,6 +19,12 @@
 
 package org.eclipse.microprofile.config.tck;
 
+import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,12 +34,6 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import static org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers.floatCloseTo;
-import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -51,11 +51,16 @@ import org.testng.annotations.Test;
  */
 public class CDIPlainInjectionTest extends Arquillian {
 
+    private static final String DEFAULT_PROPERTY_BEAN_KEY =
+            "org.eclipse.microprofile.config.tck.CDIPlainInjectionTest.defaultPropertyBean.configProperty";
+
     @Deployment
     public static Archive deployment() {
+        // this is needed since there's a requirement to validate on start up
+        System.setProperty(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
         return ShrinkWrap.create(WebArchive.class)
-                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class, AdditionalMatchers.class
-                           , TestConfigSource.class)
+                .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class,
+                        AdditionalMatchers.class, TestConfigSource.class, DefaultPropertyBean.class)
                 .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
@@ -67,11 +72,18 @@ public class CDIPlainInjectionTest extends Arquillian {
         SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
         assertThat(bean.stringProperty, is(equalTo("text")));
-        assertThat(bean.boolProperty, is(true));
+        assertThat(bean.booleanProperty, is(true));
         assertThat(bean.intProperty, is(equalTo(5)));
         assertThat(bean.longProperty, is(equalTo(10L)));
         assertThat(bean.floatProperty, is(floatCloseTo(10.5f, 0.1f)));
         assertThat(bean.doubleProperty, is(closeTo(11.5, 0.1)));
+
+        assertThat(bean.booleanObjProperty, is(true));
+        assertThat(bean.integerProperty, is(equalTo(5)));
+        assertThat(bean.longObjProperty, is(equalTo(10L)));
+        assertThat(bean.floatObjProperty, is(floatCloseTo(10.5f, 0.1f)));
+        assertThat(bean.doubleObjProperty, is(closeTo(11.5, 0.1)));
+
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(3.1415, 0.1)));
     }
 
@@ -88,6 +100,17 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.getIntProperty(), is(equalTo(5)));
     }
 
+    @Test
+    public void can_inject_default_property_path() {
+        clear_all_property_values();
+
+        ensure_all_property_values_are_defined();
+
+        DefaultPropertyBean bean = getBeanOfType(DefaultPropertyBean.class);
+
+        assertThat(bean.getConfigProperty(), is(equalTo("pathConfigValue")));
+    }
+
     private void ensure_all_property_values_are_defined() {
         System.setProperty("my.string.property", "text");
         System.setProperty("my.boolean.property", "true");
@@ -95,6 +118,7 @@ public class CDIPlainInjectionTest extends Arquillian {
         System.setProperty("my.long.property", "10");
         System.setProperty("my.float.property", "10.5");
         System.setProperty("my.double.property", "11.5");
+        System.setProperty(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
     }
 
     private void clear_all_property_values() {
@@ -104,6 +128,7 @@ public class CDIPlainInjectionTest extends Arquillian {
         System.getProperties().remove("my.long.property");
         System.getProperties().remove("my.float.property");
         System.getProperties().remove("my.double.property");
+        System.getProperties().remove(DEFAULT_PROPERTY_BEAN_KEY);
     }
 
     private <T> T getBeanOfType(Class<T> beanClass) {
@@ -119,23 +144,43 @@ public class CDIPlainInjectionTest extends Arquillian {
 
         @Inject
         @ConfigProperty(name="my.boolean.property")
-        private Boolean boolProperty;
+        private Boolean booleanObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.boolean.property")
+        private boolean booleanProperty;
 
         @Inject
         @ConfigProperty(name="my.int.property")
-        private Integer intProperty;
+        private Integer integerProperty;
+
+        @Inject
+        @ConfigProperty(name="my.int.property")
+        private int intProperty;
 
         @Inject
         @ConfigProperty(name="my.long.property")
-        private Long longProperty;
+        private Long longObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.long.property")
+        private long longProperty;
 
         @Inject
         @ConfigProperty(name="my.float.property")
-        private Float floatProperty;
+        private Float floatObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.float.property")
+        private float floatProperty;
 
         @Inject
         @ConfigProperty(name="my.double.property")
-        private Double doubleProperty;
+        private Double doubleObjProperty;
+
+        @Inject
+        @ConfigProperty(name="my.double.property")
+        private double doubleProperty;
 
         // the property is not configured in any ConfigSource but its defaultValue will
         // be used to set the field.
@@ -156,6 +201,17 @@ public class CDIPlainInjectionTest extends Arquillian {
             return intPropertyProvider.get();
         }
 
+    }
+
+    @Dependent
+    public static class DefaultPropertyBean {
+        @Inject
+        @ConfigProperty
+        private String configProperty;
+
+        public String getConfigProperty() {
+            return configProperty;
+        }
     }
 
     public static class TestConfigSource implements ConfigSource {

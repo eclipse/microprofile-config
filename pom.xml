@@ -13,15 +13,15 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.eclipse.microprofile.config.parent</groupId>
+    <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>MicroProfile Config</name>
+    <description>Eclipse MicroProfile Configuration Feature - Parent POM</description>
 
     <url>http://microprofile.io</url>
 
@@ -42,7 +42,58 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+    
+    <organization>
+        <name>Eclipse Foundation</name>
+        <url>http://www.eclipse.org/</url>
+    </organization>
 
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/eclipse/microprofile-config/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <name>Emily Jiang</name>
+            <url>https://github.com/Emily-Jiang</url>
+            <organization>IBM</organization>
+            <organizationUrl>https://www.ibm.com</organizationUrl>
+        </developer>    
+        <developer>
+            <name>Mark Struberg</name>
+            <url>https://github.com/struberg</url>
+        </developer>    
+        <developer>
+            <name>Ondro Mihalyi</name>
+            <url>https://github.com/OndrejM</url>
+            <organization>Payara Services</organization>
+            <organizationUrl>https://www.payara.fish</organizationUrl>
+        </developer>    
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/eclipse/microprofile-config.git</connection>
+        <developerConnection>scm:git:https://github.com/eclipse/microprofile-config.git</developerConnection>
+        <url>https://github.com/eclipse/microprofile-config</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>repo.eclipse.org</id>
+            <name>Eclipse MicroProfile Repository - Releases</name>
+            <url>https://repo.eclipse.org/content/repositories/microprofile-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>repo.eclipse.org</id>
+            <name>Eclipse MicroProfile Repository - Snapshots</name>
+            <url>https://repo.eclipse.org/content/repositories/microprofile-snapshots/</url>
+
+            <uniqueVersion>true</uniqueVersion>  <!-- for keeping multipe snapshot versions - maybe for staging a final version besides nightly versions -->
+
+        </snapshotRepository>
+    </distributionManagement>
 
     <modules>
         <module>api</module>
@@ -60,12 +111,20 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.1.12.Final</version>
+                <version>1.1.13.Final</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.eclipse.org</id>
+            <name>Project Repository - Releases</name>
+            <url>https://repo.eclipse.org/content/groups/cbi/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <build>
         <pluginManagement>
@@ -80,7 +139,11 @@
                         <localCheckout>true</localCheckout>
                     </configuration>
                 </plugin>
-
+                <plugin>
+                    <groupId>org.eclipse.cbi.maven.plugins</groupId>
+                    <artifactId>eclipse-jarsigner-plugin</artifactId>
+                    <version>1.1.4</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
@@ -90,6 +153,21 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.0.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -124,7 +202,7 @@
                             <module name="FileTabCharacter" />
                             <module name="TreeWalker">
                                 <module name="FileContentsHolder" />
-                               <module name="ConstantName">
+                                <module name="ConstantName">
                                     <property name="format" value="^(([A-Z][A-Z0-9]*(_[A-Z0-9]+)*))$" />
                                 </module>
                                 <module name="LocalVariableName" />
@@ -195,7 +273,9 @@
                 <executions>
                     <execution>
                         <id>rat-check</id>
-                        <goals><goal>check</goal></goals>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
                 <configuration>
@@ -212,4 +292,33 @@
 
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>eclipse-jarsigner</id>
+            <!-- turns on signing of JARs by the Eclipse signer plugin -->
+        </profile>
+        <profile>
+            <id>gpg-sign</id>
+            <!-- signs all artifacts, required for deploying to Maven Central -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>

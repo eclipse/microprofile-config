@@ -34,12 +34,12 @@ package org.eclipse.microprofile.config.spi;
  **
  * <p>Converters for the following types are provided by default:
  * <ul>
- *     <li>{@code Boolean}, values for {@code true}: (case insensitive)
+ *     <li>{@code boolean} and {@code Boolean}, values for {@code true}: (case insensitive)
  *     &quot;true&quot;, &quot;yes&quot;, &quot;Y&quot;, &quot;on&quot;, &quot;1&quot;</li>
- *     <li>{@code Integer}</li>
- *     <li>{@code Long}</li>
- *     <li>{@code Float}, a dot '.' is used to separate the fractional digits</li>
- *     <li>{@code Double}, a dot '.' is used to separate the fractional digits</li>
+ *     <li>{@code int} and {@code Integer}</li>
+ *     <li>{@code long} and {@code Long}</li>
+ *     <li>{@code float} and {@code Float}, a dot '.' is used to separate the fractional digits</li>
+ *     <li>{@code double} and {@code Double}, a dot '.' is used to separate the fractional digits</li>
  *     <li>{@code java.time.Duration} as defined in {@link java.time.Duration#parse(CharSequence)}</li>
  *     <li>{@code java.time.LocalDateTime} as defined in {@link java.time.LocalDateTime#parse(CharSequence)}</li>
  *     <li>{@code java.time.LocalDate} as defined in {@link java.time.LocalDate#parse(CharSequence)}</li>
@@ -58,7 +58,9 @@ package org.eclipse.microprofile.config.spi;
  * <p>A Converter can specify a {@code javax.annotation.Priority}.
  * If no priority is explicitly assigned, the value of 100 is assumed.
  * If multiple Converters are registered for the same type, the one with the highest priority will be used.
- *
+ * All Built In Converters have a {@code javax.annotation.Priority} of 1
+ * A Converter should handle null values returning either null or a valid Object of the specified type.
+ * 
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -66,8 +68,8 @@ package org.eclipse.microprofile.config.spi;
 public interface Converter<T> {
     /**
      * Configure the string value to a specified type
-     * @param value the string representation of a property value
-     * @return the converted value
+     * @param value the string representation of a property value.
+     * @return the converted value or null
      *
      * @throws IllegalArgumentException if the value cannot be converted to the specified type.
      */

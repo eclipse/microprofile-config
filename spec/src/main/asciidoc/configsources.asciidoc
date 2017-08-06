@@ -35,22 +35,23 @@ It can also be used to implement a drop-in configuration approach.
 Simply create a jar containing a `ConfigSource` with a higher ordinal and override configuration values in it.
 If the jar is present on the classpath then it will override configuration values from <<ConfigSource,ConfigSources>> with lower `ordinal` values.
 
-The ordinal for property file based <<ConfigSource,ConfigSources>> can be configured using the key `config_ordinal` inside the property file.
-
 [source, text]
 ----
 config_ordinal = 120
 com.acme.myproject.someserver.url = http://more_important.server/some/endpoint
 ----
 
+
+Note that `config_ordinal` can be set within any `ConfigSource` implementation.  The default implementation of `getOrdinal()` will attempt to read this value, if found and a valid integer, the value will be used, otherwise the default of `100` will be returned.
+
 [[default_configsources]]
 === Default ConfigSources
 
 A Microprofile-Config implementation must provide <<ConfigSource,ConfigSources>> for the following data out of the box:
 
-* System properties (ordinal=400)
-* Environment properties (ordinal=300).  
-* A `ConfigSource` for each property file `META-INF/microprofile-config.properties` found on the classpath. (default ordinal = 100)
+* System properties (default ordinal=400).
+* Environment variables (default ordinal=300).
+* A `ConfigSource` for each property file `META-INF/microprofile-config.properties` found on the classpath. (default ordinal = 100).
 
 [[custom_configsources]]
 === Custom ConfigSources
@@ -82,7 +83,7 @@ public class CustomDbConfigSource implements ConfigSource {
     public String getName() {
         return "customDbConfig";
     }
-    
+
 }
 
 ----

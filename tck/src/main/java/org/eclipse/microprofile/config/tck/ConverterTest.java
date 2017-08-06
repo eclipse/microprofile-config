@@ -20,9 +20,12 @@
 package org.eclipse.microprofile.config.tck;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 
 import javax.inject.Inject;
 
@@ -47,6 +50,7 @@ import org.testng.annotations.Test;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 public class ConverterTest extends Arquillian {
 
@@ -85,6 +89,12 @@ public class ConverterTest extends Arquillian {
         Assert.assertEquals(value, Integer.valueOf(1234));
     }
 
+    @Test
+    public void testInt() {
+        int value = config.getValue("tck.config.test.javaconfig.converter.integervalue", int.class);
+        Assert.assertEquals(value, 1234);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testInteger_Broken() {
         Integer value = config.getValue("tck.config.test.javaconfig.converter.integervalue.broken", Integer.class);
@@ -96,26 +106,44 @@ public class ConverterTest extends Arquillian {
         Assert.assertEquals(value, Long.valueOf(1234567890));
     }
 
+    @Test
+    public void testlong() {
+        long primitiveValue = config.getValue("tck.config.test.javaconfig.converter.longvalue", long.class);
+        Assert.assertEquals(primitiveValue, 1234567890L);
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testLong_Broken() {
-        Long value = config.getValue("tck.config.test.javaconfig.converter.longvalue.broken", Long.class);
+        config.getValue("tck.config.test.javaconfig.converter.longvalue.broken", Long.class);
     }
 
     @Test
     public void testFloat() {
         Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class);
-        Assert.assertEquals(value, Float.valueOf(12.34f));
+        Assert.assertEquals(value, 12.34f);
+    }
+
+    @Test
+    public void testfloat() {
+        float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", float.class);
+        Assert.assertEquals(value, 12.34f);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testFloat_Broken() {
-        Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue.broken", Float.class);
+        config.getValue("tck.config.test.javaconfig.converter.floatvalue.broken", Float.class);
     }
 
     @Test
     public void testDouble() {
         Double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue", Double.class);
-        Assert.assertEquals(value, Double.valueOf(12.34d));
+        Assert.assertEquals(value, 12.34d);
+    }
+
+    @Test
+    public void testdouble() {
+        double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue", double.class);
+        Assert.assertEquals(value,12.34d);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -167,10 +195,44 @@ public class ConverterTest extends Arquillian {
         LocalDateTime value = config.getValue("tck.config.test.javaconfig.converter.localdatetimevalue.broken", LocalDateTime.class);
     }
 
+    @Test
+    public void testOffsetDateTime() {
+        OffsetDateTime value = config.getValue("tck.config.test.javaconfig.converter.offsetdatetimevalue", OffsetDateTime.class);
+        Assert.assertEquals(value, OffsetDateTime.parse("2007-12-03T10:15:30+01:00"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testOffsetDateTime_Broken() {
+        OffsetDateTime value = config.getValue("tck.config.test.javaconfig.converter.offsetdatetimevalue.broken", OffsetDateTime.class);
+    }
+    
+    @Test
+    public void testOffsetTime() {
+        OffsetTime value = config.getValue("tck.config.test.javaconfig.converter.offsettimevalue", OffsetTime.class);
+        OffsetTime parsed = OffsetTime.parse("13:45:30.123456789+02:00");
+        Assert.assertEquals(value, parsed);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testOffsetTime_Broken() {
+        OffsetTime value = config.getValue("tck.config.test.javaconfig.converter.offsettimevalue.broken", OffsetTime.class);
+    }
+    
+    @Test
+    public void testInstant() {
+        Instant value = config.getValue("tck.config.test.javaconfig.converter.instantvalue", Instant.class);
+        Assert.assertEquals(value, Instant.parse("2015-06-02T21:34:33.616Z"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testInstant_Broken() {
+        Instant value = config.getValue("tck.config.test.javaconfig.converter.instantvalue.broken", Instant.class);
+    }
 
     @Test
     public void testBoolean() {
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true", Boolean.class));
+        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true", boolean.class));
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_uppercase", Boolean.class));
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_mixedcase", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.false", Boolean.class));
@@ -192,6 +254,7 @@ public class ConverterTest extends Arquillian {
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_uppercase", Boolean.class));
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_mixedcase", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", Boolean.class));
+        Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", boolean.class));
     }
 
     @Test
