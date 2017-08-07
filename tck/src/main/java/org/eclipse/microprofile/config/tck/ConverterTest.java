@@ -19,6 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -51,6 +53,7 @@ import org.testng.annotations.Test;
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * @author <a href="mailto:john.d.ament@gmail.com">John D. Ament</a>
  */
 public class ConverterTest extends Arquillian {
 
@@ -260,5 +263,16 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testCustomConverter() {
         Assert.assertEquals(namedDuck.getName(), "Hannelore");
+    }
+
+    @Test
+    public void testURLConverter() throws MalformedURLException {
+        URL url = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URL.class);
+        Assert.assertEquals(url, new URL("http://microprofile.io"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testURLConverterBroken() throws Exception {
+        URL ignored = config.getValue("tck.config.test.javaconfig.converter.urlvalue.broken", URL.class);
     }
 }
