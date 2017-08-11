@@ -26,6 +26,7 @@ import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -42,6 +43,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -143,4 +146,18 @@ public class ConfigProviderTest extends Arquillian {
         MatcherAssert.assertThat("Deserialized object", readObject, CoreMatchers.instanceOf(Config.class));
     }
 
+    @Test
+    public void testGetPropertyNames() {
+        String configKey = "some.arbitrary.key";
+        String configValue = "value";
+        System.setProperty(configKey, configValue);
+        AtomicBoolean foundKey = new AtomicBoolean(false);
+        config.getConfigSources().forEach(c -> {
+            if(c.getPropertyNames().contains(configKey)) {
+                foundKey.set(true);
+            }
+        });
+
+        assertTrue("Unable to find property "+configKey, foundKey.get());
+    }
 }
