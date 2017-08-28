@@ -19,8 +19,8 @@
 :authors: Mark Struberg, Emily Jiang, John D. Ament
 :email: struberg@apache.org, emijiang@uk.ibm.com, john.d.ament@gmail.com
 :revnumber: 1.1
-:revdate: 2017-07-10
-:revremark: Proposal
+:revdate: 2017-08-31
+:revremark: Final
 :version-label!:
 :sectanchors:
 :doctype: book
