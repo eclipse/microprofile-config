@@ -21,7 +21,7 @@
 This specification defines an easy to use and flexible system for application configuration.
 It also defines ways to extend the configuration mechanism itself via a SPI (Service Provider Interface) in a portable fashion.
 
-=== Rational
+=== Rationale
 
 Released binaries often contain functionality which need to behave slightly differently depending on the deployment.
 This might be different REST endpoints to talk to (e.g. depending on the customer for whom a WAR is deployed).

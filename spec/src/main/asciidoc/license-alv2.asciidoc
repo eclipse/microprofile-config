@@ -26,9 +26,7 @@ Status: {revremark}
 
 Release: {revdate}
 
-Copyright (c) 2016-2017 Eclipse Microprofile Contributors:
-Mark Struberg
-Emily Jiang
+Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
