@@ -26,7 +26,7 @@ To enable the tests in your project you need to add the following dependency to 
 [source, xml]
 ----
 <properties>
-   <microprofile.config.version>1.1-SNAPSHOT</microprofile.config.version>
+   <microprofile.config.version>1.1</microprofile.config.version>
 </properties>
 
 <dependency>
@@ -110,9 +110,9 @@ If you don't want to use a tck-suite.xml file, you can also just use in line sur
 
 If your implementation needs additional Artifacts in the test Deployments then you have to add them via an Arquillian Extension as shown here:
 
-https://github.com/struberg/javaConfig/blob/master/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigExtension.java
-https://github.com/struberg/javaConfig/blob/master/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigArchiveProcessor.java
-https://github.com/struberg/javaConfig/blob/master/impl/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension
+- https://github.com/apache/geronimo-config/blob/trunk/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigExtension.java[Arquillian Extension to register archive appending]
+- https://github.com/apache/geronimo-config/blob/trunk/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigArchiveProcessor.java[Arquillian Extension that appends to the archive]
+- https://github.com/apache/geronimo-config/blob/trunk/impl/src/test/resources/META-INF/services/org.jboss.arquillian.core.spi.LoadableExtension[Arquillian Loadable Extension service provider]
 
 == Example Implementation Using the TCK
 An example of how an implementation might go about integrating the Microprofile-Config TCK into a build
