@@ -46,6 +46,6 @@
  * </ol>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- * @version 1.0
+ * @version 1.1
  */
 package org.eclipse.microprofile.config.spi;
