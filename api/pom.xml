@@ -34,6 +34,12 @@
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.annotation.versioning</artifactId>
+            <version>1.0.0</version>
+        
+        </dependency>
     </dependencies>
 
     <build>
@@ -76,6 +82,7 @@
                 </executions>
             </plugin>
             <plugin>
+            
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
