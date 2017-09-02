@@ -56,15 +56,11 @@ The following Implementations are available
 
 == Design
 
-A `Config` consists of the information collected from the registered `ConfigSource` instances.
-These ConfigSources get sorted according to their _ordinal_.
-That way it is possible to overwrite configuration with higher importance from outside.
-
 The current configuration of an application can be accessed via `ConfigProvider#getConfig()`.
 
-A `Config` consists of the information collected from the registered `org.eclipse.microprofile.config.spi.ConfigSource` s.
-These `ConfigSource` s get sorted according to their _ordinal_.
-That way it is possible to overwrite configuration with lower importance from outside.
+A `Config` consists of the information collected from the registered `ConfigSources`.
+These `ConfigSources` are sorted according to their _ordinal_.
+That way it is possible to overwrite configuration from outside.
 
 By default there are 3 default ConfigSources:
 
