@@ -48,11 +48,11 @@ The builder has no config sources but with only the default converters added. Th
 
 The `Config` object created via builder pattern can be managed as follows:
 
-* A factory method `ConfigProviderResolver#registerConfig(Config config, ClassLoader classloader)` can be used to register a `Config` within the application.
+* A factory method `ConfigProvider#registerConfig(Config config, ClassLoader classloader)` can be used to register a `Config` within the application.
   This configuration instance *will* be shared by `ConfigProvider#getConfig()`.
   Any subsequent call to `ConfigProvider#getConfig()` will return the registered `Config` instance for this application.
   
-* A factory method `ConfigProviderResolver#releaseConfig(Config config)` to release the `Config` instance. This will unbind the current `Config` from the application.
+* A factory method `ConfigProvider#releaseConfig(Config config)` to release the `Config` instance. This will unbind the current `Config` from the application.
 The <<configsource, ConfigSources>> that implement the `java.io.Closeable` interface will be properly destroyed.
 The <<converter, Converters>> that implement the `java.io.Closeable` interface will be properly destroyed.
 Any subsequent call to `ConfigProvider#getConfig()` or `ConfigProvider#getConfig(ClassLoader forClassLoader)` will result in a new `Config` instance.
@@ -61,7 +61,7 @@ All methods in the `ConfigProvider`, `ConfigProviderResolver` and `Config` imple
 
 The `Config` instances created via CDI are `Serializable`.
 
-If a `Config` instance is created via `@Inject Config` or `ConfigProvider#getConfig()` or via the builder pattern but later called `ConfigProviderResolver#registerConfig(Config config, Classloader classloader)`, the `Config` instance will be released when the application is closed. 
+If a `Config` instance is created via `@Inject Config` or `ConfigProvider#getConfig()` or via the builder pattern but later called `ConfigProvider#registerConfig(Config config, Classloader classloader)`, the `Config` instance will be released when the application is closed. 
 
 
 
