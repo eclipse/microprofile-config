@@ -53,7 +53,7 @@ The following Implementations are available
 
 * Apache Geronimo Config (https://svn.apache.org/repos/asf/geronimo/components/config/trunk)
 * WebSphere Liberty 2017 March-June Beta so far (https://developer.ibm.com/wasdev/)
-* Payara Server 173 and Payara Micro 173 (https://github.com/payara/Payara/tree/master/appserver/payara-appserver-modules/microprofile/config)
+* Payara Server 173 and Payara Micro 173 (https://docs.payara.fish/documentation/microprofile/config.html)
 
 == Design
 
