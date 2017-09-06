@@ -1,0 +1,40 @@
+//
+// Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// Contributors:
+// John D. Ament
+
+[[release_notes_11]]
+== Release Notes for MicroProfile Config 1.1
+
+The following changes occurred in the 1.1 release, compared to 1.0
+
+A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/2?closed=1[MicroProfile Config 1.1 Milestone]
+
+=== API/SPI Changes
+
+- The `ConfigSource` SPI has been extended with a default method that returns the property names for a given `ConfigSource`  (link:https://github.com/eclipse/microprofile-config/issues/178[#178])
+
+=== Functional Changes
+
+- Implementations must now include a `URL` Converter, of `@Priority(1)` (link:https://github.com/eclipse/microprofile-config/issues/181[#181])
+- The format of the default property name for an injection point using `@ConfigProperty` has been changed to no longer lower case the first letter of the class.  Implementations may still support this behavior.  Instead, MicroProfile Config 1.1 requires the actual class name to be used. (link:https://github.com/eclipse/microprofile-config/issues/233[#233])
+- Implementations must now support primitive types, in addition to the already specified primtive type wrappers (link:https://github.com/eclipse/microprofile-config/issues/204[#204])
+
+=== Specification Changes
+
+- Clarified what it means for a value to be present (link:https://github.com/eclipse/microprofile-config/issues/216[#216])
