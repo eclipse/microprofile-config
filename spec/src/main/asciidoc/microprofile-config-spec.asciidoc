@@ -48,3 +48,5 @@ include::configprovider.asciidoc[]
 include::configsources.asciidoc[]
 
 include::converters.asciidoc[]
+
+include::release_notes.asciidoc[]
