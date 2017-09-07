@@ -22,17 +22,17 @@ This log captures the important changes to the specification between releases
 === Version 1.1
 
 ==== API Changes
-.Add default getPropertyNames() method to the ConfigSource class https://github.com/eclipse/microprofile-config/commit/60600246766819ab2da785dd0c24ebca4409cabb
-.Mandate that all implementations must provide a default URL converter https://github.com/eclipse/microprofile-config/commit/47835bffaa5d7529b1e65c2df3795754f54babae
+* Add default getPropertyNames() method to the ConfigSource class https://github.com/eclipse/microprofile-config/commit/60600246766819ab2da785dd0c24ebca4409cabb
+* Mandate that all implementations must provide a default URL converter https://github.com/eclipse/microprofile-config/commit/47835bffaa5d7529b1e65c2df3795754f54babae
 
 ==== Specification Changes
-.Clarify that primitive converts should be built in by default.  https://github.com/eclipse/microprofile-config/commit/543a4633498846c3a33f270072452f913ea716a8
-.Minor clarification on ordinal precendence https://github.com/eclipse/microprofile-config/commit/8c3ed757e3b0e49a7074e6097bc49e3cc3493fc3
-.Change default name of an injected config property to be the fully qualified name of the class being injected into https://github.com/eclipse/microprofile-config/commit/e71850700c328784d3254c8b9d00e644339fbf39
+* Clarify that primitive converts should be built in by default.  https://github.com/eclipse/microprofile-config/commit/543a4633498846c3a33f270072452f913ea716a8
+* Minor clarification on ordinal precendence https://github.com/eclipse/microprofile-config/commit/8c3ed757e3b0e49a7074e6097bc49e3cc3493fc3
+* Change default name of an injected config property to be the fully qualified name of the class being injected into https://github.com/eclipse/microprofile-config/commit/e71850700c328784d3254c8b9d00e644339fbf39
 
 ==== TCK Changes
-.Adding a TCK Test for default property keys on inhection points https://github.com/eclipse/microprofile-config/commit/8c3ed757e3b0e49a7074e6097bc49e3cc3493fc3
-.Add a TCK Test to clarify that empty values are present https://github.com/eclipse/microprofile-config/commit/47835bffaa5d7529b1e65c2df3795754f54babae
+* Adding a TCK Test for default property keys on inhection points https://github.com/eclipse/microprofile-config/commit/8c3ed757e3b0e49a7074e6097bc49e3cc3493fc3
+* Add a TCK Test to clarify that empty values are present https://github.com/eclipse/microprofile-config/commit/47835bffaa5d7529b1e65c2df3795754f54babae
 
 
 === Version 1.0
