@@ -25,6 +25,8 @@ MicroProfile Config Feature
 
 == Rationale
 
+image:https://badges.gitter.im/eclipse/microprofile-config.svg[link="https://gitter.im/eclipse/microprofile-config?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"]
+
 The majority of applications need to be configured based on a running environment.
 It must be possible to modify configuration data from outside an application so that the application itself does not need to be repackaged.
 
