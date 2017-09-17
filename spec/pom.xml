@@ -25,20 +25,28 @@
 
     <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-spec</artifactId>
-    <packaging>pom</packaging>
+    <packaging>pdf</packaging>
     <name>MicroProfile Config Specification</name>
 
     <properties>
         <asciidoctor-maven.version>1.5.5</asciidoctor-maven.version>
         <asciidoctorj-pdf.version>1.5.0-alpha.15</asciidoctorj-pdf.version>
+        <asciidoctor.skip>false</asciidoctor.skip>
         <license>Apache License v 2.0</license>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
     </properties>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
+            <plugin>
+                <groupId>org.eclipse.microprofile.maven</groupId>
+                <artifactId>microprofile-maven-build-extension</artifactId>
+                <version>1.0</version>
+                <extensions>true</extensions>
+            </plugin>
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -59,6 +67,7 @@
                         </goals>
                         <configuration>
                             <backend>pdf</backend>
+                            <outputFile>${project.build.finalName}.pdf</outputFile>
                         </configuration>
                     </execution>
                     <execution>
@@ -69,6 +78,7 @@
                         </goals>
                         <configuration>
                             <backend>html5</backend>
+                            <outputFile>${project.build.finalName}.html</outputFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -78,10 +88,11 @@
                     <attributes>
                         <license>Apache License v2.0</license>
                     </attributes>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                    <skip>${asciidoctor.skip}</skip>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 
 </project>
