@@ -25,13 +25,12 @@
 
     <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-spec</artifactId>
-    <packaging>pdf</packaging>
+    <packaging>pom</packaging>
     <name>MicroProfile Config Specification</name>
 
     <properties>
         <asciidoctor-maven.version>1.5.5</asciidoctor-maven.version>
         <asciidoctorj-pdf.version>1.5.0-alpha.15</asciidoctorj-pdf.version>
-        <asciidoctor.skip>false</asciidoctor.skip>
         <license>Apache License v 2.0</license>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
@@ -41,12 +40,6 @@
         <finalName>${project.artifactId}</finalName>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
-            <plugin>
-                <groupId>org.eclipse.microprofile.maven</groupId>
-                <artifactId>microprofile-maven-build-extension</artifactId>
-                <version>1.0</version>
-                <extensions>true</extensions>
-            </plugin>
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -89,8 +82,44 @@
                         <license>Apache License v2.0</license>
                     </attributes>
                     <outputDirectory>${project.build.directory}</outputDirectory>
-                    <skip>${asciidoctor.skip}</skip>
+                    <skip>true</skip>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-pdf-artifact</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.build.finalName}.pdf</file>
+                                    <type>pdf</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>attach-html-artifact</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.build.finalName}.html</file>
+                                    <type>html</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>            
             </plugin>
         </plugins>
     </build>
