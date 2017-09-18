@@ -124,6 +124,11 @@
             <name>Project Repository - Releases</name>
             <url>https://repo.eclipse.org/content/groups/cbi/</url>
         </pluginRepository>
+        <pluginRepository>
+            <id>microprofile.repo.eclipse.org</id>
+            <name>Microprofile Project Repository - Releases</name>
+            <url>https://repo.eclipse.org/content/groups/microprofile/</url>
+        </pluginRepository>
     </pluginRepositories>
 
     <build>
