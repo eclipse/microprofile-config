@@ -55,6 +55,7 @@ The following Implementations are available
 * Apache Geronimo Config (https://svn.apache.org/repos/asf/geronimo/components/config/trunk)
 * WebSphere Liberty 2017 March-June Beta so far (https://developer.ibm.com/wasdev/)
 * Payara Server 173 and Payara Micro 173 (https://docs.payara.fish/documentation/microprofile/config.html)
+* WildFly / WildFly Swarm (https://github.com/wildfly-extras/wildfly-microprofile-config/)
 
 == Design
 
