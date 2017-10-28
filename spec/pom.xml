@@ -20,7 +20,7 @@
         <!-- This is just for now and will not work if the API has a separate release cycle than the rest. -->
         <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile-config-parent</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
 
     <groupId>org.eclipse.microprofile.config</groupId>
@@ -37,6 +37,7 @@
     </properties>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
@@ -59,6 +60,7 @@
                         </goals>
                         <configuration>
                             <backend>pdf</backend>
+                            <outputFile>${project.build.finalName}.pdf</outputFile>
                         </configuration>
                     </execution>
                     <execution>
@@ -69,6 +71,7 @@
                         </goals>
                         <configuration>
                             <backend>html5</backend>
+                            <outputFile>${project.build.finalName}.html</outputFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -78,10 +81,47 @@
                     <attributes>
                         <license>Apache License v2.0</license>
                     </attributes>
+                    <outputDirectory>${project.build.directory}</outputDirectory>
+                    <skip>true</skip>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-pdf-artifact</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.build.finalName}.pdf</file>
+                                    <type>pdf</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>attach-html-artifact</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/${project.build.finalName}.html</file>
+                                    <type>html</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>            
             </plugin>
         </plugins>
     </build>
-
 
 </project>

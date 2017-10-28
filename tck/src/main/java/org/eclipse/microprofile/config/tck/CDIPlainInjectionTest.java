@@ -52,12 +52,10 @@ import org.testng.annotations.Test;
 public class CDIPlainInjectionTest extends Arquillian {
 
     private static final String DEFAULT_PROPERTY_BEAN_KEY =
-            "org.eclipse.microprofile.config.tck.CDIPlainInjectionTest.defaultPropertyBean.configProperty";
+            "org.eclipse.microprofile.config.tck.CDIPlainInjectionTest.DefaultPropertyBean.configProperty";
 
     @Deployment
     public static Archive deployment() {
-        // this is needed since there's a requirement to validate on start up
-        System.setProperty(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
         return ShrinkWrap.create(WebArchive.class)
                 .addClasses(CDIPlainInjectionTest.class, SimpleValuesBean.class, DynamicValuesBean.class,
                         AdditionalMatchers.class, TestConfigSource.class, DefaultPropertyBean.class)
@@ -226,6 +224,7 @@ public class CDIPlainInjectionTest extends Arquillian {
             properties.put("my.long.property", "10");
             properties.put("my.float.property", "10.5");
             properties.put("my.double.property", "11.5");
+            properties.put(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
         }
 
         @Override
