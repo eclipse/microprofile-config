@@ -23,10 +23,12 @@
         <version>1.2-SNAPSHOT</version>
     </parent>
 
+<properties>
+        <bnd.baseline.include.distribution.management>false</bnd.baseline.include.distribution.management>
+</properties>
     <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-api</artifactId>
     <name>MicroProfile Config API</name>
-
 
     <dependencies>
         <dependency>
@@ -92,6 +94,19 @@
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>bnd-baseline-maven-plugin</artifactId>
+                <version>3.5.0</version>                
+                <executions>
+                    <execution>
+                        <id>baseline</id>
+                        <goals>
+                            <goal>baseline</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
