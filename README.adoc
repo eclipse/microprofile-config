@@ -48,7 +48,7 @@ There are a number of Config projects which directly influenced this proposal an
 
 == Implementations
 
-Microprofile Config does not contain an implementation itself but only provides the specified API and, a TCK and documentation.
+Microprofile Config does not contain an implementation itself but only provides the specified API, a TCK and documentation.
 
 The following Implementations are available 
 
