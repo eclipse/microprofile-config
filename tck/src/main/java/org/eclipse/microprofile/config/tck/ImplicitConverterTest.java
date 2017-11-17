@@ -29,6 +29,7 @@ import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStri
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringValueOf;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -42,7 +43,7 @@ import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
  *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
-public class ImplicitConverterTest {
+public class ImplicitConverterTest extends Arquillian {
 
     @Deployment
     public static WebArchive deploy() {
@@ -52,10 +53,10 @@ public class ImplicitConverterTest {
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .as(JavaArchive.class);
 
-        addFile(testJar, "META-INF/javaconfig.properties");
+        addFile(testJar, "META-INF/microprofile-config.properties");
 
         WebArchive war = ShrinkWrap
-            .create(WebArchive.class, "customConfigSourceTest.war")
+            .create(WebArchive.class, "implicitConverterTest.war")
             .addAsLibrary(testJar);
         return war;
     }
