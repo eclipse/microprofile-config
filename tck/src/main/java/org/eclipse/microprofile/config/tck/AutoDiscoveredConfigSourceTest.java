@@ -47,11 +47,11 @@ public class AutoDiscoveredConfigSourceTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "customConfigSourceTest.jar")
-                .addClasses(AutoDiscoveredConfigSourceTest.class, CustomDbConfigSource.class, Pizza.class, PizzaConverter.class)                
+                .addClasses(AutoDiscoveredConfigSourceTest.class, CustomDbConfigSource.class, Pizza.class, PizzaConverter.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(Converter.class, PizzaConverter.class)
-                .as(JavaArchive.class); 
+                .as(JavaArchive.class);
 
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "customConfigSourceTest.war")
@@ -66,23 +66,17 @@ public class AutoDiscoveredConfigSourceTest extends Arquillian {
     }
     @Test
     public void testAutoDiscoveredConverterManuallyAdded() {
-               
+
         Config config = ConfigProviderResolver.instance().getBuilder().addDefaultSources().addDiscoveredSources().addDiscoveredConverters().build();
         Pizza dVaule = config.getValue("tck.config.test.customDbConfig.key3", Pizza.class);
         Assert.assertEquals(dVaule.getSize(), "big");
         Assert.assertEquals(dVaule.getFlavor(), "cheese");
     }
-    
-    @Test
-    public void testAutoDiscoveredConverterNotAddedAutomatically() {               
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testAutoDiscoveredConverterNotAddedAutomatically() {
         Config config = ConfigProviderResolver.instance().getBuilder().addDefaultSources().addDiscoveredSources().build();
-        try {
-            Pizza dVaule = config.getValue("tck.config.test.customDbConfig.key3", Pizza.class);
-            Assert.fail("The auto discovered converter should not be added automatically.");
-        } 
-        catch (Exception e) {
-            Assert.assertTrue( e instanceof IllegalArgumentException);
-        }
-       
+        Pizza dVaule = config.getValue("tck.config.test.customDbConfig.key3", Pizza.class);
+        Assert.fail("The auto discovered converter should not be added automatically.");
     }
 }
