@@ -62,7 +62,20 @@ package org.eclipse.microprofile.config.spi;
  * All Built In Converters have a {@code javax.annotation.Priority} of 1
  * A Converter should handle null values returning either null or a valid Object of the specified type.
  *
- *  *
+ * <h3>Array Converters</h3>
+ *  The implementation must support the Array converter for each builtin converters and custom converters.
+ *  
+ *  <p>
+ *  Usage:
+ *  <p>
+ *  <code>
+ *  String[] myPets = ConfigProvider.getValue("myPet", String[]);
+ *  </code>
+ *  <p>
+ *  <code>
+ *  {@code @Inject @ConfigProperty(name="myPets") String[] myPets};
+ *  </code>
+ *  
  * <h3>Implicit Converters</h3>
  *
  * <p>If no explicit Converter and no built-in Converter could be found for a certain type,
