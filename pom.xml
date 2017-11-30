@@ -29,7 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
+        <testng.version>6.9.9</testng.version>
         <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
     </properties>
@@ -42,7 +42,7 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
-    
+
     <organization>
         <name>Eclipse Foundation</name>
         <url>http://www.eclipse.org/</url>
@@ -59,17 +59,17 @@
             <url>https://github.com/Emily-Jiang</url>
             <organization>IBM</organization>
             <organizationUrl>https://www.ibm.com</organizationUrl>
-        </developer>    
+        </developer>
         <developer>
             <name>Mark Struberg</name>
             <url>https://github.com/struberg</url>
-        </developer>    
+        </developer>
         <developer>
             <name>Ondro Mihalyi</name>
             <url>https://github.com/OndrejM</url>
             <organization>Payara Services</organization>
             <organizationUrl>https://www.payara.fish</organizationUrl>
-        </developer>    
+        </developer>
     </developers>
 
     <scm>
@@ -308,7 +308,7 @@
 
         </plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <id>eclipse-jarsigner</id>
