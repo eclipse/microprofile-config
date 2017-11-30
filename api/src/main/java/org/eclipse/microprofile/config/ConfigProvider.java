@@ -71,8 +71,6 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * @author <a href="mailto:viktor.klang@gmail.com">Viktor Klang</a>
  */
 public final class ConfigProvider {
-    private static final ConfigProviderResolver INSTANCE = ConfigProviderResolver.instance();
-
     private ConfigProvider() {
     }
 
@@ -86,7 +84,7 @@ public final class ConfigProvider {
      * @return the config object for the thread context classloader
      */
     public static Config getConfig() {
-        return INSTANCE.getConfig();
+        return ConfigProviderResolver.instance().getConfig();
     }
 
     /**
@@ -100,6 +98,6 @@ public final class ConfigProvider {
      * @return the config for the specified classloader
      */
     public static Config getConfig(ClassLoader cl) {
-        return INSTANCE.getConfig(cl);
+        return ConfigProviderResolver.instance().getConfig(cl);
     }
 }
