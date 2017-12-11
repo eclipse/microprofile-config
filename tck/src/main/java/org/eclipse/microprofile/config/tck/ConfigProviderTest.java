@@ -44,9 +44,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertTrue;
-
-
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
@@ -158,6 +155,6 @@ public class ConfigProviderTest extends Arquillian {
             }
         });
 
-        assertTrue("Unable to find property "+configKey, foundKey.get());
+        Assert.assertTrue(foundKey.get(), "Unable to find property "+configKey);
     }
 }
