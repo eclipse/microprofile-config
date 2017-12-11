@@ -65,9 +65,5 @@ A custom `Converter` for a target type of any of the built-in Converters will ov
 If no built-in nor custom `Converter` for a requested Type `T`, an implicit Converter is automatically provided if the following conditions are met:
 
 * The target type `T` has a Constructor with a String parameter, or
-* the target type `T` has a Constructor with a CharSequence parameter, or
-* the target type `T` has a `static T valueOf(String)` method, or
-* the target type `T` has a `static T valueOf(CharSequence)` method, or
-* the target type `T` has a `static T parse(String)` method, or
-* the target type `T` has a `static T parse(CharSequence)` method, or
-* the target type `T` is an `Enum`, in which case the `Enum#valueOf(Class, String)` is being used.
+* the target type `T` has a `static T valueOf(String)` method
+If the target type `T` is an `Enum`, in which case the `Enum#valueOf(Class, String)` is being used.

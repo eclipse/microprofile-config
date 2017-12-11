@@ -19,14 +19,12 @@
 
 package org.eclipse.microprofile.config.tck;
 
+import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
+
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceCt;
-import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceParse;
-import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceValueOf;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringCt;
-import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringValueOf;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -36,7 +34,6 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 /**
  * Test the implicit converter handling.
@@ -49,7 +46,7 @@ public class ImplicitConverterTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
             .create(JavaArchive.class, "implicitConverterTest.jar")
-            .addPackage(ConvTestTypeWCharSequenceCt.class.getPackage())
+            .addPackage(ConvTestTypeWStringCt.class.getPackage())
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .as(JavaArchive.class);
 
@@ -64,43 +61,13 @@ public class ImplicitConverterTest extends Arquillian {
 
     private @Inject Config config;
 
-    @Test
-    public void testImplicitConverterCharSequenceCt() {
-        ConvTestTypeWCharSequenceCt value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceCt",
-            ConvTestTypeWCharSequenceCt.class);
-        Assert.assertNotNull(value);
-        Assert.assertEquals(value.getVal(), "charSequenceCt");
-    }
-
-    @Test
-    public void testImplicitConverterCharSequenceParse() {
-        ConvTestTypeWCharSequenceParse value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse",
-            ConvTestTypeWCharSequenceParse.class);
-        Assert.assertNotNull(value);
-        Assert.assertEquals(value.getVal(), "charSequenceParse");
-    }
-
-    @Test
-    public void testImplicitConverterCharSequenceValueOf() {
-        ConvTestTypeWCharSequenceValueOf value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceValueOf",
-            ConvTestTypeWCharSequenceValueOf.class);
-        Assert.assertNotNull(value);
-        Assert.assertEquals(value.getVal(), "charSequenceValueOf");
-    }
+    
     @Test
     public void testImplicitConverterStringCt() {
         ConvTestTypeWStringCt value = config.getValue("tck.config.test.javaconfig.converter.implicit.stringCt",
             ConvTestTypeWStringCt.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringCt");
-    }
-
-    @Test
-    public void testImplicitConverterStringParse() {
-        ConvTestTypeWStringParse value = config.getValue("tck.config.test.javaconfig.converter.implicit.stringParse",
-            ConvTestTypeWStringParse.class);
-        Assert.assertNotNull(value);
-        Assert.assertEquals(value.getVal(), "stringParse");
     }
 
     @Test

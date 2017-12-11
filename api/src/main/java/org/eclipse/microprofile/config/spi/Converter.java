@@ -69,12 +69,7 @@ package org.eclipse.microprofile.config.spi;
  * the {@code Config} provides an <em>Implicit Converter</em>, if</p>
  * <ul>
  *     <li>The target type {@code T} has a Constructor with a String parameter, or</li>
- *     <li>The target type {@code T} has a Constructor with a CharSequence parameter, or</li>
  *     <li>the target type {@code T} has a {@code static T valueOf(String)} method, or</li>
- *     <li>the target type {@code T} has a {@code static T valueOf(CharSequence)} method, or</li>
- *     <li>the target type {@code T} has a {@code static T parse(String)} method, or</li>
- *     <li>the target type {@code T} has a {@code static T parse(CharSequence)} method, or</li>
- *     <li>the target type {@code T} is an {@code Enum}, in which case the {@link Enum#valueOf(Class, String)} is being used.</li>
  * </ul>
 
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
