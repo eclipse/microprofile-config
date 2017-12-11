@@ -74,6 +74,7 @@
     <scm>
         <connection>scm:git:https://github.com/eclipse/microprofile-config.git</connection>
         <developerConnection>scm:git:git@github.com:eclipse/microprofile-config.git</developerConnection>
+        <url>https://github.com/eclipse/microprofile-config</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -312,17 +313,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.3</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <serverId>ossrh</serverId>
-                            <autoReleaseAfterClose>${autorelease}</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
                         <executions>
@@ -349,7 +339,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
