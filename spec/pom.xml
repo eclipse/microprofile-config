@@ -39,7 +39,6 @@
     </properties>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
@@ -77,7 +76,11 @@
                         </goals>
                         <configuration>
                             <backend>html5</backend>
-                            <outputFile>${project.build.finalName}.html</outputFile>
+                            <attributes>
+                                <revnumber>${project.version}</revnumber>
+                                <revremark>${revremark}</revremark>
+                                <revdate>${revisiondate}</revdate>
+                            </attributes>
                         </configuration>
                     </execution>
                 </executions>
@@ -87,46 +90,10 @@
                     <attributes>
                         <license>Apache License v2.0</license>
                     </attributes>
-                    <outputDirectory>${project.build.directory}</outputDirectory>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-pdf-artifact</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${project.build.directory}/${project.build.finalName}.pdf</file>
-                                    <type>pdf</type>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>attach-html-artifact</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${project.build.directory}/${project.build.finalName}.html</file>
-                                    <type>html</type>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-    </build>
+</build>
+    
 
 </project>
