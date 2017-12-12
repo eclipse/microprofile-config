@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringCt;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringValueOf;
+import org.eclipse.microprofile.config.tck.converters.implicit.SomeEnumToConvert;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -61,7 +62,7 @@ public class ImplicitConverterTest extends Arquillian {
 
     private @Inject Config config;
 
-    
+
     @Test
     public void testImplicitConverterStringCt() {
         ConvTestTypeWStringCt value = config.getValue("tck.config.test.javaconfig.converter.implicit.stringCt",
@@ -77,4 +78,14 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringValueOf");
     }
+
+    @Test
+    public void testImplicitConverterEnumValueOf() {
+        SomeEnumToConvert value = config.getValue("tck.config.test.javaconfig.converter.implicit.enumValueOf",
+            SomeEnumToConvert.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value, SomeEnumToConvert.BAZ);
+        Assert.assertEquals(value.name(), "BAZ");
+    }
+
 }
