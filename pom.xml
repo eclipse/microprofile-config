@@ -21,8 +21,7 @@
     <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>MicroProfile Config</name>
-    <description>Eclipse MicroProfile Configuration Feature - Parent POM</description>
-
+    <description>Eclipse MicroProfile Config Feature :: Parent POM</description>
     <url>http://microprofile.io</url>
 
     <properties>
@@ -74,24 +73,22 @@
 
     <scm>
         <connection>scm:git:https://github.com/eclipse/microprofile-config.git</connection>
-        <developerConnection>scm:git:https://github.com/eclipse/microprofile-config.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:eclipse/microprofile-config.git</developerConnection>
         <url>https://github.com/eclipse/microprofile-config</url>
         <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
         <repository>
-            <id>repo.eclipse.org</id>
-            <name>Eclipse MicroProfile Repository - Releases</name>
-            <url>https://repo.eclipse.org/content/repositories/microprofile-releases/</url>
+            <id>ossrh</id>
+            <name>Sonatype OSSRH - Release Staging Area</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
         <snapshotRepository>
-            <id>repo.eclipse.org</id>
-            <name>Eclipse MicroProfile Repository - Snapshots</name>
-            <url>https://repo.eclipse.org/content/repositories/microprofile-snapshots/</url>
-
-            <uniqueVersion>true</uniqueVersion>  <!-- for keeping multipe snapshot versions - maybe for staging a final version besides nightly versions -->
-
+            <id>ossrh</id>
+            <name>Sonatype OSSRH Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
 
@@ -140,8 +137,9 @@
                     <version>2.5.3</version>
                     <configuration>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <pushChanges>false</pushChanges>
+                        <useReleaseProfile>false</useReleaseProfile>
                         <localCheckout>true</localCheckout>
+                        <arguments>${arguments} -Prelease -Drevremark=${revremark}</arguments>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -311,14 +309,33 @@
     
     <profiles>
         <profile>
-            <id>eclipse-jarsigner</id>
-            <!-- turns on signing of JARs by the Eclipse signer plugin -->
-        </profile>
-        <profile>
-            <id>gpg-sign</id>
-            <!-- signs all artifacts, required for deploying to Maven Central -->
+            <id>release</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -335,6 +352,5 @@
                 </plugins>
             </build>
         </profile>
-    </profiles>
-
+</profiles>
 </project>
