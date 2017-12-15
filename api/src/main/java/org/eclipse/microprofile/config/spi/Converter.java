@@ -62,7 +62,34 @@ package org.eclipse.microprofile.config.spi;
  * All Built In Converters have a {@code javax.annotation.Priority} of 1
  * A Converter should handle null values returning either null or a valid Object of the specified type.
  *
- *  *
+ * <h3>Array Converters</h3>
+ *  The implementation must support the Array converter for each built-in converters and custom converters. 
+ *  The delimiter for the config value is ",". The escape character is "\". 
+ *  <code>e.g. myPets=dog,cat,dog\,cat </code>
+ * <p>
+ *  For the property injection, List and Set should be supported as well.
+ *  
+ *  <p>
+ *  Usage:
+ *  <p>
+ *  <code>
+ *  String[] myPets = ConfigProvider.getValue("myPet", String[]);
+ *  </code>
+ *  
+ *  <p>
+ *  <code>
+ *  {@code @Inject @ConfigProperty(name="myPets") String[] myPets};
+ *  </code>
+ *  <p>
+ *  <code>
+ *  {@code @Inject @ConfigProperty(name="myPets") List<String> myPets};
+ *  </code>
+ *  <p>
+ *  <code>
+ *  {@code @Inject @ConfigProperty(name="myPets") Set<String> myPets};
+ *  </code>
+ *  <p>
+ *  myPets will be "dog", "cat", "dog,cat"
  * <h3>Implicit Converters</h3>
  *
  * <p>If no explicit Converter and no built-in Converter could be found for a certain type,

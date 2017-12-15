@@ -29,7 +29,7 @@
     <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-api</artifactId>
     <name>MicroProfile Config API</name>
-
+    <description>MicroProfile Config :: API</description>
     <dependencies>
         <dependency>
             <groupId>javax.enterprise</groupId>
