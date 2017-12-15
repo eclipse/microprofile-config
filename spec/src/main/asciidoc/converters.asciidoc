@@ -64,7 +64,7 @@ A custom `Converter` for a target type of any of the built-in Converters will ov
 For the built-in converters and custom converters, the corresponding Array converters are provided
 by default. The delimiter for the config value is ",". The escape character is "\". 
 
-e.g. With this config `myPets=dog,cat,dog\,cat`, the values as an array will be 
+e.g. With this config `myPets=dog,cat,dog\\,cat`, the values as an array will be 
 `{"dog", "cat", "dog,cat"}`.
 
 * Programmatic lookup
