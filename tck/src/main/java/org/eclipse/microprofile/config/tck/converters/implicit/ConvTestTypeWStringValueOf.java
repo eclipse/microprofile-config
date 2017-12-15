@@ -19,7 +19,7 @@
 package org.eclipse.microprofile.config.tck.converters.implicit;
 
 /**
- * Part of the implicit Converter teset.
+ * Part of the implicit Converter test.
  *
  * Sample class which has a valueOf(String) method
  *
