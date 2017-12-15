@@ -21,9 +21,12 @@ package org.eclipse.microprofile.config.tck;
 
 import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
+import java.time.YearMonth;
+
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringCt;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringValueOf;
@@ -62,6 +65,8 @@ public class ImplicitConverterTest extends Arquillian {
 
 
     private @Inject Config config;
+    
+    @Inject @ConfigProperty(name = "tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth") YearMonth yearMonth;
 
 
     @Test
@@ -86,6 +91,19 @@ public class ImplicitConverterTest extends Arquillian {
              ConvTestTypeWCharSequenceParse.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "charSequenceParse");
+    }
+    @Test
+    public void testImplicitConverterCharSequenceParseJavaTime() {
+        YearMonth value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth", 
+             YearMonth.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value, YearMonth.parse("2017-12"));
+    }
+    
+    @Test
+    public void testImplicitConverterCharSequenceParseJavaTimeInjection() {
+        Assert.assertNotNull(yearMonth);
+        Assert.assertEquals(yearMonth, YearMonth.parse("2017-12"));
     }
 
     @Test
