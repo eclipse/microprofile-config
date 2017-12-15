@@ -93,4 +93,5 @@ If no built-in nor custom `Converter` for a requested Type `T`, an implicit Conv
 
 * The target type `T` has a Constructor with a String parameter, or
 * the target type `T` has a `static T valueOf(String)` method
-If the target type `T` is an `Enum`, in which case the `Enum#valueOf(Class, String)` is being used.
+
+If the target type `T` is an `Enum`, the `Enum#valueOf(Class, String)` is being used.
