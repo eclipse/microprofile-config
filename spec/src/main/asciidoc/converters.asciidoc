@@ -44,6 +44,7 @@ The following `Converter` s are provided by Microprofile-Config by default:
 * `OffsetTime`
 * `Instant`
 * `URL`
+* `Class` based on the result of `Class.forName`
 
 All built-in `Converter` have the `@Priority` of `1`.
 
@@ -72,7 +73,7 @@ e.g. With this config `myPets=dog,cat,dog\\,cat`, the values as an array will be
  
 
 ----
- String[] myPets = ConfigProvider.getValue("myPet", String[]);
+ String[] myPets = ConfigProvider.getValue("myPet", String[].class);
 ----
  myPets will be "dog", "cat", "dog,cat" as an array
  
