@@ -20,7 +20,7 @@
         <!-- This is just for now and will not work if the API has a separate release cycle than the rest. -->
         <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile-config-parent</artifactId>
-        <version>1.2-RC1</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
 
 <properties>
