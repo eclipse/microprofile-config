@@ -97,7 +97,7 @@ package org.eclipse.microprofile.config.spi;
  * <ul>
  *     <li>The target type {@code T} has a Constructor with a String parameter, or</li>
  *     <li>the target type {@code T} has a {@code static T valueOf(String)} method, or</li>
- *     <li>the target type {@code T} has a {@code static T parse(CharSequence)} method, or</li>
+ *     <li>the target type {@code T} has a {@code static T parse(CharSequence)} method</li>
  * </ul>
 
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>

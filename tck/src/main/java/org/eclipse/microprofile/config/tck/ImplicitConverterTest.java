@@ -23,6 +23,7 @@ import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 import java.time.YearMonth;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
@@ -44,6 +45,9 @@ import org.testng.annotations.Test;
  * Test the implicit converter handling.
  *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author <a href="mailto:jmesnil@redhat.com">Jeff Mesnil</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * 
  */
 public class ImplicitConverterTest extends Arquillian {
 
@@ -65,9 +69,8 @@ public class ImplicitConverterTest extends Arquillian {
 
 
     private @Inject Config config;
+    private @Inject ParseConverterInjection parserConverterInjection;
     
-    @Inject @ConfigProperty(name = "tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth") YearMonth yearMonth;
-
 
     @Test
     public void testImplicitConverterStringCt() {
@@ -102,8 +105,8 @@ public class ImplicitConverterTest extends Arquillian {
     
     @Test
     public void testImplicitConverterCharSequenceParseJavaTimeInjection() {
-        Assert.assertNotNull(yearMonth);
-        Assert.assertEquals(yearMonth, YearMonth.parse("2017-12"));
+        Assert.assertNotNull(parserConverterInjection.yearMonth);
+        Assert.assertEquals(parserConverterInjection.yearMonth, YearMonth.parse("2017-12"));
     }
 
     @Test
@@ -113,6 +116,12 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value, SomeEnumToConvert.BAZ);
         Assert.assertEquals(value.name(), "BAZ");
+    }
+    
+    @Dependent
+    private static class ParseConverterInjection {
+        private @Inject @ConfigProperty(name = "tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth") YearMonth yearMonth;
+
     }
 
 }
