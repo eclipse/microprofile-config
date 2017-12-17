@@ -21,9 +21,14 @@ package org.eclipse.microprofile.config.tck;
 
 import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
+import java.time.YearMonth;
+
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringCt;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringValueOf;
 import org.eclipse.microprofile.config.tck.converters.implicit.SomeEnumToConvert;
@@ -40,6 +45,9 @@ import org.testng.annotations.Test;
  * Test the implicit converter handling.
  *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
+ * @author <a href="mailto:jmesnil@redhat.com">Jeff Mesnil</a>
+ * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
+ * 
  */
 public class ImplicitConverterTest extends Arquillian {
 
@@ -61,7 +69,8 @@ public class ImplicitConverterTest extends Arquillian {
 
 
     private @Inject Config config;
-
+    private @Inject ParseConverterInjection parserConverterInjection;
+    
 
     @Test
     public void testImplicitConverterStringCt() {
@@ -78,6 +87,27 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringValueOf");
     }
+    
+    @Test
+    public void testImplicitConverterCharSequenceParse() {
+        ConvTestTypeWCharSequenceParse value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse", 
+             ConvTestTypeWCharSequenceParse.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "charSequenceParse");
+    }
+    @Test
+    public void testImplicitConverterCharSequenceParseJavaTime() {
+        YearMonth value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth", 
+             YearMonth.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value, YearMonth.parse("2017-12"));
+    }
+    
+    @Test
+    public void testImplicitConverterCharSequenceParseJavaTimeInjection() {
+        Assert.assertNotNull(parserConverterInjection.yearMonth);
+        Assert.assertEquals(parserConverterInjection.yearMonth, YearMonth.parse("2017-12"));
+    }
 
     @Test
     public void testImplicitConverterEnumValueOf() {
@@ -86,6 +116,12 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value, SomeEnumToConvert.BAZ);
         Assert.assertEquals(value.name(), "BAZ");
+    }
+    
+    @Dependent
+    private static class ParseConverterInjection {
+        private @Inject @ConfigProperty(name = "tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth") YearMonth yearMonth;
+
     }
 
 }
