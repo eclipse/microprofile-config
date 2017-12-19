@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -30,14 +30,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
-import java.util.List;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.converters.Pizza;
 import org.eclipse.microprofile.config.tck.converters.PizzaConverter;
@@ -53,7 +52,7 @@ import org.testng.annotations.Test;
 /**
  * Test the implicit converter handling.
  *
- * @author <a href="mailto:emijiang6@googlemail.com">Mark Struberg</a>
+ * @author <a href="mailto:emijiang6@googlemail.com">Emily Jiang</a>
  */
 public class ArrayConverterTest extends Arquillian {
 
@@ -62,7 +61,8 @@ public class ArrayConverterTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "arrayConverterTest.jar")
                 .addPackage(PizzaConverter.class.getPackage())
-                .addClasses(ArrayConverterTest.class, ArrayBean.class)
+
+                .addClasses(ArrayConverterTest.class, ArrayConverterBean.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(Converter.class, PizzaConverter.class)
                 .as(JavaArchive.class);
@@ -75,118 +75,12 @@ public class ArrayConverterTest extends Arquillian {
             return war;
     }
 
-    @Inject
-    private Config config;
 
-    @Inject
-    private ArrayBean arrayBean;
 
-    @Dependent
-    public static class ArrayBean {
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")
-        private Boolean[] myBooleans;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")
-        private boolean[] mybooleans;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")
-        private List<Boolean> myBooleanList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")
-        private Set<Boolean> myBooleanSet;
+    private @Inject Config config;
 
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.stringvalues")
-        private String[] myStrings;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.stringvalues")
-        private List<String> myStringList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.stringvalues")
-        private Set<String> myStringSet;
 
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.integervalues")
-        private Integer[] myInts;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.integervalues")
-        private int[] myints;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.integervalues")
-        private List<Integer> myIntList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.integervalues")
-        private Set<Integer> myIntSet;
-
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.longvalues")
-        private Long[] myLongs;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.longvalues")
-        private long[] mylongs;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.longvalues")
-        private List<Long> myLongList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.longvalues")
-        private Set<Long> myLongSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.floatvalues")
-        private Float[] myFloats;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.floatvalues")
-        private float[] myfloats;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.floatvalues")
-        private List<Float> myFloatList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.floatvalues")
-        private Set<Float> myFloatSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.doublevalues")
-        private Double[] myDoubles;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.doublevalues")
-        private double[] mydoubles;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.doublevalues")
-        private List<Double> myDoubleList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.doublevalues")
-        private Set<Double> myDoubleSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.durationvalues")
-        private Duration[] myDurations;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.durationvalues")
-        private List<Duration> myDurationList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.durationvalues")
-        private Set<Duration> myDurationSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localtimevalues")
-        private LocalTime[] myLocaltimes;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localtimevalues")
-        private List<LocalTime> myLocalTimeList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localtimevalues")
-        private Set<LocalTime> myLocalTimeSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localdatevalues")
-        private LocalDate[] myDates;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localdatevalues")
-        private List<LocalDate> myLocalDateList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localdatevalues")
-        private Set<LocalDate> myLocalDateSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localdatetimevalues")
-        private LocalDateTime[] myLocalDateTimes;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localdatetimevalues")
-        private List<LocalDateTime> myLocalDateTimeList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.localdatetimevalues")
-        private Set<LocalDateTime> myLocalDateTimeSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.offsetdatetimevalues")
-        private OffsetDateTime[] myOffsetDateTimes;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.offsetdatetimevalues")
-        private List<OffsetDateTime> myOffsetDateTimeList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.offsetdatetimevalues")
-        private Set<OffsetDateTime> myOffsetDateTimeSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.offsettimevalues")
-        private OffsetTime[] myOffsetTimes;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.offsettimevalues")
-        private List<OffsetTime> myOffsetTimeList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.offsettimevalues")
-        private Set<OffsetTime> myOffsetTimeSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.instantvalues")
-        private Instant[] myInstants;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.instantvalues")
-        private List<Instant> myInstantList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.instantvalues")
-        private Set<Instant> myInstantSet;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.urlvalues")
-        private URL[] myUrls;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.urlvalues")
-        private List<URL> myUrlList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.urlvalues")
-        private Set<URL> myUrlSet;
-        @Inject @ConfigProperty(name ="tck.config.test.javaconfig.converter.array.pizza")
-        private Pizza[] pizzas;
-        @Inject @ConfigProperty(name ="tck.config.test.javaconfig.converter.array.pizza")
-        private List<Pizza> pizzaList;
-        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.array.pizza")
-        private Set<Pizza> pizzaSet;
-    }
+    private @Inject ArrayConverterBean converterBean;
 
     ///////////////////////////////////Test Boolean[] boolean[]//////////////////////////
 
@@ -196,45 +90,44 @@ public class ArrayConverterTest extends Arquillian {
             Boolean[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
-        Assert.assertEquals( value[0].booleanValue(), true);
-        Assert.assertEquals( value[1].booleanValue(), false);
-        Assert.assertEquals( value[2].booleanValue(), true);
+        Assert.assertEquals(value, new Boolean[]{true, false, true});
+       
     }
 
 
+    
     @Test
     public void testBooleanArrayInjection() {
-        Assert.assertEquals(arrayBean.myBooleans.length, 3);
-        Assert.assertEquals(arrayBean.myBooleans[0].booleanValue(), true);
-        Assert.assertEquals(arrayBean.myBooleans[1].booleanValue(), false);
-        Assert.assertEquals(arrayBean.myBooleans[2].booleanValue(), true);
+
+        Assert.assertEquals(converterBean.getMyBooleans().length, 3);
+        Assert.assertEquals(converterBean.getMyBooleans(), new Boolean[]{true, false, true});
+        
     }
 
   //test bool[] support
+    
     @Test
     public void testbooleanArrayInjection() {
 
-        Assert.assertEquals(arrayBean.mybooleans.length, 3);
-
-        Assert.assertEquals(arrayBean.mybooleans[0], true);
-        Assert.assertEquals(arrayBean.mybooleans[1], false);
-        Assert.assertEquals(arrayBean.mybooleans[2], true);
+        Assert.assertEquals(converterBean.getMybooleans().length, 3);
+        Assert.assertEquals(converterBean.getMybooleans(), new boolean[]{true, false, true});
     }
 
+    
     @Test
     public void testbooleanListInjection() {
 
-        Assert.assertEquals(arrayBean.myBooleanList.size(), 3);
-        Assert.assertTrue(arrayBean.myBooleanList.contains(true));
-        Assert.assertTrue(arrayBean.myBooleanList.contains(false));
+        Assert.assertEquals(converterBean.getMyBooleanList().size(), 3);
+        Assert.assertEquals(converterBean.getMyBooleanList(), Arrays.asList(true, false, true));
     }
 
+    
     @Test
     public void testbooleanSetInjection() {
 
-        Assert.assertEquals(arrayBean.myBooleanSet.size(), 2);
-        Assert.assertTrue(arrayBean.myBooleanSet.contains(true));
-        Assert.assertTrue(arrayBean.myBooleanSet.contains(false));
+        Assert.assertEquals(converterBean.getMyBooleanSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyBooleanSet(), new LinkedHashSet<>(Arrays.asList(true, false, true)));
+
     }
     ///////////////////////////////////Test String[] //////////////////////////
     @Test
@@ -243,38 +136,34 @@ public class ArrayConverterTest extends Arquillian {
             String[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 4);
-        Assert.assertEquals( value[0], "microservice");
-        Assert.assertEquals( value[1], "microprofile");
-        Assert.assertEquals( value[2], "m,f");
-        Assert.assertEquals( value[3], "microservice");
+        Assert.assertEquals(value, new String[]{"microservice", "microprofile", "m,f", "microservice"});
 
     }
 
+
+    
     @Test
     public void testStringArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myStrings.length, 4);
-        Assert.assertEquals(arrayBean.myStrings[0], "microservice");
-        Assert.assertEquals(arrayBean.myStrings[1], "microprofile");
-        Assert.assertEquals(arrayBean.myStrings[2], "m,f");
-        Assert.assertEquals(arrayBean.myStrings[3], "microservice");
+        Assert.assertEquals(converterBean.getMyStrings().length, 4);
+        Assert.assertEquals(converterBean.getMyStrings(), new String[]{"microservice", "microprofile", "m,f", "microservice"});
     }
 
+
+    
     @Test
     public void testStringListInjection() {
 
-        Assert.assertEquals(arrayBean.myStringList.size(), 4);
-        Assert.assertTrue(arrayBean.myStringList.contains("microservice"));
-        Assert.assertTrue(arrayBean.myStringList.contains("microprofile"));
-        Assert.assertTrue(arrayBean.myStringList.contains("m,f"));
+        Assert.assertEquals(converterBean.getMyStringList().size(), 4);
+        Assert.assertEquals(converterBean.getMyStrings(), Arrays.asList("microservice", "microprofile", "m,f", "microservice"));
     }
-
+    
     @Test
     public void testStringSetInjection() {
-        Assert.assertEquals(arrayBean.myStringSet.size(), 3);
-        Assert.assertTrue(arrayBean.myStringSet.contains("microservice"));
-        Assert.assertTrue(arrayBean.myStringSet.contains("microprofile"));
-        Assert.assertTrue(arrayBean.myStringSet.contains("m,f"));
+        Assert.assertEquals(converterBean.getMyStringSet().size(), 3);
+        Assert.assertEquals(converterBean.getMyStrings(), new LinkedHashSet<>(Arrays.asList("microservice", "microprofile", "m,f", "microservice")));
+        
+
     }
     ///////////////////////////////////////////////////////////////////
     //test Integer[] support
@@ -286,41 +175,40 @@ public class ArrayConverterTest extends Arquillian {
             Integer[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals( value[0].intValue(), 1234);
-        Assert.assertEquals( value[1].intValue(), 9999);
+        Assert.assertEquals(value, new Integer[]{1234, 9999});
 
     }
 
+
+    
     @Test
     public void testIntArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myInts.length, 2);
-        Assert.assertEquals(arrayBean.myInts[0].intValue(), 1234);
-        Assert.assertEquals(arrayBean.myInts[1].intValue(), 9999);
+        Assert.assertEquals(converterBean.getMyInts().length, 2);
+        Assert.assertEquals(converterBean.getMyInts(), new Integer[]{1234, 9999});
     }
 
   //test int[] support
+    
     @Test
     public void testintArrayInjection() {
-        Assert.assertEquals(arrayBean.myints.length, 2);
-        Assert.assertEquals(arrayBean.myints[0], 1234);
-        Assert.assertEquals(arrayBean.myints[1], 9999);
+        Assert.assertEquals(converterBean.getMyints().length, 2);
+        Assert.assertEquals(converterBean.getMyInts(), new int[]{1234, 9999});
     }
-
+    
     @Test
     public void testIntListInjection() {
 
-        Assert.assertEquals(arrayBean.myIntList.size(), 2);
-        Assert.assertTrue(arrayBean.myIntList.contains(1234));
-        Assert.assertTrue(arrayBean.myIntList.contains(9999));
+        Assert.assertEquals(converterBean.getMyIntList().size(), 2);
+        Assert.assertEquals(converterBean.getMyIntList(), Arrays.asList(1234, 9999));
     }
 
+    
     @Test
     public void testIntSetInjection() {
-        Assert.assertEquals(arrayBean.myIntSet.size(), 2);
-        Assert.assertTrue(arrayBean.myIntSet.contains(1234));
-        Assert.assertTrue(arrayBean.myIntSet.contains(9999));
+        Assert.assertEquals(converterBean.getMyIntSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyIntSet(), new LinkedHashSet<>(Arrays.asList(1234, 9999)));
+
     }
     ///////////////////////////////////////////////////////////////////
     //////////////////Test Long[] long[]///////////////////////////////
@@ -332,40 +220,38 @@ public class ArrayConverterTest extends Arquillian {
             Long[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-        Assert.assertEquals(value[0].longValue(), 1234567890L);
-        Assert.assertEquals(value[1].longValue(), 1999999999L);
+        Assert.assertEquals(value, new Long[] {1234567890L, 1999999999L});
 
     }
 
     @Test
     public void testLongArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myLongs.length, 2);
-        Assert.assertEquals(arrayBean.myLongs[0].longValue(), 1234567890L);
-        Assert.assertEquals(arrayBean.myLongs[1].longValue(), 1999999999L);
+
+        Assert.assertEquals(converterBean.getMyLongs().length, 2);
+        Assert.assertEquals(converterBean.getMyLongs(), new Long[] {1234567890L, 1999999999L});
     }
 
   //test long[] support
+    
     @Test
     public void testlongArrayInjection() {
 
-        Assert.assertEquals(arrayBean.mylongs.length, 2);
-        Assert.assertEquals(arrayBean.mylongs[0], 1234567890L);
-        Assert.assertEquals(arrayBean.mylongs[1], 1999999999L);
+        Assert.assertEquals(converterBean.getMylongs().length, 2);
+        Assert.assertEquals(converterBean.getMylongs(), new long[] {1234567890L, 1999999999L});
     }
 
+    
     @Test
     public void testLongListInjection() {
 
-        Assert.assertEquals(arrayBean.myLongList.size(), 2);
-        Assert.assertTrue(arrayBean.myLongList.contains(1234567890L));
-        Assert.assertTrue(arrayBean.myLongList.contains(1999999999L));
+        Assert.assertEquals(converterBean.getMyLongList().size(), 2);
+        Assert.assertEquals(converterBean.getMyLongList(), Arrays.asList(1234567890L, 1999999999L));
     }
-    @Test
+     @Test
     public void testLongSetInjection() {
-        Assert.assertEquals(arrayBean.myLongSet.size(), 2);
-        Assert.assertTrue(arrayBean.myLongSet.contains(1234567890L));
-        Assert.assertTrue(arrayBean.myLongSet.contains(1999999999L));
+        Assert.assertEquals(converterBean.getMyLongSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyLongSet(), new LinkedHashSet<>(Arrays.asList(1234567890L, 1999999999L)));
     }
 
    ///////////////////////////////////Test Float[] float[]/////////////////////
@@ -379,43 +265,37 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
 
-        Assert.assertEquals(value[0], 12.34f);
-        Assert.assertEquals(value[1], 99.99f);
-
+        Assert.assertEquals(value, new Float[]{12.34f, 99.99f});
     }
 
     @Test
     public void testFloatArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myFloats.length, 2);
 
-        Assert.assertEquals(arrayBean.myFloats[0], 12.34f);
-        Assert.assertEquals(arrayBean.myFloats[1], 99.99f);
+        Assert.assertEquals(converterBean.getMyFloats().length, 2);
+        Assert.assertEquals(converterBean.getMyFloats(), new Float[]{12.34f, 99.99f});
     }
 
   //test float[] support
+
     @Test
     public void testfloatArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myfloats.length, 2);
-
-        Assert.assertEquals(arrayBean.myfloats[0], 12.34f);
-        Assert.assertEquals(arrayBean.myfloats[1], 99.99f);
+        Assert.assertEquals(converterBean.getMyfloats().length, 2);
+        Assert.assertEquals(converterBean.getMyfloats(), new Float[]{12.34f, 99.99f});
     }
-
+    
     @Test
     public void testFloatListInjection() {
 
-        Assert.assertEquals(arrayBean.myFloatList.size(), 2);
-        Assert.assertTrue(arrayBean.myFloatList.contains(12.34f));
-        Assert.assertTrue(arrayBean.myFloatList.contains(99.99f));
+        Assert.assertEquals(converterBean.getMyFloatList().size(), 2);
+        Assert.assertEquals(converterBean.getMyFloatList(), Arrays.asList(12.34f, 99.99f));
     }
-
+    
     @Test
     public void testFloatSetInjection() {
-        Assert.assertEquals(arrayBean.myFloatSet.size(), 2);
-        Assert.assertTrue(arrayBean.myFloatSet.contains(12.34f));
-        Assert.assertTrue(arrayBean.myFloatSet.contains(99.99f));
+        Assert.assertEquals(converterBean.getMyFloatSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyFloatSet(), new LinkedHashSet<>(Arrays.asList(12.34f, 99.99f)));
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -429,45 +309,39 @@ public class ArrayConverterTest extends Arquillian {
             Double[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals(value[0], 12.34d);
-        Assert.assertEquals(value[1], 99.9999d);
-
+        Assert.assertEquals( value, new Double[]{12.34d,99.9999d});
     }
     @Test
     public void testDoubleArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myDoubles.length, 2);
 
-        Assert.assertEquals(arrayBean.myDoubles[0], 12.34d);
-        Assert.assertEquals(arrayBean.myDoubles[1], 99.9999d);
+        Assert.assertEquals(converterBean.getMyDoubles().length, 2);
+        Assert.assertEquals( converterBean.getMyDoubles(), new Double[]{12.34d,99.9999d});
     }
 
     //test double[] support
-
+    
     @Test
     public void testdoubleArrayInjection() {
 
-        Assert.assertEquals(arrayBean.mydoubles.length, 2);
-
-        Assert.assertEquals(arrayBean.mydoubles[0], 12.34d);
-        Assert.assertEquals(arrayBean.mydoubles[1], 99.9999d);
+        Assert.assertEquals(converterBean.getMydoubles().length, 2);
+        Assert.assertEquals( converterBean.getMydoubles(), new double[]{12.34d,99.9999d});
     }
 
-    @Test
+        @Test
     public void testDoubleListInjection() {
 
-        Assert.assertEquals(arrayBean.myDoubleList.size(), 2);
-
-        Assert.assertTrue(arrayBean.myDoubleList.contains(12.34d));
-        Assert.assertTrue(arrayBean.myDoubleList.contains(99.9999d));
+        Assert.assertEquals(converterBean.getMyDoubleList().size(), 2);
+        Assert.assertEquals(converterBean.getMyDoubleList(), Arrays.asList(12.34d,99.9999d));
     }
-
+    
     @Test
     public void testDoubleSetInjection() {
-        Assert.assertEquals(arrayBean.myDoubleSet.size(), 2);
-        Assert.assertTrue(arrayBean.myDoubleSet.contains(12.34d));
-        Assert.assertTrue(arrayBean.myDoubleSet.contains(99.9999d));
+        Assert.assertEquals(converterBean.getMyDoubleSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyDoubleSet(), new LinkedHashSet<>(Arrays.asList(12.34d,99.9999d)));
+        
+        Assert.assertTrue(converterBean.getMyDoubleSet().contains(12.34d));
+        Assert.assertTrue(converterBean.getMyDoubleSet().contains(99.9999d));
     }
 
 
@@ -482,35 +356,29 @@ public class ArrayConverterTest extends Arquillian {
             Duration[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals( value[0], Duration.parse("PT15M"));
-        Assert.assertEquals( value[1], Duration.parse("PT20M"));
-
+        Assert.assertEquals( value, new Duration[]{Duration.parse("PT15M"), Duration.parse("PT20M")});
     }
 
+    
     @Test
     public void testDurationArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myDurations.length, 2);
+        Assert.assertEquals(converterBean.getMyDurations().length, 2);
+        Assert.assertEquals(converterBean.getMyDurations(), new Duration[]{Duration.parse("PT15M"), Duration.parse("PT20M")});
 
-        Assert.assertEquals(arrayBean.myDurations[0], Duration.parse("PT15M"));
-        Assert.assertEquals(arrayBean.myDurations[1], Duration.parse("PT20M"));
     }
 
     @Test
     public void testDurationListInjection() {
 
-        Assert.assertEquals(arrayBean.myDurationList.size(), 2);
-
-        Assert.assertTrue(arrayBean.myDurationList.contains(Duration.parse("PT15M")));
-        Assert.assertTrue(arrayBean.myDurationList.contains(Duration.parse("PT20M")));
+        Assert.assertEquals(converterBean.getMyDurationList().size(), 2);
+        Assert.assertEquals(converterBean.getMyDurationList(), Arrays.asList(Duration.parse("PT15M"), Duration.parse("PT20M")));
     }
-
+    
     @Test
     public void testDurationSetInjection() {
-        Assert.assertEquals(arrayBean.myDurationSet.size(), 2);
-        Assert.assertTrue(arrayBean.myDurationSet.contains(Duration.parse("PT20M")));
-        Assert.assertTrue(arrayBean.myDurationSet.contains(Duration.parse("PT15M")));
+        Assert.assertEquals(converterBean.getMyDurationSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyDurationList(), new LinkedHashSet<>(Arrays.asList(Duration.parse("PT15M"), Duration.parse("PT20M"))));
     }
     //////////////////////////////////////////////////////////////////////
     //LocalTime
@@ -522,35 +390,29 @@ public class ArrayConverterTest extends Arquillian {
             LocalTime[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals( value[0], LocalTime.parse("10:37"));
-        Assert.assertEquals( value[1], LocalTime.parse("11:44"));
-
+        Assert.assertEquals( value, new LocalTime[]{LocalTime.parse("10:37"), LocalTime.parse("11:44")});
     }
 
+    
     @Test
     public void testLocalTimeArrayInjection() {
-
-        Assert.assertEquals(arrayBean.myLocaltimes.length, 2);
-
-        Assert.assertEquals(arrayBean.myLocaltimes[0], LocalTime.parse("10:37"));
-        Assert.assertEquals(arrayBean.myLocaltimes[1], LocalTime.parse("11:44"));
+        Assert.assertEquals(converterBean.getMyLocaltimes().length, 2);
+        Assert.assertEquals( converterBean.getMyLocaltimes(), new LocalTime[]{LocalTime.parse("10:37"), LocalTime.parse("11:44")});
     }
 
     @Test
     public void testLocalTimeListInjection() {
 
-        Assert.assertEquals(arrayBean.myLocalTimeList.size(), 2);
 
-        Assert.assertTrue(arrayBean.myLocalTimeList.contains(LocalTime.parse("10:37")));
-        Assert.assertTrue(arrayBean.myLocalTimeList.contains(LocalTime.parse("11:44")));
+        Assert.assertEquals(converterBean.getMyLocalTimeList().size(), 2);
+        Assert.assertEquals( converterBean.getMyLocalTimeList(), Arrays.asList(LocalTime.parse("10:37"), LocalTime.parse("11:44")));
     }
-
+    
     @Test
     public void testLocalTimeSetInjection() {
-        Assert.assertEquals(arrayBean.myLocalTimeSet.size(), 2);
-        Assert.assertTrue(arrayBean.myLocalTimeSet.contains(LocalTime.parse("10:37")));
-        Assert.assertTrue(arrayBean.myLocalTimeSet.contains(LocalTime.parse("11:44")));
+        Assert.assertEquals(converterBean.getMyLocalTimeSet().size(), 2);
+        Assert.assertEquals( converterBean.getMyLocalTimeSet(), new LinkedHashSet<>(Arrays.asList(LocalTime.parse("10:37"), 
+                 LocalTime.parse("11:44"))));
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -562,34 +424,29 @@ public class ArrayConverterTest extends Arquillian {
             LocalDate[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals( value[0], LocalDate.parse("2017-12-24"));
-        Assert.assertEquals( value[1], LocalDate.parse("2017-11-29"));
-
+        Assert.assertEquals(value, new LocalDate[]{LocalDate.parse("2017-12-24"), LocalDate.parse("2017-11-29")});
     }
     @Test
     public void testLocalDateArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myDates.length, 2);
 
-        Assert.assertEquals(arrayBean.myDates[0], LocalDate.parse("2017-12-24"));
-        Assert.assertEquals(arrayBean.myDates[1], LocalDate.parse("2017-11-29"));
+        Assert.assertEquals(converterBean.getMyDates().length, 2);
+        Assert.assertEquals(converterBean.getMyDates(), new LocalDate[]{LocalDate.parse("2017-12-24"), LocalDate.parse("2017-11-29")});
     }
 
 
     @Test
     public void testLocalDateListInjection() {
-        Assert.assertEquals(arrayBean.myLocalDateList.size(), 2);
-
-        Assert.assertTrue(arrayBean.myLocalDateList.contains(LocalDate.parse("2017-12-24")));
-        Assert.assertTrue(arrayBean.myLocalDateList.contains(LocalDate.parse("2017-11-29")));
+        Assert.assertEquals(converterBean.myLocalDateList.size(), 2);
+        Assert.assertEquals(converterBean.getMyLocalDateList().size(), 2);
+        Assert.assertEquals(converterBean.getMyLocalDateList(), Arrays.asList(LocalDate.parse("2017-12-24"), LocalDate.parse("2017-11-29")));
     }
-
+    
     @Test
     public void testLocalDateSetInjection() {
-        Assert.assertEquals(arrayBean.myLocalDateSet.size(), 2);
-        Assert.assertTrue(arrayBean.myLocalDateSet.contains(LocalDate.parse("2017-12-24")));
-        Assert.assertTrue(arrayBean.myLocalDateSet.contains(LocalDate.parse("2017-11-29")));
+        Assert.assertEquals(converterBean.getMyLocalDateSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyLocalDateSet(), new LinkedHashSet<>(Arrays.asList(LocalDate.parse("2017-12-24"), 
+                LocalDate.parse("2017-11-29"))));
     }
     //////////////////////////////////////////////////////////////////////
     ////////////////////////Test LocalDateTime////////////////////////////
@@ -600,37 +457,37 @@ public class ArrayConverterTest extends Arquillian {
              LocalDateTime[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals( value[0], LocalDateTime.parse("2017-12-24T10:25:30"));
-        Assert.assertEquals( value[1], LocalDateTime.parse("2017-12-24T10:25:33"));
-
+        Assert.assertEquals( value, new LocalDateTime[]{LocalDateTime.parse("2017-12-24T10:25:30"), LocalDateTime.parse("2017-12-24T10:25:33")});
     }
+
 
     @Test
     public void testLocalDateTimeArrayInjection() {
-        Assert.assertEquals(arrayBean.myLocalDateTimes.length, 2);
-
-        Assert.assertEquals(arrayBean.myLocalDateTimes[0], LocalDateTime.parse("2017-12-24T10:25:30"));
-        Assert.assertEquals(arrayBean.myLocalDateTimes[1], LocalDateTime.parse("2017-12-24T10:25:33"));
+        Assert.assertEquals(converterBean.myLocalDateTimes.length, 2);
+        Assert.assertEquals(converterBean.getMyLocalDateTimes().length, 2);
+        Assert.assertEquals(converterBean.getMyLocalDateTimes(), new LocalDateTime[]{LocalDateTime.parse("2017-12-24T10:25:30"), 
+                LocalDateTime.parse("2017-12-24T10:25:33")});
     }
 
     @Test
     public void testLocalDateTimeListInjection() {
-        Assert.assertEquals(arrayBean.myLocalDateTimeList.size(), 2);
+        Assert.assertEquals(converterBean.myLocalDateTimeList.size(), 2);
 
-        Assert.assertTrue(arrayBean.myLocalDateTimeList.contains(LocalDateTime.parse("2017-12-24T10:25:30")));
-        Assert.assertTrue(arrayBean.myLocalDateTimeList.contains(LocalDateTime.parse("2017-12-24T10:25:33")));
+
+        Assert.assertEquals(converterBean.getMyLocalDateTimeList().size(), 2);
+        Assert.assertEquals(converterBean.getMyLocalDateTimeList(), Arrays.asList(LocalDateTime.parse("2017-12-24T10:25:30"), 
+                LocalDateTime.parse("2017-12-24T10:25:33")));
     }
-
+    
     @Test
     public void testLocalDateTimeSetInjection() {
-         Assert.assertEquals(arrayBean.myLocalDateTimeSet.size(), 2);
-
-         Assert.assertTrue(arrayBean.myLocalDateTimeSet.contains(LocalDateTime.parse("2017-12-24T10:25:30")));
-         Assert.assertTrue(arrayBean.myLocalDateTimeSet.contains(LocalDateTime.parse("2017-12-24T10:25:33")));
+         Assert.assertEquals(converterBean.getMyLocalDateTimeSet().size(), 2);
+         Assert.assertEquals(converterBean.getMyLocalDateTimeList(), new LinkedHashSet<>(Arrays.asList(LocalDateTime.parse("2017-12-24T10:25:30"), 
+                 LocalDateTime.parse("2017-12-24T10:25:33"))));
     }
     //////////////////////////////////////////////////////////////////////
     ////////////////////////Test OffsetDateTime////////////////////////////
+
 
     @Test
     public void testOffsetDateTimeLookupProgrammatically() {
@@ -638,32 +495,31 @@ public class ArrayConverterTest extends Arquillian {
                 OffsetDateTime[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals( value[0], OffsetDateTime.parse("2007-12-03T10:15:30+01:00"));
-        Assert.assertEquals( value[1], OffsetDateTime.parse("2007-12-03T10:15:30+02:00"));
-
+        Assert.assertEquals( value, new OffsetDateTime[] {OffsetDateTime.parse("2007-12-03T10:15:30+01:00"), 
+                OffsetDateTime.parse("2007-12-03T10:15:30+02:00")});
     }
     @Test
     public void testOffsetDateTimeArrayInjection() {
-        Assert.assertEquals(arrayBean.myOffsetDateTimes.length, 2);
-        Assert.assertEquals(arrayBean.myOffsetDateTimes[0], OffsetDateTime.parse("2007-12-03T10:15:30+01:00"));
-        Assert.assertEquals(arrayBean.myOffsetDateTimes[1], OffsetDateTime.parse("2007-12-03T10:15:30+02:00"));
+
+
+        Assert.assertEquals(converterBean.getMyOffsetDateTimes().length, 2);
+        Assert.assertEquals( converterBean.getMyOffsetDateTimes(), new OffsetDateTime[] {OffsetDateTime.parse("2007-12-03T10:15:30+01:00"), 
+                OffsetDateTime.parse("2007-12-03T10:15:30+02:00")});
     }
 
     @Test
     public void testOffsetDateTimeListInjection() {
-        Assert.assertEquals(arrayBean.myOffsetDateTimeList.size(), 2);
-
-        Assert.assertTrue(arrayBean.myOffsetDateTimeList.contains(OffsetDateTime.parse("2007-12-03T10:15:30+01:00")));
-        Assert.assertTrue(arrayBean.myOffsetDateTimeList.contains(OffsetDateTime.parse("2007-12-03T10:15:30+02:00")));
+        Assert.assertEquals(converterBean.myOffsetDateTimeList.size(), 2);
+        Assert.assertEquals(converterBean.getMyOffsetDateTimeList().size(), 2);
+        Assert.assertEquals( converterBean.getMyOffsetDateTimeList(), Arrays.asList(OffsetDateTime.parse("2007-12-03T10:15:30+01:00"), 
+                OffsetDateTime.parse("2007-12-03T10:15:30+02:00")));
     }
-
+    
     @Test
     public void testOffsetDateTimeSetInjection() {
-         Assert.assertEquals(arrayBean.myOffsetDateTimeSet.size(), 2);
-
-        Assert.assertTrue(arrayBean.myOffsetDateTimeSet.contains(OffsetDateTime.parse("2007-12-03T10:15:30+01:00")));
-        Assert.assertTrue(arrayBean.myOffsetDateTimeSet.contains(OffsetDateTime.parse("2007-12-03T10:15:30+02:00")));
+         Assert.assertEquals(converterBean.getMyOffsetDateTimeSet().size(), 2);
+         Assert.assertEquals( converterBean.getMyOffsetDateTimeSet(), new LinkedHashSet<>(Arrays.asList(
+                 OffsetDateTime.parse("2007-12-03T10:15:30+01:00"), OffsetDateTime.parse("2007-12-03T10:15:30+02:00"))));
     }
     //////////////////////////////////////////////////////////////////////
 
@@ -674,35 +530,32 @@ public class ArrayConverterTest extends Arquillian {
               OffsetTime[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-
-        Assert.assertEquals( value[0], OffsetTime.parse("13:45:30.123456789+02:00"));
-        Assert.assertEquals( value[1], OffsetTime.parse("13:45:30.123456789+03:00"));
-
+        Assert.assertEquals( value, new OffsetTime[]{OffsetTime.parse("13:45:30.123456789+02:00"),OffsetTime.parse("13:45:30.123456789+03:00")});
     }
 
+    
     @Test
     public void testOffsetTimeArrayInjection() {
 
-        Assert.assertEquals(arrayBean.myOffsetDateTimes.length, 2);
-        Assert.assertEquals(arrayBean.myOffsetTimes[0], OffsetTime.parse("13:45:30.123456789+02:00"));
-        Assert.assertEquals(arrayBean.myOffsetTimes[1], OffsetTime.parse("13:45:30.123456789+03:00"));
+        Assert.assertEquals(converterBean.getMyOffsetDateTimes().length, 2);
+        Assert.assertEquals(converterBean.getMyOffsetDateTimes(), new OffsetTime[]{OffsetTime.parse("13:45:30.123456789+02:00"),
+                OffsetTime.parse("13:45:30.123456789+03:00")});
     }
 
     @Test
     public void testOffsetTimeListInjection() {
 
-        Assert.assertEquals(arrayBean.myOffsetTimeList.size(), 2);
 
-        Assert.assertTrue(arrayBean.myOffsetTimeList.contains(OffsetTime.parse("13:45:30.123456789+02:00")));
-        Assert.assertTrue(arrayBean.myOffsetTimeList.contains(OffsetTime.parse("13:45:30.123456789+03:00")));
+        Assert.assertEquals(converterBean.getMyOffsetTimeList().size(), 2);
+        Assert.assertEquals(converterBean.getMyOffsetTimeList(), Arrays.asList(OffsetTime.parse("13:45:30.123456789+02:00"),
+                OffsetTime.parse("13:45:30.123456789+03:00")));
     }
-
+    
     @Test
     public void testOffsetTimeSetInjection() {
-         Assert.assertEquals(arrayBean.myOffsetTimeSet.size(), 2);
-
-         Assert.assertTrue(arrayBean.myOffsetTimeSet.contains(OffsetTime.parse("13:45:30.123456789+02:00")));
-         Assert.assertTrue(arrayBean.myOffsetTimeSet.contains(OffsetTime.parse("13:45:30.123456789+03:00")));
+         Assert.assertEquals(converterBean.getMyOffsetTimeSet().size(), 2);
+         Assert.assertEquals(converterBean.getMyOffsetTimeList(), new LinkedHashSet<>(Arrays.asList(OffsetTime.parse("13:45:30.123456789+02:00"),
+                 OffsetTime.parse("13:45:30.123456789+03:00"))));
     }
     //////////////////////////////////////////////////////////////////////
     ////////////////////////Test instant////////////////////////////
@@ -714,32 +567,30 @@ public class ArrayConverterTest extends Arquillian {
                Instant[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
-        Assert.assertEquals( value[0], Instant.parse("2015-06-02T21:34:33.616Z"));
-        Assert.assertEquals( value[1], Instant.parse("2017-06-02T21:34:33.616Z"));
+        Assert.assertEquals(value,  new Instant[]{Instant.parse("2015-06-02T21:34:33.616Z"), Instant.parse("2017-06-02T21:34:33.616Z")});
     }
-
+    
     @Test
     public void testInstantArrayInjection() {
-        Assert.assertEquals(arrayBean.myInstants.length, 2);
-        Assert.assertEquals(arrayBean.myInstants[0], Instant.parse("2015-06-02T21:34:33.616Z"));
-        Assert.assertEquals(arrayBean.myInstants[1], Instant.parse("2017-06-02T21:34:33.616Z"));
-    }
 
+        Assert.assertEquals(converterBean.getMyInstants().length, 2);
+        Assert.assertEquals(converterBean.getMyInstants(),  new Instant[]{Instant.parse("2015-06-02T21:34:33.616Z"), 
+                Instant.parse("2017-06-02T21:34:33.616Z")});
+        
+    }
     @Test
     public void testInstantListInjection() {
 
-        Assert.assertEquals(arrayBean.myInstantList.size(), 2);
-
-        Assert.assertTrue(arrayBean.myInstantList.contains(Instant.parse("2015-06-02T21:34:33.616Z")));
-        Assert.assertTrue(arrayBean.myInstantList.contains(Instant.parse("2017-06-02T21:34:33.616Z")));
+        Assert.assertEquals(converterBean.getMyInstantList().size(), 2);
+        Assert.assertEquals(converterBean.getMyInstantList(), Arrays.asList(Instant.parse("2015-06-02T21:34:33.616Z"), 
+                Instant.parse("2017-06-02T21:34:33.616Z")));
     }
-
+    
     @Test
     public void testInstantSetInjection() {
-         Assert.assertEquals(arrayBean.myInstantSet.size(), 2);
-
-         Assert.assertTrue(arrayBean.myInstantSet.contains(Instant.parse("2015-06-02T21:34:33.616Z")));
-         Assert.assertTrue(arrayBean.myInstantSet.contains(Instant.parse("2017-06-02T21:34:33.616Z")));
+         Assert.assertEquals(converterBean.getMyInstantSet().size(), 2);
+         Assert.assertEquals(converterBean.getMyInstantList(), new LinkedHashSet<>(Arrays.asList(Instant.parse("2015-06-02T21:34:33.616Z"), 
+                 Instant.parse("2017-06-02T21:34:33.616Z"))));
     }
     //////////////////////////////////////////////////////////////////////
 
@@ -751,37 +602,34 @@ public class ArrayConverterTest extends Arquillian {
             URL[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
-        Assert.assertEquals( value[0], new URL("http://microprofile.io"));
-        Assert.assertEquals( value[1], new URL("http://openliberty.io"));
-        Assert.assertEquals( value[2], new URL("http://microprofile.io"));
+        Assert.assertEquals( value, new URL[]{ new URL("http://microprofile.io"), new URL("http://openliberty.io"), 
+                new URL("http://microprofile.io")});
     }
-
-
-
+    
     @Test
     public void testUrlArrayInjection() throws MalformedURLException {
 
-        Assert.assertEquals(arrayBean.myUrls.length, 3);
-        Assert.assertEquals(arrayBean.myUrls[0], new URL("http://microprofile.io"));
-        Assert.assertEquals(arrayBean.myUrls[1], new URL("http://openliberty.io"));
-        Assert.assertEquals(arrayBean.myUrls[2], new URL("http://microprofile.io"));
+        Assert.assertEquals(converterBean.getMyUrls().length, 3);
+        Assert.assertEquals(converterBean.getMyUrls(), new URL[]{ new URL("http://microprofile.io"), new URL("http://openliberty.io"), 
+                new URL("http://microprofile.io")});
     }
 
+
+    
     @Test
     public void testURLListInjection() throws MalformedURLException {
 
-        Assert.assertEquals(arrayBean.myUrlList.size(), 3);
-
-        Assert.assertTrue(arrayBean.myUrlList.contains(new URL("http://openliberty.io")));
-        Assert.assertTrue(arrayBean.myUrlList.contains(new URL("http://microprofile.io")));
+        Assert.assertEquals(converterBean.getMyUrlList().size(), 3);
+        Assert.assertEquals(converterBean.getMyUrlList(), Arrays.asList( new URL("http://microprofile.io"), new URL("http://openliberty.io"), 
+                new URL("http://microprofile.io")));
     }
-
+    
     @Test
     public void testURLSetInjection() throws MalformedURLException {
 
-        Assert.assertEquals(arrayBean.myUrlSet.size(), 2);
-        Assert.assertTrue( arrayBean.myUrlSet.contains(new URL("http://openliberty.io")));
-        Assert.assertTrue( arrayBean.myUrlSet.contains(new URL("http://microprofile.io")));
+        Assert.assertEquals(converterBean.getMyUrlSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyUrlList(), new LinkedHashSet<>(Arrays.asList(new URL("http://microprofile.io"), 
+                new URL("http://openliberty.io"), new URL("http://microprofile.io"))));
     }
     ///////////////////////////////////////////////////////////////////
     //test custom class array support
@@ -793,39 +641,34 @@ public class ArrayConverterTest extends Arquillian {
             Pizza[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
-
-        Assert.assertEquals( value[0],  (new Pizza("cheese,mushroom", "large")));
-        Assert.assertEquals( value[1],  (new Pizza("chicken", "medium")));
-        Assert.assertEquals( value[2],  (new Pizza("pepperoni", "small")));
+        Assert.assertEquals( value,  new Pizza[]{new Pizza("cheese,mushroom", "large"), new Pizza("chicken", "medium"),
+                new Pizza("pepperoni", "small")});
     }
 
     @Test
     public void testCustomTypeArrayInjection() {
 
-        Assert.assertEquals(arrayBean.pizzas.length, 3);
-        //large:cheese,medium:chicken,small:pepperoni
-        Assert.assertEquals( arrayBean.pizzas[0],  (new Pizza("cheese,mushroom", "large")));
-        Assert.assertEquals( arrayBean.pizzas[1],  (new Pizza("chicken", "medium")));
-        Assert.assertEquals( arrayBean.pizzas[2],  (new Pizza("pepperoni", "small")));
-    }
 
+        Assert.assertEquals(converterBean.getPizzas().length, 3);
+        Assert.assertEquals( converterBean.getPizzas(),  new Pizza[]{new Pizza("cheese,mushroom", "large"), new Pizza("chicken", "medium"),
+                new Pizza("pepperoni", "small")});
+
+    }
     @Test
     public void testCustomTypeListInjection()  {
 
-        Assert.assertEquals(arrayBean.pizzaList.size(), 3);
-
-        Assert.assertTrue( arrayBean.pizzaList.contains(new Pizza("cheese,mushroom", "large")));
-        Assert.assertTrue( arrayBean.pizzaList.contains(new Pizza("chicken", "medium")));
-        Assert.assertTrue( arrayBean.pizzaList.contains(new Pizza("pepperoni", "small")));
+        Assert.assertEquals(converterBean.getPizzaList().size(), 3);
+        Assert.assertEquals( converterBean.getPizzaList(),  Arrays.asList(new Pizza("cheese,mushroom", "large"), new Pizza("chicken", "medium"),
+                new Pizza("pepperoni", "small")));
     }
-
+    
     @Test
     public void testCustomTypeSetInjection()  {
 
-        Assert.assertEquals(arrayBean.pizzaSet.size(), 3);
-        Assert.assertTrue( arrayBean.pizzaSet.contains(new Pizza("cheese,mushroom", "large")));
-        Assert.assertTrue( arrayBean.pizzaSet.contains(new Pizza("chicken", "medium")));
-        Assert.assertTrue( arrayBean.pizzaSet.contains(new Pizza("pepperoni", "small")));
+        Assert.assertEquals(converterBean.getPizzaSet().size(), 3);
+        Assert.assertEquals( converterBean.getPizzaSet(),  new LinkedHashSet<>(Arrays.asList(new Pizza("cheese,mushroom", "large"), 
+                new Pizza("chicken", "medium"),new Pizza("pepperoni", "small"))));
+
     }
 
 }
