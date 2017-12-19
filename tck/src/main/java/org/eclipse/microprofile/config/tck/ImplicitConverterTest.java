@@ -23,11 +23,9 @@ import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 import java.time.YearMonth;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringCt;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringValueOf;
@@ -56,6 +54,7 @@ public class ImplicitConverterTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
             .create(JavaArchive.class, "implicitConverterTest.jar")
             .addPackage(ConvTestTypeWStringCt.class.getPackage())
+            .addClass(ParseConverterInjectionBean.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .as(JavaArchive.class);
 
@@ -69,7 +68,7 @@ public class ImplicitConverterTest extends Arquillian {
 
 
     private @Inject Config config;
-    private @Inject ParseConverterInjection parserConverterInjection;
+    private @Inject ParseConverterInjectionBean parserConverterInjection;
     
 
     @Test
@@ -105,8 +104,8 @@ public class ImplicitConverterTest extends Arquillian {
     
     @Test
     public void testImplicitConverterCharSequenceParseJavaTimeInjection() {
-        Assert.assertNotNull(parserConverterInjection.yearMonth);
-        Assert.assertEquals(parserConverterInjection.yearMonth, YearMonth.parse("2017-12"));
+        Assert.assertNotNull(parserConverterInjection.getYearMonth());
+        Assert.assertEquals(parserConverterInjection.getYearMonth(), YearMonth.parse("2017-12"));
     }
 
     @Test
@@ -118,10 +117,6 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertEquals(value.name(), "BAZ");
     }
     
-    @Dependent
-    private static class ParseConverterInjection {
-        private @Inject @ConfigProperty(name = "tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth") YearMonth yearMonth;
-
-    }
+    
 
 }

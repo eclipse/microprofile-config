@@ -20,7 +20,6 @@
 package org.eclipse.microprofile.config.tck;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -29,12 +28,9 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 import static org.testng.Assert.assertEquals;
@@ -51,7 +47,7 @@ public class ClassConverterTest extends Arquillian {
         String archiveName = ClassConverterTest.class.getSimpleName();
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, archiveName+".jar")
-                .addClass(ClassConverterBean.class)
+                .addClasses(ClassConverterBean.class, ClassConverterTest.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
@@ -69,6 +65,7 @@ public class ClassConverterTest extends Arquillian {
     @Inject
     private ClassConverterBean classConverterBean;
 
+    
     @Test
     public void testClassConverterWithLookup() {
         Class<?> testClass = config.getValue("tck.config.test.javaconfig.converter.class", Class.class);
@@ -80,31 +77,14 @@ public class ClassConverterTest extends Arquillian {
 
     @Test
     public void testConverterForClassLoadedInBean() {
-        assertEquals(classConverterBean.testClass, ClassConverterTest.class);
-        assertEquals(classConverterBean.testClasses.length, 2);
-        assertEquals(classConverterBean.testClasses, new Class[]{ClassConverterTest.class, String.class});
-        assertEquals(classConverterBean.testClassSet.size(), 2);
-        assertEquals(classConverterBean.testClassSet, new LinkedHashSet<>(Arrays.asList(ClassConverterTest.class, String.class)));
-        assertEquals(classConverterBean.testClassList.size(), 2);
-        assertEquals(classConverterBean.testClassList, Arrays.asList(ClassConverterTest.class, String.class));
+        assertEquals(classConverterBean.getTestClass(), ClassConverterTest.class);
+        assertEquals(classConverterBean.getTestClasses().length, 2);
+        assertEquals(classConverterBean.getTestClasses(), new Class[]{ClassConverterTest.class, String.class});
+        assertEquals(classConverterBean.getTestClassSet().size(), 2);
+        assertEquals(classConverterBean.getTestClassSet(), new LinkedHashSet<>(Arrays.asList(ClassConverterTest.class, String.class)));
+        assertEquals(classConverterBean.getTestClassList().size(), 2);
+        assertEquals(classConverterBean.getTestClassList(), Arrays.asList(ClassConverterTest.class, String.class));
     }
 
-    @Dependent
-    private static class ClassConverterBean {
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class")
-        private Class<?> testClass;
-
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private Class<?>[] testClasses;
-
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private Set<Class<?>> testClassSet;
-
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private List<Class<?>> testClassList;
-    }
+    
 }
