@@ -56,6 +56,7 @@ public class ImplicitConverterTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
             .create(JavaArchive.class, "implicitConverterTest.jar")
             .addPackage(ConvTestTypeWStringCt.class.getPackage())
+            .addClasses(ParseConverterInjection.class, ImplicitConverterTest.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .as(JavaArchive.class);
 
@@ -119,7 +120,7 @@ public class ImplicitConverterTest extends Arquillian {
     }
     
     @Dependent
-    private static class ParseConverterInjection {
+    public static class ParseConverterInjection {
         private @Inject @ConfigProperty(name = "tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth") YearMonth yearMonth;
 
     }
