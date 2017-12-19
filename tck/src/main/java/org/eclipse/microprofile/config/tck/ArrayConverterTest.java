@@ -82,7 +82,7 @@ public class ArrayConverterTest extends Arquillian {
     private ArrayBean arrayBean;
 
     @Dependent
-    private static class ArrayBean {
+    public static class ArrayBean {
         @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")
         private Boolean[] myBooleans;
         @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")

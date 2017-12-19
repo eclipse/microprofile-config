@@ -19,6 +19,17 @@
 
 package org.eclipse.microprofile.config.tck;
 
+import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
+import static org.testng.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -28,16 +39,6 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
-
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
-import static org.testng.Assert.assertEquals;
 
 /**
  * Test Class type converter handling
@@ -51,7 +52,7 @@ public class ClassConverterTest extends Arquillian {
         String archiveName = ClassConverterTest.class.getSimpleName();
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, archiveName+".jar")
-                .addClass(ClassConverterBean.class)
+                .addClasses(ClassConverterBean.class, ClassConverterTest.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
@@ -90,7 +91,7 @@ public class ClassConverterTest extends Arquillian {
     }
 
     @Dependent
-    private static class ClassConverterBean {
+    public static class ClassConverterBean {
         @Inject
         @ConfigProperty(name = "tck.config.test.javaconfig.converter.class")
         private Class<?> testClass;
