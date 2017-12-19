@@ -56,6 +56,7 @@ public class ImplicitConverterTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
             .create(JavaArchive.class, "implicitConverterTest.jar")
             .addPackage(ConvTestTypeWStringCt.class.getPackage())
+            .addClass(ParseConverterInjection.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .as(JavaArchive.class);
 
