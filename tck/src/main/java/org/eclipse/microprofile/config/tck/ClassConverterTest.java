@@ -94,18 +94,18 @@ public class ClassConverterTest extends Arquillian {
     public static class ClassConverterBean {
         @Inject
         @ConfigProperty(name = "tck.config.test.javaconfig.converter.class")
-        private Class<?> testClass;
+        private Class testClass;
 
         @Inject
         @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private Class<?>[] testClasses;
+        private Class[] testClasses;
 
         @Inject
         @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private Set<Class<?>> testClassSet;
+        private Set<Class> testClassSet;
 
         @Inject
         @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private List<Class<?>> testClassList;
+        private List<Class> testClassList;
     }
 }
