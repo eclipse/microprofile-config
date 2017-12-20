@@ -18,7 +18,7 @@
 // Contributors:
 // John D. Ament
 
-[[release_notes_11]]
+[[release_notes]]
 == Release Notes for MicroProfile Config 1.1
 
 The following changes occurred in the 1.1 release, compared to 1.0
@@ -38,3 +38,38 @@ A full list of changes may be found on the link:https://github.com/eclipse/micro
 === Specification Changes
 
 - Clarified what it means for a value to be present (link:https://github.com/eclipse/microprofile-config/issues/216[#216])
+
+== Release Notes for MicroProfile Config 1.2
+
+The following changes occurred in the 1.2 release, compared to 1.1
+
+A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/3?closed=1[MicroProfile Config 1.2 Milestone]
+
+=== API/SPI Changes
+
+- The `ConfigBuilder` SPI has been extended with a method that allows for a converter with the specified class type to be registered  (link:https://github.com/eclipse/microprofile-config/issues/205[#205]). This change removes the limitation, which was unable to add a lambda converter, from the previous releases.
+
+=== Functional Changes
+
+- Implementations must now support the array converter (link:https://github.com/eclipse/microprofile-config/issues/259[#259]).
+For the array converter, the programmatic lookup of a property (e.g. `config.getValue(myProp, String[].class)`) must support the return type of the array. For the injection lookup, an Array, List or Set must be supported as well (e.g. `@Inject @ConfigProperty(name="myProp") private List<String> propValue;`). 
+
+- Implementations must also support the common sense converters (link:https://github.com/eclipse/microprofile-config/issues/269[#269]) where there is no corresponding type of converters provided for a given class. The implementation must use the class's default instructor taking a string parameter, then try `valueOf(String)` followed by `parse(CharSequence)`. 
+
+- Implementations must also support Class converter (link:https://github.com/eclipse/microprofile-config/issues/267[#267])
+
+=== Specification Changes
+
+- Specification changes to document 
+ (link:https://github.com/eclipse/microprofile-config/issues/205[#205]),
+ (link:https://github.com/eclipse/microprofile-config/issues/259[#259]), 
+ (link:https://github.com/eclipse/microprofile-config/issues/269[#269])
+ (link:https://github.com/eclipse/microprofile-config/issues/267[#267])
+
+=== Other Changes
+The API bundle can work with either CDI 1.2 or CDI 2.0 in OSGi environment (link:https://github.com/eclipse/microprofile-config/issues/249[#249]).
+
+A tck test was added to ensure the search path of `microprofile-config.properties` for a `war` archive is `WEB-INF\classes\META-INF` (link:https://github.com/eclipse/microprofile-config/issues/268[#268])
+
+
+

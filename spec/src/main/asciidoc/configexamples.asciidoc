@@ -52,6 +52,14 @@ $> java -jar some.jar -Dacme.myprj.some.url=http://other.server/other/endpoint
 Note that this is only one example how to possibly configure your application.
 Another example is to register <<custom_configsources, Custom ConfigSources>> to e.g. pick up values from a database table, etc.
 
+If a config value is `,` separated string, this value can be automatically converted to an array with `\` as the escape character.
+When specifying the property `myPets=dog,cat,dog\\,cat` in a config source, the following code snippet can be used to obtain an array.
+----
+ String[] myPets = config.getValue("myPets", String[].class); 
+ //myPets = {"dog", "cat", "dog,cat"}
+----
+
+
 === Simple Dependency Injection Example
 
 Microprofile-Config also provides ways to inject configured values into your beans using the `@Inject` and the `@ConfigProperty` qualifier.
@@ -83,6 +91,11 @@ public class InjectedConfigUsageSample {
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
     private javax.inject.Provider<Long> timeout;
+    //The following code injects an Array, List or Set for the `myPets` property, 
+    //where its value is a comma separated value ( myPets=dog,cat,dog\\,cat)
+    @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
+    @Inject @ConfigProperty(name="myPets") private List<String> myListPets; 
+    @Inject @ConfigProperty(name="myPets") private Set<String> mySetPets;
 }
 ----
 

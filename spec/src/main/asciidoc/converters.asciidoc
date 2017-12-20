@@ -61,6 +61,9 @@ The `Config` will use the `Converter` with the highest `Priority` for each targe
 
 A custom `Converter` for a target type of any of the built-in Converters will overwrite the default Converter.
 
+Converters can be added to the `ConfigBuilder` programmatically via `ConfigBuilder#withConverters(Converter<?>... converters)` 
+where the type of the converters can be obtained via reflection. However, this is not possible for a lambda converter. In this case, use the method `ConfigBuilder#withConverter(Class<T> type, int priority, Converter<T> converter)`.
+
 === Array Converters
 For the built-in converters and custom converters, the corresponding Array converters are provided
 by default. The delimiter for the config value is ",". The escape character is "\". 
@@ -73,7 +76,7 @@ e.g. With this config `myPets=dog,cat,dog\\,cat`, the values as an array will be
  
 
 ----
- String[] myPets = ConfigProvider.getValue("myPet", String[].class);
+ private String[] myPets = config.getValue("myPets", String[].class);
 ----
  myPets will be "dog", "cat", "dog,cat" as an array
  
@@ -82,9 +85,9 @@ e.g. With this config `myPets=dog,cat,dog\\,cat`, the values as an array will be
  
 
 ----
- @Inject @ConfigProperty(name="myPets") String[] myPets;
- @Inject @ConfigProperty(name="myPets") List<String> myPets; 
- @Inject @ConfigProperty(name="myPets") Set<String> myPets;
+ @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
+ @Inject @ConfigProperty(name="myPets") private List<String> myListPets; 
+ @Inject @ConfigProperty(name="myPets") private Set<String> mySetPets;
 ----
   myPets will be "dog", "cat", "dog,cat" as an array, List or Set.
   

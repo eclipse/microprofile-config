@@ -44,10 +44,11 @@ package org.eclipse.microprofile.config.spi;
  *     <li>{@code java.time.LocalDateTime} as defined in {@link java.time.LocalDateTime#parse(CharSequence)}</li>
  *     <li>{@code java.time.LocalDate} as defined in {@link java.time.LocalDate#parse(CharSequence)}</li>
  *     <li>{@code java.time.LocalTime} as defined in {@link java.time.LocalTime#parse(CharSequence)}</li>
- *     <li>{@code OffsetDateTime} as defined in {@link java.time.OffsetDateTime#parse(CharSequence)}</li>
- *     <li>{@code OffsetTime} as defined in {@link java.time.OffsetTime#parse(CharSequence)}</li>
- *     <li>{@code Instant}</li>
- *     <li>{@code URL} as defined by {@link java.net.URL#URL(java.lang.String)}</li>
+ *     <li>{@code java.time.OffsetDateTime} as defined in {@link java.time.OffsetDateTime#parse(CharSequence)}</li>
+ *     <li>{@code java.time.OffsetTime} as defined in {@link java.time.OffsetTime#parse(CharSequence)}</li>
+ *     <li>{@code java.time.Instant}</li>
+ *     <li>{@code java.net.URL} as defined by {@link java.net.URL#URL(java.lang.String)}</li>
+ *     <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
  *
  * </ul>
  *
@@ -59,6 +60,10 @@ package org.eclipse.microprofile.config.spi;
  * <p>A Converter can specify a {@code javax.annotation.Priority}.
  * If no priority is explicitly assigned, the value of 100 is assumed.
  * If multiple Converters are registered for the same type, the one with the highest priority will be used.
+ * 
+ * <p>Custom Converters can also be registered programmatically via `ConfigBuilder#withConverters(Converter... converters)` or
+ * `ConfigBuilder#withConverter(Class type, int priority, Converter converter)`.
+ * 
  * All Built In Converters have a {@code javax.annotation.Priority} of 1
  * A Converter should handle null values returning either null or a valid Object of the specified type.
  *
@@ -73,21 +78,16 @@ package org.eclipse.microprofile.config.spi;
  *  Usage:
  *  <p>
  *  <code>
- *  String[] myPets = ConfigProvider.getValue("myPet", String[]);
+ *  String[] myPets = config.getValue("myPet", String[].class);
  *  </code>
  *  
  *  <p>
- *  <code>
- *  {@code @Inject @ConfigProperty(name="myPets") String[] myPets};
- *  </code>
+ *  {@code @Inject @ConfigProperty(name="myPets") private String[] myPets;}
  *  <p>
- *  <code>
- *  {@code @Inject @ConfigProperty(name="myPets") List<String> myPets};
- *  </code>
+ *  {@code @Inject @ConfigProperty(name="myPets") private List<String> myPets;}
+ * 
  *  <p>
- *  <code>
- *  {@code @Inject @ConfigProperty(name="myPets") Set<String> myPets};
- *  </code>
+ *  {@code @Inject @ConfigProperty(name="myPets") private Set<String> myPets;}
  *  <p>
  *  myPets will be "dog", "cat", "dog,cat"
  * <h3>Implicit Converters</h3>
