@@ -33,14 +33,17 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
 import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigSourceProvider;
 import org.eclipse.microprofile.config.tck.configsources.CustomDbConfigSource;
+import org.eclipse.microprofile.config.tck.converters.Donald;
 import org.eclipse.microprofile.config.tck.converters.Duck;
 import org.eclipse.microprofile.config.tck.converters.DuckConverter;
+import org.eclipse.microprofile.config.tck.converters.UpperCaseDuckConverter;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -65,7 +68,7 @@ public class ConverterTest extends Arquillian {
                 .create(JavaArchive.class, "converterTest.jar")
                 .addClass(ConverterTest.class)
                 .addPackage(CustomDbConfigSource.class.getPackage())
-                .addClasses(DuckConverter.class, Duck.class)
+                .addClasses(DuckConverter.class, Duck.class, Donald.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
@@ -85,6 +88,43 @@ public class ConverterTest extends Arquillian {
     @ConfigProperty(name = "tck.config.test.javaconfig.converter.duckname")
     private Duck namedDuck;
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testDonaldNotConvertedByDefault() {
+        config.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
+    }
+
+    @Test
+    public void testDonaldConversionWithLambdaConverter() {
+        Config newConfig = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
+            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+            .build();
+        Donald donald = newConfig.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
+        Assert.assertNotNull(donald);
+        Assert.assertEquals(donald.getName(), "Duck");
+    }
+
+    @Test
+    public void testDonaldConversionWithMultipleLambdaConverters() {
+        // defines 2 config with the lambda converters defined in different orders.
+        // Order must not matter, the lambda with the upper case must always be used as it has the highest priority
+        Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
+            .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
+            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+            .build();
+        Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
+            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+            .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
+            .build();
+
+        Donald donald = config1.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
+        Assert.assertNotNull(donald);
+        Assert.assertEquals(donald.getName(), "DUCK",
+            "The converter with the highest priority (using upper case) must be used.");
+        donald = config2.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
+        Assert.assertNotNull(donald);
+        Assert.assertEquals(donald.getName(), "DUCK",
+            "The converter with the highest priority (using upper case) must be used.");
+    }
 
     @Test
     public void testInteger() {
@@ -208,7 +248,7 @@ public class ConverterTest extends Arquillian {
     public void testOffsetDateTime_Broken() {
         OffsetDateTime value = config.getValue("tck.config.test.javaconfig.converter.offsetdatetimevalue.broken", OffsetDateTime.class);
     }
-    
+
     @Test
     public void testOffsetTime() {
         OffsetTime value = config.getValue("tck.config.test.javaconfig.converter.offsettimevalue", OffsetTime.class);
@@ -220,7 +260,7 @@ public class ConverterTest extends Arquillian {
     public void testOffsetTime_Broken() {
         OffsetTime value = config.getValue("tck.config.test.javaconfig.converter.offsettimevalue.broken", OffsetTime.class);
     }
-    
+
     @Test
     public void testInstant() {
         Instant value = config.getValue("tck.config.test.javaconfig.converter.instantvalue", Instant.class);
@@ -263,6 +303,29 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testCustomConverter() {
         Assert.assertEquals(namedDuck.getName(), "Hannelore");
+    }
+
+    @Test
+    public void testDuckConversionWithMultipleConverters() {
+        // defines 2 config with the converters defined in different orders.
+        // Order must not matter, the UpperCaseDuckConverter must always be used as it has the highest priority
+        Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
+            .withConverters(new UpperCaseDuckConverter(), new DuckConverter())
+            .build();
+        Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
+            .withConverters(new DuckConverter(), new UpperCaseDuckConverter())
+            .build();
+
+        Duck duck = config1.getValue("tck.config.test.javaconfig.converter.duckname", Duck.class);
+        Assert.assertNotNull(duck);
+        Assert.assertEquals(duck.getName(), "HANNELORE",
+            "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
+
+        duck = config2.getValue("tck.config.test.javaconfig.converter.duckname", Duck.class);
+        Assert.assertNotNull(duck);
+        // the UpperCaseDuckConverter has highest priority
+        Assert.assertEquals(duck.getName(), "HANNELORE",
+            "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
     }
 
     @Test
