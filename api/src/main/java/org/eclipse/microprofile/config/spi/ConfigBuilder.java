@@ -39,6 +39,7 @@ import org.eclipse.microprofile.config.Config;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
+@org.osgi.annotation.versioning.ProviderType
 public interface ConfigBuilder {
     /**
      * Add the default config sources appearing on the builder's classpath
