@@ -39,7 +39,7 @@ A full list of changes may be found on the link:https://github.com/eclipse/micro
 
 - Clarified what it means for a value to be present (link:https://github.com/eclipse/microprofile-config/issues/216[#216])
 
-[[release_notes_11]]
+[[release_notes_12]]
 == Release Notes for MicroProfile Config 1.2
 
 The following changes occurred in the 1.2 release, compared to 1.1

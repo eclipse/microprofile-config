@@ -52,7 +52,7 @@ $> java -jar some.jar -Dacme.myprj.some.url=http://other.server/other/endpoint
 Note that this is only one example how to possibly configure your application.
 Another example is to register <<custom_configsources, Custom ConfigSources>> to e.g. pick up values from a database table, etc.
 
-If a config value is `,` separated string, this value can be automatically converted to a multiple element array with `\` as the escape character.
+If a config value is a `,` separated string, this value can be automatically converted to a multiple element array with `\` as the escape character.
 When specifying the property `myPets=dog,cat,dog\\,cat` in a config source, the following code snippet can be used to obtain an array.
 ----
  String[] myPets = config.getValue("myPets", String[].class); 
