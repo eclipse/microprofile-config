@@ -68,7 +68,7 @@ public class ConverterTest extends Arquillian {
                 .create(JavaArchive.class, "converterTest.jar")
                 .addClass(ConverterTest.class)
                 .addPackage(CustomDbConfigSource.class.getPackage())
-                .addClasses(DuckConverter.class, Duck.class, Donald.class)
+                .addClasses(DuckConverter.class, Duck.class, Donald.class, UpperCaseDuckConverter.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
