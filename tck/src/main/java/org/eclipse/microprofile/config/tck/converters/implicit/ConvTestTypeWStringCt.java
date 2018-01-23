@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2018 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -28,7 +28,7 @@ package org.eclipse.microprofile.config.tck.converters.implicit;
 public class ConvTestTypeWStringCt {
     private final String val;
 
-    ConvTestTypeWStringCt(String val) {
+    public ConvTestTypeWStringCt(String val) {
         this.val = val;
     }
 
