@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2018 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -24,14 +24,10 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -81,31 +77,12 @@ public class ClassConverterTest extends Arquillian {
 
     @Test
     public void testConverterForClassLoadedInBean() {
-        assertEquals(classConverterBean.testClass, ClassConverterTest.class);
-        assertEquals(classConverterBean.testClasses.length, 2);
-        assertEquals(classConverterBean.testClasses, new Class[]{ClassConverterTest.class, String.class});
-        assertEquals(classConverterBean.testClassSet.size(), 2);
-        assertEquals(classConverterBean.testClassSet, new LinkedHashSet<>(Arrays.asList(ClassConverterTest.class, String.class)));
-        assertEquals(classConverterBean.testClassList.size(), 2);
-        assertEquals(classConverterBean.testClassList, Arrays.asList(ClassConverterTest.class, String.class));
-    }
-
-    @Dependent
-    public static class ClassConverterBean {
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class")
-        private Class testClass;
-
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private Class[] testClasses;
-
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private Set<Class> testClassSet;
-
-        @Inject
-        @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
-        private List<Class> testClassList;
+        assertEquals(classConverterBean.getTestClass(), ClassConverterTest.class);
+        assertEquals(classConverterBean.getTestClasses().length, 2);
+        assertEquals(classConverterBean.getTestClasses(), new Class[]{ClassConverterTest.class, String.class});
+        assertEquals(classConverterBean.getTestClassSet().size(), 2);
+        assertEquals(classConverterBean.getTestClassSet(), new LinkedHashSet<>(Arrays.asList(ClassConverterTest.class, String.class)));
+        assertEquals(classConverterBean.getTestClassList().size(), 2);
+        assertEquals(classConverterBean.getTestClassList(), Arrays.asList(ClassConverterTest.class, String.class));
     }
 }
