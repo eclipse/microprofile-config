@@ -42,6 +42,7 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
@@ -68,11 +69,34 @@ public class ConfigProviderTest extends Arquillian {
         return war;
     }
 
+    @BeforeClass
+    public static void setupCheck(){
+        //check that there is at least one property which is unique to the environment and not also a system property
+        boolean checkOK = false;
+        Map<String, String> env = System.getenv();
+        Properties properties = System.getProperties();
+        for (Map.Entry<String, String> envEntry : env.entrySet()) {
+            String key = envEntry.getKey();
+            if(!properties.containsKey(key)) {
+                checkOK = true;
+                break;
+            }
+        }
+        Assert.assertTrue(checkOK, "Ensure that there is at least one property which is unique to "+
+                          "the environment variables and not also a system property.");
+    }
+
     @Test
     public void testEnvironmentConfigSource() {
         Map<String, String> env = System.getenv();
+        Properties properties = System.getProperties();
         for (Map.Entry<String, String> envEntry : env.entrySet()) {
-            Assert.assertEquals(envEntry.getValue(), config.getValue(envEntry.getKey(), String.class));
+            String key = envEntry.getKey();
+            if(!properties.containsKey(key)) {
+                String value = envEntry.getValue();
+                String cfgValue = config.getValue(key, String.class);
+                Assert.assertEquals(value, cfgValue, "The property "+key+" did not have the expected value.");
+            }
         }
     }
 
