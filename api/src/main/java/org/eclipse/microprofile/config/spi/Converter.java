@@ -95,9 +95,9 @@ package org.eclipse.microprofile.config.spi;
  * <p>If no explicit Converter and no built-in Converter could be found for a certain type,
  * the {@code Config} provides an <em>Implicit Converter</em>, if</p>
  * <ul>
- *     <li>The target type {@code T} has a Constructor with a String parameter, or</li>
- *     <li>the target type {@code T} has a {@code static T valueOf(String)} method, or</li>
- *     <li>the target type {@code T} has a {@code static T parse(CharSequence)} method</li>
+ *     <li>The target type {@code T} has a public Constructor with a String parameter, or</li>
+ *     <li>the target type {@code T} has a {@code public static T valueOf(String)} method, or</li>
+ *     <li>the target type {@code T} has a {@code public static T parse(CharSequence)} method</li>
  * </ul>
 
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
