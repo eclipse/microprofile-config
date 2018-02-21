@@ -32,6 +32,7 @@ package org.eclipse.microprofile.config.spi;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * <p>Implement this interfaces to provide a ConfigSource.
@@ -132,5 +133,16 @@ public interface ConfigSource {
      * @return the 'name' of the configuration source, e.g. 'property-file mylocation/myproperty.properties'
      */
     String getName();
+
+    /**
+     * This callback should get invoked if an attribute change got detected inside the ConfigSource.
+     *
+     * @param reportAttributeChange will be set by the {@link org.eclipse.microprofile.config.Config} after this
+     *                              {@code ConfigSource} got created and before any configured values
+     *                              get served.
+     */
+    default void setOnAttributeChange(Consumer<Set<String>> reportAttributeChange) {
+        // do nothing by default. Just for compat with older ConfigSources.
+    }
 
 }
