@@ -64,6 +64,8 @@ import java.util.Set;
  */
 public interface ConfigSource {
     String CONFIG_ORDINAL = "config_ordinal";
+    int DEFAULT_ORDINAL = 100;
+
     /**
      * Return the properties in this config source
      * @return the map containing the properties in this config source
@@ -114,7 +116,7 @@ public interface ConfigSource {
 
             }
         }
-        return 100;
+        return DEFAULT_ORDINAL;
     }
 
     /**
