@@ -34,28 +34,14 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 public class DynamicChangeConfigSource implements ConfigSource, Closeable {
     public static final String TEST_ATTRIBUTE = "tck.config.test.javaconfig.dynymic.testattrib";
 
+    public static boolean callbackListenerSet = false;
+
     private Consumer<Set<String>> reportAttributeChange;
     private AtomicInteger i = new AtomicInteger(0);
     private Map<String, String> properties = new HashMap<>();
     private Thread worker;
 
     public DynamicChangeConfigSource() {
-        // start a new backgroundthread.
-        worker = new Thread() {
-            @Override
-            public void run() {
-                while (i.incrementAndGet() < 10_000) {
-                    reportAttributeChange.accept(Collections.singleton(TEST_ATTRIBUTE));
-                    try {
-                        Thread.sleep(10L);
-                    }
-                    catch (InterruptedException e) {
-                        return;
-                    }
-                }
-            }
-        };
-        worker.start();
     }
 
     @Override
@@ -82,6 +68,26 @@ public class DynamicChangeConfigSource implements ConfigSource, Closeable {
     @Override
     public void setOnAttributeChange(Consumer<Set<String>> reportAttributeChange) {
         this.reportAttributeChange = reportAttributeChange;
+
+        callbackListenerSet = true;
+
+        // start a new backgroundthread.
+        worker = new Thread() {
+            @Override
+            public void run() {
+                while (i.incrementAndGet() < 10_000) {
+                    reportAttributeChange.accept(Collections.singleton(TEST_ATTRIBUTE));
+                    try {
+                        Thread.sleep(10L);
+                    }
+                    catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            }
+        };
+        worker.start();
+
     }
 
 }

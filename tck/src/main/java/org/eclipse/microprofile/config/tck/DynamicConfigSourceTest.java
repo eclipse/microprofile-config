@@ -63,6 +63,7 @@ public class DynamicConfigSourceTest extends Arquillian {
 
     @Test
     public void testBgCount() throws Exception {
+        assertTrue(DynamicChangeConfigSource.callbackListenerSet);
         Integer value = config.getValue(DynamicChangeConfigSource.TEST_ATTRIBUTE, Integer.class);
         Thread.sleep(20L);
         Integer value2 = config.getValue(DynamicChangeConfigSource.TEST_ATTRIBUTE, Integer.class);
@@ -71,6 +72,7 @@ public class DynamicConfigSourceTest extends Arquillian {
 
     @Test
     public void testBgCallback() throws Exception {
+        assertTrue(DynamicChangeConfigSource.callbackListenerSet);
         Integer value = config.getValue(DynamicChangeConfigSource.TEST_ATTRIBUTE, Integer.class);
         Map<String, Integer> vals = new ConcurrentHashMap<>();
 
