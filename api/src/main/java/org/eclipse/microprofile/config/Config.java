@@ -134,6 +134,15 @@ public interface Config {
      * A user can register a callback which gets notified when any configured value
      * got changed. The parameter are the config key names which did change.
      *
+     * This method should only be used for longer living instances.
+     *
+     * Also be careful when passing in proxied instances, e.g. CDI Contextual References like
+     * &#064;SessionScoped CDI beans.
+     * If you pass in the proxy then the notification will happen on a different thread resolving in a different Contextual Instance.
+     * Or it might even blow up with a {@code ContextNotActiveException}.
+     *
+     * ATTENTION: implementations will not hold a hard reference on this callback listener!
+     *
      * @param configChangedListener the callback to get notified whenever anything inside the config did change
      */
     void registerConfigChangedListener(Consumer<Set<String>> configChangedListener);
