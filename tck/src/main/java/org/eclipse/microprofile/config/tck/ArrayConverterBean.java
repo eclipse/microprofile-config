@@ -18,6 +18,7 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
@@ -37,7 +38,7 @@ import org.eclipse.microprofile.config.tck.converters.Pizza;
 
 @Dependent
 public class ArrayConverterBean {
-    
+
         @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")
         private Boolean[] myBooleans;
         @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.booleanvalues")
@@ -135,6 +136,12 @@ public class ArrayConverterBean {
         private List<URL> myUrlList;
         @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.urlvalues")
         private Set<URL> myUrlSet;
+        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.urlvalues")
+        private URI[] myUris;
+        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.urlvalues")
+        private List<URI> myUriList;
+        @Inject @ConfigProperty(name="tck.config.test.javaconfig.converter.urlvalues")
+        private Set<URI> myUriSet;
         @Inject @ConfigProperty(name ="tck.config.test.javaconfig.converter.array.pizza")
         private Pizza[] pizzas;
         @Inject @ConfigProperty(name ="tck.config.test.javaconfig.converter.array.pizza")
@@ -291,6 +298,16 @@ public class ArrayConverterBean {
         public Set<Pizza> getPizzaSet() {
             return pizzaSet;
         }
-        
 
+    public URI[] getMyUris() {
+        return myUris;
+    }
+
+    public List<URI> getMyUriList() {
+        return myUriList;
+    }
+
+    public Set<URI> getMyUriSet() {
+        return myUriSet;
+    }
 }

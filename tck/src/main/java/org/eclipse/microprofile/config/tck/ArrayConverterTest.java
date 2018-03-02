@@ -22,6 +22,7 @@ package org.eclipse.microprofile.config.tck;
 import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
@@ -610,6 +611,46 @@ public class ArrayConverterTest extends Arquillian {
                 new URL("http://openliberty.io"),
                 new URL("http://microprofile.io"))));
     }
+
+    ///////////////////////////////////Test URI[] //////////////////////////
+
+    @Test
+    public void testUriLookupProgrammatically() {
+        URI[] value = config.getValue("tck.config.test.javaconfig.converter.urlvalues", URI[].class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.length, 3);
+        Assert.assertEquals(value, new URI[]{
+            URI.create("http://microprofile.io"),
+            URI.create("http://openliberty.io"),
+            URI.create("http://microprofile.io")});
+    }
+
+    @Test
+    public void testUriArrayInjection() {
+        Assert.assertEquals(converterBean.getMyUris().length, 3);
+        Assert.assertEquals(converterBean.getMyUris(), new URI[]{
+            URI.create("http://microprofile.io"),
+            URI.create("http://openliberty.io"),
+            URI.create("http://microprofile.io")});
+    }
+
+    @Test
+    public void testURIListInjection() {
+        Assert.assertEquals(converterBean.getMyUriList().size(), 3);
+        Assert.assertEquals(converterBean.getMyUriList(), Arrays.asList(
+            URI.create("http://microprofile.io"),
+            URI.create("http://openliberty.io"),
+            URI.create("http://microprofile.io")));
+    }
+
+    @Test
+    public void testURISetInjection() {
+        Assert.assertEquals(converterBean.getMyUriSet().size(), 2);
+        Assert.assertEquals(converterBean.getMyUriSet(), new LinkedHashSet<>(Arrays.asList(
+            URI.create("http://openliberty.io"),
+            URI.create("http://microprofile.io"))));
+    }
+
 
     ///////////////////////////////////////////////////////////////////
     //test custom class array support
