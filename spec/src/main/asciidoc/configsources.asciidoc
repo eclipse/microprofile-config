@@ -54,12 +54,15 @@ A Microprofile-Config implementation must provide <<ConfigSource,ConfigSources>>
 * Environment variables (default ordinal=300).
 +
 [[default_configsources.env.mapping]]
-Depending on the operating system type, environment variables may only use alphabetics or _ character while other characters are not always allowed. In order to set a value for a property with a name containing illegal characters as an environment variable, the following rules are used.
+
+Some operating systems allow only alphabetic characters or an underscore, _, in environment variables. Other characters such as ., /, etc may be disallowed. In order to set a value for a config property that has a name containing such disallowed characters from an environment variable, the following rules are used.
+
+This `ConfigSource` searches 3 environment variables for a given property name (e.g. `com.ACME.size`):
 This `ConfigSource` searches 3 environment variables for a given property name (e.g. `com.ACME.size`):
 
   1. Exact match (i.e. `com.ACME.size`)
-  2. Replace all `.` by `_` (i.e. `com_ACME_size`)
-  3. Replace all `.` by `_` and convert to upper case (i.e. `COM_ACME_SIZE`)
+  2. Replace all illegal characters with `_` (i.e. `com_ACME_size`)
+  3. Replace all illegal characters with `_` and convert to upper case (i.e. `COM_ACME_SIZE`)
 
 +
 The first environment variable that is found is returned by this `ConfigSource`.

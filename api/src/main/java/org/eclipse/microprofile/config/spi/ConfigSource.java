@@ -93,20 +93,20 @@ public interface ConfigSource {
      <ol>
      * <li>System properties (ordinal=400)</li>
      * <li>Environment properties (ordinal=300)
-     *    <p>Depending on the operating system type, environment variable names may only contain alphabetic or _. 
-     *    Other characters such as ., / etc are not always allowed. 
-     *    In order to set a value for a property with a name containing illegal characters as an environment variable, 
-     *    the following rules are used. 
-     *    This ConfigSource searches 3 environment variables for a given property name (e.g. {@code "com.ACME.size"}):</p>
+     *    <p>Some operating systems allow only alphabetic characters or an underscore(_), in environment variables.
+     *    Other characters such as ., /, etc may be disallowed.
+     *    In order to set a value for a config property that has a name containing such disallowed characters from an environment variable,
+     *    the following rules are used.
+     *    This ConfigSource searches for potentially 3 environment variables with a given property name (e.g. {@code "com.ACME.size"}):</p>
      *        <ol>
      *            <li>Exact match (i.e. {@code "com.ACME.size"})</li>
-     *            <li>Replace all '.' by '_' (i.e. {@code "com_ACME_size"})</li>
-     *            <li>Replace all '.' by '_' and convert to upper case (i.e. {@code "COM_ACME_SIZE"})</li>
+     *            <li>Replace all illegal characters by '_' (i.e. {@code "com_ACME_size"})</li>
+     *            <li>Replace all illegal characters by '_' and convert to upper case (i.e. {@code "COM_ACME_SIZE"})</li>
      *        </ol>
      *    <p>The first environment variable that is found is returned by this ConfigSource.</p>
      * </li>
      * <li>/META-INF/microprofile-config.properties (default ordinal=100)</li>
-     * </ol>
+     * </ol>          
      *
      *
      * Any ConfigSource part of an application will typically use an ordinal between 0 and 200.
