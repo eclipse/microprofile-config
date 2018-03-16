@@ -61,8 +61,8 @@ This `ConfigSource` searches 3 environment variables for a given property name (
 This `ConfigSource` searches 3 environment variables for a given property name (e.g. `com.ACME.size`):
 
   1. Exact match (i.e. `com.ACME.size`)
-  2. Replace all illegal characters with `_` (i.e. `com_ACME_size`)
-  3. Replace all illegal characters with `_` and convert to upper case (i.e. `COM_ACME_SIZE`)
+  2. Replace the character that is neither alphanumeric nor '_' with '_' (i.e. `com_ACME_size`)
+  3. Replace the character that is neither alphanumeric nor '_' with '_' and convert to upper case (i.e. `COM_ACME_SIZE`)
 
 +
 The first environment variable that is found is returned by this `ConfigSource`.
