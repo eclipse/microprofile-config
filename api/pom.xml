@@ -95,14 +95,13 @@
                     </archive>
                 </configuration>
             </plugin>
-<!-- TODO figure out why this breaks the build... #321
             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-baseline-maven-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
                     <base>
-                        <version>1.2</version>
+                        <version>1.2.1</version>
                     </base>
                  </configuration>
                 <executions>
@@ -114,7 +113,6 @@
                     </execution>
                 </executions>
             </plugin>
--->
         </plugins>
     </build>
 
