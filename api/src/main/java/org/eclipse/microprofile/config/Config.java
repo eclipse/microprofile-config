@@ -81,6 +81,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:gunnar@hibernate.org">Gunnar Morling</a>
  *
  */
+@org.osgi.annotation.versioning.ProviderType
 public interface Config {
 
     /**

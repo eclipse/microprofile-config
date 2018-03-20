@@ -104,7 +104,8 @@ public interface ConfigSource {
      *        <ol>
      *            <li>Exact match (i.e. {@code "com.ACME.size"})</li>
      *            <li>Replace the character that is neither alphanumeric nor '_' with '_' (i.e. {@code "com_ACME_size"})</li>
-     *            <li>Replace the character that is neither alphanumeric nor '_' with '_' and convert to upper case (i.e. {@code "COM_ACME_SIZE"})</li>
+     *            <li>Replace the character that is neither alphanumeric nor '_' with '_' and convert to upper case 
+     *            (i.e. {@code "COM_ACME_SIZE"})</li>
      *        </ol>
      *    <p>The first environment variable that is found is returned by this ConfigSource.</p>
      * </li>
