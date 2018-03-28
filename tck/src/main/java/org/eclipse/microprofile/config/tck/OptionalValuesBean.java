@@ -40,6 +40,10 @@ public class OptionalValuesBean {
     @ConfigProperty(name="my.notexisting.property")
     private Optional<Integer> notexistingProperty;
 
+    @Inject
+    @ConfigProperty(name="my.notexisting.string.property")
+    private Optional<String> notExistingStringProperty;
+
     private Optional<String> stringValue;
 
     @Inject
@@ -57,5 +61,9 @@ public class OptionalValuesBean {
 
     public Optional<Integer> getNotexistingProperty() {
         return notexistingProperty;
+    }
+
+    public Optional<String> getNotExistingStringProperty() {
+        return notExistingStringProperty;
     }
 }

@@ -66,5 +66,7 @@ public class CdiOptionalInjectionTest extends Arquillian {
 
         Assert.assertTrue(optionalValuesBean.getStringValue().isPresent());
         Assert.assertEquals(optionalValuesBean.getStringValue().get(), "hello");
+
+        Assert.assertFalse(optionalValuesBean.getNotExistingStringProperty().isPresent());
     }
 }
