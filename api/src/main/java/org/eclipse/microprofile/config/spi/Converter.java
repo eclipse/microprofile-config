@@ -40,14 +40,6 @@ package org.eclipse.microprofile.config.spi;
  *     <li>{@code long} and {@code Long}</li>
  *     <li>{@code float} and {@code Float}, a dot '.' is used to separate the fractional digits</li>
  *     <li>{@code double} and {@code Double}, a dot '.' is used to separate the fractional digits</li>
- *     <li>{@code java.time.Duration} as defined in {@link java.time.Duration#parse(CharSequence)}</li>
- *     <li>{@code java.time.LocalDateTime} as defined in {@link java.time.LocalDateTime#parse(CharSequence)}</li>
- *     <li>{@code java.time.LocalDate} as defined in {@link java.time.LocalDate#parse(CharSequence)}</li>
- *     <li>{@code java.time.LocalTime} as defined in {@link java.time.LocalTime#parse(CharSequence)}</li>
- *     <li>{@code java.time.OffsetDateTime} as defined in {@link java.time.OffsetDateTime#parse(CharSequence)}</li>
- *     <li>{@code java.time.OffsetTime} as defined in {@link java.time.OffsetTime#parse(CharSequence)}</li>
- *     <li>{@code java.time.Instant}</li>
- *     <li>{@code java.net.URL} as defined by {@link java.net.URL#URL(java.lang.String)}</li>
  *     <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
  *
  * </ul>
@@ -95,8 +87,9 @@ package org.eclipse.microprofile.config.spi;
  * <p>If no explicit Converter and no built-in Converter could be found for a certain type,
  * the {@code Config} provides an <em>Implicit Converter</em>, if</p>
  * <ul>
- *     <li>The target type {@code T} has a public Constructor with a String parameter, or</li>
+ *     <li>the target type {@code T} has a {@code public static T of(String)} method, or</li>
  *     <li>the target type {@code T} has a {@code public static T valueOf(String)} method, or</li>
+ *     <li>The target type {@code T} has a public Constructor with a String parameter, or</li>
  *     <li>the target type {@code T} has a {@code public static T parse(CharSequence)} method</li>
  * </ul>
 
