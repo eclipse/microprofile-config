@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringCt;
+import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringOf;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringValueOf;
 import org.eclipse.microprofile.config.tck.converters.implicit.SomeEnumToConvert;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -85,6 +86,13 @@ public class ImplicitConverterTest extends Arquillian {
             ConvTestTypeWStringValueOf.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringValueOf");
+    }
+    @Test
+    public void testImplicitConverterStringOf() {
+        ConvTestTypeWStringOf value = config.getValue("tck.config.test.javaconfig.converter.implicit.stringOf",
+            ConvTestTypeWStringOf.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "stringOf");
     }
     
     @Test
