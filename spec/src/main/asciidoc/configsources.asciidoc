@@ -18,6 +18,7 @@
 // Contributors:
 // Mark Struberg
 // Emily Jiang
+// Jeff Mesnil
 
 [[configsource]]
 == ConfigSources
@@ -51,6 +52,21 @@ A Microprofile-Config implementation must provide <<ConfigSource,ConfigSources>>
 
 * System properties (default ordinal=400).
 * Environment variables (default ordinal=300).
++
+[[default_configsources.env.mapping]]
+
+Some operating systems allow only alphabetic characters or an underscore, _, in environment variables. Other characters such as ., /, etc may be disallowed. In order to set a value for a config property that has a name containing such disallowed characters from an environment variable, the following rules are used.
+
+This `ConfigSource` searches 3 environment variables for a given property name (e.g. `com.ACME.size`):
+This `ConfigSource` searches 3 environment variables for a given property name (e.g. `com.ACME.size`):
+
+  1. Exact match (i.e. `com.ACME.size`)
+  2. Replace the character that is neither alphanumeric nor '_' with '_' (i.e. `com_ACME_size`)
+  3. Replace the character that is neither alphanumeric nor '_' with '_' and convert to upper case (i.e. `COM_ACME_SIZE`)
+
++
+The first environment variable that is found is returned by this `ConfigSource`.
+
 * A `ConfigSource` for each property file `META-INF/microprofile-config.properties` found on the classpath. (default ordinal = 100).
 
 [[custom_configsources]]

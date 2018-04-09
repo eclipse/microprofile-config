@@ -59,7 +59,7 @@
  *  The {@link org.eclipse.microprofile.config.Config} can be accessed via the {@link org.eclipse.microprofile.config.ConfigProvider}.
  *
  *  <pre>
- *  Config config = ConfigProvider#getConfig();
+ *  Config config = ConfigProvider.getConfig();
  *  String restUrl = config.getValue("myproject.some.endpoint.url", String.class);
  *  </pre>
  *
@@ -74,6 +74,7 @@
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * 
  */
-@org.osgi.annotation.versioning.Version("1.0")
+
+@org.osgi.annotation.versioning.Version("1.1")
 package org.eclipse.microprofile.config;
 

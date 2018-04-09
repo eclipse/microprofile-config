@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.ZoneOffset;
 
 import javax.inject.Inject;
 
@@ -256,12 +257,26 @@ public class ConverterTest extends Arquillian {
         OffsetTime parsed = OffsetTime.parse("13:45:30.123456789+02:00");
         Assert.assertEquals(value, parsed);
     }
+    
+
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testOffsetTime_Broken() {
         OffsetTime value = config.getValue("tck.config.test.javaconfig.converter.offsettimevalue.broken", OffsetTime.class);
     }
 
+    @Test
+    public void testZoneOffset() {
+        ZoneOffset value = config.getValue("tck.config.test.javaconfig.converter.zoneoffsetvalue", ZoneOffset.class);
+        ZoneOffset parsed = ZoneOffset.of("+02:00");
+        Assert.assertEquals(value, parsed);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testZoneOffset_Broken() {
+        ZoneOffset value = config.getValue("tck.config.test.javaconfig.converter.zoneoffsetvalue.broken", ZoneOffset.class);
+    }
+    
     @Test
     public void testInstant() {
         Instant value = config.getValue("tck.config.test.javaconfig.converter.instantvalue", Instant.class);
