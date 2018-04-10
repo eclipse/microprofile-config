@@ -20,6 +20,7 @@
 package org.eclipse.microprofile.config.tck;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
@@ -352,5 +353,16 @@ public class ConverterTest extends Arquillian {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testURLConverterBroken() throws Exception {
         URL ignored = config.getValue("tck.config.test.javaconfig.converter.urlvalue.broken", URL.class);
+    }
+
+    @Test
+    public void testURIConverter() {
+        URI uri = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URI.class);
+        Assert.assertEquals(uri, URI.create("http://microprofile.io"));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testURIConverterBroken() throws Exception {
+        URI ignored = config.getValue("tck.config.test.javaconfig.converter.urlvalue.broken", URI.class);
     }
 }
