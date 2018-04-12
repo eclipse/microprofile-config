@@ -32,8 +32,6 @@
 package org.eclipse.microprofile.config;
 
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Consumer;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -105,7 +103,7 @@ public interface Config {
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
+     *     
      * If this method is used very often then consider to locally store the configured value.
      *
      * @param <T>
@@ -130,21 +128,4 @@ public interface Config {
      * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal and ConfigSource name
      */
     Iterable<ConfigSource> getConfigSources();
-
-    /**
-     * A user can register a callback which gets notified when any configured value
-     * got changed. The parameter are the config key names which did change.
-     *
-     * This method should only be used for longer living instances.
-     *
-     * Also be careful when passing in proxied instances, e.g. CDI Contextual References like
-     * &#064;SessionScoped CDI beans.
-     * If you pass in the proxy then the notification will happen on a different thread resolving in a different Contextual Instance.
-     * Or it might even blow up with a {@code ContextNotActiveException}.
-     *
-     * ATTENTION: implementations will not hold a hard reference on this callback listener!
-     *
-     * @param configChangedListener the callback to get notified whenever anything inside the config did change
-     */
-    void registerConfigChangedListener(Consumer<Set<String>> configChangedListener);
 }
