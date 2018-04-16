@@ -357,12 +357,12 @@ public class ConverterTest extends Arquillian {
 
     @Test
     public void testURIConverter() {
-        URI uri = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URI.class);
+        URI uri = config.getValue("tck.config.test.javaconfig.converter.urivalue", URI.class);
         Assert.assertEquals(uri, URI.create("http://microprofile.io"));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testURIConverterBroken() throws Exception {
-        URI ignored = config.getValue("tck.config.test.javaconfig.converter.urlvalue.broken", URI.class);
+        URI ignored = config.getValue("tck.config.test.javaconfig.converter.urivalue.broken", URI.class);
     }
 }
