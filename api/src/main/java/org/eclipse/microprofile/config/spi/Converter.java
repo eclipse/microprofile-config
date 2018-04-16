@@ -89,7 +89,7 @@ package org.eclipse.microprofile.config.spi;
  * <ul>
  *     <li>the target type {@code T} has a {@code public static T of(String)} method, or</li>
  *     <li>the target type {@code T} has a {@code public static T valueOf(String)} method, or</li>
- *     <li>The target type {@code T} has a public Constructor with a String parameter, or</li>
+ *     <li>the target type {@code T} has a public Constructor with a String parameter, or</li>
  *     <li>the target type {@code T} has a {@code public static T parse(CharSequence)} method</li>
  * </ul>
 
