@@ -23,10 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
-import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -95,30 +92,14 @@ public class CDIPropertyNameMatchingTest extends Arquillian {
     public void testPropertyFromEnvironmentVariables() {
         SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
-        assertThat(bean.stringProperty, is(equalTo("haha")));
-        assertThat(bean.booleanProperty, is(true));
-        assertThat(bean.intProperty, is(equalTo(45)));
+        assertThat(bean.getStringProperty(), is(equalTo("haha")));
+        assertThat(bean.getBooleanProperty(), is(true));
+        assertThat(bean.getIntProperty(), is(equalTo(45)));
     }
 
 
 
     private <T> T getBeanOfType(Class<T> beanClass) {
         return CDI.current().select(beanClass).get();
-    }
-
-    @Dependent
-    public static class SimpleValuesBean {
-
-        @Inject
-        @ConfigProperty(name="my.string/property")
-        private String stringProperty;
-
-        @Inject
-        @ConfigProperty(name="my.boolean.property")
-        private boolean booleanProperty;
-
-        @Inject
-        @ConfigProperty(name="my.int/property")
-        private int intProperty;
     }
   }
