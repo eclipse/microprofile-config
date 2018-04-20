@@ -26,23 +26,27 @@ For using Microprofile-Config in a programmatic way the `ConfigProvider` class i
 It allows access to different configurations (represented by a `Config` instance) based on the application in which it is used.
 The `ConfigProvider` internally delegates through to the `ConfigProviderResolver` which contains more low-level functionality.
 
-There are 4 different ways to create an `Config` instance:
+There are 4 different ways to create a `Config` instance:
 
-* In CDI managed components a user can use `@Inject` to access the current application configuration.
+* In CDI managed components, a user can use `@Inject` to access the current application configuration.
   The default and the auto discovered <<configsource,ConfigSources>> will be gathered to form a configuration.
+  The default and the auto discovered <<converters,Converters>> will be gathered to form a configuration.
+  Injected instance of `Config` should behave the same as the one retrieved by `ConfigProvider.getConfig()`. Injected values should be the same as if retrieved from the injected `Config` instance.
 
 * A factory method `ConfigProvider#getConfig()` to create a `Config` object based on automatically picked up `ConfigSources`
   of the Application identified by the current Thread Context ClassLoader classpath.
+  The default and the auto discovered <<converters,Converters>> will be gathered to form a configuration.
   Subsequent calls to this method for a certain Application will return the same `Config` instance.
 
 * A factory method `ConfigProvider#getConfig(ClassLoader forClassLoader)` to create a `Config`   object based on automatically picked up `ConfigSources`
   of the Application identified by the given ClassLoader.
+  The default and the auto discovered <<converters,Converters>> will be gathered to form a configuration.
   This can be used if the Thread Context ClassLoader does not represent the correct layer.
   E.g. if you need the Config for a class in a shared EAR lib folder.
   Subsequent calls to this method for a certain Application will return the same `Config` instance.
 
 * A factory method `ConfigProviderResolver#getBuilder()` to create a `ConfigBuilder` object.
-The builder has no config sources but with only the default converters added. The `ConfigBuilder` object can be filled manually via `ConfigBuilder#withSources(ConfigSources... sources)`.
+The builder has no config sources. Only the default converters are added. The `ConfigBuilder` object can be filled manually via methods like `ConfigBuilder#withSources(ConfigSources... sources)`.
    This configuration instance will by default not be shared by the `ConfigProvider`.
   This method is intended be used if a IoC container or any other external Factory can be used to give access to a manually created shared `Config`.
 

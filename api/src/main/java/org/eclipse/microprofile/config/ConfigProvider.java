@@ -79,6 +79,10 @@ public final class ConfigProvider {
     /**
      * Provide a {@link Config} based on all {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} of the
      * current Thread Context ClassLoader (TCCL)
+     * <p>
+     * 
+     * <p>
+     * 
      * The {@link Config} will be stored for future retrieval.
      * <p>
      * There is exactly a single Config instance per ClassLoader

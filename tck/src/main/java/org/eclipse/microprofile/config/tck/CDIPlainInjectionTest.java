@@ -32,6 +32,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.inject.Provider;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -64,8 +65,8 @@ public class CDIPlainInjectionTest extends Arquillian {
     }
 
     @Test
-    public void can_inject_simple_values_when_defined() {
-        ensure_all_property_values_are_defined();
+    public void canInjectSimpleValuesWhenDefined() {
+        ensureAllPropertyValuesAreDefined();
 
         SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
@@ -85,31 +86,58 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(3.1415, 0.1)));
     }
 
+    /*
+     * Refers to chapter "Accessing or Creating a certain Configuration"
+     */
     @Test
-    public void can_inject_dynamic_values_via_CDI_provider() {
-        clear_all_property_values();
+    public void injectedValuesAreEqualToProgrammaticValues() {
+        ensureAllPropertyValuesAreDefined();
+
+        SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
+
+        assertThat(bean.stringProperty, is(equalTo(
+                ConfigProvider.getConfig().getValue("my.string.property", String.class))));
+        assertThat(bean.booleanProperty, is(equalTo(
+                ConfigProvider.getConfig().getValue("my.boolean.property", Boolean.class))));
+        assertThat(bean.intProperty, is(equalTo(
+                ConfigProvider.getConfig().getValue("my.int.property", Integer.class))));
+        assertThat(bean.longProperty, is(equalTo(
+                ConfigProvider.getConfig().getValue("my.long.property", Long.class))));
+        assertThat(bean.floatProperty, is(floatCloseTo(
+                ConfigProvider.getConfig().getValue("my.float.property", Float.class), 0.1f)));
+        assertThat(bean.doubleProperty, is(closeTo(
+                ConfigProvider.getConfig().getValue("my.double.property", Double.class), 0.1)));
+
+        assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(
+                ConfigProvider.getConfig().getOptionalValue("my.not.configured.double.property", Double.class)
+                        .orElse(3.1415), 0.1)));
+    }
+
+    @Test
+    public void canInjectDynamicValuesViaCdiProvider() {
+        clearAllPropertyValues();
 
         DynamicValuesBean bean = getBeanOfType(DynamicValuesBean.class);
 
         //X TODO clarify how Provider<T> should behave for missing values assertThat(bean.getIntProperty(), is(nullValue()));
 
-        ensure_all_property_values_are_defined();
+        ensureAllPropertyValuesAreDefined();
 
         assertThat(bean.getIntProperty(), is(equalTo(5)));
     }
 
     @Test
-    public void can_inject_default_property_path() {
-        clear_all_property_values();
+    public void canInjectDefaultPropertyPath() {
+        clearAllPropertyValues();
 
-        ensure_all_property_values_are_defined();
+        ensureAllPropertyValuesAreDefined();
 
         DefaultPropertyBean bean = getBeanOfType(DefaultPropertyBean.class);
 
         assertThat(bean.getConfigProperty(), is(equalTo("pathConfigValue")));
     }
 
-    private void ensure_all_property_values_are_defined() {
+    private void ensureAllPropertyValuesAreDefined() {
         System.setProperty("my.string.property", "text");
         System.setProperty("my.boolean.property", "true");
         System.setProperty("my.int.property", "5");
@@ -119,7 +147,7 @@ public class CDIPlainInjectionTest extends Arquillian {
         System.setProperty(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
     }
 
-    private void clear_all_property_values() {
+    private void clearAllPropertyValues() {
         System.getProperties().remove("my.string.property");
         System.getProperties().remove("my.boolean.property");
         System.getProperties().remove("my.int.property");
