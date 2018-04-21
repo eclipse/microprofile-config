@@ -49,6 +49,18 @@ To enable the tests in your project you need to add the following dependency to 
 </dependency>
 ----
 
+== Environment Requirements
+
+Some tests are asserting statements related to environment variables.
+The following environment variable and their values must be present in the test runner environment:
+
+* `my_int_property` with the value `45`
+* `MY_BOOLEAN_PROPERTY` with the value `true`
+* `my_string_property` with the value `haha`
+* `MY_STRING_PROPERTY` with the value `woohoo`
+
+See below for an example configuration to provide these environment variables in a Maven pom.xml.
+
 == Declaring the Tests to run
 
 You also need to specify which tests you want to run, e.g. create a file `tck-suite.xml` in your project which contains the following content:
@@ -83,6 +95,13 @@ If you use Apache Maven then the tests are run via the `maven-surefire-plugin`
                 <suiteXmlFiles>
                     <suiteXmlFile>tck-suite.xml</suiteXmlFile>
                 </suiteXmlFiles>
+                <!-- These env variables are required for org.eclipse.configjsr.CDIPropertyNameMatchingTest -->
+                <environmentVariables>
+                    <my_int_property>45</my_int_property>
+                    <MY_BOOLEAN_PROPERTY>true</MY_BOOLEAN_PROPERTY>
+                    <my_string_property>haha</my_string_property>
+                    <MY_STRING_PROPERTY>woohoo</MY_STRING_PROPERTY>
+                </environmentVariables>
             </configuration>
         </plugin>
     </plugins>
