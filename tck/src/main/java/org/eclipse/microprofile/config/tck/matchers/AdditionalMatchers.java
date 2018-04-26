@@ -53,6 +53,11 @@ public final class AdditionalMatchers {
             public void describeTo(Description description) {
                 doubleMatcher.describeTo(description);
             }
+
+            @Override
+            public void describeMismatch(Object item, Description mismatchDescription) {
+                doubleMatcher.describeMismatch(item, mismatchDescription);
+            }
         };
     }
 
