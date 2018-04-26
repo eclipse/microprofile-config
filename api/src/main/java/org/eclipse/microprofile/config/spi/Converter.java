@@ -51,7 +51,7 @@ package org.eclipse.microprofile.config.spi;
  *
  * <p>A Converter can specify a {@code javax.annotation.Priority}.
  * If no priority is explicitly assigned, the value of 100 is assumed.
- * If multiple Converters are registered for the same type, the one with the highest priority will be used.
+ * If multiple Converters are registered for the same type, the one with the highest priority will be used. Highest number means highest priority.
  *
  * <p>Custom Converters can also be registered programmatically via `ConfigBuilder#withConverters(Converter... converters)` or
  * `ConfigBuilder#withConverter(Class type, int priority, Converter converter)`.
