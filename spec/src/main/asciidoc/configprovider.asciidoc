@@ -31,7 +31,7 @@ There are 4 different ways to create a `Config` instance:
 * In CDI managed components, a user can use `@Inject` to access the current application configuration.
   The default and the auto discovered <<configsource,ConfigSources>> will be gathered to form a configuration.
   The default and the auto discovered <<converters,Converters>> will be gathered to form a configuration.
-  Injected instance of `Config` should behave the same as the one retrieved by `ConfigProvider.getConfig()`. Injected values should be the same as if retrieved from the injected `Config` instance.
+  Injected instance of `Config` should behave the same as the one retrieved by `ConfigProvider.getConfig()`. Injected config property values should be the same as if retrieved from the injected `Config` instance.
 
 * A factory method `ConfigProvider#getConfig()` to create a `Config` object based on automatically picked up `ConfigSources`
   of the Application identified by the current Thread Context ClassLoader classpath.
