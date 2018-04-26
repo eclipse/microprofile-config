@@ -47,8 +47,8 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * The config objects produced via the injection model <pre>@Inject Config</pre> are guaranteed to be serializable, while
  * the programmatically created ones are not required to be serializable.
  * <p>
- * If one or more converters are registered for a class of a requested value then one of the registered converters
- * is used to convert the string value retrieved from config sources. 
+ * If one or more converters are registered for a class of a requested value then one of the registered converters 
+ * which has the highest priority is used to convert the string value retrieved from config sources. The highest priority means the highest priority number.
  * For more information about converters, see {@link org.eclipse.microprofile.config.spi.Converter}
  *
  * <h3>Usage</h3>
