@@ -43,6 +43,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -63,11 +64,15 @@ public class CDIPlainInjectionTest extends Arquillian {
                 .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
+    
+    @BeforeTest
+    public void setUpTest() {
+        clearAllPropertyValues();
+        ensureAllPropertyValuesAreDefined();
+    }
 
     @Test
     public void canInjectSimpleValuesWhenDefined() {
-        ensureAllPropertyValuesAreDefined();
-
         SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
         assertThat(bean.stringProperty, is(equalTo("text")));
@@ -91,8 +96,6 @@ public class CDIPlainInjectionTest extends Arquillian {
      */
     @Test
     public void injectedValuesAreEqualToProgrammaticValues() {
-        ensureAllPropertyValuesAreDefined();
-
         SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
         assertThat(bean.stringProperty, is(equalTo(
@@ -115,23 +118,16 @@ public class CDIPlainInjectionTest extends Arquillian {
 
     @Test
     public void canInjectDynamicValuesViaCdiProvider() {
-        clearAllPropertyValues();
 
         DynamicValuesBean bean = getBeanOfType(DynamicValuesBean.class);
 
         //X TODO clarify how Provider<T> should behave for missing values assertThat(bean.getIntProperty(), is(nullValue()));
-
-        ensureAllPropertyValuesAreDefined();
 
         assertThat(bean.getIntProperty(), is(equalTo(5)));
     }
 
     @Test
     public void canInjectDefaultPropertyPath() {
-        clearAllPropertyValues();
-
-        ensureAllPropertyValuesAreDefined();
-
         DefaultPropertyBean bean = getBeanOfType(DefaultPropertyBean.class);
 
         assertThat(bean.getConfigProperty(), is(equalTo("pathConfigValue")));
