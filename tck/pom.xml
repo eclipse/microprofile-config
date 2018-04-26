@@ -85,11 +85,25 @@
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <!-- add correct junit dependency for testng, which doesn't bundle hamcrest -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit-dep</artifactId>
+            <version>4.10</version>
+            <exclusions>
+                <exclusion>
                     <groupId>org.hamcrest</groupId>
                     <artifactId>hamcrest-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.jboss.arquillian.testng</groupId>
             <artifactId>arquillian-testng-container</artifactId>
