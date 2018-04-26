@@ -90,8 +90,6 @@ public interface Config {
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      * 
-     * Registered converters are applied if they match the propertyType class
-     *
      * If this method gets used very often then consider to locally store the configured value.
      *
      * @param <T>
@@ -110,8 +108,6 @@ public interface Config {
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      *     
-     * Registered converters are applied if they match the propertyType class
-     * 
      * If this method is used very often then consider to locally store the configured value.
      *
      * @param <T>
