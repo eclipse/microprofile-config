@@ -17,6 +17,7 @@
 // limitations under the License.
 // Contributors:
 // John D. Ament
+// Emily Jiang
 
 [[release_notes_11]]
 == Release Notes for MicroProfile Config 1.1
@@ -72,5 +73,38 @@ The API bundle can work with either CDI 1.2 or CDI 2.0 in OSGi environment (link
 
 A tck test was added to ensure the search path of `microprofile-config.properties` for a `war` archive is `WEB-INF\classes\META-INF` (link:https://github.com/eclipse/microprofile-config/issues/268[#268])
 
+[[release_notes_13]]
+== Release Notes for MicroProfile Config 1.3
 
+The following changes occurred in the 1.3 release, compared to 1.2
+
+A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/4?closed=1[MicroProfile Config 1.3 Milestone]
+
+=== API/SPI Changes
+
+No API/SPI changes.
+
+=== Functional Changes
+
+- The implicit (common sense) converters have been improved and some of the built-in converters are removed from the spec as they are covered by implicit converters. The method invocation sequence on implicit converters are further improved (link:https://github.com/eclipse/microprofile-config/issues/325[#325]). 
+
+- Implementations must also support the mapping of a config property to the corresponding environment variable (link:https://github.com/eclipse/microprofile-config/issues/264[#264])
+
+=== Specification Changes
+
+- Specification changes to document 
+ (link:https://github.com/eclipse/microprofile-config/issues/348[#348]),
+ (link:https://github.com/eclipse/microprofile-config/issues/325[#325]), 
+ (link:https://github.com/eclipse/microprofile-config/issues/264[#264])
+
+=== Other Changes
+More CTS were added:
+
+- Assert URI will be converted (link:https://github.com/eclipse/microprofile-config/issues/322[#322])
+
+- Testing injecting an Optional<String> that has no config value (link:https://github.com/eclipse/microprofile-config/issues/336[#336]).
+
+- Built-in converters are automatically added to the injected config ((link:https://github.com/eclipse/microprofile-config/issues/348[#348])
+
+Java2 security related change (link:https://github.com/eclipse/microprofile-config/issues/343[#343])
 
