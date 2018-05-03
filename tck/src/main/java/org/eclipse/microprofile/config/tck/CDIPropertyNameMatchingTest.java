@@ -30,7 +30,6 @@ import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
@@ -56,10 +55,6 @@ public class CDIPropertyNameMatchingTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
             .create(JavaArchive.class, "CDIPropertyNameMatchingTest.jar")
             .addClasses(CDIPropertyNameMatchingTest.class, SimpleValuesBean.class)
-            .addAsManifestResource(new StringAsset(
-                    "my.int/property=3"+
-                        "\nmy.string/property=fake"),
-                "javaconfig.properties")
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .as(JavaArchive.class);
 
