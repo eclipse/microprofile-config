@@ -19,12 +19,14 @@
 
 package org.eclipse.microprofile.config.tck;
 
+import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import javax.inject.Inject;
 import javax.enterprise.inject.spi.CDI;
-
+import org.eclipse.microprofile.config.Config;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -49,6 +51,7 @@ import org.testng.annotations.Test;
  */
 public class CDIPropertyNameMatchingTest extends Arquillian {
 
+    private @Inject Config config;
 
     @Deployment
     public static Archive deployment() {
@@ -74,11 +77,24 @@ public class CDIPropertyNameMatchingTest extends Arquillian {
         if (!"true".equals(System.getenv("MY_BOOLEAN_PROPERTY"))) {
             Assert.fail("Before running this test, the environment variable \"MY_BOOLEAN_Property\" must be set with the value of true");
         }
-        if (!"haha".equals(System.getenv("my_string_property"))) {
-            Assert.fail("Before running this test, the environment variable \"my_string_property\" must be set with the value of haha");
+
+        // Environment variables are case insensitive on Windows platforms
+        if(System.getProperty("os.name").contains("Windows")) { 
+            String myStringProp = System.getenv("MY_STRING_PROPERTY");
+            if (!"woohoo".equals(myStringProp) && !"haha".equals(myStringProp)) {
+                Assert.fail("Before running this test on a Windows platform, " +
+                            "the environment variable \"MY_STRING_PROPERTY\" must be set with the value of woohoo or haha");
+            }
         }
-        if (!"woohoo".equals(System.getenv("MY_STRING_PROPERTY"))) {
-            Assert.fail("Before running this test, the environment variable \"MY_STRING_PROPERTY\" must be set with the value of woohoo");
+        else { // Not operating on Windows platform
+            if (!"haha".equals(System.getenv("my_string_property"))) {
+                Assert.fail("Before running this test on a non-Windows platform, " +
+                            "the environment variable \"my_string_property\" must be set with the value of haha");
+            }
+            if (!"woohoo".equals(System.getenv("MY_STRING_PROPERTY"))) {
+                Assert.fail("Before running this test on a non-Windows platform, " +
+                            "the environment variable \"MY_STRING_PROPERTY\" must be set with the value of woohoo");
+            }
         }
 
     }
@@ -87,7 +103,15 @@ public class CDIPropertyNameMatchingTest extends Arquillian {
     public void testPropertyFromEnvironmentVariables() {
         SimpleValuesBean bean = getBeanOfType(SimpleValuesBean.class);
 
-        assertThat(bean.getStringProperty(), is(equalTo("haha")));
+        // Environment variables are case insensitive on Windows platforms, use Config to
+        // retrieve the "os.name" System property.
+        if(config.getValue("os.name", String.class).contains("Windows")) { 
+            assertThat(bean.getStringProperty(), anyOf(equalTo("haha"),equalTo("woohoo")) );
+        }
+        else { // non-Windows
+            assertThat(bean.getStringProperty(), is(equalTo("haha")));
+        }
+
         assertThat(bean.getBooleanProperty(), is(true));
         assertThat(bean.getIntProperty(), is(equalTo(45)));
     }
