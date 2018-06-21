@@ -17,6 +17,8 @@
 // limitations under the License.
 //
 image:https://badges.gitter.im/eclipse/microprofile-config.svg[link="https://gitter.im/eclipse/microprofile-config"]
+image:https://img.shields.io/maven-central/v/org.eclipse.microprofile.config/microprofile-config-api.svg[link="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.eclipse.microprofile.config%22%20AND%20a%3A%22microprofile-config-spec%22"]
+image:https://javadoc.io/badge/org.eclipse.microprofile.config/microprofile-config-api.svg[ link="https://javadoc.io/doc/org.eclipse.microprofile.config/microprofile-config-api"]
 
 # Configuration for MicroProfile
 
