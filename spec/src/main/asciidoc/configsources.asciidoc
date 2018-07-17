@@ -58,7 +58,6 @@ A Microprofile-Config implementation must provide <<ConfigSource,ConfigSources>>
 Some operating systems allow only alphabetic characters or an underscore, `_`, in environment variables. Other characters such as `., /`, etc may be disallowed. In order to set a value for a config property that has a name containing such disallowed characters from an environment variable, the following rules are used.
 
 This `ConfigSource` searches 3 environment variables for a given property name (e.g. `com.ACME.size`):
-This `ConfigSource` searches 3 environment variables for a given property name (e.g. `com.ACME.size`):
 
   1. Exact match (i.e. `com.ACME.size`)
   2. Replace the character that is neither alphanumeric nor `\_` with `_` (i.e. `com_ACME_size`)
