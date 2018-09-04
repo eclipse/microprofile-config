@@ -37,6 +37,7 @@ The following `Converter` s are provided by Microprofile-Config by default:
 * `float` and `Float` , a dot '.' is used to separate the fractional digits
 * `double` and `Double` , a dot '.' is used to separate the fractional digits
 * `Class` based on the result of `Class.forName`
+* `URL`
 
 All built-in `Converter` have the `@Priority` of `1`.
 
@@ -54,41 +55,68 @@ The `Config` will use the `Converter` with the highest `Priority` for each targe
 A custom `Converter` for a target type of any of the built-in Converters will overwrite the default Converter.
 
 Converters can be added to the `ConfigBuilder` programmatically via `ConfigBuilder#withConverters(Converter<?>... converters)`
-where the type of the converters can be obtained via reflection. However, this is not possible for a lambda converter. In this case, use the method `ConfigBuilder#withConverter(Class<T> type, int priority, Converter<T> converter)`.
+where the type of the converters can be obtained via reflection. However, this is not possible for a lambda converter.
+In this case, use the method `ConfigBuilder#withConverter(Class<T> type, int priority, Converter<T> converter)`.
 
-=== Array Converters
-For the built-in converters and custom converters, the corresponding Array converters are provided
-by default. The delimiter for the config value is ",". The escape character is "\".
-
-e.g. With this config `myPets=dog,cat,dog\\,cat`, the values as an array will be
-`{"dog", "cat", "dog,cat"}`.
-
-* Programmatic lookup
- An array as a class is supported in the programmatic lookup.
-
-
-----
- private String[] myPets = config.getValue("myPets", String[].class);
-----
- myPets will be "dog", "cat", "dog,cat" as an array
-
-* Injection model
- For the property injection, Array, List and Set should be supported.
-
-
-----
- @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
- @Inject @ConfigProperty(name="myPets") private List<String> myListPets;
- @Inject @ConfigProperty(name="myPets") private Set<String> mySetPets;
-----
-  myPets will be "dog", "cat", "dog,cat" as an array, List or Set.
-
-=== Automatic Converters
+=== Implicit Converters
 
 If no built-in nor custom `Converter` for a requested Type `T`, an implicit Converter is automatically provided if the following conditions are met:
 
+!TODO rule option A:
 * The target type {@code T} has a {@code public static T of(String)} method, or
 * The target type {@code T} has a {@code public static T valueOf(String)} method, or
 * The target type {@code T} has a public Constructor with a String parameter, or
 * The target type {@code T} has a {@code public static T parse(CharSequence)} method
+
+!TODO rule option B:
+* The target type `T` has a Constructor with a String parameter, or
+* the target type `T` has a Constructor with a CharSequence parameter, or
+* the target type `T` has a `static T valueOf(String)` method, or
+* the target type `T` has a `static T valueOf(CharSequence)` method, or
+* the target type `T` has a `static T parse(String)` method, or
+* the target type `T` has a `static T parse(CharSequence)` method, or
+
+The lookup will be done in the order of the above list.
+
+Note that every `java.time` type has a `parse(CharSequence)` method and every enum has a generated 'valueOf(String)' method.
+They are thus all covered by an implicit converter!
+
+If an Implicit Converter cannot convert a value, a `java.lang.IllegalArgumentException` is to be thrown.
+
+=== Array Converters
+
+For the built-in converters and custom converters, the corresponding Array converters are provided by default.
+The delimiter for the config value is ",".
+The escape character is "\".
+e.g. With this config `myPets=dog,cat,dog\,cat`, the values as an array will be `{"dog", "cat", "dog,cat"}`.
+
+==== Programmatic lookup
+
+Array as a class type is supported in the programmatic lookup.
+
+[source, java]
+----
+ String[] myPets = config.getValue("myPets", String[].class);
+----
+
+myPets will be "dog", "cat", "dog,cat" as an array
+
+==== Injection model
+
+For the property injection, Array, List and Set are supported.
+
+[source, java]
+----
+@Inject @ConfigProperty(name="myPets") String[] myPetsArray;
+@Inject @ConfigProperty(name="myPets") List<String> myPetsList;
+@Inject @ConfigProperty(name="myPets") Set<String> myPetsSet;
+----
+
+myPets will be "dog", "cat", "dog,cat" as an array, List or Set.
+
+=== Cleaning up a Converter
+
+If a `Converter` implements the `java.lang.AutoCloseable` interface  then the `close()` method will be called when the underlying `Config` is being released.
+
+
 

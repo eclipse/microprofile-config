@@ -20,10 +20,12 @@
 // Emily Jiang
 
 [[configexamples]]
-== Configuration Usage Examples
+== Config Usage Examples
 
 
-A configuration object can be obtained programmatically via the `ConfigProvider` or automatically via `@Inject Config`. An application can then access its configured values via a `Config` instance.
+An application can obtain it's configuration programmatically via the `ConfigProvider`.
+In CDI enabled beans it can also get injected via `@Inject Config`.
+An application can then access its configured values via this `Config` instance.
 
 === Simple Programmatic Example
 
@@ -42,7 +44,7 @@ public class ConfigUsageSample {
 }
 ----
 
-If you need to access a different server then you can e.g. change the configuration via a `-D` system property:
+If you need to access a different server then you can e.g. change the configuration via a Java `-D` system property:
 
 [source, text]
 ----
@@ -77,12 +79,14 @@ public class InjectedConfigUsageSample {
     @Inject
     @ConfigProperty(name="myprj.some.url")
     private String someUrl;
+
     //The following code injects an Optional value of myprj.some.port property.
     //Contrary to natively injecting the configured value this will not lead to a
     //DeploymentException if the configured value is missing.
     @Inject
     @ConfigProperty(name="myprj.some.port")
     private Optional<Integer> somePort;
+
     //Injects a Provider for the value of myprj.some.dynamic.timeout property to
     //resolve the property dynamically. Each invocation to Provider#get() will
     //resolve the latest value from underlying Config.
