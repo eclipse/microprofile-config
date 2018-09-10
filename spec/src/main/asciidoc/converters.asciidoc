@@ -19,6 +19,7 @@
 // Mark Struberg
 // Emily Jiang
 // John D. Ament
+// Gunnar Morling
 
 [[converter]]
 == Converter
@@ -32,10 +33,13 @@ The following `Converter` s are provided by Microprofile-Config by default:
 
 * `boolean` and `Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "ON".
   Any other value will be interpreted as `false`
+* `byte` and `Byte`
+* `short` and `Short`
 * `int` and `Integer`
 * `long` and `Long`
 * `float` and `Float` , a dot '.' is used to separate the fractional digits
 * `double` and `Double` , a dot '.' is used to separate the fractional digits
+* `char` and `Character`
 * `Class` based on the result of `Class.forName`
 
 All built-in `Converter` have the `@Priority` of `1`.
@@ -91,4 +95,3 @@ If no built-in nor custom `Converter` for a requested Type `T`, an implicit Conv
 * The target type {@code T} has a {@code public static T valueOf(String)} method, or
 * The target type {@code T} has a public Constructor with a String parameter, or
 * The target type {@code T} has a {@code public static T parse(CharSequence)} method
-
