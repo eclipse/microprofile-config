@@ -24,12 +24,12 @@
 [[converter]]
 == Converter
 
-For providing typeseafe configuration we need to convert from the configured Strings into target types.
-This happens by providing `Converter` s in the `Config`.
+For providing type-safe configuration we need to convert from the configured Strings into target types.
+This happens by providing ``Converter``s in the `Config`.
 
 === Built-in Converters
 
-The following `Converter` s are provided by Microprofile-Config by default:
+The following ``Converter``s are provided by MicroProfile-Config by default:
 
 * `boolean` and `Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "ON".
   Any other value will be interpreted as `false`
@@ -42,7 +42,7 @@ The following `Converter` s are provided by Microprofile-Config by default:
 * `char` and `Character`
 * `Class` based on the result of `Class.forName`
 
-All built-in `Converter` have the `@Priority` of `1`.
+All built-in ``Converter``s have the `@Priority` of `1`.
 
 
 === Adding custom Converters
