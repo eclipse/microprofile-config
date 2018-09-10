@@ -31,16 +31,16 @@ This happens by providing ``Converter``s in the `Config`.
 
 The following ``Converter``s are provided by MicroProfile-Config by default:
 
-* `boolean` and `Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "ON".
+* `boolean` and `java.lang.Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "ON".
   Any other value will be interpreted as `false`
-* `byte` and `Byte`
-* `short` and `Short`
-* `int` and `Integer`
-* `long` and `Long`
-* `float` and `Float` , a dot '.' is used to separate the fractional digits
-* `double` and `Double` , a dot '.' is used to separate the fractional digits
-* `char` and `Character`
-* `Class` based on the result of `Class.forName`
+* `byte` and `java.lang.Byte`
+* `short` and `java.lang.Short`
+* `int` and `java.lang.Integer`
+* `long` and `java.lang.Long`
+* `float` and `java.lang.Float` , a dot '.' is used to separate the fractional digits
+* `double` and `java.lang.Double` , a dot '.' is used to separate the fractional digits
+* `char` and `java.lang.Character`
+* `java.lang.Class` based on the result of `Class.forName`
 
 All built-in ``Converter``s have the `@Priority` of `1`.
 
