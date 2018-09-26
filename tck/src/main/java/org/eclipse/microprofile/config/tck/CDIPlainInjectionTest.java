@@ -46,6 +46,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import junit.framework.Assert;
+
 /**
  * Test cases for CDI-based API that test retrieving values from the configuration.
  * The tests depend only on CDI 1.2.
@@ -95,6 +97,8 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.characterProperty, is(equalTo(Character.valueOf('c'))));
 
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(3.1415, 0.1)));
+        Assert.assertNull("The property my.not.configured.nullable.property should be null", 
+                 ConfigProvider.getConfig().getOptionalValue("my.not.configured.nullable.property", String.class).orElse(null));
     }
 
     /*
@@ -126,6 +130,8 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(
                 ConfigProvider.getConfig().getOptionalValue("my.not.configured.double.property", Double.class)
                         .orElse(3.1415), 0.1)));
+        Assert.assertNull("The injected field nullableConfigValue is null", bean.nullableConfigValue);
+        
     }
 
     @Test
@@ -251,6 +257,10 @@ public class CDIPlainInjectionTest extends Arquillian {
         @Inject
         @ConfigProperty(name="my.not.configured.double.property", defaultValue = "3.1415")
         private Double doublePropertyWithDefaultValue;
+        // the property is not configured in any ConfigSoources, so null will be used to set the filed
+        @Inject
+        @ConfigProperty(name="my.not.configured.nullable.property", defaultValue = ConfigProperty.NULL_VALUE)
+        private String nullableConfigValue;
 
     }
 
