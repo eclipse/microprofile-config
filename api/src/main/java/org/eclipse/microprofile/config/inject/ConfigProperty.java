@@ -114,7 +114,7 @@ public @interface ConfigProperty {
     String NULL_VALUE="org.eclipse.microprofile.config.configproperty.nullvalue";
     /**
      * The key of the config property used to look up the configuration value.
-     * If it is not specified, it will be derived automatically as {@code <class_name>.<injetion_point_name>},
+     * If it is not specified, it will be derived automatically as {@code <class_name>.<injection_point_name>},
      * where {@code injection_point_name} is the field name or parameter name,
      * {@code class_name} is the fully qualified name of the class being injected to.
      * If one of the {@code class_name} or {@code injection_point_name} cannot be determined, the value has to be provided.
