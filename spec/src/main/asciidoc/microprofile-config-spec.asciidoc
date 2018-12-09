@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2016-2017 Eclipse Microprofile Contributors:
+// Copyright (c) 2016-2018 Eclipse Microprofile Contributors:
 // Mark Struberg
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,5 +45,7 @@ include::configprovider.asciidoc[]
 include::configsources.asciidoc[]
 
 include::converters.asciidoc[]
+
+include::configaccessor.asciidoc[]
 
 include::release_notes.asciidoc[]
