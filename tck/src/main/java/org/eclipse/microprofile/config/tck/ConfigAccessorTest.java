@@ -53,7 +53,7 @@ public class ConfigAccessorTest extends Arquillian {
             .addAsServiceProvider(ConfigSource.class, ConfigurableConfigSource.class)
             .as(JavaArchive.class);
 
-        AbstractTest.addFile(testJar, "META-INF/javaconfig.properties");
+        AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
 
         WebArchive war = ShrinkWrap
             .create(WebArchive.class, "configValueTest.war")
