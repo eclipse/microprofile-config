@@ -83,7 +83,7 @@ public interface ConfigAccessorBuilder<T> {
      * {@link org.eclipse.microprofile.config.spi.ConfigSource#onAttributeChange(java.util.function.Consumer)}.
      *
      * @param value the amount of the TimeUnit to wait
-     * @param timeUnit the TimeUnit for the value
+     * @param timeUnit the ChronoUnit for the value
      * @return This builder
      */
     ConfigAccessorBuilder<T> cacheFor(long value, ChronoUnit timeUnit);
