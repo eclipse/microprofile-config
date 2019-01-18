@@ -64,14 +64,15 @@ public class ConfigurableConfigSource implements ConfigSource {
     @Override
     public ConfigSource.ChangeSupport onAttributeChange(Consumer<Set<String>> reportAttributeChange) {
         this.reportAttributeChange = reportAttributeChange;
-        return ChangeSupport.SUPPORTED;
+        return () -> ChangeSupport.Type.SUPPORTED;
     }
 
     public static void configure(Config cfg, String propertyName, String value) {
         for (ConfigSource configSource : cfg.getConfigSources()) {
             if (configSource instanceof ConfigurableConfigSource) {
-                ((ConfigurableConfigSource) configSource).properties.put(propertyName, value);
-                ((ConfigurableConfigSource) configSource).reportAttributeChange.accept(Collections.singleton(propertyName));
+                ConfigurableConfigSource configurableConfigSource = (ConfigurableConfigSource) configSource;
+                configurableConfigSource.properties.put(propertyName, value);
+                configurableConfigSource.reportAttributeChange.accept(Collections.singleton(propertyName));
                 return;
             }
         }

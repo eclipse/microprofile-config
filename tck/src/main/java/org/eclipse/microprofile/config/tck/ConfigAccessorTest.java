@@ -232,6 +232,21 @@ public class ConfigAccessorTest extends Arquillian {
     }
 
     @Test
+    public void testOnAttributeChange() {
+        String key = "tck.config.test.onattributechange.key";
+        ConfigurableConfigSource.configure(config, key, "firstvalue");
+
+        ConfigAccessor<String> val = config.access(key, String.class).cacheFor(30, ChronoUnit.MILLIS).build();
+        Assert.assertEquals(val.getValue(), "firstvalue");
+
+        // immediately change the value on the ConfigurableConfigSource that will notify the Config of the change
+        ConfigurableConfigSource.configure(config, key, "secondvalue");
+
+        // we should see the new value right now as the ConfigurableConfigSource has notified that its attribute has changed
+        Assert.assertEquals(val.getValue(), "secondvalue");
+    }
+
+    @Test
     public void testDefaultValue() {
         String key = "tck.config.test.javaconfig.somerandom.default.key";
 
