@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2016-2018 Contributors to the Eclipse Foundation
+// Copyright (c) 2016-2019 Contributors to the Eclipse Foundation
 //
 // See the NOTICE file(s) distributed with this work for additional
 // information regarding copyright ownership.
@@ -44,8 +44,6 @@ This is basically a builder which has methods to refine the resolution, includin
 
 * `evaluateVariables(boolean evaluateVariables)`
 * `useConverter(Converter<T> converter)` -- Defines a specific {@link Converter} to be used instead of applying the default Converter resolving logic.
-* `addLookupSuffix(String postfixName)` -- sets a parameter for the resolution of a 'postfix' for the resolution
-* `withLookupSuffix(ConfigAccessor)` -- you can also use a `ConfigAccessor` to determine the 'postfix' for the resolution
 * `withDefault(T value)` -- sets the default value, used in case the resolution returns `null`
 * `getValue()` -- returns the resolved value with the appropriate type
 
@@ -56,8 +54,6 @@ Config config = ConfigProvider.getConfig();
 
 ConfigAccessor<Integer> dbPortCfg
     = config.access("db.port", Integer.class)
-            .addLookupSuffix(config.access("project.projectStage").cacheFor(12, TimeUnit.HOURS))
-            .addLookupSuffix("database.vendor")
             .withDefault(3306).build();
 ...
 Integer port = dbPortCfg.getValue();
