@@ -18,7 +18,7 @@
  */
 package org.eclipse.microprofile.config.tck;
 
-import java.time.temporal.ChronoUnit;
+import java.time.Duration;
 
 import javax.inject.Inject;
 
@@ -109,41 +109,6 @@ public class ConfigAccessorTest extends Arquillian {
     }
 
     @Test
-    public void testLookupChain() {
-        // set the projectstage to 'Production'
-        ConfigurableConfigSource.configure(config, "javaconfig.projectStage", "Production");
-
-        /**
-         * 1  1 -> com.foo.myapp.mycorp.Production
-         * 1  0 -> com.foo.myapp.mycorp
-         * 0  1 -> com.foo.myapp.Production
-         * 0  0 -> com.foo.myapp
-         *
-         */
-        ConfigAccessor<String> cv = config.access("com.foo.myapp", String.class)
-            .addLookupSuffix("mycorp")
-            .addLookupSuffix(config.access("javaconfig.projectStage", String.class).build().getValue()).build();
-
-        Assert.assertFalse(cv.getOptionalValue().isPresent());
-
-        ConfigurableConfigSource.configure(config, "com.foo.myapp", "TheDefault");
-        Assert.assertEquals(cv.getValue(), "TheDefault");
-        Assert.assertEquals(cv.getResolvedPropertyName(), "com.foo.myapp");
-
-        ConfigurableConfigSource.configure(config, "com.foo.myapp.Production", "BasicWithProjectStage");
-        Assert.assertEquals(cv.getValue(), "BasicWithProjectStage");
-        Assert.assertEquals(cv.getResolvedPropertyName(), "com.foo.myapp.Production");
-
-        ConfigurableConfigSource.configure(config, "com.foo.myapp.mycorp", "WithTenant");
-        Assert.assertEquals(cv.getValue(), "WithTenant");
-        Assert.assertEquals(cv.getResolvedPropertyName(), "com.foo.myapp.mycorp");
-
-        ConfigurableConfigSource.configure(config, "com.foo.myapp.mycorp.Production", "WithTenantAndProjectStage");
-        Assert.assertEquals(cv.getValue(), "WithTenantAndProjectStage");
-        Assert.assertEquals(cv.getResolvedPropertyName(), "com.foo.myapp.mycorp.Production");
-    }
-
-    @Test
     public void testIntegerConverter() {
         Assert.assertEquals(config.access("tck.config.test.javaconfig.configvalue.integer", Integer.class).build().getValue(),
             Integer.valueOf(1234));
@@ -217,7 +182,7 @@ public class ConfigAccessorTest extends Arquillian {
     public void testCacheFor() throws Exception {
         String key = "tck.config.test.javaconfig.cachefor.key";
         System.setProperty(key, "firstvalue");
-        ConfigAccessor<String> val = config.access(key, String.class).cacheFor(30, ChronoUnit.MILLIS).build();
+        ConfigAccessor<String> val = config.access(key, String.class).cacheFor(Duration.ofMillis(30)).build();
         Assert.assertEquals(val.getValue(), "firstvalue");
 
         // immediately change the value

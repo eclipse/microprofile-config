@@ -92,21 +92,6 @@ public interface ConfigAccessor<T> {
     String getPropertyName();
 
     /**
-     * Returns the actual key which led to successful resolution and corresponds to the resolved value.
-     * This is useful when {@link ConfigAccessorBuilder#addLookupSuffix(String)} is used.
-     * Otherwise the resolved key should always be equal to the original key.
-     * This method is provided for cases, when parameterized resolution is
-     * requested and some of the fallback keys is used.
-     *
-     * This should be called only after calling {@link #getValue()} otherwise the value is undefined (but likely
-     * null).
-     *
-     * Note that this will only give you the resolved key from the last non-cached value resolving.
-     * @return the actual property name which led to successful resolution and corresponds to the resolved value.
-     */
-    String getResolvedPropertyName();
-
-    /**
      * Returns the default value provided by {@link ConfigAccessorBuilder#withDefault(Object)} 
      * or {@link ConfigAccessorBuilder#withStringDefault(String)}.
      *

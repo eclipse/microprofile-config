@@ -27,7 +27,7 @@
 package org.eclipse.microprofile.config;
 
 
-import java.time.temporal.ChronoUnit;
+import java.time.Duration;
 
 import org.eclipse.microprofile.config.spi.Converter;
 
@@ -82,11 +82,10 @@ public interface ConfigAccessorBuilder<T> {
      * This is done by invoking the callback provided to the {@code ConfigSource} via
      * {@link org.eclipse.microprofile.config.spi.ConfigSource#onAttributeChange(java.util.function.Consumer)}.
      *
-     * @param value the amount of the TimeUnit to wait
-     * @param timeUnit the ChronoUnit for the value
+     * @param duration the duration (e.g. 3s) to cache for
      * @return This builder
      */
-    ConfigAccessorBuilder<T> cacheFor(long value, ChronoUnit timeUnit);
+    ConfigAccessorBuilder<T> cacheFor(Duration duration);
 
     /**
      * Whether to evaluate variables in configured values.
@@ -107,52 +106,6 @@ public interface ConfigAccessorBuilder<T> {
      */
     ConfigAccessorBuilder<T> evaluateVariables(boolean evaluateVariables);
 
-    /**
-     * The methods {@link ConfigAccessorBuilder#addLookupSuffix(String)} 
-     * append the given parameters as optional suffixes to the {@link ConfigAccessor#getPropertyName()}.
-     * Those methods can be called multiple times.
-     * Each time the given suffix will be added to the end of suffix chain.
-     *
-     * This very version
-     *
-     * <p>Usage:
-     * <pre>
-     * String tenant = getCurrentTenant();
-     *
-     * Integer timeout = config.access("some.server.url", Integer.class)
-     *                         .addLookupSuffix(tenant)
-     *                         .addLookupSuffix(config.access("config.projectStage", String.class).build())
-     *                         .build()
-     *                         .getValue();
-     * </pre>
-     *
-     * Given the current tenant name is 'myComp' and the property
-     * {@code config.projectStage} is 'Production' this would lead to the following lookup order:
-     *
-     * <ul>
-     *     <li>"some.server.url.myComp.Production"</li>
-     *     <li>"some.server.url.myComp"</li>
-     *     <li>"some.server.url.Production"</li>
-     *     <li>"some.server.url"</li>
-     * </ul>
-     *
-     * The algorithm to use in {@link ConfigAccessor#getValue()} is a binary count down.
-     * Every parameter is either available (1) or not (0).
-     * Having 3 parameters, we start with binary {@code 111} and count down to zero.
-     * The first combination which resolves to a result is being treated as result.
-     *
-     * @param suffixValue fixed String to be used as suffix
-     * @return This builder
-     */
-    ConfigAccessorBuilder<T> addLookupSuffix(String suffixValue);
-
-    /**
-    *
-    * @param suffixAccessor {@link ConfigAccessor} to be used to resolve the suffix.
-    * @return This builder
-    * @see #addLookupSuffix(String)
-    */
-   ConfigAccessorBuilder<T> addLookupSuffix(ConfigAccessor<String> suffixAccessor);
     /**
      * Build a ConfigAccessor 
      * @return the configAccessor

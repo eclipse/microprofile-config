@@ -103,7 +103,7 @@ import javax.inject.Qualifier;
 @Retention(RUNTIME)
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 public @interface ConfigProperty {
-    String UNCONFIGURED_VALUE="org.eclipse.microprofile.config.configproperty.unconfiguredvalue";
+    String UNCONFIGURED_VALUE="org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
     /**
      * Provide a way to specify {@code null} value for a property. 
      * e.g. The following example is to set the default value of {@code my.port} to null if the property is not specified in any config sources.
