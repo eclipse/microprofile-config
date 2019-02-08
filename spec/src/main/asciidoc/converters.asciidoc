@@ -88,8 +88,7 @@ e.g. With this config `myPets=dog,cat,dog\\,cat`, the values as an array will be
   myPets will be "dog", "cat", "dog,cat" as an array, List or Set.
 
 === Automatic Converters
-
-If no built-in nor custom `Converter` for a requested Type `T`, an implicit Converter is automatically provided if the following conditions are met:
+If no built-in nor custom `Converter` exists for a requested Type `T`, an implicit `Converter` is automatically provided if the following conditions are met:
 
 * The target type {@code T} has a {@code public static T of(String)} method, or
 * The target type {@code T} has a {@code public static T valueOf(String)} method, or
