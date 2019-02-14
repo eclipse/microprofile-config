@@ -98,7 +98,7 @@ public interface ConfigAccessorBuilder<T> {
      * {@code "mycompany.some.url"} would be:
      * {@code "http://localhost:8081/some/path"}
      *
-     * <p><b>ATTENTION:</b> This defaults to {@code true}! That means variable replacement is enabled by default!</p>
+     * <strong>ATTENTION: This defaults to {@code true}! That means variable evaluation is enabled by default!</strong>
      *
      * @param evaluateVariables whether to evaluate variables in values or not
      *

@@ -95,6 +95,19 @@ public interface ConfigBuilder {
      */
     ConfigBuilder withConverters(Converter<?>... converters);
 
+    /**
+     * Determines whether variable evaluation is enabled.
+     *
+     * This enables variable evaluation globally for any configuration values retrieved using the
+     * {@link Config#getValue(String, Class)} and {@link Config#getOptionalValue(String, Class)} methods
+     * on `Config` built by this builder.
+     *
+     * This setting has no impact on {@link org.eclipse.microprofile.config.ConfigAccessorBuilder#evaluateVariables(boolean)}.
+     *
+     * @param evaluateVariables {@code true} to evaluate variables
+     * @return the ConfigBuilder
+     */
+    ConfigBuilder evaluateVariables(boolean evaluateVariables);
 
     /**
      * Add the specified {@link Converter} for the given type.

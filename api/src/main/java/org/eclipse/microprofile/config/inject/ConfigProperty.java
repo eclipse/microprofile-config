@@ -140,7 +140,7 @@ public @interface ConfigProperty {
 
     /**
      * @see org.eclipse.microprofile.config.ConfigAccessorBuilder#evaluateVariables(boolean)
-     * @return whether variable replacement is enabled. Defaults to {@code true}.
+     * @return whether variable evaluation is enabled. Defaults to {@code true}.
      */
     @Nonbinding
     boolean evaluateVariables() default true;

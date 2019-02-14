@@ -101,12 +101,11 @@ public class ConfigAccessorTest extends Arquillian {
         Assert.assertEquals(config.access("tck.config.variable.secondEndpoint", String.class).build().getValue(),
                 "http://some.host.name/endpointTwo");
 
-        // variables in Config.getValue and getOptionalValue do not get evaluated otoh
         Assert.assertEquals(config.getValue("tck.config.variable.firstEndpoint", String.class),
-                "http://${tck.config.variable.baseHost}/endpointOne");
+                "http://some.host.name/endpointOne");
 
         Assert.assertEquals(config.getOptionalValue("tck.config.variable.firstEndpoint", String.class).get(),
-                "http://${tck.config.variable.baseHost}/endpointOne");
+                "http://some.host.name/endpointOne");
     }
 
     @Test

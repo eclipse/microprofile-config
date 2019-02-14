@@ -44,6 +44,8 @@ include::configprovider.asciidoc[]
 
 include::configsources.asciidoc[]
 
+include::variable-evaluation.asciidoc[]
+
 include::converters.asciidoc[]
 
 include::configaccessor.asciidoc[]

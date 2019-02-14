@@ -112,15 +112,18 @@ Java2 security related change (link:https://github.com/eclipse/microprofile-conf
 [[release_notes_14]]
 == Release Notes for MicroProfile Config 1.4
 
-The following changes occurred in the 1.4 release, compared to 1.2
+The following changes occurred in the 1.4 release, compared to 1.3
 
-A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/5?closed=1[MicroProfile Config 1.4 Milestone]
+A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/7[MicroProfile Config 1.4 Milestone]
 
 === API/SPI Changes
 
-MicroProfile 1.4 introduced a way to deal with dynamic values.
+MicroProfile Config 1.4 introduced a way to deal with dynamic values.
 To support this feature from the user side we introduced the `ConfigAccessor`.
+
 We also introduced a way to have `ConfigSources` notify the `Config` about an underlying attribute change.
+
+MicroProfile Config now supports variable evaluation so that a Config property value can refer to other config properties.
 
 === Functional Changes
 

@@ -1,0 +1,123 @@
+//
+// Copyright (c) 2016-2019 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+[[variable-evaluation]]
+== Variable Evaluation
+
+The value of a configuration property can contains a variable corresponding to another configuration property.
+This variable is _evaluated_ to be replaced by its own value when the original property is returned.
+
+For example, let's define a `server.url` property:
+
+[source]
+----
+server.url=http://${server.host}:{server.port}/endpoint
+----
+
+When the Config API returns the value of `server.url`, it evaluates any variable (such as `server.host` and `server.port`) to replace
+them with their value.
+
+If these properties are also defined:
+
+[source]
+----
+server.host=example.org
+server.port=8080
+----
+
+The `server.url` value returned by the Config API is `http://example.org:8080/endpoint`.
+
+[NOTE]
+====
+Backwards Compatibility
+
+Variable evaluation is not backwards compatible.
+Previous version of MicroProfile Config would not evalute the variables and would return the value `http://${server.host}:{server.port}/endpoint`.
+
+Implementation of MicroProfile Config MUST provide a way to disable variable evaluation to provide backwards compatibility.
+
+The property `mp.config.evaluateVariables` can be configured as a boolean in one of the 3 default `ConfigSource` (environment variables, system properties,
+`META-INF/microprofile-config.properties`). Its value will be used by the MicroProfile Config implementation to _globally_ enable or disable variable evaluation.
+In the absence of this property, variable evaluation is enabled.
+====
+
+---
+
+
+=== Variable Syntax
+
+The syntax to use a variable is `${key}` for a _required_ config property and `${<key>:<default_value>}` for
+an _optional_ config property.
+
+If the variable is required , by using `${key}`, a config property with the name `key` MUST be present in the Config to be evaluated, otherwise, the
+Config API will throw a `NoSuchElementException` (or an `Optional.empty()` value).
+
+For example, let's define the configuration properties:
+
+[source]
+----
+server.url=http://${server.host}:{server.port}/endpoint
+server.host=example.org
+----
+
+A call to `Config.getValue("server.url", String.class)` will throw a `NoSuchElementException` since the
+`server.port` property is not configured.
+Likewise, a call to `Config.getOptionalValue("server.url", String.class)` will return an `Optional.empty()`.
+
+==== Default value
+
+A variable can define a _default_ value to be evaluated if the corresponding config property is not present.
+
+For example, let's define the configuration properties:
+
+[source]
+----
+server.url=http://${server.host:example.org}:{server.port:8080}/endpoint
+----
+
+If neither `server.host` nor `server.port` config properties are present, the Config API will use the variable's default values and will return
+`http://example.org:8080/endpoint` for the `server.url`.
+
+It is possible to define an empty default value for a variable.
+If the key is not present in the Config, it will not be evaluated.
+
+For example, let's define the configuration properties:
+
+[source]
+----
+server.url=http://example.org:8080/endpoint#${server.anchor:}
+----
+
+When the `server.anchor` configuration property is not present, the Config API will return
+`http://example.org:8080/endpoint#` for the `server.url`.
+
+If the `server.anchor` is configured with the value `id123`, the Config API will return
+`http://example.org:8080/endpoint#id123` for the `server.url`.
+
+A default value does not support variable evaluation (a default value is _raw_).
+
+For example, let's define the configuration properties:
+
+[source]
+----
+foo.one=Hello
+foo.two=${foo.three:${foo.one}}
+----
+
+`foo.two` defines a variable which key is `foo.three` and which default value is `${foo.one}`.
+If the config property `foo.three` is not present, the Config API will return `${foo.one}` for the `foo.two` config property.
