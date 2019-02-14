@@ -78,7 +78,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * }
  * </pre>
  *
- * <p>See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} and 
+ * <p>See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} and
  * {@link #access(String, Class)} for accessing a configured value.
  *
  * <p>Configured values can also be accessed via injection.
@@ -139,7 +139,7 @@ public interface Config {
      *
      * @param propertyName the property key
      * @param type type into which the resolve property value should get converted
-     * @param <T> the property type 
+     * @param <T> the property type
      * @return a {@code ConfigAccessor} to access the given propertyName
      */
     <T> ConfigAccessorBuilder<T> access(String propertyName, Class<T> type);
@@ -156,14 +156,14 @@ public interface Config {
      * <pre>
      *     // get the current host value
      *     ConfigAccessor&lt;String&gt; hostCfg config.access("myapp.host", String.class)
-     *              .cacheFor(60, TimeUnit.MINUTES)
+     *              .cacheFor(60, ChronoUnit.MINUTES)
      *              .build();
      *
      *     // and right in between the underlying values get changed to 'newserver' and port 8082
      *
      *     // get the current port for the host
      *     ConfigAccessor&lt;Integer&gt; portCfg config.access("myapp.port", Integer.class)
-     *              .cacheFor(60, TimeUnit.MINUTES)
+     *              .cacheFor(60, ChronoUnit.MINUTES)
      *              .build();
      * </pre>
      *
