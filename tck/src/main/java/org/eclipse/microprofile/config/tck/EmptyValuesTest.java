@@ -19,6 +19,12 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import static org.testng.Assert.assertEquals;
+
+import java.util.NoSuchElementException;
+
+import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.Config;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -29,10 +35,6 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
-
-import javax.inject.Inject;
-
-import static org.testng.Assert.assertEquals;
 
 public class EmptyValuesTest extends Arquillian {
 
@@ -63,17 +65,31 @@ public class EmptyValuesTest extends Arquillian {
         assertEquals(emptyValuesBean.getStringValue(), "");
     }
 
-    @Test
+    @Test(expectedExceptions = NoSuchElementException.class)
     public void testEmptyStringProgrammaticLookup() {
-        System.setProperty(EMPTY_PROPERTY, "");
-        String stringValue = config.getValue(EMPTY_PROPERTY, String.class);
-        assertEquals(stringValue, "");
-        System.clearProperty(EMPTY_PROPERTY);
+        try {
+            System.setProperty(EMPTY_PROPERTY, "");
+            config.getValue(EMPTY_PROPERTY, String.class);
+        }
+        finally {
+            System.clearProperty(EMPTY_PROPERTY);
+        }
+    }
+
+    @Test(expectedExceptions =  NoSuchElementException.class)
+    public void testEmptyStringPropertyFromConfigFile() {
+        config.getValue(PROP_FILE_EMPTY_PROPERTY, String.class);
     }
 
     @Test
-    public void testEmptyStringPropertyFromConfigFile() {
-        String stringValue = config.getValue(PROP_FILE_EMPTY_PROPERTY, String.class);
-        assertEquals(stringValue, "");
+    public void testEmptyStringLookupAsArray() {
+        try {
+            System.setProperty(EMPTY_PROPERTY, "");
+            String[] result = config.getValue(EMPTY_PROPERTY, String[].class);
+            assertEquals(result.length, 0);
+        }
+        finally {
+            System.clearProperty(EMPTY_PROPERTY);
+        }
     }
 }

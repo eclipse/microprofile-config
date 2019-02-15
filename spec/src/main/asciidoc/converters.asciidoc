@@ -104,3 +104,44 @@ If no built-in nor custom `Converter` exists for a requested Type `T`, an implic
 
 If a `Converter` implements the `java.lang.AutoCloseable` interface  then the `close()` method will be called when the underlying `Config` is being released.
 
+=== Empty value
+
+A config property can be configured with an empty value (the empty String `""`).
+
+The config API interprets an empty string as a missing property and throws a `NoSuchElementException` when the output type is a `String`.
+
+[NOTE]
+This behaviour allows to _unconfigure_ a property. If a property is configured in a lower-ordinal ConfigSource with
+an undesirable value, you can set the property value to an empty string in a higher-ordinal ConfigSource to discard the lower-ordinal value.
+
+The Config API also interprets an empty string as an empty array when the output type is `String[]`.
+For consistency, the Config API also discards any leading and trailing commas `","` when the output type is a `String[]``
+
+[[empty_value_table]]
+.Examples of Config API
+[options="header"]
+|=======================
+| Property value | Output type | `Config` method | Output result
+| missing     | `String` | `getValue` | throws `NoSuchElementException`
+| `""` (empty string) | `String` | `getValue` | throws `NoSuchElementException`
+| `" "`       | `String` | `getValue` | `" "`
+| `"foo"`     | `String`   | `getValue` |  `"foo"`
+| missing     | `String[]` | `getValue` | `{ }` (empty array)
+| `""`        | `String[]` | `getValue` | `{ }`
+| `" "`       | `String[]` | `getValue` | `{ " " }`
+| `","`       | `String[]` | `getValue` | `{ }`
+| `",,"`      | `String[]` | `getValue` | `{ }`
+| `"foo"`     | `String[]` | `getValue` | `{ "foo" }`
+| `"foo,bar"` | `String[]` | `getValue` | `{ "foo", "bar" }`
+| `"foo,"`    | `String[]` | `getValue` | `{ "foo" }`
+| `",bar"`    | `String[]` | `getValue` | `{ "bar" }`
+| `",bar,"`   | `String[]` | `getValue` | `{ "bar" }`
+| missing     | `String` |`getOptionalValue` | `Optional.empty()`
+| `""`        | `String` | `getOptionalValue` | `Optional.empty()`
+| `" "`        | `String` | `getOptionalValue` | `Optional.of(" ")`
+| `"foo"`     | `String` | `getOptionalValue` | `Optional.of("foo")`
+| missing | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `""` | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `","` | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `",,"` | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `"foo,bar"` | `String[]` | `getOptionalValue` | `Optional.of({ "foo", "bar" })`
