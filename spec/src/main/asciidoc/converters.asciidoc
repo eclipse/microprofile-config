@@ -92,3 +92,50 @@ If no built-in nor custom `Converter` for a requested Type `T`, an implicit Conv
 * The target type {@code T} has a public Constructor with a String parameter, or
 * The target type {@code T} has a {@code public static T parse(CharSequence)} method
 
+=== Empty value
+
+A config property can be explicitly configured with an empty value (the empty String `""`).  If a property
+is missing and no default value exists for that property, it is considered to be empty.
+
+The `Config.getValue()` method will normally throw a `NoSuchElementException` when a configuration value
+is empty.  In order to allow empty values to be returned, either the `Config.getOptionalValue()`
+method must be used, or a custom converter must be specified which provides a specific value for
+the case where an empty value is returned (either implicitly due to the property being missing, or
+explicitly due to an empty value being specified for a configuration property).
+
+[NOTE]
+This behaviour allows users to _unconfigure_ a property. If a property is configured in a lower-ordinal ConfigSource with
+an undesirable value, you can set the property value to an empty string in a higher-ordinal ConfigSource to discard the lower-ordinal value.
+
+When processing array or collection values, any empty array or collection segments must be excluded from the
+resultant array or collection.
+
+[[empty_value_table]]
+.Examples of Config API behavior for empty values
+[options="header"]
+|=======================
+| Property value | Output type | `Config` method | Output result
+| missing     | `String` | `getValue` | throws `NoSuchElementException`
+| `""` (empty string) | `String` | `getValue` | throws `NoSuchElementException`
+| `" "`       | `String` | `getValue` | `" "`
+| `"foo"`     | `String`   | `getValue` |  `"foo"`
+| missing     | `String[]` | `getValue` | throws `NoSuchElementException`
+| `""`        | `String[]` | `getValue` | throws `NoSuchElementException`
+| `" "`       | `String[]` | `getValue` | `{ " " }`
+| `","`       | `String[]` | `getValue` | throws `NoSuchElementException`
+| `",,"`      | `String[]` | `getValue` | throws `NoSuchElementException`
+| `"foo"`     | `String[]` | `getValue` | `{ "foo" }`
+| `"foo,bar"` | `String[]` | `getValue` | `{ "foo", "bar" }`
+| `"foo,"`    | `String[]` | `getValue` | `{ "foo" }`
+| `",bar"`    | `String[]` | `getValue` | `{ "bar" }`
+| `",bar,"`   | `String[]` | `getValue` | `{ "bar" }`
+| missing     | `String` |`getOptionalValue` | `Optional.empty()`
+| `""`        | `String` | `getOptionalValue` | `Optional.empty()`
+| `" "`        | `String` | `getOptionalValue` | `Optional.of(" ")`
+| `"foo"`     | `String` | `getOptionalValue` | `Optional.of("foo")`
+| missing | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `""` | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `","` | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `",,"` | `String[]` | `getOptionalValue` | `Optional.empty()`
+| `"foo,bar"` | `String[]` | `getOptionalValue` | `Optional.of({ "foo", "bar" })`
+|=======================
