@@ -33,6 +33,7 @@ Do you want to contribute to this project? Here is what you can do:
 * Join our https://calendar.google.com/calendar/embed?src=gbnbc373ga40n0tvbl88nkc3r4%40group.calendar.google.com[weekly meeting] on Mondays at https://www.timeanddate.com/time/map/[14h00 GMT]. 
 ** https://docs.google.com/document/d/1X6Q9K28VNHhVRkVBFlbNa-ZMusxjCfmoA7--uJFHWx0[Minutes and Agenda].
 ** https://eclipse.zoom.us/j/949859967[Meeting room].
+* Join the discussions on the https://groups.google.com/forum/#!forum/microprofile[MicroProfile Google Group]
 * https://microprofile.io/blog/[Contribute a blog post].
 
 '''
