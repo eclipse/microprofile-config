@@ -22,24 +22,6 @@ image:https://javadoc.io/badge/org.eclipse.microprofile.config/microprofile-conf
 
 # Configuration for MicroProfile
 
-'''
-== How to contribute
-
-Do you want to contribute to this project? Here is what you can do:
-
-* Fork the repository, make changes, then do a pull request.
-** Remember to https://help.github.com/articles/signing-commits/[sign your commits]
-** Make sure you have signed the https://www.eclipse.org/legal/ECA.php[Eclipse Contributor Agreement]
-* https://github.com/eclipse/microprofile-config/issues[Create or fix an issue].
-* https://gitter.im/eclipse/microprofile-config[Join us on Gitter to discuss this project].
-* Join our https://calendar.google.com/calendar/embed?src=gbnbc373ga40n0tvbl88nkc3r4%40group.calendar.google.com[weekly meeting] on Mondays at https://www.timeanddate.com/time/map/[14h00 GMT]. 
-** https://docs.google.com/document/d/1X6Q9K28VNHhVRkVBFlbNa-ZMusxjCfmoA7--uJFHWx0[Minutes and Agenda].
-** https://eclipse.zoom.us/j/949859967[Meeting room].
-* Join the discussions on the https://groups.google.com/forum/#!forum/microprofile[MicroProfile Google Group]
-* https://microprofile.io/blog/[Contribute a blog post].
-
-'''
-
 ## Status
 
 MicroProfile Config Feature
@@ -105,3 +87,6 @@ The whole MicroProfile config project can be built via Apache Maven
 
 `$> mvn clean install`
 
+== Contributing
+
+Do you want to contribute to this project? link:CONTRIBUTING.adoc[Find out how you can help here].
