@@ -66,7 +66,7 @@ public class CDIPlainInjectionTest extends Arquillian {
                 .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-    
+
     @BeforeTest
     public void setUpTest() {
         clearAllPropertyValues();
@@ -97,7 +97,7 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.characterProperty, is(equalTo(Character.valueOf('c'))));
 
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(3.1415, 0.1)));
-        Assert.assertNull("The property my.not.configured.nullable.property should be null", 
+        Assert.assertNull("The property my.not.configured.nullable.property should be null",
                  ConfigProvider.getConfig().getOptionalValue("my.not.configured.nullable.property", String.class).orElse(null));
     }
 
@@ -130,8 +130,8 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(
                 ConfigProvider.getConfig().getOptionalValue("my.not.configured.double.property", Double.class)
                         .orElse(3.1415), 0.1)));
-        Assert.assertNull("The injected field nullableConfigValue is null", bean.nullableConfigValue);
-        
+        Assert.assertNull("The injected field nullableConfigValue is not null", bean.nullableConfigValue);
+
     }
 
     @Test
