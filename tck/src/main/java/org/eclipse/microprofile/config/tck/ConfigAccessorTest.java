@@ -49,6 +49,7 @@ public class ConfigAccessorTest extends Arquillian {
             .create(JavaArchive.class, "configValueTest.jar")
             .addPackage(AbstractTest.class.getPackage())
             .addClass(ConfigAccessorTest.class)
+            .addClass(ConfigurableConfigSource.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .addAsServiceProvider(ConfigSource.class, ConfigurableConfigSource.class)
             .as(JavaArchive.class);
