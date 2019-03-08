@@ -87,3 +87,6 @@ The whole MicroProfile config project can be built via Apache Maven
 
 `$> mvn clean install`
 
+== Contributing
+
+Do you want to contribute to this project? link:CONTRIBUTING.adoc[Find out how you can help here].
