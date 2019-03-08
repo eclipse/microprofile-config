@@ -46,7 +46,7 @@ If you need to access a different server then you can e.g. change the configurat
 
 [source, text]
 ----
-$> java -jar some.jar -Dacme.myprj.some.url=http://other.server/other/endpoint
+$> java -Dacme.myprj.some.url=http://other.server/other/endpoint -jar some.jar
 ----
 
 Note that this is only one example how to possibly configure your application.
