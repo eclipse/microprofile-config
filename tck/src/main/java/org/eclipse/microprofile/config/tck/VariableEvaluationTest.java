@@ -54,6 +54,30 @@ public class VariableEvaluationTest extends Arquillian {
     }
 
     @Test
+    public void testMPConfigEvaluateVariablesProperty() {
+        final String previousValue = System.getProperty("mp.config.evaluateVariables");
+
+        try {
+            System.setProperty("mp.config.evaluateVariables", "false");
+
+            Config config = buildConfig(
+                "foo.one", "value",
+                "foo.two", "${foo.one}",
+                "foo.three", "+${foo.two}+");
+            assertEquals(config.getValue("foo.two", String.class), "${foo.one}");
+            assertEquals(config.getValue("foo.three", String.class), "+${foo.two}+");
+        }
+        finally {
+            if (previousValue != null) {
+                System.setProperty("mp.config.evaluateVariables", previousValue);
+            }
+            else {
+                System.clearProperty("mp.config.evaluateVariables");
+            }
+        }
+    }
+
+    @Test
     public void testDefaultVariableEvaluation() {
         Config config = buildConfig(
             "foo.one", "value",
@@ -264,6 +288,7 @@ public class VariableEvaluationTest extends Arquillian {
 
     private static Config buildConfig(String... keyValues) {
         return ConfigProviderResolver.instance().getBuilder()
+            .addDefaultSources()
             .withSources(KeyValuesConfigSource.config(keyValues))
             .build();
     }
