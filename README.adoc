@@ -58,6 +58,7 @@ The following Implementations are available
 * WebSphere Liberty 2017 March-June Beta so far (https://developer.ibm.com/wasdev/)
 * Payara Server 173 and Payara Micro 173 (https://docs.payara.fish/documentation/microprofile/config.html)
 * WildFly & Thorntail (https://github.com/smallrye/smallrye-config)
+* [microBean&tm; Microprofile Config](https://microbean.github.io/microbean-microprofile-config/)
 
 == Design
 
