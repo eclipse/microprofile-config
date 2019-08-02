@@ -31,8 +31,6 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
-import java.io.Closeable;
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -71,9 +69,10 @@ import java.util.function.Consumer;
  * <p>Adding a dynamic amount of custom config sources can be done programmatically via
  * {@link org.eclipse.microprofile.config.spi.ConfigSourceProvider}.
  *
- *  <p>If a ConfigSource implements the {@link AutoCloseable} interface
- *  then the {@link AutoCloseable#close()} method will be called when
- *  the underlying {@link org.eclipse.microprofile.config.Config} is being released.
+ * <p>A ConfigSource must belong to a single {@link org.eclipse.microprofile.config.Config}.
+ * If a ConfigSource implements the {@link AutoCloseable} interface
+ * then the {@link AutoCloseable#close()} method will be called when
+ * the underlying {@code Config} is being released.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
@@ -176,9 +175,9 @@ public interface ConfigSource {
      * @see ChangeSupport
      */
     default ChangeSupport onAttributeChange(Consumer<Set<String>> callback) {
-        // do nothing by default. Just for compat with older ConfigSources.
+        // do nothing by default. Just for compatibility with older ConfigSources.
         // return unsupported to tell config that it must re-query this source every time
-        return () -> ChangeSupport.Type.UNSUPPORTED;
+        return ChangeSupport.UNSUPPORTED;
     }
 
     /**
@@ -186,34 +185,25 @@ public interface ConfigSource {
      * <p>
      * {@link org.eclipse.microprofile.config.Config} implementations may use this information for internal optimizations.
      */
-    interface ChangeSupport extends Closeable, Serializable {
-
-        enum Type {
-            /**
-             * Config change is supported, this config source will invoke the callback provided by
-             * {@link ConfigSource#onAttributeChange(Consumer)}.
-             * <p>
-             * Example: File based config source that watches the file for changes
-             */
-            SUPPORTED,
-            /**
-             * Config change is not supported. Configuration values can change, though this change is not reported back.
-             * <p>
-             * Example: LDAP based config source
-             */
-            UNSUPPORTED,
-            /**
-             * Configuration values cannot change for the lifetime of this {@link ConfigSource}.
-             * <p>
-             * Example: Environment variables config source, classpath resource config source
-             */
-            IMMUTABLE
-        }
-
-        Type getType();
-
-        @Override
-        default void close() {
-        }
+    enum ChangeSupport {
+        /**
+         * Config change is supported, this config source will invoke the callback provided by
+         * {@link ConfigSource#onAttributeChange(Consumer)}.
+         * <p>
+         * Example: File based config source that watches the file for changes
+         */
+        SUPPORTED,
+        /**
+         * Config change is not supported. Configuration values can change, though this change is not reported back.
+         * <p>
+         * Example: LDAP based config source
+         */
+        UNSUPPORTED,
+        /**
+         * Configuration values cannot change for the lifetime of this {@link ConfigSource}.
+         * <p>
+         * Example: Environment variables config source, classpath resource config source
+         */
+        IMMUTABLE
     }
 }

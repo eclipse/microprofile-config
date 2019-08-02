@@ -64,7 +64,7 @@ public class ConfigurableConfigSource implements ConfigSource {
     @Override
     public ConfigSource.ChangeSupport onAttributeChange(Consumer<Set<String>> reportAttributeChange) {
         this.reportAttributeChange = reportAttributeChange;
-        return () -> ChangeSupport.Type.SUPPORTED;
+        return ChangeSupport.SUPPORTED;
     }
 
     public static void configure(Config cfg, String propertyName, String value) {

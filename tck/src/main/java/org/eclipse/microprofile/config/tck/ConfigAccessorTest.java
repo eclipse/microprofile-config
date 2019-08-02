@@ -202,7 +202,7 @@ public class ConfigAccessorTest extends Arquillian {
         String key = "tck.config.test.onattributechange.key";
         ConfigurableConfigSource.configure(config, key, "firstvalue");
 
-        ConfigAccessor<String> val = config.access(key, String.class).cacheFor(Duration.ofMillis(30)).build();
+        ConfigAccessor<String> val = config.access(key, String.class).cacheFor(Duration.ofMinutes(30)).build();
         Assert.assertEquals(val.getValue(), "firstvalue");
 
         // immediately change the value on the ConfigurableConfigSource that will notify the Config of the change
