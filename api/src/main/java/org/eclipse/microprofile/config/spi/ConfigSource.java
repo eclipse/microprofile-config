@@ -40,18 +40,19 @@ import java.util.Set;
  * The default config sources always available by default are:
  * <ol>
  * <li>System properties (ordinal=400)</li>
- * <li>Environment properties (ordinal=300)
- *    <p>Depending on the operating system type, environment variables with '.' are not always allowed.
- *    This ConfigSource searches 3 environment variables for a given property name (e.g. {@code "com.ACME.size"}):</p>
- *        <ol>
- *            <li>Exact match (i.e. {@code "com.ACME.size"})</li>
- *            <li>Replace all '.' by '_' (i.e. {@code "com_ACME_size"})</li>
- *            <li>Replace all '.' by '_' and convert to upper case (i.e. {@code "COM_ACME_SIZE"})</li>
- *        </ol>
- *    <p>The first environment variable that is found is returned by this ConfigSource.</p>
- * </li>
+ * <li>Environment properties (ordinal=300)</li>
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
+ * </p>
+ *
+ * <p>Depending on the operating system type, environment variables with '.' are not always allowed.
+ *    This ConfigSource searches 3 environment variables for a given property name (e.g. {@code "com.ACME.size"}):</p>
+ * <ol>
+ *   <li>Exact match (i.e. {@code "com.ACME.size"})</li>
+ *   <li>Replace each character that is neither alphanumeric nor '\_' with '_' (i.e. {@code "com_ACME_size"})</li>
+ *   <li>Replace each character that is neither alphanumeric nor '\_' with '_'; then convert the name to upper case (i.e. {@code "COM_ACME_SIZE"})</li>
+ * </ol>
+ *  <p>The first environment variable that is found is returned by this ConfigSource.</p>
  *
  * <p>Custom ConfigSource will get picked up via the {@link java.util.ServiceLoader} mechanism and and can be registered by
  * providing a file
