@@ -108,20 +108,3 @@ More CTS were added:
 
 Java2 security related change (link:https://github.com/eclipse/microprofile-config/issues/343[#343])
 
-
-[[release_notes_14]]
-== Release Notes for MicroProfile Config 1.4
-
-The following changes occurred in the 1.4 release, compared to 1.2
-
-A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/5?closed=1[MicroProfile Config 1.4 Milestone]
-
-=== API/SPI Changes
-
-MicroProfile 1.4 introduced a way to deal with dynamic values.
-To support this feature from the user side we introduced the `ConfigAccessor`.
-We also introduced a way to have `ConfigSources` notify the `Config` about an underlying attribute change.
-
-=== Functional Changes
-
-OSGi compatibility got improved.

@@ -46,8 +46,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import junit.framework.Assert;
-
 /**
  * Test cases for CDI-based API that test retrieving values from the configuration.
  * The tests depend only on CDI 1.2.
@@ -66,7 +64,7 @@ public class CDIPlainInjectionTest extends Arquillian {
                 .addAsServiceProvider(ConfigSource.class, TestConfigSource.class)
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-
+    
     @BeforeTest
     public void setUpTest() {
         clearAllPropertyValues();
@@ -79,26 +77,18 @@ public class CDIPlainInjectionTest extends Arquillian {
 
         assertThat(bean.stringProperty, is(equalTo("text")));
         assertThat(bean.booleanProperty, is(true));
-        assertThat(bean.byteProperty, is(equalTo((byte)127)));
-        assertThat(bean.shortProperty, is(equalTo((short)32767)));
         assertThat(bean.intProperty, is(equalTo(5)));
         assertThat(bean.longProperty, is(equalTo(10L)));
         assertThat(bean.floatProperty, is(floatCloseTo(10.5f, 0.1f)));
         assertThat(bean.doubleProperty, is(closeTo(11.5, 0.1)));
-        assertThat(bean.charProperty, is(equalTo('c')));
 
         assertThat(bean.booleanObjProperty, is(true));
-        assertThat(bean.byteObjProperty, is(equalTo(Byte.valueOf((byte)127))));
-        assertThat(bean.shortObjProperty, is(equalTo(Short.valueOf((short)32767))));
         assertThat(bean.integerProperty, is(equalTo(5)));
         assertThat(bean.longObjProperty, is(equalTo(10L)));
         assertThat(bean.floatObjProperty, is(floatCloseTo(10.5f, 0.1f)));
         assertThat(bean.doubleObjProperty, is(closeTo(11.5, 0.1)));
-        assertThat(bean.characterProperty, is(equalTo(Character.valueOf('c'))));
 
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(3.1415, 0.1)));
-        Assert.assertNull("The property my.not.configured.nullable.property should be null",
-                 ConfigProvider.getConfig().getOptionalValue("my.not.configured.nullable.property", String.class).orElse(null));
     }
 
     /*
@@ -112,10 +102,6 @@ public class CDIPlainInjectionTest extends Arquillian {
                 ConfigProvider.getConfig().getValue("my.string.property", String.class))));
         assertThat(bean.booleanProperty, is(equalTo(
                 ConfigProvider.getConfig().getValue("my.boolean.property", Boolean.class))));
-        assertThat(bean.byteProperty, is(equalTo(
-                ConfigProvider.getConfig().getValue("my.byte.property", Byte.class))));
-        assertThat(bean.shortProperty, is(equalTo(
-                ConfigProvider.getConfig().getValue("my.short.property", Short.class))));
         assertThat(bean.intProperty, is(equalTo(
                 ConfigProvider.getConfig().getValue("my.int.property", Integer.class))));
         assertThat(bean.longProperty, is(equalTo(
@@ -124,14 +110,10 @@ public class CDIPlainInjectionTest extends Arquillian {
                 ConfigProvider.getConfig().getValue("my.float.property", Float.class), 0.1f)));
         assertThat(bean.doubleProperty, is(closeTo(
                 ConfigProvider.getConfig().getValue("my.double.property", Double.class), 0.1)));
-        assertThat(bean.charProperty, is(equalTo(
-                ConfigProvider.getConfig().getValue("my.char.property", Character.class))));
 
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(
                 ConfigProvider.getConfig().getOptionalValue("my.not.configured.double.property", Double.class)
                         .orElse(3.1415), 0.1)));
-        Assert.assertNull("The injected field nullableConfigValue is not null", bean.nullableConfigValue);
-
     }
 
     @Test
@@ -154,26 +136,20 @@ public class CDIPlainInjectionTest extends Arquillian {
     private void ensureAllPropertyValuesAreDefined() {
         System.setProperty("my.string.property", "text");
         System.setProperty("my.boolean.property", "true");
-        System.setProperty("my.byte.property", "127");
-        System.setProperty("my.short.property", "32767");
         System.setProperty("my.int.property", "5");
         System.setProperty("my.long.property", "10");
         System.setProperty("my.float.property", "10.5");
         System.setProperty("my.double.property", "11.5");
-        System.setProperty("my.char.property", "c");
         System.setProperty(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
     }
 
     private void clearAllPropertyValues() {
         System.getProperties().remove("my.string.property");
         System.getProperties().remove("my.boolean.property");
-        System.getProperties().remove("my.byte.property");
-        System.getProperties().remove("my.short.property");
         System.getProperties().remove("my.int.property");
         System.getProperties().remove("my.long.property");
         System.getProperties().remove("my.float.property");
         System.getProperties().remove("my.double.property");
-        System.getProperties().remove("my.char.property");
         System.getProperties().remove(DEFAULT_PROPERTY_BEAN_KEY);
     }
 
@@ -195,22 +171,6 @@ public class CDIPlainInjectionTest extends Arquillian {
         @Inject
         @ConfigProperty(name="my.boolean.property")
         private boolean booleanProperty;
-
-        @Inject
-        @ConfigProperty(name="my.byte.property")
-        private Byte byteObjProperty;
-
-        @Inject
-        @ConfigProperty(name="my.byte.property")
-        private byte byteProperty;
-
-        @Inject
-        @ConfigProperty(name="my.short.property")
-        private Short shortObjProperty;
-
-        @Inject
-        @ConfigProperty(name="my.short.property")
-        private short shortProperty;
 
         @Inject
         @ConfigProperty(name="my.int.property")
@@ -244,23 +204,11 @@ public class CDIPlainInjectionTest extends Arquillian {
         @ConfigProperty(name="my.double.property")
         private double doubleProperty;
 
-        @Inject
-        @ConfigProperty(name="my.char.property")
-        private Character characterProperty;
-
-        @Inject
-        @ConfigProperty(name="my.char.property")
-        private char charProperty;
-
         // the property is not configured in any ConfigSource but its defaultValue will
         // be used to set the field.
         @Inject
         @ConfigProperty(name="my.not.configured.double.property", defaultValue = "3.1415")
         private Double doublePropertyWithDefaultValue;
-        // the property is not configured in any ConfigSoources, so null will be used to set the filed
-        @Inject
-        @ConfigProperty(name="my.not.configured.nullable.property", defaultValue = ConfigProperty.NULL_VALUE)
-        private String nullableConfigValue;
 
     }
 
@@ -296,13 +244,10 @@ public class CDIPlainInjectionTest extends Arquillian {
             properties = new HashMap<>();
             properties.put("my.string.property", "text");
             properties.put("my.boolean.property", "true");
-            properties.put("my.byte.property", "127");
-            properties.put("my.short.property", "32767");
             properties.put("my.int.property", "5");
             properties.put("my.long.property", "10");
             properties.put("my.float.property", "10.5");
             properties.put("my.double.property", "11.5");
-            properties.put("my.char.property", "c");
             properties.put(DEFAULT_PROPERTY_BEAN_KEY, "pathConfigValue");
         }
 

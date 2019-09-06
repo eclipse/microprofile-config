@@ -79,6 +79,7 @@ public final class ConfigProvider {
     /**
      * Provide a {@link Config} based on all {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} of the
      * current Thread Context ClassLoader (TCCL)
+     * <p>
      * 
      * <p>
      * 

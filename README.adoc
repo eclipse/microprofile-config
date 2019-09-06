@@ -17,8 +17,6 @@
 // limitations under the License.
 //
 image:https://badges.gitter.im/eclipse/microprofile-config.svg[link="https://gitter.im/eclipse/microprofile-config"]
-image:https://img.shields.io/maven-central/v/org.eclipse.microprofile.config/microprofile-config-api.svg[link="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.eclipse.microprofile.config%22%20AND%20a%3A%22microprofile-config-api%22"]
-image:https://javadoc.io/badge/org.eclipse.microprofile.config/microprofile-config-api.svg[ link="https://javadoc.io/doc/org.eclipse.microprofile.config/microprofile-config-api"]
 
 # Configuration for MicroProfile
 
@@ -57,8 +55,7 @@ The following Implementations are available
 * Apache Geronimo Config (https://svn.apache.org/repos/asf/geronimo/components/config/trunk)
 * WebSphere Liberty 2017 March-June Beta so far (https://developer.ibm.com/wasdev/)
 * Payara Server 173 and Payara Micro 173 (https://docs.payara.fish/documentation/microprofile/config.html)
-* WildFly & Thorntail (https://github.com/smallrye/smallrye-config)
-* https://microbean.github.io/microbean-microprofile-config/[microBean(TM) MicroProfile Config]
+* WildFly / WildFly Swarm (https://github.com/wildfly-extras/wildfly-microprofile-config/)
 
 == Design
 
@@ -88,6 +85,3 @@ The whole MicroProfile config project can be built via Apache Maven
 
 `$> mvn clean install`
 
-== Contributing
-
-Do you want to contribute to this project? link:CONTRIBUTING.adoc[Find out how you can help here].

@@ -23,21 +23,21 @@ It also defines ways to extend the configuration mechanism itself via a SPI (Ser
 
 === Rationale
 
-Released binaries often contain functionality which needs to behave slightly differently depending on the deployment.
-This might be the port numbers and URLs of REST endpoints to talk to (e.g. depending on the customer for whom a WAR is deployed).
+Released binaries often contain functionality which need to behave slightly differently depending on the deployment.
+This might be different REST endpoints to talk to (e.g. depending on the customer for whom a WAR is deployed).
 Or it might even be whole features which need to be switched on and off depending on the installation.
 All this must be possible without the need to re-package the whole application binary.
 
 Microprofile-Config provides a way to achieve this goal by aggregating configuration from many different <<configsource,ConfigSources>> and presents a single merged view to the user.
 This allows the application to bundle default configuration within the application.
-It also allows to override the defaults from outside, e.g. via an environment variable a Java system property or via a container like Docker.
+It also allows to override the defaults from outside, e.g. via an environment variable a Java system property or via Docker.
 Microprofile-Config also allows to implement and register own configuration sources in a portable way, e.g. for reading configuration values from a shared database in an application cluster.
 
 
 Internally, the core Microprofile-Config mechanism is purely String/String based.
-Type-safety is intentionally only provided on top of that by using the proper <<Converter,Converters>> before handing the value out to the caller.
+Type-safety is only provided on top of that by using the proper <<Converter,Converters>> before handing the value out to the caller.
 
-The configuration key might use dot-separated blocks to prevent name conflicts. This is similar to Java package namespacing:
+The configuration key might use dot-separated to prevent name conflicts. This is similar to Java package namespacing:
 
 [source, text]
 ----
@@ -49,6 +49,4 @@ com.acme.myproject.notify.onerror=karl@mycompany,sue@mcompany
 some.library.own.config=some value
 ----
 
-
-TIP: while the above example is in the java property file syntax the actual content could also e.g. be read from a database.
 

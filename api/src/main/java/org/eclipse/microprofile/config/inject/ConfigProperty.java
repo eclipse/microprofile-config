@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -27,18 +27,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.time.temporal.ChronoUnit;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
-
+ 
 /**
  * <p>
  * Binds the injection point with a configured value.
  * Can be used to annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or {@code javax.inject.Provider<TYPE>},
  * where {@code TYPE} can be {@code String} and all types which have appropriate converters.
  * <p>
- * Injected values are the same values that would be retrieved from an injected {@link org.eclipse.microprofile.config.Config} instance
+ * Injected values are the same values that would be retrieved from an injected {@link org.eclipse.microprofile.config.Config} instance 
  * or from the instance retrieved from {@link org.eclipse.microprofile.config.ConfigProvider#getConfig()}
  *
  * <h2>Examples</h2>
@@ -48,7 +47,7 @@ import javax.inject.Qualifier;
  * The first sample injects the configured value of the {@code my.long.property} property.
  * The injected value does not change even if the underline
  * property value changes in the {@link org.eclipse.microprofile.config.Config}.
- *
+ * 
  * <p>Injecting a native value is recommended for a mandatory property and its value does not change at runtime or used by a bean with RequestScoped.
  * <p>A further recommendation is to use the built in {@code META-INF/microprofile-config.properties} file mechanism
  * to provide default values inside an Application.
@@ -58,14 +57,14 @@ import javax.inject.Qualifier;
  * &#064;ConfigProperty(name="my.long.property")
  * private Long injectedLongValue;
  * </pre>
- *
+ * 
  *
  * <h3>Injecting Optional Values</h3>
  *
- *
+ * 
  * Contrary to natively injecting, if the property is not specified, this will not lead to a DeploymentException.
- * The following code injects a Long value to the {@code my.optional.long.property}.
- * If the property does not exist, the value {@code 123} will be assigned.
+ * The following code injects a Long value to the {@code my.optional.long.property}. 
+ * If the property does not exist, the value {@code 123} will be assigned. 
  * to {@code injectedLongValue}.
  * <pre>
  * &#064;Inject
@@ -97,7 +96,6 @@ import javax.inject.Qualifier;
  * @author Ondrej Mihalyi
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- * @author <a href="mailto:tomas.langer@oracle.com">Tomas Langer</a>
  */
 @Qualifier
 @Retention(RUNTIME)
@@ -105,18 +103,8 @@ import javax.inject.Qualifier;
 public @interface ConfigProperty {
     String UNCONFIGURED_VALUE="org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
     /**
-     * Provide a way to specify {@code null} value for a property.
-     * e.g. The following example is to set the default value of {@code my.port} to null if the property is not specified in any config sources.
-     * <pre>
-     * &#064;Inject
-     * &#064;ConfigProperty(name="my.port" defaultValue=ConfigProperty.NULL_VALUE)
-     * String value;
-     * </pre>
-     */
-    String NULL_VALUE="org.eclipse.microprofile.config.configproperty.nullvalue";
-    /**
      * The key of the config property used to look up the configuration value.
-     * If it is not specified, it will be derived automatically as {@code <class_name>.<injection_point_name>},
+     * If it is not specified, it will be derived automatically as {@code <class_name>.<injetion_point_name>},
      * where {@code injection_point_name} is the field name or parameter name,
      * {@code class_name} is the fully qualified name of the class being injected to.
      * If one of the {@code class_name} or {@code injection_point_name} cannot be determined, the value has to be provided.
@@ -137,25 +125,4 @@ public @interface ConfigProperty {
      */
     @Nonbinding
     String defaultValue() default UNCONFIGURED_VALUE;
-
-    /**
-     * @see org.eclipse.microprofile.config.ConfigAccessorBuilder#evaluateVariables(boolean)
-     * @return whether variable replacement is enabled. Defaults to {@code true}.
-     */
-    @Nonbinding
-    boolean evaluateVariables() default true;
-
-    /**
-     * Only valid for injection of dynamically readable values, e.g. {@code Provider<String>}!
-     * @return {@code ChronoUnit} for {@link #cacheFor()}
-     */
-    @Nonbinding
-    ChronoUnit cacheTimeUnit() default ChronoUnit.SECONDS;
-
-    /**
-     * Only valid for injection of dynamically readable values, e.g. {@code Provider<String>}!
-     * @return how long should dynamic values be locally cached. Measured in {@link #cacheTimeUnit()}.
-     */
-    @Nonbinding
-    long cacheFor() default 0L;
 }
