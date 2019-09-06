@@ -34,6 +34,7 @@
 
 package org.eclipse.microprofile.config;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -90,7 +91,7 @@ public interface Config {
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
+     * <p>
      * If this method gets used very often then consider to locally store the configured value.
      *
      * @param <T>
@@ -101,14 +102,16 @@ public interface Config {
      *             The type into which the resolve property value should get converted
      * @return the resolved property value as an object of the requested type.
      * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type.
-     * @throws java.util.NoSuchElementException if the property isn't present in the configuration.
+     * @throws java.util.NoSuchElementException if the property isn't present in the configuration, or is present
+     *  but has an empty value.
      */
-    <T> T getValue(String propertyName, Class<T> propertyType);
+    <T> T getValue(String propertyName, Class<T> propertyType) throws IllegalArgumentException, NoSuchElementException;
 
     /**
      * Return the resolved property value with the specified type for the
-     * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
+     * specified property name from the underlying {@link ConfigSource ConfigSource}s.  The
+     * return value will be {@linkplain Optional#empty() empty} if the value is empty.
+     * <p>
      * If this method is used very often then consider to locally store the configured value.
      *
      * @param <T>
@@ -117,7 +120,7 @@ public interface Config {
      *             The configuration propertyName.
      * @param propertyType
      *             The type into which the resolve property value should be converted
-     * @return The resolved property value as an Optional of the requested type.
+     * @return The resolved property value as an {@code Optional} of the requested type.
      *
      * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type.
      */

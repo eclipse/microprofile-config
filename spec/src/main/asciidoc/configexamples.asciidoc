@@ -74,15 +74,14 @@ public class InjectedConfigUsageSample {
     @Inject
     private Config config;
 
-    //The property myprj.some.url must exist in one of the configsources, otherwise a
+    //The property myprj.some.url must have a non-empty value in one of the configsources, otherwise a
     //DeploymentException will be thrown.
     @Inject
     @ConfigProperty(name="myprj.some.url")
     private String someUrl;
-
-    //The following code injects an Optional value of myprj.some.port property.
+    //The following code injects a possibly empty value of myprj.some.port property.
     //Contrary to natively injecting the configured value this will not lead to a
-    //DeploymentException if the configured value is missing.
+    //DeploymentException if the configured value is empty.
     @Inject
     @ConfigProperty(name="myprj.some.port")
     private Optional<Integer> somePort;
@@ -90,16 +89,16 @@ public class InjectedConfigUsageSample {
     //Injects a Provider for the value of myprj.some.dynamic.timeout property to
     //resolve the property dynamically. Each invocation to Provider#get() will
     //resolve the latest value from underlying Config.
-    //The existence of configured values will get checked during startup.
+    //The validity of configured values will get checked during startup.
     //Instances of Provider<T> are guaranteed to be Serializable.
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
     private javax.inject.Provider<Long> timeout;
-    //Injects the value of the property myprj.name if specified in any of the configures, otherwise null will be injected. 
+    //Injects the value of the property myprj.name if specified in any of the configures, otherwise null will be injected.
     @Inject
     @ConfigProperty(name="myprj.name" defaultValue=ConfigProperty.NULL_VALUE)
     String name;
-    
+
     //The following code injects an Array, List or Set for the `myPets` property,
     //where its value is a comma separated value ( myPets=dog,cat,dog\\,cat)
     @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
