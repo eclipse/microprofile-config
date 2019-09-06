@@ -38,6 +38,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.Converter;
 
 /**
  * <p>
@@ -84,6 +85,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:gunnar@hibernate.org">Gunnar Morling</a>
+ * @author <a href="mailto:david.lloyd@redhat.com">David M. Lloyd</a>
  */
 @org.osgi.annotation.versioning.ProviderType
 public interface Config {
@@ -131,6 +133,18 @@ public interface Config {
      * @return the names of all configured keys of the underlying configuration.
      */
     Iterable<String> getPropertyNames();
+
+    /**
+     * Get the converter that would be used for converting instances of the given class.  The resultant converter
+     * may be an implicit converter, a built-in converter, a global converter, or any other matching
+     * converter registered in any other implementation-specific manner.  If no converter is known or available for the
+     * given class, {@code null} is returned.
+     *
+     * @param <T> the value type
+     * @param clazz the type class (must not be {@code null})
+     * @return the converter that would be used, or {@code null} if no converter is known for the given class
+     */
+    <T> Converter<T> getConverter(Class<T> clazz);
 
     /**
      * @return all currently registered {@link ConfigSource ConfigSources} sorted by descending ordinal and ConfigSource name
