@@ -46,16 +46,16 @@ If you need to access a different server then you can e.g. change the configurat
 
 [source, text]
 ----
-$> java -Dacme.myprj.some.url=http://other.server/other/endpoint -jar some.jar
+$> java -jar some.jar -Dacme.myprj.some.url=http://other.server/other/endpoint
 ----
 
 Note that this is only one example how to possibly configure your application.
 Another example is to register <<custom_configsources, Custom ConfigSources>> to e.g. pick up values from a database table, etc.
 
-If a config value is a comma(`,`) separated string, this value can be automatically converted to a multiple element array with `\` as the escape character.
+If a config value is a `,` separated string, this value can be automatically converted to a multiple element array with `\` as the escape character.
 When specifying the property `myPets=dog,cat,dog\\,cat` in a config source, the following code snippet can be used to obtain an array.
 ----
- String[] myPets = config.getValue("myPets", String[].class);
+ String[] myPets = config.getValue("myPets", String[].class); 
  //myPets = {"dog", "cat", "dog,cat"}
 ----
 
@@ -77,29 +77,24 @@ public class InjectedConfigUsageSample {
     @Inject
     @ConfigProperty(name="myprj.some.url")
     private String someUrl;
-    //The following code injects an Optional value of myprj.some.port property.
-    //Contrary to natively injecting the configured value this will not lead to a
-    //DeploymentException if the configured value is missing.
+    //The following code injects an Optional value of myprj.some.port property. 
+    //Contrary to natively injecting the configured value this will not lead to a 
+    //DeploymentException if the configured value is missing. 
     @Inject
     @ConfigProperty(name="myprj.some.port")
     private Optional<Integer> somePort;
-    //Injects a Provider for the value of myprj.some.dynamic.timeout property to
-    //resolve the property dynamically. Each invocation to Provider#get() will
+    //Injects a Provider for the value of myprj.some.dynamic.timeout property to 
+    //resolve the property dynamically. Each invocation to Provider#get() will 
     //resolve the latest value from underlying Config.
-    //The existence of configured values will get checked during startup.
-    //Instances of Provider<T> are guaranteed to be Serializable.
+    //The existence of configured values will get checked during startup. 
+    //Instances of Provider<T> are guaranteed to be Serializable. 
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
     private javax.inject.Provider<Long> timeout;
-    //Injects the value of the property myprj.name if specified in any of the configures, otherwise null will be injected. 
-    @Inject
-    @ConfigProperty(name="myprj.name" defaultValue=ConfigProperty.NULL_VALUE)
-    String name;
-    
-    //The following code injects an Array, List or Set for the `myPets` property,
+    //The following code injects an Array, List or Set for the `myPets` property, 
     //where its value is a comma separated value ( myPets=dog,cat,dog\\,cat)
     @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
-    @Inject @ConfigProperty(name="myPets") private List<String> myListPets;
+    @Inject @ConfigProperty(name="myPets") private List<String> myListPets; 
     @Inject @ConfigProperty(name="myPets") private Set<String> mySetPets;
 }
 ----

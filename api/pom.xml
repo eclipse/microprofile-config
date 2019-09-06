@@ -40,7 +40,6 @@
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.annotation.versioning</artifactId>
             <version>1.0.0</version>
-            <scope>provided</scope>
 
         </dependency>
     </dependencies>

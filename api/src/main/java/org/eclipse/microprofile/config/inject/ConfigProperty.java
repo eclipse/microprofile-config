@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -103,18 +103,8 @@ import javax.inject.Qualifier;
 public @interface ConfigProperty {
     String UNCONFIGURED_VALUE="org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
     /**
-     * Provide a way to specify {@code null} value for a property. 
-     * e.g. The following example is to set the default value of {@code my.port} to null if the property is not specified in any config sources.
-     * <pre>
-     * &#064;Inject
-     * &#064;ConfigProperty(name="my.port" defaultValue=ConfigProperty.NULL_VALUE)
-     * String value;
-     * </pre>
-     */
-    String NULL_VALUE="org.eclipse.microprofile.config.configproperty.nullvalue";
-    /**
      * The key of the config property used to look up the configuration value.
-     * If it is not specified, it will be derived automatically as {@code <class_name>.<injection_point_name>},
+     * If it is not specified, it will be derived automatically as {@code <class_name>.<injetion_point_name>},
      * where {@code injection_point_name} is the field name or parameter name,
      * {@code class_name} is the fully qualified name of the class being injected to.
      * If one of the {@code class_name} or {@code injection_point_name} cannot be determined, the value has to be provided.

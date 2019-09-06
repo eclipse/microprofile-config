@@ -59,7 +59,6 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:john.d.ament@gmail.com">John D. Ament</a>
- * @author <a href="mailto:gunnar.morling@googlemail.com">Gunnar Morling</a>
  */
 public class ConverterTest extends Arquillian {
 
@@ -127,40 +126,6 @@ public class ConverterTest extends Arquillian {
         Assert.assertNotNull(donald);
         Assert.assertEquals(donald.getName(), "DUCK",
             "The converter with the highest priority (using upper case) must be used.");
-    }
-
-    @Test
-    public void testByte() {
-        Byte value = config.getValue("tck.config.test.javaconfig.converter.bytevalue", Byte.class);
-        Assert.assertEquals(value, Byte.valueOf((byte)123));
-    }
-
-    @Test
-    public void testbyte() {
-        byte value = config.getValue("tck.config.test.javaconfig.converter.bytevalue", byte.class);
-        Assert.assertEquals(value, (byte)123);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testByte_Broken() {
-        Byte value = config.getValue("tck.config.test.javaconfig.converter.bytevalue.broken", Byte.class);
-    }
-
-    @Test
-    public void testShort() {
-        Short value = config.getValue("tck.config.test.javaconfig.converter.shortvalue", Short.class);
-        Assert.assertEquals(value, Short.valueOf((short)1234));
-    }
-
-    @Test
-    public void testshort() {
-        short value = config.getValue("tck.config.test.javaconfig.converter.shortvalue", short.class);
-        Assert.assertEquals(value, (short)1234);
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testShort_Broken() {
-        Short value = config.getValue("tck.config.test.javaconfig.converter.shortvalue.broken", Short.class);
     }
 
     @Test
@@ -232,23 +197,6 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test
-    public void testChar() {
-        Character value = config.getValue("tck.config.test.javaconfig.converter.charvalue", Character.class);
-        Assert.assertEquals(value, Character.valueOf('c'));
-    }
-
-    @Test
-    public void testchar() {
-        char value = config.getValue("tck.config.test.javaconfig.converter.charvalue", char.class);
-        Assert.assertEquals(value, 'c');
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testChar_Broken() {
-        Character value = config.getValue("tck.config.test.javaconfig.converter.charvalue.broken", Character.class);
-    }
-
-    @Test
     public void testDuration() {
         Duration value = config.getValue("tck.config.test.javaconfig.converter.durationvalue", Duration.class);
         Assert.assertEquals(value, Duration.parse("PT15M"));
@@ -309,7 +257,7 @@ public class ConverterTest extends Arquillian {
         OffsetTime parsed = OffsetTime.parse("13:45:30.123456789+02:00");
         Assert.assertEquals(value, parsed);
     }
-
+    
 
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -323,12 +271,12 @@ public class ConverterTest extends Arquillian {
         ZoneOffset parsed = ZoneOffset.of("+02:00");
         Assert.assertEquals(value, parsed);
     }
-
+    
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testZoneOffset_Broken() {
         ZoneOffset value = config.getValue("tck.config.test.javaconfig.converter.zoneoffsetvalue.broken", ZoneOffset.class);
     }
-
+    
     @Test
     public void testInstant() {
         Instant value = config.getValue("tck.config.test.javaconfig.converter.instantvalue", Instant.class);

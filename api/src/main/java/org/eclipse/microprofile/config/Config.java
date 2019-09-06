@@ -1,6 +1,6 @@
 /*
  *******************************************************************************
- * Copyright (c) 2011-2019 Contributors to the Eclipse Foundation
+ * Copyright (c) 2011-2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -26,9 +26,6 @@
  *      Extracted the Config part out of Apache DeltaSpike and proposed as Microprofile-Config
  *   2016-11-14 - Emily Jiang / IBM Corp
  *      Experiments with separate methods per type, JavaDoc, method renaming
- *   2018-04-04 - Mark Struberg, Manfred Huber, Alex Falb, Gerhard Petracek
- *      ConfigSnapshot added. Initially authored in Apache DeltaSpike fdd1e3dcd9a12ceed831dd
- *      Additional reviews and feedback by Tomas Langer.
  *
  *******************************************************************************/
 
@@ -47,11 +44,13 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * <p>If multiple {@link ConfigSource ConfigSources} are specified with
  * the same ordinal, the {@link ConfigSource#getName()} will be used for sorting.
  * <p>
- * The config objects produced via the injection model {@code @Inject Config} are guaranteed to be serializable, while
+ * The config objects produced via the injection model <pre>@Inject Config</pre> are guaranteed to be serializable, while
  * the programmatically created ones are not required to be serializable.
  * <p>
- * If one or more converters are registered for a class of a requested value then the registered {@link org.eclipse.microprofile.config.spi.Converter}
- * which has the highest {@code @javax.annotation.Priority} is used to convert the string value retrieved from the config sources.
+ * If one or more converters are registered for a class of a requested value then one of the registered converters 
+ * which has the highest priority is used to convert the string value retrieved from config sources. 
+ * The highest priority means the highest priority number.
+ * For more information about converters, see {@link org.eclipse.microprofile.config.spi.Converter}
  *
  * <h3>Usage</h3>
  *
@@ -91,7 +90,7 @@ public interface Config {
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
+     * 
      * If this method gets used very often then consider to locally store the configured value.
      *
      * @param <T>
@@ -109,7 +108,7 @@ public interface Config {
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
+     *     
      * If this method is used very often then consider to locally store the configured value.
      *
      * @param <T>
