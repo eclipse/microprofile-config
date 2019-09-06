@@ -75,7 +75,8 @@ import org.eclipse.microprofile.config.spi.Converter;
  * }
  * </pre>
  *
- * <p>See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} for accessing a configured value.
+ * <p>See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} and
+ * {@link #access(String)} for accessing a configured value.
  *
  * <p>Configured values can also be accessed via injection.
  * See {@link org.eclipse.microprofile.config.inject.ConfigProperty} for more information.
@@ -91,23 +92,33 @@ import org.eclipse.microprofile.config.spi.Converter;
 public interface Config {
 
     /**
+     * Get a configuration accessor for the given property name.  The accessor provides a means to configure the
+     * access behavior.  The implementation may or may not cache accessor instances.
+     *
+     * @param propertyName the property name to access (must not be {@code null})
+     * @return the immutable configuration accessor (not {@code null})
+     */
+    ConfigAccessor<?> access(String propertyName);
+
+    /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@link ConfigSource ConfigSources}.
      * <p>
      * If this method gets used very often then consider to locally store the configured value.
      *
-     * @param <T>
-     *             The property type
+     * @param <T>  the property type
      * @param propertyName
      *             The configuration propertyName.
      * @param propertyType
      *             The type into which the resolve property value should get converted
      * @return the resolved property value as an object of the requested type.
      * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type.
-     * @throws java.util.NoSuchElementException if the property isn't present in the configuration, or is present
+     * @throws NoSuchElementException if the property isn't present in the configuration, or is present
      *  but has an empty value.
      */
-    <T> T getValue(String propertyName, Class<T> propertyType) throws IllegalArgumentException, NoSuchElementException;
+    default <T> T getValue(String propertyName, Class<T> propertyType) throws IllegalArgumentException, NoSuchElementException {
+        return access(propertyName).convertedForType(propertyType).getValue();
+    }
 
     /**
      * Return the resolved property value with the specified type for the
@@ -116,8 +127,7 @@ public interface Config {
      * <p>
      * If this method is used very often then consider to locally store the configured value.
      *
-     * @param <T>
-     *             The property type
+     * @param <T>  the property type
      * @param propertyName
      *             The configuration propertyName.
      * @param propertyType
