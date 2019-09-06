@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * Copyright (c) 2009-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2009-2018 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -22,8 +22,6 @@
  *      Ordinal solution in Apache OpenWebBeans
  *   2011-12-28 - Mark Struberg & Gerhard Petracek
  *      Contributed to Apache DeltaSpike fb0131106481f0b9a8fd
- *   2016-07-14 - Mark Struberg
- *      Extracted the Config part out of DeltaSpike and proposed as Microprofile-Config cf41cf130bcaf5447ff8
  *   2016-11-14 - Emily Jiang / IBM Corp
  *      Methods renamed, JavaDoc and cleanup
  *
@@ -42,7 +40,16 @@ import java.util.Set;
  * The default config sources always available by default are:
  * <ol>
  * <li>System properties (ordinal=400)</li>
- * <li>Environment properties (ordinal=300)</li>
+ * <li>Environment properties (ordinal=300)
+ *    <p>Depending on the operating system type, environment variables with '.' are not always allowed.
+ *    This ConfigSource searches 3 environment variables for a given property name (e.g. {@code "com.ACME.size"}):</p>
+ *        <ol>
+ *            <li>Exact match (i.e. {@code "com.ACME.size"})</li>
+ *            <li>Replace all '.' by '_' (i.e. {@code "com_ACME_size"})</li>
+ *            <li>Replace all '.' by '_' and convert to upper case (i.e. {@code "COM_ACME_SIZE"})</li>
+ *        </ol>
+ *    <p>The first environment variable that is found is returned by this ConfigSource.</p>
+ * </li>
  * <li>/META-INF/microprofile-config.properties (ordinal=100)</li>
  * </ol>
  *
@@ -55,6 +62,10 @@ import java.util.Set;
  *
  * <p>Adding a dynamic amount of custom config sources can be done programmatically via
  * {@link org.eclipse.microprofile.config.spi.ConfigSourceProvider}.
+ *
+ *  <p>If a ConfigSource implements the {@link AutoCloseable} interface
+ *  then the {@link AutoCloseable#close()} method will be called when
+ *  the underlying {@link org.eclipse.microprofile.config.Config} is being released.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
@@ -109,7 +120,7 @@ public interface ConfigSource {
      *    <p>The first environment variable that is found is returned by this ConfigSource.</p>
      * </li>
      * <li>/META-INF/microprofile-config.properties (default ordinal=100)</li>
-     * </ol>          
+     * </ol>
      *
      *
      * Any ConfigSource part of an application will typically use an ordinal between 0 and 200.

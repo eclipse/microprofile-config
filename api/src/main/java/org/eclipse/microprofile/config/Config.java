@@ -83,7 +83,6 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:gunnar@hibernate.org">Gunnar Morling</a>
- *
  */
 @org.osgi.annotation.versioning.ProviderType
 public interface Config {
@@ -125,13 +124,13 @@ public interface Config {
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Return a collection of property names.
+     * Return all property names used in any of the underlying {@link ConfigSource ConfigSources}.
      * @return the names of all configured keys of the underlying configuration.
      */
     Iterable<String> getPropertyNames();
 
     /**
-     * @return all currently registered {@link ConfigSource configsources} sorted with descending ordinal and ConfigSource name
+     * @return all currently registered {@link ConfigSource ConfigSources} sorted by descending ordinal and ConfigSource name
      */
     Iterable<ConfigSource> getConfigSources();
 }
