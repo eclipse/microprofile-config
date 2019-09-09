@@ -92,22 +92,21 @@ If no built-in nor custom `Converter` for a requested Type `T`, an implicit Conv
 * The target type {@code T} has a public Constructor with a String parameter, or
 * The target type {@code T} has a {@code public static T parse(CharSequence)} method
 
-=== Empty value
+=== Missing value
 
-A config property can be explicitly configured with an empty value (the empty String `""`).  If a property
-is missing and no default value exists for that property, it is considered to be empty.
+A config property can be explicitly configured to indicate that a property is missing by specifying the empty String (`""`).  The property
+is then considered to be missing if no default value exists for that property.
 
 The `Config.getValue()` method will normally throw a `NoSuchElementException` when a configuration value
-is empty.  In order to allow empty values to be returned, either the `Config.getOptionalValue()`
-method must be used, or a custom converter must be specified which provides a specific value for
-the case where an empty value is returned (either implicitly due to the property being missing, or
-explicitly due to an empty value being specified for a configuration property).
+is missing.  Empty values (such as the empty string `""` or a zero-length array) cannot be returned
+unless a custom converter is specified which provides a specific value for
+the case where an empty value is desired.
 
 [NOTE]
 This behaviour allows users to _unconfigure_ a property. If a property is configured in a lower-ordinal ConfigSource with
-an undesirable value, you can set the property value to an empty string in a higher-ordinal ConfigSource to discard the lower-ordinal value.
+an undesirable value, you can set the property value to an empty string, which means missing, in a higher-ordinal ConfigSource to discard the lower-ordinal value.
 
-When processing array or collection values, any empty array or collection segments must be excluded from the
+When processing array or collection values, any missing array or collection segments must be excluded from the
 resultant array or collection.
 
 [[empty_value_table]]
