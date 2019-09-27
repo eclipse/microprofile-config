@@ -22,22 +22,14 @@
  *      Ordinal solution in Apache OpenWebBeans
  *   2011-12-28 - Mark Struberg & Gerhard Petracek
  *      Contributed to Apache DeltaSpike fb0131106481f0b9a8fd
- *   2016-07-14 - Mark Struberg
- *      Extracted the Config part out of DeltaSpike and proposed as Microprofile-Config cf41cf130bcaf5447ff8
  *   2016-11-14 - Emily Jiang / IBM Corp
  *      Methods renamed, JavaDoc and cleanup
- *
  *
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
-import java.io.Closeable;
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
-
-
 
 /**
  * <p>Implement this interfaces to provide a ConfigSource.
@@ -79,7 +71,6 @@ import java.util.function.Consumer;
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:john.d.ament@gmail.com">John D. Ament</a>
- * @author <a href="mailto:tomas.langer@oracle.com">Tomas Langer</a>
  *
  */
 public interface ConfigSource {
@@ -166,54 +157,4 @@ public interface ConfigSource {
      */
     String getName();
 
-    /**
-     * The callback should get invoked if an attribute change got detected inside the ConfigSource.
-     *
-     * @param callback will be set by the {@link org.eclipse.microprofile.config.Config} after this
-     *                 {@code ConfigSource} got created and before any configured values
-     *                 get served.
-     * @return ChangeSupport informing the {@link org.eclipse.microprofile.config.Config} implementation about support for changes by this source
-     * @see ChangeSupport
-     */
-    default ChangeSupport onAttributeChange(Consumer<Set<String>> callback) {
-        // do nothing by default. Just for compat with older ConfigSources.
-        // return unsupported to tell config that it must re-query this source every time
-        return () -> ChangeSupport.Type.UNSUPPORTED;
-    }
-
-    /**
-     * What kind of change support this config source has.
-     * <p>
-     * {@link org.eclipse.microprofile.config.Config} implementations may use this information for internal optimizations.
-     */
-    interface ChangeSupport extends Closeable, Serializable {
-
-        enum Type {
-            /**
-             * Config change is supported, this config source will invoke the callback provided by
-             * {@link ConfigSource#onAttributeChange(Consumer)}.
-             * <p>
-             * Example: File based config source that watches the file for changes
-             */
-            SUPPORTED,
-            /**
-             * Config change is not supported. Configuration values can change, though this change is not reported back.
-             * <p>
-             * Example: LDAP based config source
-             */
-            UNSUPPORTED,
-            /**
-             * Configuration values cannot change for the lifetime of this {@link ConfigSource}.
-             * <p>
-             * Example: Environment variables config source, classpath resource config source
-             */
-            IMMUTABLE
-        }
-
-        Type getType();
-
-        @Override
-        default void close() {
-        }
-    }
 }

@@ -27,7 +27,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.time.temporal.ChronoUnit;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
@@ -97,7 +96,6 @@ import javax.inject.Qualifier;
  * @author Ondrej Mihalyi
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- * @author <a href="mailto:tomas.langer@oracle.com">Tomas Langer</a>
  */
 @Qualifier
 @Retention(RUNTIME)
@@ -137,25 +135,4 @@ public @interface ConfigProperty {
      */
     @Nonbinding
     String defaultValue() default UNCONFIGURED_VALUE;
-
-    /**
-     * @see org.eclipse.microprofile.config.ConfigAccessorBuilder#evaluateVariables(boolean)
-     * @return whether variable replacement is enabled. Defaults to {@code true}.
-     */
-    @Nonbinding
-    boolean evaluateVariables() default true;
-
-    /**
-     * Only valid for injection of dynamically readable values, e.g. {@code Provider<String>}!
-     * @return {@code ChronoUnit} for {@link #cacheFor()}
-     */
-    @Nonbinding
-    ChronoUnit cacheTimeUnit() default ChronoUnit.SECONDS;
-
-    /**
-     * Only valid for injection of dynamically readable values, e.g. {@code Provider<String>}!
-     * @return how long should dynamic values be locally cached. Measured in {@link #cacheTimeUnit()}.
-     */
-    @Nonbinding
-    long cacheFor() default 0L;
 }
