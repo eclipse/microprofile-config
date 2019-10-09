@@ -22,8 +22,6 @@ image:https://javadoc.io/badge/org.eclipse.microprofile.config/microprofile-conf
 
 # Configuration for MicroProfile
 
-## Status
-
 MicroProfile Config Feature
 
 == Rationale
