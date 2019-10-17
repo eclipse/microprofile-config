@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.annotation.versioning</artifactId>
-            <version>1.0.0</version>
+            <version>1.1.0</version>
             <scope>provided</scope>
 
         </dependency>
@@ -96,12 +96,11 @@
                     </archive>
                 </configuration>
             </plugin>
-<!--
-messed up again. Too tired to battle this plugin...
+
             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-baseline-maven-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>4.3.0</version>
                 <configuration>
                     <base>
                         <version>1.3</version>
@@ -116,7 +115,6 @@ messed up again. Too tired to battle this plugin...
                     </execution>
                 </executions>
             </plugin>
--->
         </plugins>
     </build>
 
