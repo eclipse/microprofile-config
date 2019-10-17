@@ -15,7 +15,7 @@
 // limitations under the License.
 //
 
-= Configuration for Microprofile
+= Configuration for MicroProfile
 :authors: Mark Struberg, Emily Jiang, John D. Ament
 :email: struberg@apache.org, emijiang@uk.ibm.com, john.d.ament@gmail.com
 :version-label!:
@@ -33,7 +33,7 @@ endif::[]
 
 include::license-alv2.asciidoc[]
 
-== Microprofile Config
+== MicroProfile Config
 
 
 include::architecture.asciidoc[]

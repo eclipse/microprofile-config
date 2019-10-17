@@ -29,7 +29,7 @@ This happens by providing ``Converter``s in the `Config`.
 
 === Built-in Converters
 
-The following ``Converter``s are provided by MicroProfile-Config by default:
+The following ``Converter``s are provided by MicroProfile Config by default:
 
 * `boolean` and `java.lang.Boolean` , values for `true` (case insensitive) "true", "1", "YES", "Y" "ON".
   Any other value will be interpreted as `false`

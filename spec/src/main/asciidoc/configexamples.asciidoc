@@ -64,7 +64,7 @@ When specifying the property `myPets=dog,cat,dog\\,cat` in a config source, the 
 
 === Simple Dependency Injection Example
 
-Microprofile-Config also provides ways to inject configured values into your beans using the `@Inject` and the `@ConfigProperty` qualifier.
+MicroProfile Config also provides ways to inject configured values into your beans using the `@Inject` and the `@ConfigProperty` qualifier.
 
 [source, java]
 ----
