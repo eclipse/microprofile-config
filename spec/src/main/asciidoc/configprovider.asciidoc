@@ -22,7 +22,7 @@
 == Accessing or Creating a certain Configuration
 
 
-For using Microprofile-Config in a programmatic way the `ConfigProvider` class is the central point to access a configuration.
+For using MicroProfile Config in a programmatic way the `ConfigProvider` class is the central point to access a configuration.
 It allows access to different configurations (represented by a `Config` instance) based on the application in which it is used.
 The `ConfigProvider` internally delegates through to the `ConfigProviderResolver` which contains more low-level functionality.
 

@@ -53,7 +53,7 @@ com.acme.myproject.someserver.url = http://more_important.server/some/endpoint
 [[default_configsources]]
 === Default ConfigSources
 
-A Microprofile-Config implementation must provide <<ConfigSource,ConfigSources>> for the following data out of the box:
+A MicroProfile Config implementation must provide <<ConfigSource,ConfigSources>> for the following data out of the box:
 
 * System properties (default ordinal=400).
 * Environment variables (default ordinal=300).
