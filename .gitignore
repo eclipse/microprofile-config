@@ -13,5 +13,6 @@ test-output
 *.iml
 *.iwl
 *.ipr
+.vscode/
 # Ignore a release.conf for perform_release/* script usage
 release.conf
