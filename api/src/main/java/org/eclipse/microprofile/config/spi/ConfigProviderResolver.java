@@ -160,7 +160,9 @@ public abstract class ConfigProviderResolver {
      *
      * @param resolver
      *            set the instance.
+     * @deprecated This method should not be used by new applications and will be removed in a future release.
      */
+    @Deprecated
     public static void setInstance(ConfigProviderResolver resolver) {
         instance = resolver;
     }
