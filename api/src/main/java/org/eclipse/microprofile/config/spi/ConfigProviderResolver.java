@@ -62,8 +62,8 @@ public abstract class ConfigProviderResolver {
      * This ConfigBuilder will initially contain no {@link ConfigSource}. The other {@link ConfigSource} will have
      * to be added manually or discovered by calling {@link ConfigBuilder#addDiscoveredSources()}.
      *
-     * This ConfigBuilder will initially contain default {@link Converter Converters}. Any other converters will need to 
-     * be added manually. 
+     * This ConfigBuilder will initially contain default {@link Converter Converters}. Any other converters will need to
+     * be added manually.
      *
      * The ConfigProvider will not manage the Config instance internally
      * @return a fresh ConfigBuilder
@@ -91,8 +91,22 @@ public abstract class ConfigProviderResolver {
      *
      * If the given Config is associated within an Application then it will be unregistered.
      * @param config the config to be released
+     *
+     * @deprecated This method is not adequately specified and can lead to problems when a configuration is registered
+     * to multiple class loaders; please use {@link #unregisterConfig(ClassLoader)} instead.
      */
+    @Deprecated
     public abstract void releaseConfig(Config config);
+
+    /**
+     * Unregister the configuration associated with the given class loader.  If no configuration is registered,
+     * {@code null} is returned, otherwise the previously-registered configuration is returned.
+     *
+     * @param classLoader the class loader of the configuration
+     * @return the configuration which was previously registered to the class loader, or {@code null} if none was
+     *      registered
+     */
+    public abstract Config unregisterConfig(ClassLoader classLoader);
 
     /**
      * Creates a ConfigProviderResolver object
