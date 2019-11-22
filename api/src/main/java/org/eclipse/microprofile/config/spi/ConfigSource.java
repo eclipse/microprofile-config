@@ -29,7 +29,6 @@
 package org.eclipse.microprofile.config.spi;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -90,7 +89,7 @@ public interface ConfigSource {
     }
 
     /**
-     * Gets all property names known to this config source, without evaluating the values.
+     * Gets all property names known to this config source, potentially without evaluating the values.
      *
      * For backwards compatibility, there is a default implementation that just returns the keys of {@code getProperties()}
      * slower ConfigSource implementations should replace this with a more performant implementation
