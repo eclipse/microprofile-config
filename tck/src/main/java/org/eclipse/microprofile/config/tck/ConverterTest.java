@@ -19,6 +19,11 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -54,6 +59,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -416,5 +423,25 @@ public class ConverterTest extends Arquillian {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testURIConverterBroken() throws Exception {
         URI ignored = config.getValue("tck.config.test.javaconfig.converter.urivalue.broken", URI.class);
+    }
+
+    @Test
+    public void testConverterSerialization() {
+        DuckConverter original = new DuckConverter();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try (ObjectOutputStream out = new ObjectOutputStream(byteArrayOutputStream)) {
+            out.writeObject(original);
+        } catch (IOException ex) {
+            Assert.fail("Converter instance should be serializable, but could not serialize it", ex);
+        }
+        Object readObject = null;
+        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
+            readObject = in.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            Assert.fail("Converter instance should be serializable, but could not deserialize a previously serialized instance", ex);
+        }
+        assertEquals("Converted values to be equal", original.convert("Donald").getName(),
+            ((DuckConverter) ((Converter) readObject)).convert("Donald").getName());
+
     }
 }
