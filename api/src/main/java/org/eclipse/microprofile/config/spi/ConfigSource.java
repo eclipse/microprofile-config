@@ -28,6 +28,7 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -81,19 +82,21 @@ public interface ConfigSource {
      * Return the properties in this config source
      * @return the map containing the properties in this config source
      */
-    Map<String, String> getProperties();
+    default Map<String, String> getProperties() {
+        Map<String, String> props = new HashMap<>();
+        getPropertyNames().stream().forEach((prop) -> props.put(prop, getValue(prop)));
+        return props;
+    }
 
     /**
-     * Gets all property names known to this config source, without evaluating the values.
+     * Gets all property names known to this config source, potentially without evaluating the values.
      *
      * For backwards compatibility, there is a default implementation that just returns the keys of {@code getProperties()}
      * slower ConfigSource implementations should replace this with a more performant implementation
      *
      * @return the set of property keys that are known to this ConfigSource
      */
-    default Set<String> getPropertyNames() {
-        return getProperties().keySet();
-    }
+    Set<String> getPropertyNames();
 
     /**
      * Return the ordinal for this config source. If a property is specified in multiple config sources, the value
