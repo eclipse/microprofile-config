@@ -30,7 +30,6 @@ package org.eclipse.microprofile.config.spi;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -153,7 +152,8 @@ public interface ConfigSource {
         if (configOrdinal != null) {
             try {
                 return Integer.parseInt(configOrdinal);
-            } catch (final NumberFormatException ignored) {
+            } 
+            catch (final NumberFormatException ignored) {
 
             }
         }
