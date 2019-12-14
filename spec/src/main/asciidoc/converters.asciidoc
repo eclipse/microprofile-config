@@ -95,10 +95,10 @@ myPets will be "dog", "cat", "dog,cat" as an array, List or Set.
 === Automatic Converters
 If no built-in nor custom `Converter` exists for a requested Type `T`, an implicit `Converter` is automatically provided if the following conditions are met:
 
-* The target type {@code T} has a {@code public static T of(String)} method, or
-* The target type {@code T} has a {@code public static T valueOf(String)} method, or
-* The target type {@code T} has a public Constructor with a String parameter, or
-* The target type {@code T} has a {@code public static T parse(CharSequence)} method
+* The target type `T` has a `public static T of(String)` method, or
+* The target type `T` has a `public static T valueOf(String)` method, or
+* The target type `T` has a public Constructor with a `String` parameter, or
+* The target type `T` has a `public static T parse(CharSequence)` method
 
 === Cleaning up a Converter
 
