@@ -191,6 +191,7 @@
             <plugin>
                 <groupId>org.eclipse.microprofile.maven</groupId>
                 <artifactId>microprofile-maven-build-extension</artifactId>
+                <version>1.0</version>
                 <extensions>true</extensions>
             </plugin>
 
