@@ -97,8 +97,8 @@ If no built-in nor custom `Converter` exists for a requested Type `T`, an implic
 
 * The target type `T` has a `public static T of(String)` method, or
 * The target type `T` has a `public static T valueOf(String)` method, or
-* The target type `T` has a public Constructor with a `String` parameter, or
-* The target type `T` has a `public static T parse(CharSequence)` method
+* The target type `T` has a `public static T parse(CharSequence)` method, or
+* The target type `T` has a public Constructor with a `String` parameter
 
 === Cleaning up a Converter
 
