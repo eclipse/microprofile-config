@@ -31,7 +31,7 @@
 
         <links>https://osgi.org/javadoc/r6/annotation/</links>
         
-        <checkstyle.version>3.1.0</checkstyle.version>
+        <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
     </properties>
 
@@ -191,6 +191,7 @@
             <plugin>
                 <groupId>org.eclipse.microprofile.maven</groupId>
                 <artifactId>microprofile-maven-build-extension</artifactId>
+                <version>1.0</version>
                 <extensions>true</extensions>
             </plugin>
 

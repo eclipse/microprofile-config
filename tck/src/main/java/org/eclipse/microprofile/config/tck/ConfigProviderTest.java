@@ -155,15 +155,13 @@ public class ConfigProviderTest extends Arquillian {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (ObjectOutputStream out = new ObjectOutputStream(byteArrayOutputStream)) {
             out.writeObject(config);
-        } 
-        catch (IOException ex) {
+        } catch (IOException ex) {
             Assert.fail("Injected config should be serializable, but could not serialize it", ex);
         }
         Object readObject = null;
         try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
             readObject = in.readObject();
-        } 
-        catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Assert.fail("Injected config should be serializable, but could not deserialize a previously serialized instance", ex);
         }
         MatcherAssert.assertThat("Deserialized object", readObject, CoreMatchers.instanceOf(Config.class));

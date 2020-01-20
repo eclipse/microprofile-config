@@ -431,15 +431,13 @@ public class ConverterTest extends Arquillian {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (ObjectOutputStream out = new ObjectOutputStream(byteArrayOutputStream)) {
             out.writeObject(original);
-        } 
-        catch (IOException ex) {
+        } catch (IOException ex) {
             Assert.fail("Converter instance should be serializable, but could not serialize it", ex);
         }
         Object readObject = null;
         try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
             readObject = in.readObject();
-        } 
-        catch (IOException | ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Assert.fail("Converter instance should be serializable, but could not deserialize a previously serialized instance", ex);
         }
         assertEquals("Converted values to be equal", original.convert("Donald").getName(),
