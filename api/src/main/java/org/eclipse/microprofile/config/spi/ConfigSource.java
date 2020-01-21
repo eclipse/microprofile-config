@@ -84,7 +84,8 @@ public interface ConfigSource {
     Map<String, String> getProperties();
 
     /**
-     * Gets all property names known to this config source, without evaluating the values.
+     * Gets all property names known to this config source, without evaluating the values. 
+     * The returned property names may be a subset of the names of the total set of retrievable properties in this config source.
      *
      * For backwards compatibility, there is a default implementation that just returns the keys of {@code getProperties()}
      * slower ConfigSource implementations should replace this with a more performant implementation
