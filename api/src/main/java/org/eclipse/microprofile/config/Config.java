@@ -130,6 +130,7 @@ public interface Config {
     Iterable<String> getPropertyNames();
 
     /**
+     * Return the currently registered {@link ConfigSource ConfigSources}. The returned {@link Iterable} can be iterated in a thread-safe manner.
      * @return all currently registered {@link ConfigSource ConfigSources} sorted by descending ordinal and ConfigSource name
      */
     Iterable<ConfigSource> getConfigSources();
