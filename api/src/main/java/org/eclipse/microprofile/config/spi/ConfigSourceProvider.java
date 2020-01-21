@@ -30,18 +30,16 @@
 package org.eclipse.microprofile.config.spi;
 
 /**
- * <p>Implement this interfaces to provide multiple ConfigSources.
- * This is e.g. needed if there are multiple property files of a given name on the classpath
- * but they are not all known at compile time.
- *
- * <p>If a single ConfigSource exists, then there is no need
- * to register it using a custom implementation of ConfigSourceProvider, it can be
- * registered directly as a {@link ConfigSource}.
- *
- * <p>A ConfigSourceProvider will get picked up via the
+ * A provider for <em>configuration source</em> instances.
+ * <p>
+ * Implementations of this interface may supply zero or more {@linkplain ConfigSource configuration source} instances
+ * for a given application (as defined by the application's {@link ClassLoader}).
+ * <p>
+ * Instances of this interface will be {@linkplain ConfigBuilder#addDiscoveredSources() discovered} via the
  * {@link java.util.ServiceLoader} mechanism and can be registered by providing a
- * {@code META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider} file which contains
- * the fully qualified classname of the custom ConfigSourceProvider.
+ * {@code META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider}
+ * {@linkplain ClassLoader#getResource(String) resource} which contains
+ * the fully qualified class name of the custom {@code ConfigSourceProvider} implementation.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
@@ -51,11 +49,11 @@ package org.eclipse.microprofile.config.spi;
 public interface ConfigSourceProvider {
 
     /**
-     * Return the collection of {@link ConfigSource}s.
-     * For each e.g. property file, we return a single ConfigSource or an empty list if no ConfigSource exists.
+     * Return the {@link ConfigSource} instances that are provided by this provider.  An empty {@code Iterable} may
+     * be returned if no sources are to be provided.
      *
-     * @param forClassLoader the classloader which should be used if any is needed
-     * @return the {@link ConfigSource ConfigSources} to register within the {@link org.eclipse.microprofile.config.Config}.
+     * @param forClassLoader the class loader which should be used for discovery and resource loading purposes
+     * @return the {@link ConfigSource} instances to register to the configuration
      */
     Iterable<ConfigSource> getConfigSources(ClassLoader forClassLoader);
 }

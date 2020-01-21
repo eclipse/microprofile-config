@@ -32,69 +32,83 @@ package org.eclipse.microprofile.config.spi;
 import java.io.Serializable;
 
 /**
- * <p>Interface for converting configured values from String to any Java type.
- **
- * <p>Converters for the following types are provided by default:
- * <ul>
- *     <li>{@code boolean} and {@code Boolean}, values for {@code true}: (case insensitive)
- *     &quot;true&quot;, &quot;yes&quot;, &quot;Y&quot;, &quot;on&quot;, &quot;1&quot;</li>
- *     <li>{@code int} and {@code Integer}</li>
- *     <li>{@code long} and {@code Long}</li>
- *     <li>{@code float} and {@code Float}, a dot '.' is used to separate the fractional digits</li>
- *     <li>{@code double} and {@code Double}, a dot '.' is used to separate the fractional digits</li>
- *     <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
- *
- * </ul>
- *
- * <p>Custom Converters will get picked up via the {@link java.util.ServiceLoader} mechanism and and can be registered by
- * providing a file<br>
- * <code>META-INF/services/org.eclipse.microprofile.config.spi.Converter</code><br>
- * which contains the fully qualified {@code Converter} implementation class name as content.
- *
- * <p>A Converter can specify a {@code javax.annotation.Priority}.
- * If no priority is explicitly assigned, the value of 100 is assumed.
- * If multiple Converters are registered for the same type, the one with the highest priority will be used. Highest number means highest priority.
- *
- * <p>Custom Converters can also be registered programmatically via `ConfigBuilder#withConverters(Converter... converters)` or
- * `ConfigBuilder#withConverter(Class type, int priority, Converter converter)`.
- *
- * All Built In Converters have a {@code javax.annotation.Priority} of 1
- * A Converter should handle null values returning either null or a valid Object of the specified type.
- *
- * <h3>Array Converters</h3>
- *  The implementation must support the Array converter for each built-in converters and custom converters.
- *  The delimiter for the config value is ",". The escape character is "\".
- *  <code>e.g. myPets=dog,cat,dog\,cat </code>
  * <p>
- *  For the property injection, List and Set should be supported as well.
+ * A mechanism for converting configured values from {@link String} to any Java type.
  *
- *  <p>
- *  Usage:
- *  <p>
- *  <code>
- *  String[] myPets = config.getValue("myPet", String[].class);
- *  </code>
+ * <h3 id="global_converters">Global converters</h3>
  *
- *  <p>
- *  {@code @Inject @ConfigProperty(name="myPets") private String[] myPets;}
- *  <p>
- *  {@code @Inject @ConfigProperty(name="myPets") private List<String> myPets;}
+ * Converters may be global to a {@code Config} instance.  Global converters are registered
+ * either by being <a href="#discovery">discovered</a> or explicitly
+ * {@linkplain ConfigBuilder#withConverter(Class, int, Converter) added to the configuration}.
+ * <p>
+ * Global converters are automatically applied to types that match the converter's type.
  *
- *  <p>
- *  {@code @Inject @ConfigProperty(name="myPets") private Set<String> myPets;}
- *  <p>
- *  myPets will be "dog", "cat", "dog,cat"
- * <h3>Implicit Converters</h3>
+ * <h3 id="built_in_converters">Built-in converters</h3>
  *
- * <p>If no explicit Converter and no built-in Converter could be found for a certain type,
- * the {@code Config} provides an <em>Implicit Converter</em>, if</p>
+ * Global converters may be <em>built in</em>.  Such converters are provided by the implementation.  A
+ * compliant implementation must provide build-in converters for <em>at least</em> the following types:
  * <ul>
- *     <li>the target type {@code T} has a {@code public static T of(String)} method, or</li>
- *     <li>the target type {@code T} has a {@code public static T valueOf(String)} method, or</li>
- *     <li>the target type {@code T} has a {@code public static T parse(CharSequence)} method, or</li>
- *     <li>the target type {@code T} has a public Constructor with a String parameter.</li>
+ *     <li>{@code boolean} and {@code Boolean}, returning {@code true} for at least the following values (case insensitive):
+ *     <ul>
+ *         <li>{@code true}</li>
+ *         <li>{@code yes}</li>
+ *         <li>{@code y}</li>
+ *         <li>{@code on}</li>
+ *         <li>{@code 1}</li>
+ *     </ul>
+ *     <li>{@code int} and {@code Integer}, accepting (at minimum) all values accepted by the {@link Integer#parseInt(String)} method</li>
+ *     <li>{@code long} and {@code Long}, accepting (at minimum) all values accepted by the {@link Long#parseLong(String)} method</li>
+ *     <li>{@code float} and {@code Float}, accepting (at minimum) all values accepted by the {@link Float#parseFloat(String)} method</li>
+ *     <li>{@code double} and {@code Double}, accepting (at minimum) all values accepted by the {@link Double#parseDouble(String)} method</li>
+ *     <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
+ *     <li>{@code java.lang.String}</li>
  * </ul>
-
+ *
+ * <h3 id="discovery">Global converter discovery</h3>
+ *
+ * Custom global converters may be added to a configuration via the {@link java.util.ServiceLoader} mechanism, and as such can be
+ * registered by providing a {@linkplain ClassLoader#getResource(String) resource} named
+ * "{@code META-INF/services/org.eclipse.microprofile.config.spi.Converter}" which contains the fully qualified
+ * {@code Converter} implementation class name(s) (one per line) as content.
+ * <p>
+ * It is also possible to explicitly register a global converter to a {@linkplain ConfigBuilder configuration builder}
+ * using the {@link ConfigBuilder#withConverters(Converter[])} and {@link ConfigBuilder#withConverter(Class, int, Converter)}
+ * methods.
+ *
+ * <h3 id="implicit">Implicit converters</h3>
+ *
+ * If no global converter can be found for a given type, the configuration implementation must attempt to derive an
+ * <em>implicit converter</em> if any of the following are true (in order):
+ *
+ * <ul>
+ *     <li>the target type has a {@code public static T of(String)} method</li>
+ *     <li>the target type has a {@code public static T valueOf(String)} method</li>
+ *     <li>the target type has a {@code public static T parse(CharSequence)} method</li>
+ *     <li>the target type has a public constructor with a single parameter of type {@code String}</li>
+ *     <li>the target type is an array of any type corresponding to either a registered <a href="#global_converters"><em>global</em></a>
+ *     converter or a <a href="built_in_converters"><em>built in</em></a> or <em>implicit</em> converter</li>
+ * </ul>
+ *
+ * <h3 id="priority">Converter priority</h3>
+ *
+ * A converter implementation class can specify a priority by way of the standard {@code javax.annotation.Priority} annotation
+ * or by explicitly specifying the priority value to the appropriate
+ * {@linkplain ConfigBuilder#withConverter(Class, int, Converter) builder method}.
+ * If no priority is explicitly assigned, the default priority value of {@code 100} is assumed.
+ * <p>
+ * If multiple converters are registered for the same type, the one with the highest numerical priority value will be used.
+ * <p>
+ * All <em>built in</em> Converters have a priority value of {@code 1}.
+ * <em>Implicit</em> converters are only created when no other converter was found; therefore, they do not have a
+ * priority.
+ *
+ * <h3>Array conversion</h3>
+ *
+ * A conforming implementation must support the automatic creation of an <em>implicit</em> converter for array types.
+ * This converter uses a comma ({@code U+002C ','}) as a delimiter.  To allow a comma to be embedded within individual
+ * array element values, it may be escaped using a backslash ({@code U+005C '\'}) character.  Any escaped comma character
+ * will be included as a plain comma within the single element (the backslash is discarded by the converter).
+ *
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -102,11 +116,12 @@ import java.io.Serializable;
  */
 public interface Converter<T> extends Serializable {
     /**
-     * Configure the string value to a specified type
-     * @param value the string representation of a property value.
-     * @return the converted value or null
+     * Convert the given string value to a specified type.
      *
-     * @throws IllegalArgumentException if the value cannot be converted to the specified type.
+     * @param value the string representation of a property value
+     * @return the converted value, or {@code null} if the value is empty
+     *
+     * @throws IllegalArgumentException if the value cannot be converted to the specified type
      */
     T convert(String value);
 }
