@@ -26,6 +26,9 @@ import java.time.YearMonth;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceOfBeforeValueOf;
+import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceParseBeforeConstructor;
+import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceValueOfBeforeParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWCharSequenceParse;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringCt;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestTypeWStringOf;
@@ -124,4 +127,32 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertEquals(value, SomeEnumToConvert.BAZ);
         Assert.assertEquals(value.name(), "BAZ");
     }
+
+    @Test
+    public void testImplicitConverterSquenceOfBeforeValueOf() {
+        ConvTestSequenceOfBeforeValueOf value = config.getValue
+        ("tck.config.test.javaconfig.converter.implicit.sequence.ofBeforevalueOf",
+        ConvTestSequenceOfBeforeValueOf.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "ofBeforeValueOf");
+    }
+
+    @Test
+    public void testImplicitConverterSquenceValueOfBeforeParse() {
+        ConvTestSequenceValueOfBeforeParse value = config.getValue
+        ("tck.config.test.javaconfig.converter.implicit.sequence.valueOfBeforeParse",
+        ConvTestSequenceValueOfBeforeParse.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "valueOfBeforeParse");
+    }
+    @Test
+    public void testImplicitConverterSquenceParseBeforeConstructor() {
+        ConvTestSequenceParseBeforeConstructor value = config.getValue
+        ("tck.config.test.javaconfig.converter.implicit.sequence.parseBeforeConstructor",
+        ConvTestSequenceParseBeforeConstructor.class);
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "parseBeforeConstructor");
+    }
+
+
 }

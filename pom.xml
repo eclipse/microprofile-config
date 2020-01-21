@@ -163,17 +163,17 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.4</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -191,6 +191,7 @@
             <plugin>
                 <groupId>org.eclipse.microprofile.maven</groupId>
                 <artifactId>microprofile-maven-build-extension</artifactId>
+                <version>1.0</version>
                 <extensions>true</extensions>
             </plugin>
 
@@ -216,14 +217,13 @@
                     <logViolationsToConsole>true</logViolationsToConsole>
                     <checkstyleRules>
                         <module name="Checker">
-                            <module name="SuppressionCommentFilter" />
                             <module name="FileLength">
                                 <property name="max" value="3500" />
                                 <property name="fileExtensions" value="java" />
                             </module>
                             <module name="FileTabCharacter" />
                             <module name="TreeWalker">
-                                <module name="FileContentsHolder" />
+                                
                                 <module name="ConstantName">
                                     <property name="format" value="^(([A-Z][A-Z0-9]*(_[A-Z0-9]+)*))$" />
                                 </module>
@@ -291,7 +291,7 @@
             <plugin>
                 <groupId>org.apache.rat</groupId>
                 <artifactId>apache-rat-plugin</artifactId>
-                <version>0.12</version>
+                <version>0.13</version>
                 <executions>
                     <execution>
                         <id>rat-check</id>
