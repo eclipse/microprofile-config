@@ -116,7 +116,7 @@ A full list of changes delivered in the 1.4 release can be found at link:https:/
 
 === API/SPI Changes
 
-- ConfigProperty provides the _NULL_VALUE_ so that _null_ can be specified as a default value for injection.
+- ConfigProperty provides the _NULL_VALUE_ so that _null_ can be specified as a default value for injection (link:https://github.com/eclipse/microprofile-config/issues/365[#365])
 [source, java]
 ----
     //Injects the value of the property myprj.name if specified in any of the configures. 
