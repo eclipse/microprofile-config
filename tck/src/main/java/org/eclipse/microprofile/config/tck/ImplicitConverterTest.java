@@ -131,7 +131,7 @@ public class ImplicitConverterTest extends Arquillian {
     @Test
     public void testImplicitConverterSquenceOfBeforeValueOf() {
         ConvTestSequenceOfBeforeValueOf value = config.getValue
-        ("tck.config.test.javaconfig.converter.implicit.sequence.ofBeforevalueOf",
+        ("tck.config.test.javaconfig.converter.implicit.sequence.ofBeforeValueOf",
         ConvTestSequenceOfBeforeValueOf.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "ofBeforeValueOf");
