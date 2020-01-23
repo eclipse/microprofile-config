@@ -130,3 +130,18 @@ A full list of changes delivered in the 1.4 release can be found at link:https:/
 
 - Exclude EL api transitive dependency (link:https://github.com/eclipse/microprofile-config/issues/440[#440])
 - Other minor spec wording or JavaDoc updates
+
+[[release_notes_20]]
+== Release Notes for MicroProfile Config 2.0
+
+A full list of changes delivered in the 2.0 release can be found at link:https://github.com/eclipse/microprofile-config/milestone/8?closed=1[MicroProfile Config 2.0 Milestone].
+
+=== API/SPI Changes
+
+- Convenience methods have been added to Config allowing for the retrieval of multi-valued properties as lists instead of arrays (link:https://github.com/eclipse/microprofile-config/issues/496[#496])
+
+=== Spec Changes
+
+
+=== Other Changes
+

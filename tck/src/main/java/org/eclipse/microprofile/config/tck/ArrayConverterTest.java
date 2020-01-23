@@ -33,6 +33,7 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -82,7 +83,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test Boolean[] boolean[]//////////////////////////
 
     @Test
-    public void testBooleanLookupProgrammatically() {
+    public void testBooleanArrayLookupProgrammatically() {
         Boolean[] value = config.getValue("tck.config.test.javaconfig.converter.booleanvalues",
             Boolean[].class);
         Assert.assertNotNull(value);
@@ -99,7 +100,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalBooleanLookupProgrammatically() {
+    public void testOptionalBooleanArrayLookupProgrammatically() {
         Optional<Boolean[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.booleanvalues",
             Boolean[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -107,6 +108,26 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
         Assert.assertEquals(value, new Boolean[]{true, false, true});
+    }    
+
+    @Test
+    public void testBooleanListLookupProgrammatically() {
+        List<Boolean> values = config.getValues("tck.config.test.javaconfig.converter.booleanvalues",
+            Boolean.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 3);
+        Assert.assertEquals(values, Arrays.asList(true, false, true));
+    }
+
+    @Test
+    public void testOptionalBooleanListLookupProgrammatically() {
+        Optional<List<Boolean>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.booleanvalues",
+            Boolean.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Boolean> value = optionalValues.get();
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.size(), 3);
+        Assert.assertEquals(value, Arrays.asList(true, false, true));
     }    
 
     @Test
@@ -146,7 +167,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test String[] //////////////////////////
 
     @Test
-    public void testStringLookupProgrammatically() {
+    public void testStringArrayLookupProgrammatically() {
         String[] value = config.getValue("tck.config.test.javaconfig.converter.stringvalues",
             String[].class);
         Assert.assertNotNull(value);
@@ -163,7 +184,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalStringLookupProgrammatically() {
+    public void testOptionalStringArrayLookupProgrammatically() {
         Optional<String[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.stringvalues",
             String[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -171,6 +192,26 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 4);
         Assert.assertEquals(value, new String[]{"microservice", "microprofile", "m,f", "microservice"});
+    }    
+
+    @Test
+    public void testStringListLookupProgrammatically() {
+        List<String> values = config.getValues("tck.config.test.javaconfig.converter.stringvalues",
+            String.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 4);
+        Assert.assertEquals(values, Arrays.asList("microservice", "microprofile", "m,f", "microservice"));
+    }
+
+    @Test
+    public void testOptionalStringListLookupProgrammatically() {
+        Optional<List<String>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.stringvalues",
+            String.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<String> values = optionalValues.get();        
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 4);
+        Assert.assertEquals(values, Arrays.asList("microservice", "microprofile", "m,f", "microservice"));
     }    
 
     @Test
@@ -197,7 +238,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test Integer[] int[]//////////////////////////
 
     @Test
-    public void testIntLookupProgrammatically() {
+    public void testIntegerArrayLookupProgrammatically() {
         Integer[] value = config.getValue("tck.config.test.javaconfig.converter.integervalues",
             Integer[].class);
         Assert.assertNotNull(value);
@@ -214,7 +255,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalIntLookupProgrammatically() {
+    public void testOptionalIntegerArrayLookupProgrammatically() {
         Optional<Integer[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.integervalues",
             Integer[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -222,6 +263,26 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
         Assert.assertEquals(value, new Integer[]{1234, 9999});
+    }    
+
+    @Test
+    public void testIntegerListLookupProgrammatically() {
+        List<Integer> values = config.getValues("tck.config.test.javaconfig.converter.integervalues",
+            Integer.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(1234, 9999));
+    }
+
+    @Test
+    public void testOptionalIntegerListLookupProgrammatically() {
+        Optional<List<Integer>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.integervalues",
+            Integer.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Integer> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(1234, 9999));
     }    
 
     @Test
@@ -263,7 +324,7 @@ public class ArrayConverterTest extends Arquillian {
     //test Long[] support
 
     @Test
-    public void testLongLookupProgrammatically() {
+    public void testLongArrayLookupProgrammatically() {
         Long[] value = config.getValue("tck.config.test.javaconfig.converter.longvalues",
             Long[].class);
         Assert.assertNotNull(value);
@@ -280,7 +341,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalLongLookupProgrammatically() {
+    public void testOptionalLongArrayLookupProgrammatically() {
         Optional<Long[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.longvalues",
             Long[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -288,6 +349,26 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
         Assert.assertEquals(value, new Long[] {1234567890L, 1999999999L});
+    }    
+
+    @Test
+    public void testLongListLookupProgrammatically() {
+        List<Long> values = config.getValues("tck.config.test.javaconfig.converter.longvalues",
+            Long.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(1234567890L, 1999999999L));
+    }
+
+    @Test
+    public void testOptionalLongListLookupProgrammatically() {
+        Optional<List<Long>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.longvalues",
+            Long.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Long> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(1234567890L, 1999999999L));
     }    
 
     @Test
@@ -329,7 +410,7 @@ public class ArrayConverterTest extends Arquillian {
     //test Float[] support
 
     @Test
-    public void testFloatLookupProgrammatically() {
+    public void testFloatArrayLookupProgrammatically() {
         Float[] value = config.getValue("tck.config.test.javaconfig.converter.floatvalues",
             Float[].class);
         Assert.assertNotNull(value);
@@ -346,7 +427,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalFloatLookupProgrammatically() {
+    public void testOptionalFloatArrayLookupProgrammatically() {
         Optional<Float[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.floatvalues",
             Float[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -354,6 +435,26 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
         Assert.assertEquals(value, new Float[]{12.34f, 99.99f});
+    }    
+
+    @Test
+    public void testFloatListLookupProgrammatically() {
+        List<Float> values = config.getValues("tck.config.test.javaconfig.converter.floatvalues",
+            Float.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(12.34f, 99.99f));
+    }
+
+    @Test
+    public void testOptionalFloatListLookupProgrammatically() {
+        Optional<List<Float>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.floatvalues",
+            Float.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Float> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(12.34f, 99.99f));
     }    
 
     @Test
@@ -395,7 +496,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test Double[] double[]/////////////
 
     @Test
-    public void testDoubleLookupProgrammatically() {
+    public void testDoubleArrayLookupProgrammatically() {
         Double[] value = config.getValue("tck.config.test.javaconfig.converter.doublevalues",
             Double[].class);
         Assert.assertNotNull(value);
@@ -412,7 +513,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalDoubleLookupProgrammatically() {
+    public void testOptionalDoubleArrayLookupProgrammatically() {
         Optional<Double[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.doublevalues",
             Double[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -420,6 +521,26 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 2);
         Assert.assertEquals( value, new Double[]{12.34d,99.9999d});
+    }    
+
+    @Test
+    public void testDoubleListLookupProgrammatically() {
+        List<Double> values = config.getValues("tck.config.test.javaconfig.converter.doublevalues",
+            Double.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(12.34d,99.9999d));
+    }
+
+    @Test
+    public void testOptionalDoubleListLookupProgrammatically() {
+        Optional<List<Double>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.doublevalues",
+            Double.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Double> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(12.34d,99.9999d));
     }    
 
     @Test
@@ -461,7 +582,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test Duration/////////////////////
 
     @Test
-    public void testDurationLookupProgrammatically() {
+    public void testDurationArrayLookupProgrammatically() {
         Duration[] value = config.getValue("tck.config.test.javaconfig.converter.durationvalues",
             Duration[].class);
         Assert.assertNotNull(value);
@@ -482,7 +603,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalDurationLookupProgrammatically() {
+    public void testOptionalDurationArrayLookupProgrammatically() {
         Optional<Duration[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.durationvalues",
             Duration[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -492,6 +613,30 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals( value, new Duration[]{
             Duration.parse("PT15M"),
             Duration.parse("PT20M")});
+    }    
+
+    @Test
+    public void testDurationListLookupProgrammatically() {
+        List<Duration> values = config.getValues("tck.config.test.javaconfig.converter.durationvalues",
+            Duration.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            Duration.parse("PT15M"),
+            Duration.parse("PT20M")));
+    }
+
+    @Test
+    public void testOptionalDurationListLookupProgrammatically() {
+        Optional<List<Duration>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.durationvalues",
+            Duration.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Duration> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            Duration.parse("PT15M"),
+            Duration.parse("PT20M")));
     }    
 
     @Test
@@ -523,7 +668,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test LocalTime/////////////////////
 
     @Test
-    public void testLocalTimeLookupProgrammatically() {
+    public void testLocalTimeArrayLookupProgrammatically() {
         LocalTime[] value = config.getValue("tck.config.test.javaconfig.converter.localtimevalues",
             LocalTime[].class);
         Assert.assertNotNull(value);
@@ -544,7 +689,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalLocalTimeLookupProgrammatically() {
+    public void testOptionalLocalTimeArrayLookupProgrammatically() {
         Optional<LocalTime[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.localtimevalues",
             LocalTime[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -554,6 +699,30 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals( value, new LocalTime[]{
             LocalTime.parse("10:37"),
             LocalTime.parse("11:44")});
+    }    
+
+    @Test
+    public void testLocalTimeListLookupProgrammatically() {
+        List<LocalTime> values = config.getValues("tck.config.test.javaconfig.converter.localtimevalues",
+            LocalTime.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            LocalTime.parse("10:37"),
+            LocalTime.parse("11:44")));
+    }
+
+    @Test
+    public void testOptionalLocalTimeListLookupProgrammatically() {
+        Optional<List<LocalTime>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.localtimevalues",
+            LocalTime.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<LocalTime> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            LocalTime.parse("10:37"),
+            LocalTime.parse("11:44")));
     }    
 
     @Test
@@ -584,7 +753,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////Test LocalDate////////////////////////////
 
     @Test
-    public void testLocalDateLookupProgrammatically() {
+    public void testLocalDateArrayLookupProgrammatically() {
         LocalDate[] value = config.getValue("tck.config.test.javaconfig.converter.localdatevalues",
             LocalDate[].class);
         Assert.assertNotNull(value);
@@ -605,7 +774,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalLocalDateLookupProgrammatically() {
+    public void testOptionalLocalDateArrayLookupProgrammatically() {
         Optional<LocalDate[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.localdatevalues",
             LocalDate[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -615,6 +784,30 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals(value, new LocalDate[]{
             LocalDate.parse("2017-12-24"),
             LocalDate.parse("2017-11-29")});
+    }    
+
+    @Test
+    public void testLocalDateListLookupProgrammatically() {
+        List<LocalDate> values = config.getValues("tck.config.test.javaconfig.converter.localdatevalues",
+            LocalDate.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(
+            LocalDate.parse("2017-12-24"),
+            LocalDate.parse("2017-11-29")));
+    }
+
+    @Test
+    public void testOptionalLocalDateListLookupProgrammatically() {
+        Optional<List<LocalDate>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.localdatevalues",
+            LocalDate.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<LocalDate> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(
+            LocalDate.parse("2017-12-24"),
+            LocalDate.parse("2017-11-29")));
     }    
 
     @Test
@@ -645,7 +838,7 @@ public class ArrayConverterTest extends Arquillian {
     ////////////////////////Test LocalDateTime////////////////////////////
 
     @Test
-    public void testLocalDateTimeLookupProgrammatically() {
+    public void testLocalDateTimeArrayLookupProgrammatically() {
         LocalDateTime[] value = config.getValue("tck.config.test.javaconfig.converter.localdatetimevalues",
              LocalDateTime[].class);
         Assert.assertNotNull(value);
@@ -666,7 +859,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalLocalDateTimeLookupProgrammatically() {
+    public void testOptionalLocalDateTimeArrayLookupProgrammatically() {
         Optional<LocalDateTime[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.localdatetimevalues",
              LocalDateTime[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -676,6 +869,30 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals( value, new LocalDateTime[]{
             LocalDateTime.parse("2017-12-24T10:25:30"),
             LocalDateTime.parse("2017-12-24T10:25:33")});
+    }    
+
+    @Test
+    public void testLocalDateTimeListLookupProgrammatically() {
+        List<LocalDateTime> values = config.getValues("tck.config.test.javaconfig.converter.localdatetimevalues",
+             LocalDateTime.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            LocalDateTime.parse("2017-12-24T10:25:30"),
+            LocalDateTime.parse("2017-12-24T10:25:33")));
+    }
+
+    @Test
+    public void testOptionalLocalDateTimeListLookupProgrammatically() {
+        Optional<List<LocalDateTime>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.localdatetimevalues",
+             LocalDateTime.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<LocalDateTime> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            LocalDateTime.parse("2017-12-24T10:25:30"),
+            LocalDateTime.parse("2017-12-24T10:25:33")));
     }    
 
     @Test
@@ -706,7 +923,7 @@ public class ArrayConverterTest extends Arquillian {
     ////////////////////////Test OffsetDateTime////////////////////////////
 
     @Test
-    public void testOffsetDateTimeLookupProgrammatically() {
+    public void testOffsetDateTimeArrayLookupProgrammatically() {
         OffsetDateTime[] value = config.getValue("tck.config.test.javaconfig.converter.offsetdatetimevalues",
                 OffsetDateTime[].class);
         Assert.assertNotNull(value);
@@ -727,7 +944,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalOffsetDateTimeLookupProgrammatically() {
+    public void testOptionalOffsetDateTimeArrayLookupProgrammatically() {
         Optional<OffsetDateTime[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.offsetdatetimevalues",
                 OffsetDateTime[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -737,6 +954,30 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals( value, new OffsetDateTime[] {
             OffsetDateTime.parse("2007-12-03T10:15:30+01:00"),
             OffsetDateTime.parse("2007-12-03T10:15:30+02:00")});
+    }    
+
+    @Test
+    public void testOffsetDateTimeListLookupProgrammatically() {
+        List<OffsetDateTime> values = config.getValues("tck.config.test.javaconfig.converter.offsetdatetimevalues",
+                OffsetDateTime.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            OffsetDateTime.parse("2007-12-03T10:15:30+01:00"),
+            OffsetDateTime.parse("2007-12-03T10:15:30+02:00")));
+    }
+
+    @Test
+    public void testOptionalOffsetDateTimeListLookupProgrammatically() {
+        Optional<List<OffsetDateTime>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.offsetdatetimevalues",
+                OffsetDateTime.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<OffsetDateTime> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            OffsetDateTime.parse("2007-12-03T10:15:30+01:00"),
+            OffsetDateTime.parse("2007-12-03T10:15:30+02:00")));
     }    
 
     @Test
@@ -768,7 +1009,7 @@ public class ArrayConverterTest extends Arquillian {
     ////////////////////////Test OffsetTime////////////////////////////
 
     @Test
-    public void testOffsetTimeLookupProgrammatically() {
+    public void testOffsetTimeArrayLookupProgrammatically() {
         OffsetTime[] value = config.getValue("tck.config.test.javaconfig.converter.offsettimevalues",
               OffsetTime[].class);
         Assert.assertNotNull(value);
@@ -789,7 +1030,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalOffsetTimeLookupProgrammatically() {
+    public void testOptionalOffsetTimeArrayLookupProgrammatically() {
         Optional<OffsetTime[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.offsettimevalues",
               OffsetTime[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -799,6 +1040,30 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals( value, new OffsetTime[]{
             OffsetTime.parse("13:45:30.123456789+02:00"),
             OffsetTime.parse("13:45:30.123456789+03:00")});
+    }    
+
+    @Test
+    public void testOffsetTimeListLookupProgrammatically() {
+        List<OffsetTime> values = config.getValues("tck.config.test.javaconfig.converter.offsettimevalues",
+              OffsetTime.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            OffsetTime.parse("13:45:30.123456789+02:00"),
+            OffsetTime.parse("13:45:30.123456789+03:00")));
+    }
+
+    @Test
+    public void testOptionalOffsetTimeListLookupProgrammatically() {
+        Optional<List<OffsetTime>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.offsettimevalues",
+              OffsetTime.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<OffsetTime> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals( values, Arrays.asList(
+            OffsetTime.parse("13:45:30.123456789+02:00"),
+            OffsetTime.parse("13:45:30.123456789+03:00")));
     }    
 
     @Test
@@ -830,7 +1095,7 @@ public class ArrayConverterTest extends Arquillian {
 
 
     @Test
-    public void testInstantLookupProgrammatically() {
+    public void testInstantArrayLookupProgrammatically() {
         Instant[] value = config.getValue("tck.config.test.javaconfig.converter.instantvalues",
                Instant[].class);
         Assert.assertNotNull(value);
@@ -851,7 +1116,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalInstantLookupProgrammatically() {
+    public void testOptionalInstantArrayLookupProgrammatically() {
         Optional<Instant[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.instantvalues",
                Instant[].class);
         Assert.assertTrue(optionalValue.isPresent());
@@ -861,6 +1126,30 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals(value,  new Instant[]{
             Instant.parse("2015-06-02T21:34:33.616Z"),
             Instant.parse("2017-06-02T21:34:33.616Z")});
+    }    
+
+    @Test
+    public void testInstantListLookupProgrammatically() {
+        List<Instant> values = config.getValues("tck.config.test.javaconfig.converter.instantvalues",
+               Instant.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(
+            Instant.parse("2015-06-02T21:34:33.616Z"),
+            Instant.parse("2017-06-02T21:34:33.616Z")));
+    }
+
+    @Test
+    public void testOptionalInstantListLookupProgrammatically() {
+        Optional<List<Instant>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.instantvalues",
+               Instant.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Instant> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 2);
+        Assert.assertEquals(values, Arrays.asList(
+            Instant.parse("2015-06-02T21:34:33.616Z"),
+            Instant.parse("2017-06-02T21:34:33.616Z")));
     }    
 
     @Test
@@ -892,7 +1181,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test URL[] //////////////////////////
 
     @Test
-    public void testUrlLookupProgrammatically() throws MalformedURLException {
+    public void testUrlArrayLookupProgrammatically() throws MalformedURLException {
         URL[] value = config.getValue("tck.config.test.javaconfig.converter.urlvalues", URL[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
@@ -914,7 +1203,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalUrlLookupProgrammatically() throws MalformedURLException {
+    public void testOptionalUrlArrayLookupProgrammatically() throws MalformedURLException {
         Optional<URL[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.urlvalues", URL[].class);
         Assert.assertTrue(optionalValue.isPresent());
         URL[] value = optionalValue.get();
@@ -924,6 +1213,30 @@ public class ArrayConverterTest extends Arquillian {
             new URL("http://microprofile.io"),
             new URL("http://openliberty.io"),
             new URL("http://microprofile.io")});
+    }
+
+    @Test
+    public void testUrlListLookupProgrammatically() throws MalformedURLException {
+        List<URL> values = config.getValues("tck.config.test.javaconfig.converter.urlvalues", URL.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 3);
+        Assert.assertEquals(values, Arrays.asList(
+            new URL("http://microprofile.io"),
+            new URL("http://openliberty.io"),
+            new URL("http://microprofile.io")));
+    }
+
+    @Test
+    public void testOptionalUrlListLookupProgrammatically() throws MalformedURLException {
+        Optional<List<URL>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.urlvalues", URL.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<URL> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 3);
+        Assert.assertEquals(values, Arrays.asList(
+            new URL("http://microprofile.io"),
+            new URL("http://openliberty.io"),
+            new URL("http://microprofile.io")));
     }
 
 
@@ -956,7 +1269,7 @@ public class ArrayConverterTest extends Arquillian {
     ///////////////////////////////////Test URI[] //////////////////////////
 
     @Test
-    public void testUriLookupProgrammatically() {
+    public void testUriArrayLookupProgrammatically() {
         URI[] value = config.getValue("tck.config.test.javaconfig.converter.urlvalues", URI[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
@@ -978,7 +1291,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testOptionalUriLookupProgrammatically() {
+    public void testOptionalUriArrayLookupProgrammatically() {
         Optional<URI[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.urlvalues", URI[].class);
         Assert.assertTrue(optionalValue.isPresent());
         URI[] value = optionalValue.get();
@@ -991,6 +1304,30 @@ public class ArrayConverterTest extends Arquillian {
     }    
 
     @Test
+    public void testUriListLookupProgrammatically() {
+        List<URI> values = config.getValues("tck.config.test.javaconfig.converter.urlvalues", URI.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 3);
+        Assert.assertEquals(values, Arrays.asList(
+            URI.create("http://microprofile.io"),
+            URI.create("http://openliberty.io"),
+            URI.create("http://microprofile.io")));
+    }
+
+    @Test
+    public void testOptionalUriListLookupProgrammatically() {
+        Optional<List<URI>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.urlvalues", URI.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<URI> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 3);
+        Assert.assertEquals(values, Arrays.asList(
+            URI.create("http://microprofile.io"),
+            URI.create("http://openliberty.io"),
+            URI.create("http://microprofile.io")));
+    }    
+
+    @Test
     public void testUriArrayInjection() {
         Assert.assertEquals(converterBean.getMyUris().length, 3);
         Assert.assertEquals(converterBean.getMyUris(), new URI[]{
@@ -1000,7 +1337,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testURIListInjection() {
+    public void testUriListInjection() {
         Assert.assertEquals(converterBean.getMyUriList().size(), 3);
         Assert.assertEquals(converterBean.getMyUriList(), Arrays.asList(
             URI.create("http://microprofile.io"),
@@ -1009,7 +1346,7 @@ public class ArrayConverterTest extends Arquillian {
     }
 
     @Test
-    public void testURISetInjection() {
+    public void testUriSetInjection() {
         Assert.assertEquals(converterBean.getMyUriSet().size(), 2);
         Assert.assertEquals(converterBean.getMyUriSet(), new LinkedHashSet<>(Arrays.asList(
             URI.create("http://openliberty.io"),
@@ -1056,6 +1393,32 @@ public class ArrayConverterTest extends Arquillian {
             new Pizza("cheese,mushroom", "large"),
             new Pizza("chicken", "medium"),
             new Pizza("pepperoni", "small")});
+    }
+
+    @Test
+    public void testCustomTypeListLookupProgrammatically() {
+        List<Pizza> values = config.getValues("tck.config.test.javaconfig.converter.array.pizza",
+            Pizza.class);
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 3);
+        Assert.assertEquals(values, Arrays.asList(
+            new Pizza("cheese,mushroom", "large"),
+            new Pizza("chicken", "medium"),
+            new Pizza("pepperoni", "small")));
+    }
+
+    @Test
+    public void testOptionalCustomTypeListLookupProgrammatically() {
+        Optional<List<Pizza>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.array.pizza",
+            Pizza.class);
+        Assert.assertTrue(optionalValues.isPresent());
+        List<Pizza> values = optionalValues.get();
+        Assert.assertNotNull(values);
+        Assert.assertEquals(values.size(), 3);
+        Assert.assertEquals(values, Arrays.asList(
+            new Pizza("cheese,mushroom", "large"),
+            new Pizza("chicken", "medium"),
+            new Pizza("pepperoni", "small")));
     }
 
     @Test
