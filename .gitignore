@@ -16,3 +16,4 @@ test-output
 .vscode/
 # Ignore a release.conf for perform_release/* script usage
 release.conf
+spec/.DS_Store

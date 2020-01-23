@@ -112,32 +112,32 @@ Java2 security related change (link:https://github.com/eclipse/microprofile-conf
 [[release_notes_14]]
 == Release Notes for MicroProfile Config 1.4
 
-The following changes occurred in the 1.4 release, compared to 1.3
+A full list of changes delivered in the 1.4 release can be found at link:https://github.com/eclipse/microprofile-config/milestone/7?closed=1[MicroProfile Config 1.4 Milestone].
 
-A full list of changes may be found on the (link:https://github.com/eclipse/microprofile-config/milestone/7?closed=1[MicroProfile Config 1.4 Milestone])
 === API/SPI Changes
 
-- ConfigProperty provides the _NULL_VALUE_ to allow _null_ to be provided as a default value for injection.
+- ConfigProperty provides the _NULL_VALUE_ so that _null_ can be specified as a default value for injection.
 [source, java]
 ----
-    //Injects the value of the property myprj.name if specified in any of the configures, otherwise null will be injected. 
+    //Injects the value of the property myprj.name if specified in any of the configures. 
+    //Otherwise, _null_ will be injected. 
     @Inject
     @ConfigProperty(name="myprj.name" defaultValue=ConfigProperty.NULL_VALUE)
     String name;
 
 ----
 
-- Prevent incorrect caching of ConfigProviderResolver (link:https://github.com/eclipse/microprofile-config/issues/265 [#265])
-- ConfigProviderResolver classloading issues (link:https://github.com/eclipse/microprofile-config/issues/450 [#450]) (link:https://github.com/eclipse/microprofile-config/issues/390 [#390])
-- Converter extends Serializable (link:https://github.com/eclipse/microprofile-config/issues/473 [#473])
+- Prevent incorrect caching of ConfigProviderResolver (link:https://github.com/eclipse/microprofile-config/issues/265[#265])
+- ConfigProviderResolver classloading issues (link:https://github.com/eclipse/microprofile-config/issues/450[#450]) (link:https://github.com/eclipse/microprofile-config/issues/390[#390])
+- Converter extends Serializable (link:https://github.com/eclipse/microprofile-config/issues/473[#473])
 
 === Spec Changes
 
 - Change the priority of implicit converters (link:https://github.com/eclipse/microprofile-config/issues/383[#383])
-- Clarify if @ConfigProperty injected values are bean passivating enabled (link:https://github.com/eclipse/microprofile-config/issues/404 [#404])
-- Add built-in converters for byte, short and char (link:https://github.com/eclipse/microprofile-config/issues/386 [#386])
+- Clarify if @ConfigProperty injected values are bean passivating enabled (link:https://github.com/eclipse/microprofile-config/issues/404[#404])
+- Add built-in converters for byte, short and char (link:https://github.com/eclipse/microprofile-config/issues/386[#386])
 
 === Other Changes
 
 - Exclude EL api transitive dependency (link:https://github.com/eclipse/microprofile-config/issues/440[#440])
-- Other minor spec wording or JavaDoc updates 
+- Other minor spec wording or JavaDoc updates
