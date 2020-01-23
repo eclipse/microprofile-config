@@ -114,7 +114,7 @@ Java2 security related change (link:https://github.com/eclipse/microprofile-conf
 
 The following changes occurred in the 1.4 release, compared to 1.2
 
-A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/5?closed=1[MicroProfile Config 1.4 Milestone]
+A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/7?closed=1[MicroProfile Config 1.4 Milestone]
 
 === Functional Changes
 
