@@ -60,31 +60,31 @@ The following Implementations are available
 
 == Design
 
-The current configuration of an application can be accessed via `ConfigProvider#getConfig()`.
+The current configuration of an application can be accessed via _ConfigProvider#getConfig()_.
 
-A `Config` consists of the information collected from the registered `org.eclipse.microprofile.config.spi.ConfigSource` s.
-These `ConfigSource` s get sorted according to their _ordinal_.
+A _Config_ consists of the information collected from the registered _org.eclipse.microprofile.config.spi.ConfigSource_ s.
+These _ConfigSource_ s get sorted according to their _ordinal_.
 That way it is possible to overwrite configuration with lower importance from outside.
 
 By default there are 3 default ConfigSources:
 
-* `System.getProperties()` (ordinal=400)
-* `System.getenv()` (ordinal=300)
-* all `META-INF/microprofile-config.properties` files on the ClassPath.
+* _System.getProperties()_ (ordinal=400)
+* _System.getenv()_ (ordinal=300)
+* all _META-INF/microprofile-config.properties_ files on the ClassPath.
 (default ordinal=100, separately configurable via a config_ordinal property inside each file)
 
 Therefore, the default values can be specified in the above files packaged with the application and the value can be overwritten later for each deployment. A higher ordinal number takes precedence over a lower number.
 
 == Custom ConfigSources
 
-It is possible to write and register a custom `ConfigSources`.
+It is possible to write and register a custom _ConfigSources_.
 An example would be a ConfigSource which gets the configured values from a shared database table in a cluster.
 
 == Building
 
 The whole MicroProfile config project can be built via Apache Maven
 
-`$> mvn clean install`
+	$> mvn clean install
 
 == Contributing
 
