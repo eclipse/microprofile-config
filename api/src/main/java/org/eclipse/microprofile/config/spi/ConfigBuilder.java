@@ -50,7 +50,7 @@ public interface ConfigBuilder {
     ConfigBuilder addDefaultSources();
 
     /**
-     * Add the all configuration sources which can be <a href="ConfigSource.html#discovery">discovered</a> from
+     * Add all configuration sources which can be <a href="ConfigSource.html#discovery">discovered</a> from
      * this configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
      *
      * @return this configuration builder instance
@@ -58,7 +58,7 @@ public interface ConfigBuilder {
     ConfigBuilder addDiscoveredSources();
 
     /**
-     * Add the all configuration converters which can be <a href="Converter.html#discovery">discovered</a> from
+     * Add all configuration converters which can be <a href="Converter.html#discovery">discovered</a> from
      * this configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
      *
      * @return this configuration builder instance
@@ -105,7 +105,7 @@ public interface ConfigBuilder {
      * This method does not rely on reflection to determine the target type of the converter;
      * therefore, lambda expressions may be used for the converter instance.
      * <p>
-     * The priority value of custom converters is normally {@code 100}.
+     * The priority value of custom converters defaults to {@code 100} if not specified.
      *
      * @param type the class of the type to convert
      * @param priority the priority of the converter

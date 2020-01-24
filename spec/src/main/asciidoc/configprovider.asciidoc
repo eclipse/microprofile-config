@@ -31,7 +31,7 @@ There are 4 different ways to create a `Config` instance:
 * In CDI managed components, a user can use `@Inject` to access the current application configuration.
   The default and the auto discovered <<configsource,ConfigSources>> will be gathered to form a configuration.
   The default and the auto discovered <<converters,Converters>> will be gathered to form a configuration.
-  Injected instance of `Config` should behave the same as the one retrieved by `ConfigProvider.getConfig()`. 
+  Injected instance of `Config` should behave the same as the one retrieved by `ConfigProvider.getConfig()`.
   Injected config property values should be the same as if retrieved from an injected `Config` instance via `Config.getValue()`.
 
 * A factory method `ConfigProvider#getConfig()` to create a `Config` object based on automatically picked up `ConfigSources`
@@ -50,13 +50,31 @@ There are 4 different ways to create a `Config` instance:
 The builder has no config sources. Only the default converters are added. The `ConfigBuilder` object can be filled manually via methods like `ConfigBuilder#withSources(ConfigSources... sources)`.
    This configuration instance will by default not be shared by the `ConfigProvider`.
   This method is intended be used if a IoC container or any other external Factory can be used to give access to a manually created shared `Config`.
+** Create a builder:
++
+```
+ConfigProviderResolver resolver = ConfigProviderResolver.instance();
+ConfigBuilder builder = resolver.getBuilder();
+```
+** Add config sources and build:
++
+```
+Config config = builder.addDefaultSources().withSources(mySource).withConverters(myConverter).build;
+```
+** (optional) Manage the lifecycle of the config
++
+```
+resolver.registerConfig(config, classloader);
+resolver.releaseConfig(config);
+```
+
 
 The `Config` object created via builder pattern can be managed as follows:
 
 * A factory method `ConfigProviderResolver#registerConfig(Config config, ClassLoader classloader)` can be used to register a `Config` within the application.
   This configuration instance *will* be shared by `ConfigProvider#getConfig()`.
   Any subsequent call to `ConfigProvider#getConfig()` will return the registered `Config` instance for this application.
-  
+
 * A factory method `ConfigProviderResolver#releaseConfig(Config config)` to release the `Config` instance. This will unbind the current `Config` from the application.
 The <<configsource, ConfigSources>> that implement the `java.io.Closeable` interface will be properly destroyed.
 The <<converter, Converters>> that implement the `java.io.Closeable` interface will be properly destroyed.
@@ -66,7 +84,7 @@ All methods in the `ConfigProvider`, `ConfigProviderResolver` and `Config` imple
 
 The `Config` instances created via CDI are `Serializable`.
 
-If a `Config` instance is created via `@Inject Config` or `ConfigProvider#getConfig()` or via the builder pattern but later called `ConfigProviderResolver#registerConfig(Config config, Classloader classloader)`, the `Config` instance will be released when the application is closed. 
+If a `Config` instance is created via `@Inject Config` or `ConfigProvider#getConfig()` or via the builder pattern but later called `ConfigProviderResolver#registerConfig(Config config, Classloader classloader)`, the `Config` instance will be released when the application is closed.
 
 
 

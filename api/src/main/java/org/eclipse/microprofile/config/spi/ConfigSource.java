@@ -94,7 +94,7 @@ import java.util.Set;
  */
 public interface ConfigSource {
     /**
-     * The name of the default configuration ordinal property, "{@code config_ordinal}".
+     * The name of the configuration ordinal property, "{@code config_ordinal}".
      */
     String CONFIG_ORDINAL = "config_ordinal";
 
