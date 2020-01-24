@@ -31,7 +31,7 @@ package org.eclipse.microprofile.config.spi;
 import org.eclipse.microprofile.config.Config;
 
 /**
- * Builder for manually creating an instance of a {@code Config}.
+ * A builder for manually creating a configuration instance.
  *
  * @see ConfigProviderResolver#getBuilder()
  *
@@ -42,77 +42,83 @@ import org.eclipse.microprofile.config.Config;
 @org.osgi.annotation.versioning.ProviderType
 public interface ConfigBuilder {
     /**
-     * Add the default config sources appearing on the builder's classpath
-     * including:
-     * <ol>
-     * <li>System properties</li>
-     * <li>Environment properties</li>
-     * <li>/META-INF/microprofile-config.properties</li>
-     * </ol>
+     * Add the <a href="ConfigSource.html#default_config_sources"><em>default configuration sources</em></a>
+     * to the configuration being built.
      *
-     * @return the ConfigBuilder with the default config sources
+     * @return this configuration builder instance
      */
     ConfigBuilder addDefaultSources();
 
     /**
-     * Add the config sources appearing to be loaded via service loader pattern
+     * Add the all configuration sources which can be <a href="ConfigSource.html#discovery">discovered</a> from
+     * this configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
      *
-     * @return the ConfigBuilder with the autodiscovered config sources
+     * @return this configuration builder instance
      */
     ConfigBuilder addDiscoveredSources();
 
     /**
-     * Add the converters to be loaded via service loader pattern
+     * Add the all configuration converters which can be <a href="Converter.html#discovery">discovered</a> from
+     * this configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
      *
-     * @return the ConfigBuilder with the autodiscovered converters
+     * @return this configuration builder instance
      */
     ConfigBuilder addDiscoveredConverters();
+
     /**
-     * Return the ConfigBuilder for a given classloader
+     * Specify the class loader for which this configuration is being built.
      *
-     * @param loader the specified classloader
-     * @return the ConfigureBuilder for the given classloader
+     * @param loader the class loader
+     * @return this configuration builder instance
      */
     ConfigBuilder forClassLoader(ClassLoader loader);
 
     /**
-     * Add the specified {@link ConfigSource}.
+     * Add the specified {@link ConfigSource} instances to the configuration being built.
      *
-     * @param sources the config sources
-     * @return the ConfigBuilder with the configured sources
+     * @param sources the configuration sources
+     * @return this configuration builder instance
      */
     ConfigBuilder withSources(ConfigSource... sources);
 
     /**
-     * Add the specified {@link Converter}.
-     * This method uses reflection to determine what type the converter is for.
-     * When using lambda expressions for custom converters you should use
-     * {@link #withConverter(Class, int, Converter)} and pass the target type explicitly
-     * as lambda expressions do not offer enough type information to the reflection API.
+     * Add the specified {@link Converter} instances to the configuration being built.
+     * <p>
+     * The implementation may use reflection to determine the target type of the converter.  If the
+     * type cannot be determined reflectively, this method may fail with a runtime exception.
+     * <p>
+     * When using lambda expressions for custom converters you should use the
+     * {@link #withConverter(Class, int, Converter)} method and pass the target type explicitly,
+     * since lambda expressions generally do not offer enough type information to the reflection API
+     * in order to determine the target converter type.
+     * <p>
+     * The added converters will be given a priority of {@code 100}.
      *
-     * @param converters the converters
-     * @return the ConfigBuilder with the added converters
+     * @param converters the converters to add
+     * @return this configuration builder instance
      */
     ConfigBuilder withConverters(Converter<?>... converters);
 
-
     /**
-     * Add the specified {@link Converter} for the given type.
-     * This method does not rely on reflection to determine what type the converter is for
-     * therefore also lambda expressions can be used.
+     * Add the specified {@link Converter} instance for the given type to the configuration being built.
+     * <p>
+     * This method does not rely on reflection to determine the target type of the converter;
+     * therefore, lambda expressions may be used for the converter instance.
+     * <p>
+     * The priority value of custom converters is normally {@code 100}.
      *
-     * @param type the Class of type to convert
-     * @param priority the priority of the converter (custom converters have a default priority of 100).
+     * @param type the class of the type to convert
+     * @param priority the priority of the converter
      * @param converter the converter (can not be {@code null})
      * @param <T> the type to convert
-     * @return the ConfigBuilder with the added converters
+     * @return this configuration builder instance
      */
     <T> ConfigBuilder withConverter(Class<T> type, int priority, Converter<T> converter);
 
     /**
-     * Build the {@link Config} object.
+     * Build a new {@link Config} instance based on this builder instance.
      *
-     * @return the Config object
+     * @return the new configuration object
      */
     Config build();
 }

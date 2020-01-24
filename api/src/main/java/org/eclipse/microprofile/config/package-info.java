@@ -21,7 +21,7 @@
 /**
  * <p>Configuration for Java Microprofile
  *
- * <h2>Rational</h2>
+ * <h2>Rationale</h2>
  *
  * <p>For many project artifacts (e.g. WAR, EAR) it should be possible to build them only once
  * and then install them at different customers, stages, etc.
@@ -72,7 +72,7 @@
  *
  * @author <a href="emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
- * 
+ *
  */
 
 @org.osgi.annotation.versioning.Version("1.0.1")

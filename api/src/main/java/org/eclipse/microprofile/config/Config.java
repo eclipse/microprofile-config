@@ -89,48 +89,59 @@ public interface Config {
 
     /**
      * Return the resolved property value with the specified type for the
-     * specified property name from the underlying {@link ConfigSource ConfigSources}.
-     *
-     * If this method gets used very often then consider to locally store the configured value.
+     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
+     * <p>
+     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
+     * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
+     * rather than recomputing it.
      *
      * @param <T>
      *             The property type
      * @param propertyName
-     *             The configuration propertyName.
+     *             The configuration property name
      * @param propertyType
-     *             The type into which the resolve property value should get converted
-     * @return the resolved property value as an object of the requested type.
-     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type.
-     * @throws java.util.NoSuchElementException if the property isn't present in the configuration.
+     *             The type into which the resolved property value should get converted
+     * @return the resolved property value as an instance of the requested type
+     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
+     * @throws java.util.NoSuchElementException if the property isn't present in the configuration
      */
     <T> T getValue(String propertyName, Class<T> propertyType);
 
     /**
      * Return the resolved property value with the specified type for the
-     * specified property name from the underlying {@link ConfigSource ConfigSources}.
+     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
+     * <p>
+     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
+     * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
+     * rather than recomputing it.
      *
      * If this method is used very often then consider to locally store the configured value.
      *
      * @param <T>
      *             The property type
      * @param propertyName
-     *             The configuration propertyName.
+     *             The configuration property name
      * @param propertyType
-     *             The type into which the resolve property value should be converted
-     * @return The resolved property value as an Optional of the requested type.
+     *             The type into which the resolved property value should be converted
+     * @return The resolved property value as an {@code Optional} wrapping the requested type
      *
-     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type.
+     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
      */
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Return all property names used in any of the underlying {@link ConfigSource ConfigSources}.
+     * Return all property names returned by any of the underlying {@linkplain ConfigSource configuration sources}.
+     * The order of the returned property names is unspecified.
+     *
      * @return the names of all configured keys of the underlying configuration.
      */
     Iterable<String> getPropertyNames();
 
     /**
-     * @return all currently registered {@link ConfigSource ConfigSources} sorted by descending ordinal and ConfigSource name
+     * Return all of the currently registered {@linkplain ConfigSource configuration sources} for this configuration.
+     * The returned sources will be sorted by descending ordinal value and name.
+     *
+     * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();
 }

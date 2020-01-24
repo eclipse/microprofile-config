@@ -26,61 +26,62 @@ import java.util.ServiceLoader;
 import org.eclipse.microprofile.config.Config;
 
 /**
- * This class is not intended to be used by end-users but for
- * portable container integration purpose only.
- *
- * Service provider for ConfigProviderResolver. The implementation registers
- * itself via the {@link java.util.ServiceLoader} mechanism.
+ * The service provider for implementations of the MicroProfile Configuration specification.
+ * <p>
+ * This class is not intended to be used by end-users.
+ * <p>
+ * The implementation of this class should register itself via the {@link java.util.ServiceLoader} mechanism.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 public abstract class ConfigProviderResolver {
+    /**
+     * Construct a new instance.
+     */
     protected ConfigProviderResolver() {
     }
 
     private static volatile ConfigProviderResolver instance = null;
 
     /**
-     * @see org.eclipse.microprofile.config.ConfigProvider#getConfig()
-     * @return config the config object for the Thread Context Classloader
+     * Get the configuration instance for the current application in the manner described by
+     * {@link org.eclipse.microprofile.config.ConfigProvider#getConfig()}.
+     *
+     * @return the configuration instance
      */
     public abstract Config getConfig();
 
     /**
-     * @see org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)
-     * @param loader the classloader
-     * @return config the config object for the specified classloader
+     * Get the configuration instance for the current application in the manner described by
+     * {@link org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)}.
+     *
+     * @return the configuration instance
      */
     public abstract Config getConfig(ClassLoader loader);
 
     /**
-     * Create a fresh {@link ConfigBuilder} instance.
+     * Create a {@link ConfigBuilder} instance for the {@linkplain Thread#getContextClassLoader() current application}.
+     * <p>
+     * The returned configuration builder must initially contain no registered configuration sources.
+     * <p>
+     * The returned configuration builder must initially contain only
+     * <a href="Converter.html#built_in_converters">built in converters</a>.
      *
-     * This ConfigBuilder will initially contain no {@link ConfigSource}. The other {@link ConfigSource} will have
-     * to be added manually or discovered by calling {@link ConfigBuilder#addDiscoveredSources()}.
-     *
-     * This ConfigBuilder will initially contain default {@link Converter Converters}. Any other converters will need to
-     * be added manually.
-     *
-     * The ConfigProvider will not manage the Config instance internally
-     * @return a fresh ConfigBuilder
+     * @return a new configuration builder instance
      */
     public abstract ConfigBuilder getBuilder();
 
     /**
-     * Register a given {@link Config} within the Application (or Module) identified by the given ClassLoader.
-     * If the ClassLoader is {@code null} then the current Application will be used.
+     * Register the given {@link Config} instance to the application identified by the given class loader.
+     * If the class loader is {@code null}, then the current application (as identified by the
+     * {@linkplain Thread#getContextClassLoader() thread context class loader}) will be used.
      *
-     * @param config
-     *          which should get registered
-     * @param classLoader
-     *          which identifies the Application or Module the given Config should get associated with.
+     * @param config the configuration to register
+     * @param classLoader the class loader identifying the application
      *
-     * @throws IllegalStateException
-     *          if there is already a Config registered within the Application.
-     *          A user could explicitly use {@link #releaseConfig(Config)} for this case.
+     * @throws IllegalStateException if there is already a configuration registered for the application
      */
     public abstract void registerConfig(Config config, ClassLoader classLoader);
 
@@ -94,9 +95,11 @@ public abstract class ConfigProviderResolver {
     public abstract void releaseConfig(Config config);
 
     /**
-     * Creates a ConfigProviderResolver object
-     * Only used internally from within {@link org.eclipse.microprofile.config.ConfigProvider}
-     * @return ConfigProviderResolver an instance of ConfigProviderResolver
+     * Find and return the provider resolver instance.  If the provider resolver instance was already found,
+     * or was manually specified, that instance is returned.  Otherwise, {@link ServiceLoader} is used to
+     * locate the first implementation that is visible from the class loader that defined this class.
+     *
+     * @return the provider resolver instance
      */
     public static ConfigProviderResolver instance() {
         if (instance == null) {
@@ -124,11 +127,15 @@ public abstract class ConfigProviderResolver {
     }
 
     /**
-     * Set the instance. It is used by OSGi environment while service loader
-     * pattern is not supported.
+     * Set the instance. It is used by OSGi environments that do not support
+     * <a href="https://osgi.org/specification/osgi.cmpn/7.0.0/service.loader.html">the service loader</a>
+     * pattern.
+     * <p>
+     * Note that calling this method after a different provider instance was {@linkplain #instance() already retrieved}
+     * can lead to inconsistent results.  Mixing usage of this method with the service loader
+     * pattern is for this reason strongly discouraged.
      *
-     * @param resolver
-     *            set the instance.
+     * @param resolver the instance to set, or {@code null} to unset the instance
      */
     public static void setInstance(ConfigProviderResolver resolver) {
         instance = resolver;

@@ -19,31 +19,16 @@
  *******************************************************************************/
 
 /**
- * <p>This package contains classes which are used to extend the standard functionality in a portable way.
- * <p>A user can provide own {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} and
- * {@link org.eclipse.microprofile.config.spi.Converter Converters} to extend the information available in the Config.
+ * This package contains classes which are used to implement the configuration API, and to extend the standard
+ * configuration functionality in a portable way.
+ * <p>
+ * Users and frameworks may provide custom {@link org.eclipse.microprofile.config.spi.ConfigSource} and
+ * {@link org.eclipse.microprofile.config.spi.Converter} instances.  Configuration instances may be set up and created
+ * using the {@link org.eclipse.microprofile.config.spi.ConfigBuilder} API.
+ * <p>
+ * The package also contains the class {@link org.eclipse.microprofile.config.spi.ConfigProviderResolver},
+ * which is used to implement the specification itself.
  *
- * <p>The package also contains the class {@link org.eclipse.microprofile.config.spi.ConfigProviderResolver}
- * which is used to pick up the actual implementation.
- * <h2>Usage</h2>
- * <p>This is used to build up a builder and manually add {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}..</p>
- *
- *
- * <ol>
- * <li>Create a builder:
- * <pre>ConfigProviderResolver resolver = ConfigProviderResolver.instance(); </pre>
- * <pre>ConfigBuilder builder = resolver.getBuilder();</pre>
- * </li>
- * <li>Add config sources and build:
- * <pre>
- * Config config = builder.addDefaultSources().withSources(mySource).withConverters(myConverter).build;
- * </pre>
- * </li>
- * <li>(optional)Manage the lifecycle of the config
- * <pre> resolver.registerConfig(config, classloader);</pre>
- * <pre> resolver.releaseConfig(config);</pre>
- * </li>
- * </ol>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  *

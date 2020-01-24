@@ -36,25 +36,26 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 /**
  * <p>
  * This is the central class to access a {@link Config}.
- * A {@link Config} provides access to application Configuration.
- * That might be auto-discovered {@code Config} or even manually created one.
+ * A {@link Config} provides access to the application's configuration.
+ * It may have been automatically discovered, or manually created and registered.
  *
  * <p>
  * The default usage is to use {@link #getConfig()} to automatically pick up the
- * 'Configuration' for the Thread Context ClassLoader (See
- * {@link Thread#getContextClassLoader()}).
+ * <em>configuration</em> for the current thread's {@linkplain Thread#getContextClassLoader() context class loader}.
  *
  * <p>
- * A 'Configuration' consists of the information collected from the registered {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
- * These {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} get sorted according to
- * their <em>ordinal</em> defined via {@link org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal()}.
- * Thus it is possible to overwrite configuration by providing in a ConfigSource with higher importance from outside.
+ * A <em>configuration</em> consists of information collected from the registered
+ * <em>{@linkplain org.eclipse.microprofile.config.spi.ConfigSource configuration sources}</em>, combined with the set of
+ * registered {@linkplain org.eclipse.microprofile.config.spi.Converter converters}.
+ * The <em>configuration sources</em> get sorted according to their
+ * <em>{@linkplain org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal() ordinal value}</em>.
+ * Thus it is possible to override a lower-priority <em>configuration source</em> with a higher-priority one.
  *
  * <p>
- * It is also possible to register custom {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} to flexibly
- * extend the configuration mechanism. An example would be to pick up
+ * It is also possible to register custom <em>configuration sources</em> to flexibly
+ * extend the configuration mechanism. For example, a configuration source could be provided which reads
  * configuration values from a database table.
- *
+ * <p>
  * Example usage:
  *
  * <pre>
@@ -62,7 +63,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * Integer port = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.port&quot;, Integer.class);
  * </pre>
  *
- * For more advanced use cases like e.g. registering a manually created {@link Config} please see
+ * For more advanced use cases (e.g. registering a manually created {@link Config} instance), please see
  * {@link ConfigProviderResolver#registerConfig(Config, ClassLoader)} and {@link ConfigProviderResolver#getBuilder()}.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -76,30 +77,29 @@ public final class ConfigProvider {
     }
 
     /**
-     * Provide a {@link Config} based on all {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} of the
-     * current Thread Context ClassLoader (TCCL)
-     * 
+     * Get the {@linkplain Config configuration} corresponding to the current application, as defined by the
+     * calling thread's {@linkplain Thread#getContextClassLoader() context class loader}.
      * <p>
-     * 
-     * The {@link Config} will be stored for future retrieval.
+     * The {@link Config} instance will be created and registered to the context class loader if no such configuration
+     * is already created and registered.
      * <p>
-     * There is exactly a single Config instance per ClassLoader
+     * Each class loader corresponds to exactly one configuration.
      *
-     * @return the config object for the thread context classloader
+     * @return the configuration instance for the thread context class loader
      */
     public static Config getConfig() {
         return ConfigProviderResolver.instance().getConfig();
     }
 
     /**
-     * Provide a {@link Config} based on all {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources} of the
-     * specified ClassLoader
-     *
+     * Get the {@linkplain Config configuration} for the application corresponding to the given class loader instance.
      * <p>
-     * There is exactly a single Config instance per ClassLoader
+     * The {@link Config} instance will be created and registered to the given class loader if no such configuration
+     * is already created and registered.
+     * <p>
+     * Each class loader corresponds to exactly one configuration.
      *
-     * @param cl the specified classloader
-     * @return the config for the specified classloader
+     * @return the configuration instance for the given class loader
      */
     public static Config getConfig(ClassLoader cl) {
         return ConfigProviderResolver.instance().getConfig(cl);
