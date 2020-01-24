@@ -53,7 +53,8 @@ import java.util.Set;
  * <ol>
  * <li>{@linkplain System#getProperties() System properties}, with an {@linkplain #getOrdinal() ordinal value} of {@code 400}</li>
  * <li>{@linkplain System#getenv() Environment properties}, with an ordinal value of {@code 300}</li>
- * <li>The {@code /META-INF/microprofile-config.properties} {@linkplain ClassLoader#getResource(String) resource}, with an ordinal value of {@code 100}</li>
+ * <li>The {@code /META-INF/microprofile-config.properties} {@linkplain ClassLoader#getResource(String) resource}, 
+ * with an ordinal value of {@code 100}</li>
  * </ol>
  *
  * <h3>Environment variable name mapping rules</h3>
