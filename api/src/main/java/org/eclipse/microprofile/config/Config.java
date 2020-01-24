@@ -139,7 +139,7 @@ public interface Config {
 
     /**
      * Return all of the currently registered {@linkplain ConfigSource configuration sources} for this configuration.
-     * The returned sources will be sorted by descending ordinal value and name.
+     * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe manner.
      *
      * @return the configuration sources
      */
