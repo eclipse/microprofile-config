@@ -96,11 +96,6 @@ public class InjectedConfigUsageSample {
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
     private javax.inject.Provider<Long> timeout;
-    //Injects the value of the property myprj.name if specified in any of the configures, otherwise null will be injected. 
-    @Inject
-    @ConfigProperty(name="myprj.name" defaultValue=ConfigProperty.NULL_VALUE)
-    String name;
-    
     //The following code injects an Array, List or Set for the `myPets` property,
     //where its value is a comma separated value ( myPets=dog,cat,dog\\,cat)
     @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
