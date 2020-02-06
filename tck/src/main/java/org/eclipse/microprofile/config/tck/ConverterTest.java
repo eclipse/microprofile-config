@@ -60,8 +60,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -106,7 +104,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testDonaldConversionWithLambdaConverter() {
         Config newConfig = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+            .withConverter(Donald.class, 100, Donald::iLikeDonald)
             .build();
         Donald donald = newConfig.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
         Assert.assertNotNull(donald);
@@ -119,10 +117,10 @@ public class ConverterTest extends Arquillian {
         // Order must not matter, the lambda with the upper case must always be used as it has the highest priority
         Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
             .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+            .withConverter(Donald.class, 100, Donald::iLikeDonald)
             .build();
         Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+            .withConverter(Donald.class, 100, Donald::iLikeDonald)
             .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
             .build();
 
@@ -410,7 +408,7 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testURLConverterBroken() throws Exception {
+    public void testURLConverterBroken() {
         URL ignored = config.getValue("tck.config.test.javaconfig.converter.urlvalue.broken", URL.class);
     }
 
@@ -421,7 +419,7 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testURIConverterBroken() throws Exception {
+    public void testURIConverterBroken() {
         URI ignored = config.getValue("tck.config.test.javaconfig.converter.urivalue.broken", URI.class);
     }
 
@@ -440,8 +438,8 @@ public class ConverterTest extends Arquillian {
         } catch (IOException | ClassNotFoundException ex) {
             Assert.fail("Converter instance should be serializable, but could not deserialize a previously serialized instance", ex);
         }
-        assertEquals("Converted values to be equal", original.convert("Donald").getName(),
-            ((DuckConverter) ((Converter) readObject)).convert("Donald").getName());
+        Assert.assertEquals(((DuckConverter) ((Converter) readObject)).convert("Donald").getName(),
+            original.convert("Donald").getName(),"Converted values to be equal");
 
     }
 }
