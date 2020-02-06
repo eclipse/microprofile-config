@@ -104,7 +104,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testDonaldConversionWithLambdaConverter() {
         Config newConfig = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, Donald::iLikeDonald)
+            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
             .build();
         Donald donald = newConfig.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
         Assert.assertNotNull(donald);
@@ -117,10 +117,10 @@ public class ConverterTest extends Arquillian {
         // Order must not matter, the lambda with the upper case must always be used as it has the highest priority
         Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
             .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
-            .withConverter(Donald.class, 100, Donald::iLikeDonald)
+            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
             .build();
         Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, Donald::iLikeDonald)
+            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
             .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
             .build();
 
@@ -408,7 +408,7 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testURLConverterBroken() {
+    public void testURLConverterBroken() throws Exception {
         URL ignored = config.getValue("tck.config.test.javaconfig.converter.urlvalue.broken", URL.class);
     }
 
@@ -419,7 +419,7 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testURIConverterBroken() {
+    public void testURIConverterBroken() throws Exception {
         URI ignored = config.getValue("tck.config.test.javaconfig.converter.urivalue.broken", URI.class);
     }
 
