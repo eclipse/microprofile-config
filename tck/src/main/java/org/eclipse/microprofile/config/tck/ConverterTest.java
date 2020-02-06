@@ -439,7 +439,7 @@ public class ConverterTest extends Arquillian {
             Assert.fail("Converter instance should be serializable, but could not deserialize a previously serialized instance", ex);
         }
         Assert.assertEquals(((DuckConverter) ((Converter) readObject)).convert("Donald").getName(),
-            original.convert("Donald").getName(),"Converted values to be equal");
+             original.convert("Donald").getName(),"Converted values to be equal");
 
     }
 }
