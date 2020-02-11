@@ -60,8 +60,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
@@ -440,8 +438,8 @@ public class ConverterTest extends Arquillian {
         } catch (IOException | ClassNotFoundException ex) {
             Assert.fail("Converter instance should be serializable, but could not deserialize a previously serialized instance", ex);
         }
-        assertEquals("Converted values to be equal", original.convert("Donald").getName(),
-            ((DuckConverter) ((Converter) readObject)).convert("Donald").getName());
+        Assert.assertEquals(((DuckConverter) ((Converter) readObject)).convert("Donald").getName(),
+             original.convert("Donald").getName(),"Converted values to be equal");
 
     }
 }
