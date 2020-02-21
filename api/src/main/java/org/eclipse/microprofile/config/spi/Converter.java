@@ -86,7 +86,7 @@ import java.io.Serializable;
  *     <li>the target type has a {@code public static T parse(CharSequence)} method</li>
  *     <li>the target type has a public constructor with a single parameter of type {@code String}</li>
  *     <li>the target type is an array of any type corresponding to either a registered <a href="#global_converters"><em>global</em></a>
- *     converter or a <a href="built_in_converters"><em>built in</em></a> or <em>implicit</em> converter</li>
+ *     converter or a <a href="#built_in_converters"><em>built in</em></a> or <em>implicit</em> converter</li>
  * </ul>
  *
  * <h3 id="priority">Converter priority</h3>
