@@ -45,7 +45,12 @@ public class CdiOptionalInjectionTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "cdiOptionalInjectionTest.jar")
                 .addClasses(CdiOptionalInjectionTest.class, OptionalValuesBean.class)
-                .addAsManifestResource(new StringAsset("my.optional.int.property=1234\nmy.optional.string.property=hello"),
+                .addAsManifestResource(
+                    new StringAsset(
+                        "my.optional.int.property=1234\n" +
+                        "my.optional.long.property=1234\n" +
+                        "my.optional.double.property=1234.5\n" +
+                        "my.optional.string.property=hello"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -68,6 +73,15 @@ public class CdiOptionalInjectionTest extends Arquillian {
         Assert.assertEquals(optionalValuesBean.getStringValue().get(), "hello");
 
         Assert.assertFalse(optionalValuesBean.getNotExistingStringProperty().isPresent());
+
+        Assert.assertTrue(optionalValuesBean.getOptionalIntProperty().isPresent());
+        Assert.assertEquals(optionalValuesBean.getOptionalIntProperty().getAsInt(), 1234);
+
+        Assert.assertTrue(optionalValuesBean.getOptionalLongProperty().isPresent());
+        Assert.assertEquals(optionalValuesBean.getOptionalLongProperty().getAsLong(), 1234);
+
+        Assert.assertTrue(optionalValuesBean.getOptionalDoubleProperty().isPresent());
+        Assert.assertEquals(optionalValuesBean.getOptionalDoubleProperty().getAsDouble(), 1234.5);
     }
 
     @Test

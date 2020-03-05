@@ -82,11 +82,18 @@ public class InjectedConfigUsageSample {
     private String someUrl;
 
     //The following code injects an Optional value of myprj.some.port property.
-    //Contrary to natively injecting the configured value this will not lead to a
-    //DeploymentException if the configured value is missing.
+    //Contrary to natively injecting the configured value will not lead to a
+    //DeploymentException if the value is missing.
     @Inject
     @ConfigProperty(name="myprj.some.port")
     private Optional<Integer> somePort;
+
+    // You can also use the specialized Optional classes like OptionalInt,
+    // OptionalDouble and OptionalLong to perform inject. The configured value
+    // will not lead to a DeploymentException if the value is missing.
+    @Inject
+    @ConfigProperty(name="myprj.some.port")
+    private OptionalInt somePort;
 
     //Injects a Provider for the value of myprj.some.dynamic.timeout property to
     //resolve the property dynamically. Each invocation to Provider#get() will

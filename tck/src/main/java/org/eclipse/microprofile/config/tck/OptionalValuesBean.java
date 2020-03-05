@@ -24,6 +24,9 @@ package org.eclipse.microprofile.config.tck;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
@@ -47,6 +50,18 @@ public class OptionalValuesBean {
     private Optional<String> stringValue;
 
     @Inject
+    @ConfigProperty(name="my.optional.int.property")
+    private OptionalInt optionalIntProperty;
+
+    @Inject
+    @ConfigProperty(name="my.optional.long.property")
+    private OptionalLong optionalLongProperty;
+
+    @Inject
+    @ConfigProperty(name="my.optional.double.property")
+    private OptionalDouble optionalDoubleProperty;
+
+    @Inject
     public void setStringValue(@ConfigProperty(name="my.optional.string.property") Optional<String> stringValue) {
         this.stringValue = stringValue;
     }
@@ -65,5 +80,17 @@ public class OptionalValuesBean {
 
     public Optional<String> getNotExistingStringProperty() {
         return notExistingStringProperty;
+    }
+
+    public OptionalInt getOptionalIntProperty() {
+        return optionalIntProperty;
+    }
+
+    public OptionalLong getOptionalLongProperty() {
+        return optionalLongProperty;
+    }
+
+    public OptionalDouble getOptionalDoubleProperty() {
+        return optionalDoubleProperty;
     }
 }
