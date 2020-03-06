@@ -77,11 +77,17 @@ public class CdiOptionalInjectionTest extends Arquillian {
         Assert.assertTrue(optionalValuesBean.getOptionalIntProperty().isPresent());
         Assert.assertEquals(optionalValuesBean.getOptionalIntProperty().getAsInt(), 1234);
 
+        Assert.assertFalse(optionalValuesBean.getOptionalNotExistingIntProperty().isPresent());
+
         Assert.assertTrue(optionalValuesBean.getOptionalLongProperty().isPresent());
         Assert.assertEquals(optionalValuesBean.getOptionalLongProperty().getAsLong(), 1234);
 
+        Assert.assertFalse(optionalValuesBean.getOptionalNotExistingLongProperty().isPresent());
+
         Assert.assertTrue(optionalValuesBean.getOptionalDoubleProperty().isPresent());
         Assert.assertEquals(optionalValuesBean.getOptionalDoubleProperty().getAsDouble(), 1234.5);
+
+        Assert.assertFalse(optionalValuesBean.getOptionalNotExistingDoubleProperty().isPresent());
     }
 
     @Test
