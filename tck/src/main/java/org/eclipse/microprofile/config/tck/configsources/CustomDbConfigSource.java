@@ -21,6 +21,7 @@ package org.eclipse.microprofile.config.tck.configsources;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -41,12 +42,6 @@ public class CustomDbConfigSource implements ConfigSource {
     public int getOrdinal() {
         return 112;
     }
-
-    @Override
-    public Map<String, String> getProperties() {
-        return readPropertiesFromDb();
-    }
-
     @Override
     public String getValue(String key) {
         return readPropertyFromDb(key);
@@ -57,12 +52,14 @@ public class CustomDbConfigSource implements ConfigSource {
         return "customDbConfig";
     }
 
-    private Map<String, String> readPropertiesFromDb() {
-        return configValues;
-    }
-
     private String readPropertyFromDb(String key) {
         return configValues.get(key);
+    }
+
+    @Override
+    public Set<String> getPropertyNames() {
+        
+        return configValues.keySet();
     }
 
 

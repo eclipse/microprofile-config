@@ -1,6 +1,6 @@
 /*
  ******************************************************************************
- * Copyright (c) 2009-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2009-2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -28,6 +28,7 @@
  *******************************************************************************/
 package org.eclipse.microprofile.config.spi;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -108,10 +109,16 @@ public interface ConfigSource {
      *
      * @return a map containing properties of this configuration source
      */
-    Map<String, String> getProperties();
+    default Map<String, String> getProperties() {
+        Map<String, String> props = new HashMap<>();
+        getPropertyNames().stream().forEach((prop) -> props.put(prop, getValue(prop)));
+        return props;
+    }
+
+
 
     /**
-     * Gets all property names known to this configuration source, without evaluating the values.
+     * Gets all property names known to this configuration source, potentially without evaluating the values.
      * <p>
      * For backwards compatibility, there is a default implementation that just returns the keys of {@code getProperties()}.
      * Implementations should consider replacing this with a more performant implementation.
@@ -120,9 +127,7 @@ public interface ConfigSource {
      *
      * @return a set of property names that are known to this configuration source
      */
-    default Set<String> getPropertyNames() {
-        return getProperties().keySet();
-    }
+    Set<String> getPropertyNames();
 
     /**
      * Return the ordinal priority value of this configuration source.
