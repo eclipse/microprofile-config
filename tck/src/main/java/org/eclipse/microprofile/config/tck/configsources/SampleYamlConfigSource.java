@@ -22,6 +22,7 @@ package org.eclipse.microprofile.config.tck.configsources;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -41,11 +42,6 @@ public class SampleYamlConfigSource implements ConfigSource {
     }
 
     @Override
-    public Map<String, String> getProperties() {
-        return config;
-    }
-
-    @Override
     public String getValue(String key) {
         return config.get(key);
     }
@@ -53,6 +49,12 @@ public class SampleYamlConfigSource implements ConfigSource {
     @Override
     public String getName() {
         return null;
+    }
+
+    @Override
+    public Set<String> getPropertyNames() {
+        
+        return config.keySet();
     }
 
 }

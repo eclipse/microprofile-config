@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
@@ -309,6 +310,11 @@ public class CDIPlainInjectionTest extends Arquillian {
         @Override
         public String getName() {
             return this.getClass().getName();
+        }
+
+        @Override
+        public Set<String> getPropertyNames() {
+            return properties.keySet();
         }
     }
 }
