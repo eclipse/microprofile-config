@@ -54,7 +54,7 @@ import java.util.Set;
  * <ol>
  * <li>{@linkplain System#getProperties() System properties}, with an {@linkplain #getOrdinal() ordinal value} of {@code 400}</li>
  * <li>{@linkplain System#getenv() Environment properties}, with an ordinal value of {@code 300}</li>
- * <li>The {@code /META-INF/microprofile-config.properties} {@linkplain ClassLoader#getResource(String) resource}, 
+ * <li>The {@code /META-INF/microprofile-config.properties} {@linkplain ClassLoader#getResource(String) resource},
  * with an ordinal value of {@code 100}</li>
  * </ol>
  *
@@ -124,6 +124,13 @@ public interface ConfigSource {
      * Implementations should consider replacing this with a more performant implementation.
      * <p>
      * The returned property names may be a subset of the names of the total set of retrievable properties in this config source.
+     * <p>
+     * The returned set is not required to allow concurrent or multi-threaded iteration; however, if the same set is
+     * returned by multiple calls to this method, then the implementation must support concurrent and multi-threaded
+     * iteration of that set.
+     * <p>
+     * The set of keys returned <em>may</em> be a point-in-time snapshot, or <em>may</em> change over time (even
+     * during active iteration) to reflect dynamic changes to the available set of keys.
      *
      * @return a set of property names that are known to this configuration source
      */
