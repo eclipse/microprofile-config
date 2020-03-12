@@ -130,8 +130,25 @@ public interface Config {
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Return all property names returned by any of the underlying {@linkplain ConfigSource configuration sources}.
-     * The order of the returned property names is unspecified.
+     * Returns a sequence of configuration property names. The order of the returned property names is unspecified.
+     * <p>
+     * The returned property names are unique; that is, if a name is returned once by a given iteration, it will not be
+     * returned again during that same iteration.
+     * <p>
+     * There is no guarantee about the completeness or currency of the names returned, nor is there any guarantee that a
+     * name that is returned by the iterator will resolve to a non-empty value or be found in any configuration source
+     * associated with the configuration; for example, it is allowed for this method to return an empty set always.
+     * However, the implementation <em>should</em> return a set of names that is useful to a
+     * user that wishes to browse the configuration.
+     * <p>
+     * It is implementation-defined whether the returned names reflect a point-in-time "snapshot" of names, or an
+     * aggregation of multiple point-in-time "snapshots", or a more dynamic view of the available property names.
+     * Implementations are not required to return the same sequence of names on each iteration; however, the produced
+     * {@link java.util.Iterator Iterator} must adhere to the contract of that class, and must not return any more
+     * elements once its {@link java.util.Iterator#hasNext() hasNext()} method returns {@code false}.
+     * <p>
+     * The returned instance is thread safe and may be iterated concurrently.  The individual iterators are not
+     * thread-safe.
      *
      * @return the names of all configured keys of the underlying configuration.
      */
