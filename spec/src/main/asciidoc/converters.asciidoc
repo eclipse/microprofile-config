@@ -35,10 +35,10 @@ The following ``Converter``s are provided by MicroProfile Config by default:
   Any other value will be interpreted as `false`
 * `byte` and `java.lang.Byte`
 * `short` and `java.lang.Short`
-* `int` and `java.lang.Integer`
-* `long` and `java.lang.Long`
-* `float` and `java.lang.Float` , a dot '.' is used to separate the fractional digits
-* `double` and `java.lang.Double` , a dot '.' is used to separate the fractional digits
+* `int`, `java.lang.Integer`, and `java.util.OptionalInt`
+* `long`, `java.lang.Long`, and `java.util.OptionalLong`
+* `float` and `java.lang.Float`; a dot '.' is used to separate the fractional digits
+* `double`, `java.lang.Double`, and `java.util.OptionalDouble`; a dot '.' is used to separate the fractional digits
 * `char` and `java.lang.Character`
 * `java.lang.Class` based on the result of `Class.forName`
 
