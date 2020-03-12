@@ -33,7 +33,7 @@ A higher `ordinal` means that the values taken from this `ConfigSource` will ove
 This allows a configuration to be customized from outside a binary, assuming that external `ConfigSource` s have higher `ordinal` values than the ones whose values originate within the release binaries.
 
 It can also be used to implement a drop-in configuration approach.
-Simply create a jar containing a `ConfigSource` with a higher ordinal and override configuration values in it.
+Simply create a jar containing a `ConfigSource` with a higher ordinal and override or clear configuration values in it.
 If the jar is present on the classpath then it will override configuration values from <<ConfigSource,ConfigSources>> with lower `ordinal` values.
 
 === Manually defining the Ordinal of a built-in ConfigSource

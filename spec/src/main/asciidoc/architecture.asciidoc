@@ -30,7 +30,7 @@ All this must be possible without the need to re-package the whole application b
 
 MicroProfile Config provides a way to achieve this goal by aggregating configuration from many different <<configsource,ConfigSources>> and presents a single merged view to the user.
 This allows the application to bundle default configuration within the application.
-It also allows to override the defaults from outside, e.g. via an environment variable a Java system property or via a container like Docker.
+It also allows to override or clear the defaults from outside, e.g. via an environment variable a Java system property or via a container like Docker.
 MicroProfile Config also allows to implement and register own configuration sources in a portable way, e.g. for reading configuration values from a shared database in an application cluster.
 
 
