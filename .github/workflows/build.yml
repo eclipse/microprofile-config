@@ -1,0 +1,47 @@
+name: MicroProfile Config Build
+
+on:
+  push:
+    paths-ignore:
+      - 'editorconfig'
+      - '.gitattributes'
+      - '.gitignore'
+      - 'CONTRIBUTING*'
+      - 'CODEOWNERS'
+      - 'KEYS'
+      - 'LICENSE'
+      - 'NOTICE'
+      - 'README*'
+      - 'site.yaml'
+  pull_request:
+    paths-ignore:
+      - 'editorconfig'
+      - '.gitattributes'
+      - '.gitignore'
+      - 'CONTRIBUTING*'
+      - 'CODEOWNERS'
+      - 'KEYS'
+      - 'LICENSE'
+      - 'NOTICE'
+      - 'README*'
+      - 'site.yaml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [8, 11]
+    name: build with jdk ${{matrix.java}}
+
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout
+
+      - uses: actions/setup-java@v1.3.0
+        name: set up jdk ${{matrix.java}}
+        with:
+          java-version: ${{matrix.java}}
+
+      - name: build with maven
+        run: mvn verify
