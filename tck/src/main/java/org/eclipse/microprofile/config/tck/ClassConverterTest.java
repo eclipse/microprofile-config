@@ -76,6 +76,17 @@ public class ClassConverterTest extends Arquillian {
     }
 
     @Test
+    public void testGetClassConverter() {
+        Class<?> testClass = config.getConverter(Class.class).get()
+            .convert("org.eclipse.microprofile.config.tck.ClassConverterTest");
+        assertEquals(testClass, ClassConverterTest.class);
+        Class<?>[] testClasses = config.getConverter(Class[].class).get()
+            .convert("org.eclipse.microprofile.config.tck.ClassConverterTest,java.lang.String");
+        assertEquals(testClasses.length, 2);
+        assertEquals(testClasses, new Class[]{ClassConverterTest.class, String.class});
+    }
+
+    @Test
     public void testConverterForClassLoadedInBean() {
         assertEquals(classConverterBean.getTestClass(), ClassConverterTest.class);
         assertEquals(classConverterBean.getTestClasses().length, 2);

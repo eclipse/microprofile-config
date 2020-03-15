@@ -121,4 +121,64 @@ public class CustomConverterTest extends Arquillian {
         char value = config.getValue("tck.config.test.javaconfig.custom.converter.charvalue", char.class);
         Assert.assertEquals(value, 'r');
     }
+
+    @Test
+    public void testGetIntegerConverter() {
+        Integer value = config.getConverter(Integer.class).get().convert("1");
+        Assert.assertEquals(value, Integer.valueOf(999));
+    }
+
+    @Test
+    public void testGetIntPrimitiveConverter() {
+        int value = config.getConverter(int.class).get().convert("1");
+        Assert.assertEquals(value, 999);
+    }
+
+    @Test
+    public void testGetLongConverter() {
+        Long value = config.getConverter(Long.class).get().convert("1");
+        Assert.assertEquals(value, Long.valueOf(999));
+    }
+
+    @Test
+    public void testGetLongPrimitiveConverter() {
+        long value = config.getConverter(long.class).get().convert("1");
+        Assert.assertEquals(value, 999);
+    }
+
+    @Test
+    public void testGetDoubleConverter() {
+        Double value = config.getConverter(Double.class).get().convert("1.0");
+        Assert.assertEquals(value, 999.9);
+    }
+
+    @Test
+    public void testGetDoublePrimitiveConverter() {
+        double value = config.getConverter(double.class).get().convert("1.0");
+        Assert.assertEquals(value, 999.9);
+    }
+
+    @Test
+    public void testGetBooleanConverter() {
+        Boolean value = config.getConverter(Boolean.class).get().convert("false");
+        Assert.assertEquals(value, Boolean.TRUE);
+    }
+
+    @Test
+    public void testGetBooleanPrimitiveConverter() {
+        boolean value = config.getConverter(boolean.class).get().convert("false");
+        Assert.assertTrue(value);
+    }
+
+    @Test
+    public void testGetCharacterConverter() {
+        Character value = config.getConverter(Character.class).get().convert("c");
+        Assert.assertEquals(value, Character.valueOf('r'));
+    }
+
+    @Test
+    public void testGetCharPrimitiveConverter() {
+        char value = config.getConverter(char.class).get().convert("c");
+        Assert.assertEquals(value, 'r');
+    }
 }
