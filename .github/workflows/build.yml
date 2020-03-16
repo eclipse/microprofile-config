@@ -37,6 +37,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: checkout
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
 
       - uses: actions/setup-java@v1.3.0
         name: set up jdk ${{matrix.java}}
