@@ -22,7 +22,7 @@
     <packaging>pom</packaging>
     <name>MicroProfile Config</name>
     <description>Eclipse MicroProfile Config Feature :: Parent POM</description>
-    <url>http://microprofile.io</url>
+    <url>https://microprofile.io</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,16 +56,19 @@
 
     <developers>
         <developer>
+            <id>Emily-Jiang</id>
             <name>Emily Jiang</name>
             <url>https://github.com/Emily-Jiang</url>
             <organization>IBM</organization>
             <organizationUrl>https://www.ibm.com</organizationUrl>
         </developer>
         <developer>
+            <id>struberg</id>
             <name>Mark Struberg</name>
             <url>https://github.com/struberg</url>
         </developer>
         <developer>
+            <id>OndrejM</id>
             <name>Ondro Mihalyi</name>
             <url>https://github.com/OndrejM</url>
             <organization>Payara Services</organization>

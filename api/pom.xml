@@ -30,6 +30,7 @@
     <artifactId>microprofile-config-api</artifactId>
     <name>MicroProfile Config API</name>
     <description>MicroProfile Config :: API</description>
+    <url>https://microprofile.io/project/eclipse/microprofile-config</url>
     <dependencies>
         <dependency>
             <groupId>jakarta.enterprise</groupId>
