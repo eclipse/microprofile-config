@@ -6,5 +6,7 @@ Import-Package: \
     *
 
 Bundle-SymbolicName: org.eclipse.microprofile.config
-Bundle-Name: MicroProfile Config Bundle
-Bundle-License: Apache License, Version 2.0
+
+# For reproducible builds
+-noextraheaders: true
+-snapshot: SNAPSHOT
