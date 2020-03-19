@@ -23,13 +23,14 @@
         <version>2.0-SNAPSHOT</version>
     </parent>
 
-<properties>
-        <bnd.baseline.include.distribution.management>false</bnd.baseline.include.distribution.management>
-</properties>
+    <properties>
+        <bnd.version>5.0.0</bnd.version>
+    </properties>
     <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-api</artifactId>
     <name>MicroProfile Config API</name>
     <description>MicroProfile Config :: API</description>
+    <url>https://microprofile.io/project/eclipse/microprofile-config</url>
     <dependencies>
         <dependency>
             <groupId>jakarta.enterprise</groupId>
@@ -41,7 +42,6 @@
             <artifactId>org.osgi.annotation.versioning</artifactId>
             <version>1.1.0</version>
             <scope>provided</scope>
-
         </dependency>
     </dependencies>
 
@@ -74,8 +74,7 @@
             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-maven-plugin</artifactId>
-                <version>3.4.0</version>
-
+                <version>${bnd.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -85,27 +84,24 @@
                 </executions>
             </plugin>
             <plugin>
-
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <Bundle-SymbolicName>org.eclipse.microprofile.config</Bundle-SymbolicName>
-                    <Bundle-Name>MicroProfile config bundle</Bundle-Name>
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>bnd-baseline-maven-plugin</artifactId>
-                <version>4.3.0</version>
+                <version>${bnd.version}</version>
                 <configuration>
                     <base>
                         <version>1.3</version>
                     </base>
-                 </configuration>
+                    <includeDistributionManagement>false</includeDistributionManagement>
+                </configuration>
                 <executions>
                     <execution>
                         <id>baseline</id>
