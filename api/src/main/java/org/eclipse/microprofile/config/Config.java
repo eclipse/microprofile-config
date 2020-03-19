@@ -37,6 +37,7 @@ package org.eclipse.microprofile.config;
 import java.util.Optional;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.Converter;
 
 /**
  * <p>
@@ -161,4 +162,15 @@ public interface Config {
      * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();
+
+    /**
+     * Return the {@link Converter} used by this instance to produce instances of the specified type from string values.
+     *
+     * @param <T>
+     *             the conversion type
+     * @param forType
+     *             the type to be produced by the converter
+     * @return an {@link Optional} containing the converter, or empty if no converter is available for the specified type
+     */
+    <T> Optional<Converter<T>> getConverter(Class<T> forType);
 }

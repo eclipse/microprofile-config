@@ -154,5 +154,69 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertEquals(value.getVal(), "parseBeforeConstructor");
     }
 
+    @Test
+    public void testGetImplicitConverterStringCtConverter() {
+        ConvTestTypeWStringCt value = config.getConverter(ConvTestTypeWStringCt.class).get().convert("stringCt");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "stringCt");
+    }
 
+    @Test
+    public void testGetImplicitConverterStringValueOfConverter() {
+        ConvTestTypeWStringValueOf value = config.getConverter(ConvTestTypeWStringValueOf.class).get()
+            .convert("stringValueOf");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "stringValueOf");
+    }
+    @Test
+    public void testGetImplicitConverterStringOfConverter() {
+        ConvTestTypeWStringOf value = config.getConverter(ConvTestTypeWStringOf.class).get().convert("stringOf");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "stringOf");
+    }
+    
+    @Test
+    public void testGetImplicitConverterCharSequenceParseConverter() {
+        ConvTestTypeWCharSequenceParse value = config.getConverter(ConvTestTypeWCharSequenceParse.class).get()
+            .convert("charSequenceParse");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "charSequenceParse");
+    }
+    @Test
+    public void testGetImplicitConverterCharSequenceParseJavaTimeConverter() {
+        YearMonth value = config.getConverter(YearMonth.class).get().convert("2017-12");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value, YearMonth.parse("2017-12"));
+    }
+    
+    @Test
+    public void testGetImplicitConverterEnumValueOfConverter() {
+        SomeEnumToConvert value = config.getConverter(SomeEnumToConvert.class).get().convert("BAZ");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value, SomeEnumToConvert.BAZ);
+        Assert.assertEquals(value.name(), "BAZ");
+    }
+
+    @Test
+    public void testGetImplicitConverterSquenceOfBeforeValueOfConverter() {
+        ConvTestSequenceOfBeforeValueOf value = config.getConverter(ConvTestSequenceOfBeforeValueOf.class).get()
+            .convert("ofBeforeValueOf");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "ofBeforeValueOf");
+    }
+
+    @Test
+    public void testGetImplicitConverterSquenceValueOfBeforeParseConverter() {
+        ConvTestSequenceValueOfBeforeParse value = config.getConverter(ConvTestSequenceValueOfBeforeParse.class).get()
+            .convert("valueOfBeforeParse");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "valueOfBeforeParse");
+    }
+    @Test
+    public void testGetImplicitConverterSquenceParseBeforeConstructorConverter() {
+        ConvTestSequenceParseBeforeConstructor value = config.getConverter(ConvTestSequenceParseBeforeConstructor.class).get()
+            .convert("parseBeforeConstructor");
+        Assert.assertNotNull(value);
+        Assert.assertEquals(value.getVal(), "parseBeforeConstructor");
+    }
 }
