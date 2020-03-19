@@ -56,10 +56,15 @@ import java.io.Serializable;
  *         <li>{@code on}</li>
  *         <li>{@code 1}</li>
  *     </ul>
- *     <li>{@code int} and {@code Integer}, accepting (at minimum) all values accepted by the {@link Integer#parseInt(String)} method</li>
- *     <li>{@code long} and {@code Long}, accepting (at minimum) all values accepted by the {@link Long#parseLong(String)} method</li>
+ *     <li>{@code byte} and {@code Byte}, accepting (at minimum) all values accepted by the {@link Byte#parseByte(String)} method</li>
+ *     <li>{@code short} and {@code Short}, accepting (at minimum) all values accepted by the {@link Byte#parseByte(String)} method</li>
+ *     <li>{@code int}, {@code Integer}, and {@code OptionalInt} accepting (at minimum) all values accepted by the {@link Integer#parseInt(String)}
+ *     method</li>
+ *     <li>{@code long}, {@code Long}, and {@code OptionalLong} accepting (at minimum) all values accepted by the {@link Long#parseLong(String)}
+ *     method</li>
  *     <li>{@code float} and {@code Float}, accepting (at minimum) all values accepted by the {@link Float#parseFloat(String)} method</li>
- *     <li>{@code double} and {@code Double}, accepting (at minimum) all values accepted by the {@link Double#parseDouble(String)} method</li>
+ *     <li>{@code double}, {@code Double}, and {@code OptionalDouble} accepting (at minimum) all values accepted by the
+ *     {@link Double#parseDouble(String)} method</li>
  *     <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
  *     <li>{@code java.lang.String}</li>
  * </ul>
