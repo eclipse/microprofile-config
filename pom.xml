@@ -31,6 +31,7 @@
 
         <links>https://osgi.org/javadoc/osgi.annotation/7.0.0/</links>
 
+        <bnd.version>5.0.1</bnd.version>
         <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
     </properties>
@@ -102,9 +103,14 @@
         <module>tck</module>
         <module>spec</module>
     </modules>
-
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>biz.aQute.bnd</groupId>
+                <artifactId>biz.aQute.bnd.annotation</artifactId>
+                <version>${bnd.version}</version>
+                <scope>provided</scope>
+            </dependency>
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -122,6 +128,18 @@
                 <version>1.1.13.Final</version>
                 <scope>import</scope>
                 <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.service.cdi</artifactId>
+                <version>1.0.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>osgi.annotation</artifactId>
+                <version>7.0.0</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

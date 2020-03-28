@@ -24,12 +24,16 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.osgi.annotation.bundle.Requirement.Resolution.OPTIONAL;
+import static org.osgi.service.cdi.CDIConstants.CDI_EXTENSION_PROPERTY;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
+
+import org.osgi.annotation.bundle.Requirement;
 
 /**
  * <p>
@@ -100,6 +104,15 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RUNTIME)
 @Target({METHOD, FIELD, PARAMETER, TYPE})
+/*
+ * Two @Requirement annotations are defined so that the result is a _weak requirement_.
+ * One requirement is resolution:=optional which means that at runtime, if satisfied,
+ * it will be wired, otherwise it is simply ignored. Another requirement is
+ * effective:=active which means it is not visible at runtime, but applicable during
+ * assembly where an effectviness of _active_ is specified.
+ */
+@Requirement(namespace = CDI_EXTENSION_PROPERTY, name = "org.eclipse.microprofile.config", effective = "active")
+@Requirement(namespace = CDI_EXTENSION_PROPERTY, name = "org.eclipse.microprofile.config", resolution = OPTIONAL)
 public @interface ConfigProperty {
     String UNCONFIGURED_VALUE="org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
     /**

@@ -1,12 +1,30 @@
 -exportcontents: \
     org.eclipse.microprofile.*
 
-Import-Package: \
-    javax.enterprise.util;version="[1.1,3)", \
-    *
-
 Bundle-SymbolicName: org.eclipse.microprofile.config
 
 # For reproducible builds
 -noextraheaders: true
 -snapshot: SNAPSHOT
+
+# Apply OSGi Portable Java Contracts [1] with "active" effectiveness so that
+# they are not strict runtime requirements. This removes the need to import
+# packages with versions.
+-contract: *;effective:=active
+
+# Simulate the JavaCDI contract since the compile dependencies used do not
+# provide them.
+-define-contract: \
+    osgi.contract;\
+        osgi.contract=JavaCDI;\
+        version:List<Version>='2.0,1.1';\
+        uses:='\
+            javax.decorator,\
+            javax.enterprise.context,\
+            javax.enterprise.context.spi,\
+            javax.enterprise.event,\
+            javax.enterprise.inject,\
+            javax.enterprise.inject.spi,\
+            javax.enterprise.util'
+
+# [1] https://www.osgi.org/portable-java-contract-definitions/
