@@ -116,6 +116,17 @@ public interface ConfigBuilder {
     <T> ConfigBuilder withConverter(Class<T> type, int priority, Converter<T> converter);
 
     /**
+     * Set the configuration profile.
+     * Once the configuration profile is set, the configuration property {@code %profile.config.name} overrides the property {@code config.name} 
+     * in the same configuration source. 
+     * The configuration value for the property {@code config.name} is retrieved from a configuration source with the highest ordinal. 
+     * The value is set by the property {@code %profile.config.name} if exists. Otherwise, the value is taken from the property {@code config.name}.
+     * @param profile the configuration profile name (must not be {@code null})
+     * @return this builder
+     */
+    ConfigBuilder withProfile(String profile);
+    
+    /**
      * Build a new {@link Config} instance based on this builder instance.
      *
      * @return the new configuration object
