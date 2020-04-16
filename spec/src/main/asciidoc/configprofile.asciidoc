@@ -1,0 +1,66 @@
+//
+// Copyright (c) 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// Contributors:
+// Emily Jiang
+
+
+[[configprofile]]
+== Config Profile
+
+Config Profile indicates the project phase, such as dev, testing, live, etc. 
+=== Specify Config Profile
+
+The config profile can be specified via a system property `mp.config.profile`. It can be set when starting your microservice, e.g.
+[source, text]
+----
+java -jar myapp.jar -Dmp.config.profile=testing
+----
+The property is only read once on microservice starting. Any changes after that is ignored. Furthermore, the value is a singular. If it contains a comma, such as `testing, live`, 
+if value of `mp.config.profile` is `testing, live` as a single profile instead of two profiles.
+
+=== How Config Profile works
+
+In supporting the Config Profile, the config property names will need to start with the naming convention of `%configProfile%`, (e.g. `%live%vehicle.name`).
+
+For an instance, a config source can be specified as follows.
+
+[source, text]
+----
+%dev%vehicle.name=car
+%live%vehicle.name=train
+%testing%vehicle.name=bike
+----
+
+In the above config source, if the system property `mp.config.profile` is set to `dev`. The `vehicleName` in the following snippet will be resolved to be `car`.
+Similarly, it will be `train` if the `mp.config.profile` is set to `live`, `bike` if the profile is `testing`.
+
+[source, text]
+----
+@Inject @ConfigProperty(name="vehicle.name") String vehicleName;
+----
+When resolving the above injection, this Config spec implementations must first search for the value of `mp.config.profile` and then retrieve the value of the config property `%${mp.config.profile}%vehicle.name`,
+with the consideration of config source hierarchy specified via ordinal. It means if more than one config source contains the same property `%${mp.config.profile}%vehicle.name`, 
+the value from the config source with the highest ordinal will be used. If no value is found, the value of the config name `vehicle.name` will be retrieved.
+
+The above algorithm applies to the following programmatic lookup as well.
+
+[source, text]
+----
+String vehicleName = ConfigProvider.getConfig().getValue("vehicle.name", String.class);
+
+----
