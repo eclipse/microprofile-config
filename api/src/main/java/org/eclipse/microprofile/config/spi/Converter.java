@@ -35,7 +35,7 @@ import java.io.Serializable;
  * <p>
  * A mechanism for converting configured values from {@link String} to any Java type.
  *
- * <h3 id="global_converters">Global converters</h3>
+ * <h2 id="global_converters">Global converters</h2>
  *
  * Converters may be global to a {@code Config} instance.  Global converters are registered
  * either by being <a href="#discovery">discovered</a> or explicitly

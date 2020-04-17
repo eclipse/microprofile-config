@@ -57,7 +57,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * If one or more converters are registered for a class of a requested value then the registered {@link org.eclipse.microprofile.config.spi.Converter}
  * which has the highest {@code @javax.annotation.Priority} is used to convert the string value retrieved from the config sources.
  *
- * <h3>Usage</h3>
+ * <h2>Usage</h2>
  *
  * For accessing the config you can use the {@link ConfigProvider}:
  *
