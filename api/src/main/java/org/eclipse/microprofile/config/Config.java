@@ -34,9 +34,6 @@
 
 package org.eclipse.microprofile.config;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -92,6 +89,15 @@ import org.eclipse.microprofile.config.spi.Converter;
 public interface Config {
 
     /**
+     * Return a {@link ConfigValueResolver} for more sophisticated use cases than basic resolution using
+     * {@link #getValue(String, Class)}.
+     *
+     * @param propertyName The configuration property name to resolve later on using the {@link ConfigValueResolver}
+     * @return a new instance of a {@link ConfigValueResolver} for the provided property
+     */
+    ConfigValueResolver getValue(String propertyName);
+
+    /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
      * <p>
@@ -110,30 +116,6 @@ public interface Config {
      * @throws java.util.NoSuchElementException if the property isn't present in the configuration
      */
     <T> T getValue(String propertyName, Class<T> propertyType);
-
-    /**
-     * Return the resolved property values with the specified type for the
-     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
-     * <p>
-     * The configuration values are not guaranteed to be cached by the implementation, and may be expensive
-     * to compute; therefore, if the returned values are intended to be frequently used, callers should consider storing
-     * rather than recomputing them.
-     *
-     * @param <T>
-     *             The property type
-     * @param propertyName
-     *             The configuration property name
-     * @param propertyType
-     *             The type into which the resolved property values should get converted
-     * @return the resolved property values as a list of instances of the requested type
-     * @throws java.lang.IllegalArgumentException if the property values cannot be converted to the specified type
-     * @throws java.util.NoSuchElementException if the property isn't present in the configuration
-     */
-    default <T> List<T> getValues(String propertyName, Class<T> propertyType) {
-        @SuppressWarnings("unchecked")
-        Class<T[]> arrayType = (Class<T[]>) Array.newInstance(propertyType, 0).getClass();
-        return Arrays.asList(getValue(propertyName, arrayType));
-    }
 
     /**
      * Return the resolved property value with the specified type for the
@@ -156,30 +138,6 @@ public interface Config {
      * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
      */
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
-
-    /**
-     * Return the resolved property values with the specified type for the
-     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
-     * <p>
-     * The configuration values are not guaranteed to be cached by the implementation, and may be expensive
-     * to compute; therefore, if the returned values are intended to be frequently used, callers should consider storing
-     * rather than recomputing them.
-     *
-     * @param <T>
-     *             The property type
-     * @param propertyName
-     *             The configuration property name
-     * @param propertyType
-     *             The type into which the resolved property values should be converted
-     * @return The resolved property values as an {@code Optional} wrapping a list of the requested type
-     *
-     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
-     */
-    default <T> Optional<List<T>> getOptionalValues(String propertyName, Class<T> propertyType) {
-        @SuppressWarnings("unchecked")
-        Class<T[]> arrayType = (Class<T[]>) Array.newInstance(propertyType, 0).getClass();
-        return getOptionalValue(propertyName, arrayType).map(Arrays::asList);
-    }
 
     /**
      * Returns a sequence of configuration property names. The order of the returned property names is unspecified.
