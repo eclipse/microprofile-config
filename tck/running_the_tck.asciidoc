@@ -58,6 +58,11 @@ The following environment variable and their values must be present in the test 
 * `MY_BOOLEAN_PROPERTY` with the value `true`
 * `my_string_property` with the value `haha`
 * `MY_STRING_PROPERTY` with the value `woohoo`
+* `MP_TCK_ENV_DUMMY` with the value `dummy`
+
+The following system properties and their values must be present in the test runner environment:
+
+* `mp.tck.prop.dummy` with the value `dummy`
 
 See below for an example configuration to provide these environment variables in a Maven pom.xml.
 
@@ -97,11 +102,15 @@ If you use Apache Maven then the tests are run via the `maven-surefire-plugin`
                 </suiteXmlFiles>
                 <!-- These env variables are required for org.eclipse.configjsr.CDIPropertyNameMatchingTest -->
                 <environmentVariables>
+                    <MP_TCK_ENV_DUMMY>dummy</MP_TCK_ENV_DUMMY>
                     <my_int_property>45</my_int_property>
                     <MY_BOOLEAN_PROPERTY>true</MY_BOOLEAN_PROPERTY>
                     <my_string_property>haha</my_string_property>
                     <MY_STRING_PROPERTY>woohoo</MY_STRING_PROPERTY>
                 </environmentVariables>
+                <systemProperties>
+                    <mp.tck.prop.dummy>dummy</mp.tck.prop.dummy>
+                </systemProperties>
             </configuration>
         </plugin>
     </plugins>

@@ -88,28 +88,20 @@ public class ConfigProviderTest extends Arquillian {
 
     @Test
     public void testEnvironmentConfigSource() {
-        Map<String, String> env = System.getenv();
-        Properties properties = System.getProperties();
-        for (Map.Entry<String, String> envEntry : env.entrySet()) {
-            String key = envEntry.getKey();
-            if(!properties.containsKey(key)) {
-                String value = envEntry.getValue();
-                String cfgValue = config.getValue(key, String.class);
-                Assert.assertEquals(value, cfgValue, "The property "+key+" did not have the expected value.");
-            }
-        }
+        Assert.assertNotNull(config.getValue("path", String.class));
+        String value = System.getenv().get("MP_TCK_ENV_DUMMY");
+        Assert.assertNotNull(value);
+        Assert.assertEquals("dummy", value);
+        Assert.assertEquals(value, config.getValue("mp.tck.env.dummy", String.class));
     }
 
     @Test
     public void testPropertyConfigSource() {
-        Properties properties = System.getProperties();
-
-        for (Map.Entry<Object, Object> propEntry : properties.entrySet()) {
-            String propValue = (String) propEntry.getValue();
-            if (propValue != null && propValue.length() > 0) {
-                Assert.assertEquals(propValue, config.getValue((String) propEntry.getKey(), String.class));
-            }
-        }
+        Assert.assertNotNull(config.getValue("java.version", String.class));
+        String value = System.getProperties().getProperty("mp.tck.prop.dummy");
+        Assert.assertNotNull(value);
+        Assert.assertEquals("dummy", value);
+        Assert.assertEquals(value, config.getValue("mp.tck.prop.dummy", String.class));
     }
 
     @Test
@@ -135,7 +127,7 @@ public class ConfigProviderTest extends Arquillian {
     public void testNonExistingConfigKeyGet() {
         config.getValue("tck.config.test.keydoesnotexist", String.class);
     }
-    
+
     @Test
     public void testGetConfigSources() {
         Iterable<ConfigSource> configSources = config.getConfigSources();
@@ -149,7 +141,7 @@ public class ConfigProviderTest extends Arquillian {
         }
 
     }
-    
+
     @Test
     public void testInjectedConfigSerializable() {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
