@@ -69,10 +69,9 @@ The properties `%live.vehicle.name` and `%testing.vehicle.name` are inactive con
 
 If `mp.config.profile` is set to `live`, the property `%live.vehicle.name` is the active property. The `vehicleName` will be `train`. Similarly, `bike` will be the value of `vehicleName`, if the profile is `testing`.
 
-When retrieving the config values, this Config spec implementations must first search for the value of `mp.config.profile` (e.g. <profile name>) and then retrieve the value of the config property `%<profile name>.vehicle.name`,
-with the consideration of config source hierarchy specified via ordinal. It means if more than one config sources contain the same property `%<profile name>.vehicle.name`, 
-the value from the config source with the highest ordinal will be used. In the same config source, the property `%<profile name>.vehicle.name` overrides the config property `vehicle.name`. 
-If the property `%<profile name>.vehicle.name` does not exist, the value of the property `vehicle.name` will be retrieved.
+Conforming implementations are required to search for a configuration source with the highest ordinal (priority) that provides either the property name or the "profile-specific" property name. 
+If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned. If it doesn't contain the "profile-specific" name, the value of the plain property will be returned. 
+A "profile-specific" property name is defined as a property whose name consists of the following sequence: `% <profile name>.<original property name>`.
 
 The above algorithm applies to the following programmatic lookup as well.
 
