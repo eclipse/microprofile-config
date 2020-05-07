@@ -46,7 +46,7 @@ import java.util.Set;
  * A <em>configuration source</em> is always read-only; any potential updates of the backing configuration values must be handled
  * directly inside each configuration source instance.
  *
- * <h3 id="default_config_sources">Default configuration sources</h3>
+ * <h2 id="default_config_sources">Default configuration sources</h2>
  * Some configuration sources are known as <em>default configuration sources</em>.  These configuration sources are
  * normally available in all automatically-created configurations, and can be
  * {@linkplain ConfigBuilder#addDefaultSources() manually added} to manually-created configurations as well.  The
