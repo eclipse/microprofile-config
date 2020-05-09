@@ -23,7 +23,7 @@
 == Config Usage Examples
 
 
-An application can obtain it's configuration programmatically via the `ConfigProvider`. 
+An application can obtain it's configuration programmatically via the `ConfigProvider`.
 In CDI enabled beans it can also get injected via `@Inject Config`.
 An application can then access its configured values via this `Config` instance.
 
@@ -65,8 +65,8 @@ When specifying the property `myPets=dog,cat,dog\\,cat` in a config source, the 
 === Simple Dependency Injection Example
 
 MicroProfile Config also provides ways to inject configured values into your beans using the `@Inject` and the `@ConfigProperty` qualifier.
-The `@Inject` annotation declares an injection point. When using this on a passivation capable bean, refer to https://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#passivating_scope[CDI Specification^] 
-for more details on how to make the injection point to be passivation capable. 
+The `@Inject` annotation declares an injection point. When using this on a passivation capable bean, refer to https://docs.jboss.org/cdi/spec/2.0/cdi-spec.html#passivating_scope[CDI Specification^]
+for more details on how to make the injection point to be passivation capable.
 [source, java]
 ----
 @ApplicationScoped
@@ -103,6 +103,14 @@ public class InjectedConfigUsageSample {
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
     private javax.inject.Provider<Long> timeout;
+
+    //Injects a Supplier for the value of myprj.some.supplier.timeout property to
+    //resolve the property dynamically. Each invocation to Supplier#get() will
+    //resolve the latest value from underlying Config.
+    @Inject
+    @ConfigProperty(name="myprj.some.supplier.timeout", defaultValue="100")
+    private java.util.function.Supplier<Long> timeout;
+
     //The following code injects an Array, List or Set for the `myPets` property,
     //where its value is a comma separated value ( myPets=dog,cat,dog\\,cat)
     @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
