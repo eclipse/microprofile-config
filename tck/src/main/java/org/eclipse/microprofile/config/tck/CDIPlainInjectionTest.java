@@ -27,6 +27,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.Set;
 
 import javax.enterprise.context.Dependent;
@@ -134,9 +135,10 @@ public class CDIPlainInjectionTest extends Arquillian {
 
         DynamicValuesBean bean = getBeanOfType(DynamicValuesBean.class);
 
-        //X TODO clarify how Provider<T> should behave for missing values assertThat(bean.getIntProperty(), is(nullValue()));
+        //X TODO clarify how Provider<T> and Supplier<T> should behave for missing values assertThat(bean.getIntProperty(), is(nullValue()));
 
         assertThat(bean.getIntProperty(), is(equalTo(5)));
+        assertThat(bean.getStringSupplierProperty(), is(equalTo("text")));
     }
 
     @Test
@@ -262,8 +264,15 @@ public class CDIPlainInjectionTest extends Arquillian {
         @ConfigProperty(name="my.int.property")
         private Provider<Integer> intPropertyProvider;
 
+        @Inject
+        @ConfigProperty(name="my.string.property")
+        private Supplier<String> stringPropertySupplier;
+
         public Integer getIntProperty() {
             return intPropertyProvider.get();
+        }
+        public String getStringSupplierProperty() {
+            return stringPropertySupplier.get();
         }
 
     }
