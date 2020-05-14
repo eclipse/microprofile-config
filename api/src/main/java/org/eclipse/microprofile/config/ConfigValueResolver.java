@@ -30,6 +30,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.eclipse.microprofile.config.spi.Converter;
+
 /**
  * <p>
  * This is an abstraction to resolve {@link Config} values using a fluent API that is used
@@ -57,7 +59,7 @@ import java.util.function.Function;
  *
  * <p>
  * Usually conversion relies on registered {@link org.eclipse.microprofile.config.spi.Converter}s.
- * Ad-hoc conversion can be done using {@link #asConvertedBy(Function, Object)}.
+ * Ad-hoc conversion can be done using {@link #asConvertedBy(Converter, Object)}.
  * Values resolved as {@link String} are not converted.
  * Values resolved as {@code String[]} are only split but elements are not converted.
  *
@@ -77,15 +79,6 @@ import java.util.function.Function;
  * @author <a href="mailto:jan.bernitt@payara.fish">Jan Bernitt</a>
  */
 public interface ConfigValueResolver {
-
-    /**
-     * Adds a profile to property resolution which is applied when requesting a value.
-     * Multiple calls to this method on the same instance override prior profile values.
-     *
-     * @param value name of the profile to use, {@code null} is ignored
-     * @return This resolver for fluent API usage
-     */
-    ConfigValueResolver withProfile(String value);
 
     /**
      * Provides a raw property value default value.
@@ -180,7 +173,7 @@ public interface ConfigValueResolver {
      * @throws java.util.NoSuchElementException if the property isn't present in the configuration and throwing
      *         exceptions has been requested using {@link #throwOnMissingProperty()}
      **/
-    <T> T asConvertedBy(Function<String, T> converter, T defaultValue);
+    <T> T asConvertedBy(Converter<T> converter, T defaultValue);
 
     /**
      * Resolves the property as {@link List}.
