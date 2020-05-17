@@ -26,8 +26,8 @@ Config Profile indicates the project phase, such as dev, testing, live, etc.
 
 === Specify Config Profile
 
-The config profile can be specified via a system property or an environment viable `mp.config.profile`. It can be set when starting your microservice. The value of the property can contain only characters that are valid for config property names. 
-This is because the name of the profile is directly stored in the name of the config property. e.g.
+The config profile can be specified via the property `mp.config.profile`, which can be set in any of the configuration sources. The value of the property can contain only characters that are valid for config property names. 
+This is because the name of the profile is directly stored in the name of the config property. It can be set when starting your microservice. e.g.
 
 [source, text]
 ----
@@ -35,11 +35,12 @@ java -jar myapp.jar -Dmp.config.profile=testing
 ----
 
 The property `mp.config.profile` is only read once on microservice starting. Any changes after that is ignored. Furthermore, the value specifies a single profile. Only one profile can be active at a time.
-Commas in the value have no special meaning. For example, if the value of `mp.config.profile` is `testing,live`,  a single profile named `testing,live` is enabled instead of enabling two profiles. 
+Commas in the value have no special meaning. For example, if the value of `mp.config.profile` is `testing,live`,  a single profile named `testing,live` is enabled instead of enabling two profiles. If the property `mp.config.profile` is specified in multiple config sources, 
+the value of the property is determined following the same rules as other configuration properties, which means the value in the config source with the highest ordinal wins.
 
 === How Config Profile works
 
-In supporting the Config Profile, the config property names will need to start with the naming convention of `%configProfile.`, (e.g. `%live.vehicle.name`).
+In supporting the Config Profile, the configuration property that utlises the Config Profile needs to have its name starting with the naming convention of `%configProfile.`, (e.g. `%live.vehicle.name`).
 
 For an instance, a config source can be specified as follows.
 
@@ -63,7 +64,7 @@ A config property associated with the Config Profile can be looked up as shown b
 String vehicleName = ConfigProvider.getConfig().getValue("vehicle.name", String.class);
 ----
 
-If the system property or environment variable `mp.config.profile` is set to `dev`, the property `%dev.vehicle.name` is the Active Property. An active property overrides the properties in the same config source. 
+If the property `mp.config.profile` is set to `dev`, the property `%dev.vehicle.name` is the Active Property. An active property overrides the properties in the same config source. 
 In more details, if `mp.config.profile` is set to `dev`, the property `%dev.vehicle.name` overrides the property `vehicle.name`. The `vehicleName` will be set to `car`.
 The properties `%live.vehicle.name` and `%testing.vehicle.name` are inactive config properties and don't override the property `vehicle.name`.
 

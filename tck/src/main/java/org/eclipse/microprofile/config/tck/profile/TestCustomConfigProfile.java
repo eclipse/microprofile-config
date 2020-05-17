@@ -32,7 +32,9 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
+import org.eclipse.microprofile.config.tck.configsources.CustomConfigProfileConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -48,20 +50,22 @@ import org.testng.annotations.Test;
  * 
  * @author Emily Jiang
  */
-public class ProdProfileTest extends Arquillian {
+public class TestCustomConfigProfile extends Arquillian {
 
     
     @Deployment
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "ProdProfileTest.jar")
-                .addClasses(ProdProfileTest.class, ProfilePropertyBean.class)
+                .create(JavaArchive.class, "TestConfigProfileTest.jar")
+                .addClasses(TestCustomConfigProfile.class, ProfilePropertyBean.class, CustomConfigProfileConfigSource.class)
+                .addAsServiceProvider(ConfigSource.class, CustomConfigProfileConfigSource.class)
+           
                 .addAsManifestResource(
                     new StringAsset(
                         "mp.config.profile=prod\n" +
-                        "%dev.vehicle.name=bike\n" +
-                        "%prod.vehicle.name=bus\n" +
-                        "%test.vehicle.name=van\n" +
+                        "%dev.vehicle.name=bus\n" +
+                        "%prod.vehicle.name=bike\n" +
+                        "%test.vehicle.name=coach\n" +
                         "vehicle.name=car"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
@@ -70,22 +74,20 @@ public class ProdProfileTest extends Arquillian {
         AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
 
         WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "ProdProfileTest.war")
+                .create(WebArchive.class, "TestConfigProfileTest.war")
                 .addAsLibrary(testJar);
         return war;
        
     }
 
 
-
     @Test
     public void testConfigProfileWithDev() {
         ProfilePropertyBean bean = CDI.current().select(ProfilePropertyBean.class).get();
 
-        assertThat(bean.getConfigProperty(), is(equalTo("bus")));
-        assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("bus")));
+        assertThat(bean.getConfigProperty(), is(equalTo("van")));
+        assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("van")));
     }
-
 
     @Dependent
     public static class ProfilePropertyBean {

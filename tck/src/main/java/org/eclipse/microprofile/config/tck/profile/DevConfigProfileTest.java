@@ -32,15 +32,14 @@ import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -56,10 +55,18 @@ public class DevConfigProfileTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "DevConfigProfileTest.jar")
                 .addClasses(DevConfigProfileTest.class, ProfilePropertyBean.class)
+                .addAsManifestResource(
+                    new StringAsset(
+                        "mp.config.profile=dev\n" +
+                        "%dev.vehicle.name=bike\n" +
+                        "%prod.vehicle.name=bus\n" +
+                        "%test.vehicle.name=van\n" +
+                        "vehicle.name=car"),
+                        "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
-        AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
+                
 
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "DevConfigProfileTest.war")
@@ -68,11 +75,6 @@ public class DevConfigProfileTest extends Arquillian {
        
     }
 
-    @BeforeTest
-    public void setUpTest() {
-        clearAllPropertyValues();
-        ensureAllPropertyValuesAreDefined();
-    }
 
     @Test
     public void testConfigProfileWithDev() {
@@ -82,15 +84,6 @@ public class DevConfigProfileTest extends Arquillian {
         assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("bike")));
     }
 
-    private void ensureAllPropertyValuesAreDefined() {
-        System.setProperty("mp.config.profile", "dev");
-        
-    }
-
-    private void clearAllPropertyValues() {
-        System.getProperties().remove("mp.config.profile");
-        
-    }
 
     @Dependent
     public static class ProfilePropertyBean {

@@ -38,9 +38,9 @@ import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -56,6 +56,14 @@ public class InvalidConfigProfileTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "InvalidConfigProfileTest.jar")
                 .addClasses(InvalidConfigProfileTest.class, ProfilePropertyBean.class)
+                .addAsManifestResource(
+                    new StringAsset(
+                        "mp.config.profile=invalid\n" +
+                        "%dev.vehicle.name=bike\n" +
+                        "%prod.vehicle.name=bus\n" +
+                        "%test.vehicle.name=van\n" +
+                        "vehicle.name=car"),
+                        "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
@@ -68,11 +76,6 @@ public class InvalidConfigProfileTest extends Arquillian {
        
     }
 
-    @BeforeTest
-    public void setUpTest() {
-        clearAllPropertyValues();
-        ensureAllPropertyValuesAreDefined();
-    }
 
     @Test
     public void testConfigProfileWithDev() {
@@ -82,15 +85,7 @@ public class InvalidConfigProfileTest extends Arquillian {
         assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("car")));
     }
 
-    private void ensureAllPropertyValuesAreDefined() {
-        System.setProperty("mp.config.profile", "invalid");
-        
-    }
 
-    private void clearAllPropertyValues() {
-        System.getProperties().remove("mp.config.profile");
-        
-    }
 
     @Dependent
     public static class ProfilePropertyBean {

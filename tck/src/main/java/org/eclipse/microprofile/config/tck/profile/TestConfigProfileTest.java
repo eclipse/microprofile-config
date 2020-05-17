@@ -38,9 +38,9 @@ import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -56,6 +56,14 @@ public class TestConfigProfileTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "TestConfigProfileTest.jar")
                 .addClasses(TestConfigProfileTest.class, ProfilePropertyBean.class)
+                .addAsManifestResource(
+                    new StringAsset(
+                        "mp.config.profile=test\n" +
+                        "%dev.vehicle.name=bike\n" +
+                        "%prod.vehicle.name=bus\n" +
+                        "%test.vehicle.name=van\n" +
+                        "vehicle.name=car"),
+                        "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
@@ -69,28 +77,12 @@ public class TestConfigProfileTest extends Arquillian {
     }
 
 
-    @BeforeTest
-    public void setUpTest() {
-        clearAllPropertyValues();
-        ensureAllPropertyValuesAreDefined();
-    }
-
     @Test
     public void testConfigProfileWithDev() {
         ProfilePropertyBean bean = CDI.current().select(ProfilePropertyBean.class).get();
 
         assertThat(bean.getConfigProperty(), is(equalTo("van")));
         assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("van")));
-    }
-
-    private void ensureAllPropertyValuesAreDefined() {
-        System.setProperty("mp.config.profile", "test");
-        
-    }
-
-    private void clearAllPropertyValues() {
-        System.getProperties().remove("mp.config.profile");
-        
     }
 
     @Dependent
