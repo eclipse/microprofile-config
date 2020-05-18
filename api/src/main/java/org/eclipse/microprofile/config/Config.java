@@ -90,7 +90,6 @@ import org.eclipse.microprofile.config.spi.Converter;
  */
 @org.osgi.annotation.versioning.ProviderType
 public interface Config {
-
     /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
@@ -110,6 +109,27 @@ public interface Config {
      * @throws java.util.NoSuchElementException if the property isn't present in the configuration
      */
     <T> T getValue(String propertyName, Class<T> propertyType);
+
+    /**
+     * Return the {@link ConfigValue} for the specified property name from the underlying
+     * {@linkplain ConfigSource configuration source}. The lookup of the configuration is performed immediatily,
+     * meaning that calls to {@link ConfigValue} will always yeld the same results.
+     * <p>
+     *
+     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
+     * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
+     * rather than recomputing it.
+     * <p>
+     *
+     * A {@link ConfigValue} is always returned even if a property name cannot be found. In this case, every method in
+     * {@link ConfigValue} returns {@code null} except for {@link ConfigValue#getName()}, which includes the original
+     * property name being looked up.
+     *
+     * @param propertyName
+     *              The configuration property name
+     * @return the resolved property value as a {@link ConfigValue}
+     */
+    ConfigValue getConfigValue(String propertyName);
 
     /**
      * Return the resolved property values with the specified type for the
