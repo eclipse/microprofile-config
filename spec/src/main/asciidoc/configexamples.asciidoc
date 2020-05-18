@@ -84,6 +84,9 @@ public class InjectedConfigUsageSample {
     //The following code injects an Optional value of myprj.some.port property.
     //Contrary to natively injecting the configured value, this will not lead to a
     //DeploymentException if the value is missing.
+    //Since Optional is not serializable, when specifying the injection point 
+    //with the type of Optional on a passivation capable bean, 
+    //the inject point should be marked as transient. 
     @Inject
     @ConfigProperty(name="myprj.some.port")
     private Optional<Integer> somePort;
