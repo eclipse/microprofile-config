@@ -202,6 +202,51 @@ public interface Config {
     }
 
     /**
+     * Return the resolved configuration properties instance with the specified prefix. 
+     * The type declaration can be annotated with 
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}. 
+     * If the type is annotated with {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}, 
+     * the prefix supplied in this method overrides the prefix associated with the annotation 
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
+     * 
+     * @param <T> 
+     *              The Class Type
+     * @param configProperties
+     *              The class that contains a number of fields that maps to corresponding configuration properties. 
+     *              The type declaration can be annotated with 
+     *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
+     *              The prefix as the method parameter overrides the prefix set on the type.                
+     *              This class must contain a zero-arg constructor.
+     * @param prefix
+     *              The prefix for the configuration properties declared on the class configProperties.
+     *              If the prefix is "", which means no prefix involved when performing property lookup.
+     *              If the prefix is null, this method is equivalent to {@linkplain #getConfigProperties(Class)}.
+     * @return      An instance for the specified type and prefix 
+     */
+    <T> T getConfigProperties(Class<T> configProperties, String prefix);
+
+    /**
+     * Return the resolved configuration properties instance. The type can be annotated with 
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}. 
+     * If the type is annotated with {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}, 
+     * the prefix associated with the annotation {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} will be used.
+     * @param <T> 
+     *              The Class Type
+     * @param configProperties
+     *              The class that contains a number of fields that maps to corresponding configuration properties. 
+     *              The type declaration can be annotated with 
+     *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}. 
+     *              If the type is annotated with {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}, 
+     *              the prefix on the annotation {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} 
+     *              will be honoured. 
+     *              The absence of the annotation {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} 
+     *              or the absence of the prefix on the annotation means no prefix specified. 
+     *              This class must contain a zero-arg constructor.
+     * @return      An instance for the specified type
+     */
+    <T> T getConfigProperties(Class<T> configProperties);
+
+    /**
      * Returns a sequence of configuration property names. The order of the returned property names is unspecified.
      * <p>
      * The returned property names are unique; that is, if a name is returned once by a given iteration, it will not be
