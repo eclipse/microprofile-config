@@ -23,6 +23,7 @@ import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
@@ -33,9 +34,12 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 
@@ -1653,121 +1657,185 @@ public class ArrayConverterTest extends Arquillian {
     //////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////Test URL[] //////////////////////////
+    
+
+    private void assertURLArrayEquals(URL[] value, URL[] expectedValue) throws MalformedURLException {
+        assertURLListEquals(Arrays.asList(value), Arrays.asList(expectedValue));
+    }
+
+    private void assertURLListEquals(List<URL> value, List<URL> expectedValue) throws MalformedURLException {
+        
+        Assert.assertTrue(IntStream.range(0, expectedValue.size()).allMatch(i -> {
+        try {
+                return expectedValue.get(i).toURI().equals(value.get(i).toURI());
+        } 
+        catch (URISyntaxException e) {
+                e.printStackTrace();
+        }
+        return false;
+        }));
+    }
+
 
     @Test
-    public void testUrlArrayLookupProgrammatically() throws MalformedURLException {
+    public void testUrlArrayLookupProgrammatically() throws MalformedURLException, URISyntaxException {
         URL[] value = config.getValue("tck.config.test.javaconfig.converter.urlvalues", URL[].class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
-        Assert.assertEquals(value, new URL[]{
+        URL[] expectedValue = new URL[]{
             new URL("http://microprofile.io"),
             new URL("http://openliberty.io"),
-            new URL("http://microprofile.io")});
+            new URL("http://microprofile.io")};
+        assertURLArrayEquals(value, expectedValue);
         URL[] single = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URL[].class);
         Assert.assertNotNull(single);
         Assert.assertEquals(single.length, 1);
-        Assert.assertEquals(single, new URL[]{ new URL("http://microprofile.io") });
+        Assert.assertEquals(single[0].toURI(), new URL[]{ new URL("http://microprofile.io") }[0].toURI());
     }
 
     @Test
-    public void testGetUrlArrayConverter() throws MalformedURLException {
+    public void testGetUrlArrayConverter() throws MalformedURLException, URISyntaxException {
         URL[] value = config.getConverter(URL[].class).get().convert("http://microprofile.io,http://openliberty.io,http://microprofile.io");
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
-        Assert.assertEquals(value, new URL[]{
+        URL[] expectedValue = new URL[]{
             new URL("http://microprofile.io"),
             new URL("http://openliberty.io"),
-            new URL("http://microprofile.io")});
+            new URL("http://microprofile.io")};
+        assertURLArrayEquals(value, expectedValue);
         URL[] single = config.getConverter(URL[].class).get().convert("http://microprofile.io");
         Assert.assertNotNull(single);
         Assert.assertEquals(single.length, 1);
-        Assert.assertEquals(single, new URL[]{ new URL("http://microprofile.io") });
+        URL[] expectedSingleValue = new URL[]{
+            new URL("http://microprofile.io")};
+            assertURLArrayEquals(single, expectedSingleValue);
     }
 
     @Test
-    public void testOptionalUrlArrayLookupProgrammatically() throws MalformedURLException {
+    public void testOptionalUrlArrayLookupProgrammatically() throws MalformedURLException, URISyntaxException {
         Optional<URL[]> optionalValue = config.getOptionalValue("tck.config.test.javaconfig.converter.urlvalues", URL[].class);
         Assert.assertTrue(optionalValue.isPresent());
         URL[] value = optionalValue.get();
         Assert.assertNotNull(value);
         Assert.assertEquals(value.length, 3);
-        Assert.assertEquals(value, new URL[]{
+        URL[] expectedValue = new URL[]{
             new URL("http://microprofile.io"),
             new URL("http://openliberty.io"),
-            new URL("http://microprofile.io")});
+            new URL("http://microprofile.io")};
+        assertURLArrayEquals(value, expectedValue);
         Optional<URL[]> optionalSingle = config.getOptionalValue("tck.config.test.javaconfig.converter.urlvalue", URL[].class);
         Assert.assertTrue(optionalSingle.isPresent());
         URL[] single = optionalSingle.get();
         Assert.assertNotNull(single);
         Assert.assertEquals(single.length, 1);
-        Assert.assertEquals(single, new URL[]{ new URL("http://microprofile.io") });
+        URL[] expectedSingleValue = new URL[]{
+            new URL("http://microprofile.io")};
+        assertURLArrayEquals(single, expectedSingleValue);
     }
 
     @Test
-    public void testUrlListLookupProgrammatically() throws MalformedURLException {
+    public void testUrlListLookupProgrammatically() throws MalformedURLException, URISyntaxException {
         List<URL> values = config.getValues("tck.config.test.javaconfig.converter.urlvalues", URL.class);
         Assert.assertNotNull(values);
         Assert.assertEquals(values.size(), 3);
-        Assert.assertEquals(values, Arrays.asList(
+        List<URL> expectedValue = Arrays.asList(
             new URL("http://microprofile.io"),
             new URL("http://openliberty.io"),
-            new URL("http://microprofile.io")));
+            new URL("http://microprofile.io"));
+            assertURLListEquals(values, expectedValue);
         List<URL> single = config.getValues("tck.config.test.javaconfig.converter.urlvalue", URL.class);
         Assert.assertNotNull(single);
         Assert.assertEquals(single.size(), 1);
-        Assert.assertEquals(single, Arrays.asList(new URL("http://microprofile.io")));
+        List<URL> expectedSingleValue = Arrays.asList(new URL("http://microprofile.io"));
+        Assert.assertEquals(single, expectedSingleValue);
     }
 
     @Test
-    public void testOptionalUrlListLookupProgrammatically() throws MalformedURLException {
+    public void testOptionalUrlListLookupProgrammatically() throws MalformedURLException, URISyntaxException {
         Optional<List<URL>> optionalValues = config.getOptionalValues("tck.config.test.javaconfig.converter.urlvalues", URL.class);
         Assert.assertTrue(optionalValues.isPresent());
         List<URL> values = optionalValues.get();
         Assert.assertNotNull(values);
         Assert.assertEquals(values.size(), 3);
-        Assert.assertEquals(values, Arrays.asList(
+        List<URL> expectedValue = Arrays.asList(
             new URL("http://microprofile.io"),
             new URL("http://openliberty.io"),
-            new URL("http://microprofile.io")));
+            new URL("http://microprofile.io"));
+            assertURLListEquals(values, expectedValue);
         Optional<List<URL>> optionalSingle = config.getOptionalValues("tck.config.test.javaconfig.converter.urlvalue", URL.class);
         Assert.assertTrue(optionalSingle.isPresent());
         List<URL> single = optionalSingle.get();
         Assert.assertNotNull(single);
         Assert.assertEquals(single.size(), 1);
-        Assert.assertEquals(single, Arrays.asList(new URL("http://microprofile.io")));
+        List<URL> expectedSingleValue = Arrays.asList(new URL("http://microprofile.io"));
+        Assert.assertEquals(single, expectedSingleValue);
     }
 
 
     @Test
-    public void testUrlArrayInjection() throws MalformedURLException {
-        Assert.assertEquals(converterBean.getMyUrlArray().length, 3);
-        Assert.assertEquals(converterBean.getMyUrlArray(), new URL[]{
+    public void testUrlArrayInjection() throws MalformedURLException, URISyntaxException {
+        URL[] values = converterBean.getMyUrlArray();
+        Assert.assertEquals(values.length, 3);
+        URL[] expectedValue = new URL[]{
             new URL("http://microprofile.io"),
             new URL("http://openliberty.io"),
-            new URL("http://microprofile.io")});
+            new URL("http://microprofile.io")};
+        assertURLArrayEquals(values, expectedValue);
         Assert.assertEquals(converterBean.getMySingleUrlArray().length, 1);
-        Assert.assertEquals(converterBean.getMySingleUrlArray(), new URL[]{ new URL("http://microprofile.io") });
+        URL[] expectedSingleValue = new URL[]{
+            new URL("http://microprofile.io")};
+        assertURLArrayEquals(converterBean.getMySingleUrlArray(), expectedSingleValue);
     }
 
     @Test
-    public void testURLListInjection() throws MalformedURLException {
-        Assert.assertEquals(converterBean.getMyUrlList().size(), 3);
-        Assert.assertEquals(converterBean.getMyUrlList(), Arrays.asList(
+    public void testURLListInjection() throws MalformedURLException, URISyntaxException {
+        List<URL> values = converterBean.getMyUrlList();
+        Assert.assertEquals(values.size(), 3);
+        List<URL> expectedValue = Arrays.asList(
             new URL("http://microprofile.io"),
+            new URL("http://openliberty.io"),
+            new URL("http://microprofile.io"));
+        assertURLListEquals(values, expectedValue);
+        Assert.assertEquals(converterBean.getMySingleUrlList().size(), 1);
+        List<URL> expectedSingleValue = Arrays.asList(new URL("http://microprofile.io"));
+        Assert.assertEquals(converterBean.getMySingleUrlList(), expectedSingleValue);
+    }
+
+    private boolean assertURLSetEquals(Set<URL> valueSet, Set<URL> expectedURLSet) throws MalformedURLException, URISyntaxException {
+        if (valueSet.size()!= expectedURLSet.size()) {
+            return false;
+        }
+        Iterator<URL> it = valueSet.iterator();
+        boolean isEquals = true;
+        while (it.hasNext()) {
+            boolean found = false;
+            URL url = it.next();
+            for (URL thisURL : expectedURLSet) {  
+                if (thisURL.toURI().equals(url.toURI())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                isEquals = false;
+                break;
+            }
+        }
+        return isEquals;
+            
+    }
+    @Test
+    public void testURLSetInjection() throws MalformedURLException, URISyntaxException {
+        Set<URL> values = converterBean.getMyUrlSet();
+        Assert.assertEquals(values.size(), 2);
+        Set<URL> expectedURLSet = new LinkedHashSet<>(Arrays.asList(
             new URL("http://openliberty.io"),
             new URL("http://microprofile.io")));
-        Assert.assertEquals(converterBean.getMySingleUrlList().size(), 1);
-        Assert.assertEquals(converterBean.getMySingleUrlList(), Arrays.asList(new URL("http://microprofile.io")));
-    }
-
-    @Test
-    public void testURLSetInjection() throws MalformedURLException {
-        Assert.assertEquals(converterBean.getMyUrlSet().size(), 2);
-        Assert.assertEquals(converterBean.getMyUrlSet(), new LinkedHashSet<>(Arrays.asList(
-                new URL("http://openliberty.io"),
-                new URL("http://microprofile.io"))));
+        Assert.assertTrue(assertURLSetEquals(values, expectedURLSet));
+        
         Assert.assertEquals(converterBean.getMySingleUrlSet().size(), 1);
-        Assert.assertEquals(converterBean.getMySingleUrlSet(), Collections.singleton(new URL("http://microprofile.io")));
+        Set<URL> expectedSingleUrlSet = Collections.singleton(new URL("http://microprofile.io"));
+        Assert.assertTrue(assertURLSetEquals(converterBean.getMySingleUrlSet(), expectedSingleUrlSet));       
     }
 
     ///////////////////////////////////Test URI[] //////////////////////////
