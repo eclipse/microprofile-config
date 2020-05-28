@@ -119,10 +119,6 @@ public interface ConfigSource {
 
     /**
      * Gets all property names known to this configuration source, potentially without evaluating the values.
-     * <p>
-     * For backwards compatibility, there is a default implementation that just returns the keys of {@code getProperties()}.
-     * Implementations should consider replacing this with a more performant implementation.
-     * <p>
      * The returned property names may be a subset of the names of the total set of retrievable properties in this config source.
      * <p>
      * The returned set is not required to allow concurrent or multi-threaded iteration; however, if the same set is
