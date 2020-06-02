@@ -25,6 +25,8 @@ import java.util.ServiceLoader;
 
 import org.eclipse.microprofile.config.Config;
 
+import aQute.bnd.annotation.spi.ServiceConsumer;
+
 /**
  * The service provider for implementations of the MicroProfile Configuration specification.
  * <p>
@@ -36,6 +38,16 @@ import org.eclipse.microprofile.config.Config;
  * @author <a href="mailto:rmannibucau@apache.org">Romain Manni-Bucau</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */
+
+/*
+ * The @ServiceConsumer annotation adds support for Service Loader Mediator in
+ * order to support wiring of Service Loader providers to consumers in OSGi.
+ * However, the requirements generated are specified as effective:=active to
+ * prevent this from being a strict requirement. As such the API is usable in
+ * runtimes without a Service Loader Mediator implementation while allowing for
+ * such to be enabled when using the resolver during assembly.
+ */
+@ServiceConsumer(value = ConfigProviderResolver.class, effective = "active")
 public abstract class ConfigProviderResolver {
     /**
      * Construct a new instance.
