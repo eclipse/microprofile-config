@@ -31,7 +31,7 @@
 
         <links>https://osgi.org/javadoc/osgi.annotation/7.0.0/</links>
 
-        <bnd.version>5.0.1</bnd.version>
+        <bnd.version>5.1.0</bnd.version>
         <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
     </properties>
