@@ -59,7 +59,7 @@ ConfigBuilder builder = resolver.getBuilder();
 ** Add config sources and build:
 +
 ```
-Config config = builder.addDefaultSources().withSources(mySource).withConverters(myConverter).withProfile(profile).build;
+Config config = builder.addDefaultSources().withSources(mySource).withConverters(myConverter).build;
 ```
 ** (optional) Manage the lifecycle of the config
 +
