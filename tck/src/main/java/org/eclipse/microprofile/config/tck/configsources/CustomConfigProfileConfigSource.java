@@ -44,6 +44,7 @@ public class CustomConfigProfileConfigSource implements ConfigSource {
     public int getOrdinal() {
         return 500;
     }
+
     @Override
     public String getValue(String key) {
         return configValues.get(key);
@@ -54,12 +55,8 @@ public class CustomConfigProfileConfigSource implements ConfigSource {
         return "customConfigProfileSource";
     }
 
-
     @Override
-    public Set<String> getPropertyNames() {
-        
+    public Set<String> getPropertyNames() {    
         return configValues.keySet();
     }
-
-
 }

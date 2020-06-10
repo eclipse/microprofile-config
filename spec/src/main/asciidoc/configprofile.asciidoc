@@ -34,7 +34,7 @@ This is because the name of the profile is directly stored in the name of the co
 java -jar myapp.jar -Dmp.config.profile=testing
 ----
 
-The value of the property `mp.config.profile` shouldn't be updated after the application is started. It's only read once and will not be update once the `Config` object is constructed. If the property value of `mp.config.profile` is modified afterwards, the behavior is undefined and any changes to its value made later can be ignored by the implementation. 
+The value of the property `mp.config.profile` shouldn't be updated after the application is started. It's only read once and will not be updated once the `Config` object is constructed. If the property value of `mp.config.profile` is modified afterwards, the behavior is undefined and any changes to its value made later can be ignored by the implementation. 
 
 The value of the property `mp.config.profile` specifies a single active profile. Only one profile can be active at a time. Commas in the value have no special meaning. For example, if the value of `mp.config.profile` is `testing,live`,  a single profile named `testing,live` is active instead of two active profiles. 
 If the property `mp.config.profile` is specified in multiple config sources, the value of the property is determined following the same rules as other configuration properties, which means the value in the config source with the highest ordinal wins.
@@ -47,7 +47,7 @@ Conforming implementations are required to search for a configuration source wit
 If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned. If it doesn't contain the "profile-specific" name, the value of the plain property will be returned. 
 
 
-For an instance, a config source can be specified as follows.
+For instance, a config source can be specified as follows.
 
 [source, text]
 ----

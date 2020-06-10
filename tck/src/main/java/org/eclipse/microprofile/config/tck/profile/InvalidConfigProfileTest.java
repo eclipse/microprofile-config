@@ -49,7 +49,6 @@ import org.testng.annotations.Test;
  * @author Emily Jiang
  */
 public class InvalidConfigProfileTest extends Arquillian {
-
     
     @Deployment
     public static Archive deployment() {
@@ -73,30 +72,22 @@ public class InvalidConfigProfileTest extends Arquillian {
                 .create(WebArchive.class, "InvalidConfigProfileTest.war")
                 .addAsLibrary(testJar);
         return war;
-       
     }
-
 
     @Test
     public void testConfigProfileWithDev() {
         ProfilePropertyBean bean = CDI.current().select(ProfilePropertyBean.class).get();
-
         assertThat(bean.getConfigProperty(), is(equalTo("car")));
         assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("car")));
     }
-
-
 
     @Dependent
     public static class ProfilePropertyBean {
         @Inject
         @ConfigProperty(name="vehicle.name")
         private String vehicleName;
-
         public String getConfigProperty() {
             return vehicleName;
         }
-    }
-    
-    
+    }    
 }

@@ -52,14 +52,12 @@ import org.testng.annotations.Test;
  */
 public class TestCustomConfigProfile extends Arquillian {
 
-    
     @Deployment
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "TestConfigProfileTest.jar")
                 .addClasses(TestCustomConfigProfile.class, ProfilePropertyBean.class, CustomConfigProfileConfigSource.class)
                 .addAsServiceProvider(ConfigSource.class, CustomConfigProfileConfigSource.class)
-           
                 .addAsManifestResource(
                     new StringAsset(
                         "mp.config.profile=prod\n" +
@@ -80,11 +78,9 @@ public class TestCustomConfigProfile extends Arquillian {
        
     }
 
-
     @Test
     public void testConfigProfileWithDev() {
         ProfilePropertyBean bean = CDI.current().select(ProfilePropertyBean.class).get();
-
         assertThat(bean.getConfigProperty(), is(equalTo("van")));
         assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("van")));
     }
@@ -94,11 +90,8 @@ public class TestCustomConfigProfile extends Arquillian {
         @Inject
         @ConfigProperty(name="vehicle.name")
         private String vehicleName;
-
         public String getConfigProperty() {
             return vehicleName;
         }
-    }
-    
-    
+    }    
 }

@@ -48,8 +48,7 @@ import org.testng.annotations.Test;
  * @author Emily Jiang
  */
 public class DevConfigProfileTest extends Arquillian {
-
-    
+   
     @Deployment
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
@@ -64,9 +63,7 @@ public class DevConfigProfileTest extends Arquillian {
                         "vehicle.name=car"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);
-
-                
+                .as(JavaArchive.class);   
 
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "DevConfigProfileTest.war")
@@ -75,26 +72,20 @@ public class DevConfigProfileTest extends Arquillian {
        
     }
 
-
     @Test
     public void testConfigProfileWithDev() {
         ProfilePropertyBean bean = CDI.current().select(ProfilePropertyBean.class).get();
-
         assertThat(bean.getConfigProperty(), is(equalTo("bike")));
         assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("bike")));
     }
-
 
     @Dependent
     public static class ProfilePropertyBean {
         @Inject
         @ConfigProperty(name="vehicle.name")
         private String vehicleName;
-
         public String getConfigProperty() {
             return vehicleName;
         }
-    }
-    
-    
+    }    
 }
