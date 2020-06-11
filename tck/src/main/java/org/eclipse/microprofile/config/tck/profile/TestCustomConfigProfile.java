@@ -16,15 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.eclipse.microprofile.config.tck.profile;
 
-
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
@@ -33,7 +29,6 @@ import javax.inject.Inject;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.eclipse.microprofile.config.tck.base.AbstractTest;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigProfileConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -47,11 +42,10 @@ import org.testng.annotations.Test;
 
 /**
  * Test cases for Config profile
- * 
+ *
  * @author Emily Jiang
  */
 public class TestCustomConfigProfile extends Arquillian {
-
     @Deployment
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
@@ -69,13 +63,10 @@ public class TestCustomConfigProfile extends Arquillian {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
-        AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
-
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "TestConfigProfileTest.war")
                 .addAsLibrary(testJar);
         return war;
-       
     }
 
     @Test
@@ -93,5 +84,5 @@ public class TestCustomConfigProfile extends Arquillian {
         public String getConfigProperty() {
             return vehicleName;
         }
-    }    
+    }
 }
