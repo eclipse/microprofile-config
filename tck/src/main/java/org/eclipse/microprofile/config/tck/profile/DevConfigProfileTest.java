@@ -16,15 +16,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.eclipse.microprofile.config.tck.profile;
 
-
 import static org.hamcrest.MatcherAssert.assertThat;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
@@ -44,11 +40,10 @@ import org.testng.annotations.Test;
 
 /**
  * Test cases for Config profile
- * 
+ *
  * @author Emily Jiang
  */
 public class DevConfigProfileTest extends Arquillian {
-   
     @Deployment
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
@@ -63,13 +58,13 @@ public class DevConfigProfileTest extends Arquillian {
                         "vehicle.name=car"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);   
+                .as(JavaArchive.class);
 
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "DevConfigProfileTest.war")
                 .addAsLibrary(testJar);
         return war;
-       
+
     }
 
     @Test
@@ -87,5 +82,5 @@ public class DevConfigProfileTest extends Arquillian {
         public String getConfigProperty() {
             return vehicleName;
         }
-    }    
+    }
 }
