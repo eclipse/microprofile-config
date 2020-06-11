@@ -114,7 +114,7 @@ public interface ConfigBuilder {
      * @return this configuration builder instance
      */
     <T> ConfigBuilder withConverter(Class<T> type, int priority, Converter<T> converter);
-
+    
     /**
      * Build a new {@link Config} instance based on this builder instance.
      *
