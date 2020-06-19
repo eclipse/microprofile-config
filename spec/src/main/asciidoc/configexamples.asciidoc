@@ -38,8 +38,11 @@ public class ConfigUsageSample {
         Config config = ConfigProvider.getConfig();
 
         String serverUrl = config.getValue("acme.myprj.some.url", String.class);
-
         callToServer(serverUrl);
+
+        // or
+        ConfigValue configServerUrl = config.getConfigValue("acme.myprj.some.url");
+        callToServer(configServerUrl.getValue());
     }
 }
 ----
@@ -80,6 +83,13 @@ public class InjectedConfigUsageSample {
     @Inject
     @ConfigProperty(name="myprj.some.url")
     private String someUrl;
+
+    // You can also inject a configuration using the ConfigValue metadata object. The
+    // configured value will not lead to a DeploymentException if the value is missing.
+    // A default value can also be specified like any other configuration.
+    @Inject
+    @ConfigProperty(name="myprj.another.url")
+    private ConfigValue anotherUrl;
 
     //The following code injects an Optional value of myprj.some.port property.
     //Contrary to natively injecting the configured value, this will not lead to a
