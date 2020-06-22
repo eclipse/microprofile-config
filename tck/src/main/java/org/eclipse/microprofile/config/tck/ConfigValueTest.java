@@ -47,8 +47,7 @@ public class ConfigValueTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
             .create(JavaArchive.class, "ConfigValueTest.jar")
             .addClasses(ConfigValueBean.class)
-            .addAsServiceProvider(ConfigSource.class, ConfigValueConfigSource.class)
-            .addAsServiceProvider(ConfigSource.class, ConfigValueLowerConfigSource.class)
+            .addAsServiceProvider(ConfigSource.class, ConfigValueConfigSource.class, ConfigValueLowerConfigSource.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
             .as(JavaArchive.class);
 
