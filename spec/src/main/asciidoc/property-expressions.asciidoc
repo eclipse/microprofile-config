@@ -1,0 +1,76 @@
+//
+// Copyright (c) 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// Contributors:
+// Roberto Cortez
+
+[[property-expressions]]
+== Property Expressions
+
+The value of a configuration property may contain an expression corresponding to another configuration property. An
+expression string is a mix of plain strings and expression segments, which are wrapped by the sequence `${ ... }`.
+
+Consider the following configuration properties file:
+
+[source,properties]
+----
+server.url=http://${server.host}/endpoint
+server.host=example.org
+----
+
+When looking up the `server.url` property, the value will be resolved and expanded to `http://example.org/endpoint`.
+All MicroProfile Config rules still apply. The `Config` is able to resolve expressions from different ConfigSources.
+
+Additionally, it is also possible to use the following syntax for property expressions:
+
+* `${expression:value}` - Provides a default value after the `:` if the expression doesn't find a value.
+* `${my.prop${compose}}` - Composed expressions. Inner expressions are resolved first.
+* `${my.prop}${my.prop}` - Multiple expressions.
+
+Consider the following configuration properties file:
+
+[source,properties]
+----
+server.url=http://${server.host:example.org}:${server.port}/${server.endpoint}
+server.port=8080
+server.endpoint=${server.endpoint.path.foo${server.endpoint.path.bar}}
+server.endpoint.path.foo=/foo
+server.endpoint.path.bar=/bar
+----
+
+The property `server.url` is expanded to `http://example.org:8080/foo/bar`.
+
+If an expression cannot be expanded and does not have a default value a `NoSuchElementException` is thrown. In the
+Optional case, returns an empty Optional.
+
+Composed expressions, are limited to the number of recurssion lookups performed. Implementations are encouraged to
+limit the number to `5`, but they can use higher limits if they wish to. When the number of allowed recursion lookups
+exceeds the limit, a `IllegalArgumentException` is thrown.
+
+Property expressions applies to lookup methods in `Config`, like `getValue`, `getConfigValue` and `getOptionalValue`.
+Lookup methods in `ConfigSource`, may support property expressions as well, but it is not required by the specification.
+
+The escape character is "\".
+
+=== Backwards Compatibility
+
+MicroProfile Config implementations MUST provide a way to disable variable evaluation to provide backwards
+compatibility. The property `mp.config.property.expressions` can be set to `false` and disable property expressions. By
+default, property expressions are enabled.
+
+If property expression expand is not desirable for a specific case, the raw value on a configuration property may be
+retrieved by calling `getRawValue()` in `ConfigValue`.

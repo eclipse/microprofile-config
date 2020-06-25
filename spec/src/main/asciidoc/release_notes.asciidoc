@@ -26,7 +26,10 @@ A full list of changes delivered in the 2.0 release can be found at link:https:/
 
 === Incompatible Changes
 
-- ConfigSource#getPropertyNames is no longer a default method. The implementation of a ConfigSource must implement this method. (link:https://github.com/eclipse/microprofile-config/issues/431[431])
+- ConfigSource#getPropertyNames is no longer a default method. The implementation of a ConfigSource must implement this method. (link:https://github.com/eclipse/microprofile-config/issues/431[431]
+- Property expansion is a MicroProfile Config 2.0 feature. As such, previous versions of the specification would not
+evaluate expresions. With property expansion available, there is a chance that previous working configuration won't
+work anymore.
 
 === API/SPI Changes
 - Convenience methods have been added to Config allowing for the retrieval of multi-valued properties as lists instead of arrays (link:https://github.com/eclipse/microprofile-config/issues/496[#496])

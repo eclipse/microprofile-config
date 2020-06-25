@@ -41,9 +41,16 @@ public interface ConfigValue {
     /**
      * The value of the property lookup.
      *
-     * @return the raw value of the property lookup or {@code null} if the property could not be found
+     * @return the value of the property lookup or {@code null} if the property could not be found
      */
     String getValue();
+
+    /**
+     * The value of the property lookup without any transformation (expansion, etc).
+     *
+     * @return the raw value of the property lookup or {@code null} if the property could not be found.
+     */
+    String getRawValue();
 
     /**
      * The {@link org.eclipse.microprofile.config.spi.ConfigSource} name that loaded the property lookup.
