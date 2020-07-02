@@ -41,6 +41,7 @@ If the property `mp.config.profile` is specified in multiple config sources, the
 
 === How Config Profile works
 
+==== On Property level
 The configuration property that utilizes the Config Profile is called a "profile-specific" property. A "profile-specific" property name consists of the following sequence: `% <profile name>.<original property name>`.
 
 Conforming implementations are required to search for a configuration source with the highest ordinal (priority) that provides either the property name or the "profile-specific" property name. 
@@ -75,3 +76,19 @@ The properties `%live.vehicle.name` and `%testing.vehicle.name` are inactive con
 
 If `mp.config.profile` is set to `live`, the property `%live.vehicle.name` is the active property. The `vehicleName` will be `train`. Similarly, `bike` will be the value of `vehicleName`, if the profile is `testing`.
 
+==== On Config Source level
+
+Config Profile also affects the default config source `microprofile-config.properties`. If multiple config sources exist under the `META-INF` folder on the classpath with the name like `microprofile-config-<profile_name>.properties`, 
+the config source matching the active profile name will be loaded while the others are ignored. If a matching config source is not found, the `microprofile-config.properties` will be loaded as the fallback config source. 
+
+For instance, there are following config sources provided in your application. 
+
+```
+META-INF\microprofile-config.properties
+META-INF\microprofile-config-dev.properties
+META-INF\microprofile-config-prod.properties
+META-INF\microprofile-config-testing.properties
+```
+If the property `mp.config.profile` is set to `dev`, the config source `microprofile-config-dev.properties` will be loaded.
+Similarly, if `mp.config.profile` is set to `prod`, the config source `microprofile-config-prod.properties` will be loaded.
+However, if `mp.config.profile` is set to `live`, the config source `microprofile-config.properties` will be loaded as the fallback as the config source `microprofile-config-live.properties` does not exist.
