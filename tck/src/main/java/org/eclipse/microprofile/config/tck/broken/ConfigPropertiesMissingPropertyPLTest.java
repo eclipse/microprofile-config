@@ -23,7 +23,6 @@ import java.util.NoSuchElementException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.DeploymentException;
-import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
@@ -44,15 +43,13 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:emijiang6@googlemail.com">Emily Jiang</a>
  */
 public class ConfigPropertiesMissingPropertyPLTest extends Arquillian {
-
-    private @Inject BeanOne customerBeanOne;
         
     @Deployment
     @ShouldThrowException(DeploymentException.class)
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "ConfigPropertiesTest.jar")
-                .addClasses(ConfigPropertiesZeroArgInjection.class, BeanOne.class)
+                .addClasses(ConfigPropertiesMissingPropertyPLTest.class, BeanOne.class)
                 .addAsManifestResource(
                     new StringAsset(
                         "customer.name=Bob\n" +

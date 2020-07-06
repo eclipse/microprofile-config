@@ -202,6 +202,10 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals("Harry", myBeanThree.name);
         Assert.assertEquals(21, myBeanThree.age);
         Assert.assertEquals("UK", myBeanThree.getNationality());
+        BeanThree anotherThree = config.getConfigProperties(BeanThree.class, null);
+        Assert.assertEquals("Harry", anotherThree.name);
+        Assert.assertEquals(21, anotherThree.age);
+        Assert.assertEquals("UK", anotherThree.getNationality());
     }
 
     @Test

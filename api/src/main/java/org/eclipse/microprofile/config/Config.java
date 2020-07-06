@@ -216,7 +216,7 @@ public interface Config {
      *              The type declaration can be annotated with 
      *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
      *              The prefix as the method parameter overrides the prefix set on the type.                
-     *              This class must contain a zero-arg constructor.
+     *              This class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified.
      * @param prefix
      *              The prefix for the configuration properties declared on the class configProperties.
      *              If the prefix is "", which means no prefix involved when performing property lookup.
@@ -241,7 +241,7 @@ public interface Config {
      *              will be honoured. 
      *              The absence of the annotation {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} 
      *              or the absence of the prefix on the annotation means no prefix specified. 
-     *              This class must contain a zero-arg constructor.
+     *              This class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified.
      * @return      An instance for the specified type
      */
     <T> T getConfigProperties(Class<T> configProperties);

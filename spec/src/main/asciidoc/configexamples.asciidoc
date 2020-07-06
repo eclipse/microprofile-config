@@ -230,7 +230,7 @@ details.endpoint -> endpoint -> book
 details.getLocation() -> old.location -> Berlin
 ```
 
-In the above two types of injection lookup, the configuration properties class must contain a zero-arg constructor. Otherwise, DeploymentException will be thrown. 
+In the above two types of injection lookup, the configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified. 
 If any of the property is missing and there is neither default value nor property is not optional, DeploymentException will be thrown. 
 In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `@ConfigProperty` to provide a default value. 
 You can also use `Optional<T>` or OptionalInt, OptionalDouble, OptionalLong as the type.
@@ -269,7 +269,7 @@ details.port -> port -> 9082
 details.endpoint -> endpoint -> book
 details.getLocation() -> old.location -> Berlin
 ```
-In the above programmatic lookup, the configuration properties class must contain a zero-arg constructor. Otherwise, `java.lang.IllegalArgumentException` will be thrown. 
+In the above programmatic lookup, the configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified. 
 
 If any of the property cannot be found and there is neither default value nor property is not optional, `java.util.NoSuchElementException` will be thrown. 
 In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `@ConfigProperty` to provide a default value. 

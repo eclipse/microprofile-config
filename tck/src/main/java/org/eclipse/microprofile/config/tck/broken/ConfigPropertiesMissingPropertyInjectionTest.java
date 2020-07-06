@@ -49,7 +49,7 @@ public class ConfigPropertiesMissingPropertyInjectionTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "ConfigPropertiesTest.jar")
-                .addClasses(ConfigPropertiesZeroArgInjection.class, BeanOne.class)
+                .addClasses(ConfigPropertiesMissingPropertyInjectionTest.class, BeanOne.class)
                 .addAsManifestResource(
                     new StringAsset(
                         "customer.name=Bob\n" +

@@ -36,6 +36,7 @@ import javax.inject.Qualifier;
 /**
  * <p>
  * Retrieve a number of related configuration properties with the specified prefix into a property class.
+ * This class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified.
  * <pre>
  * &#064;ConfigProperties(prefix="server")
  * public class MyServer {
