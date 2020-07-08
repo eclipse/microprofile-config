@@ -21,7 +21,6 @@ package org.eclipse.microprofile.config.tck;
 
 import java.util.Optional;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
@@ -243,7 +242,7 @@ public class ConfigPropertiesTest extends Arquillian {
     }
 
     @ConfigProperties(prefix="customer")
-    @ApplicationScoped
+    @Dependent
     public static class BeanOne {
         private String name;
         int age;

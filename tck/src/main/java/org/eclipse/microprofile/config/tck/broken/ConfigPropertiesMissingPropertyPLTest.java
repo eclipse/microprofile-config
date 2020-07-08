@@ -21,7 +21,7 @@ package org.eclipse.microprofile.config.tck.broken;
 
 import java.util.NoSuchElementException;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.DeploymentException;
 
 import org.eclipse.microprofile.config.Config;
@@ -73,7 +73,7 @@ public class ConfigPropertiesMissingPropertyPLTest extends Arquillian {
     }
 
     @ConfigProperties(prefix="customer")
-    @ApplicationScoped
+    @Dependent
     public static class BeanOne {
         private String name;
         public int age;
