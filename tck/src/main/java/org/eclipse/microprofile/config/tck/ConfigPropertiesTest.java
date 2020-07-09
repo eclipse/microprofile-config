@@ -22,6 +22,8 @@ package org.eclipse.microprofile.config.tck;
 import java.util.Optional;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
@@ -110,6 +112,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new Location("2 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), customerBeanOne.location);
     }
 
+
     @Test
     public void testConfigPropertiesProgrammatic() {
         Config config = ConfigProvider.getConfig();
@@ -129,6 +132,14 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals("Engineer", clientBeanOne.job);
         Assert.assertEquals(new String[] {"Football", "Tennis"}, clientBeanOne.hobbies);
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
+        
+        //programmatic lookup of the beans
+        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
+        Assert.assertEquals("Rob", bo.getName());
+        Assert.assertEquals(25, bo.age);
+        Assert.assertEquals("Engineer", bo.job);
+        Assert.assertEquals(new String[] {"Football", "Tennis"}, bo.hobbies);
+        Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
     }
 
     @Test
@@ -149,6 +160,14 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals("Plumber", beanOne.job);
         Assert.assertEquals(new String[] {"Volleyball"}, beanOne.hobbies);
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
+        
+        //programmatic lookup of the beans
+        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.NOPREFIX).get();
+        Assert.assertEquals("Hob", bo.getName());
+        Assert.assertEquals(26, bo.age);
+        Assert.assertEquals("Plumber", bo.job);
+        Assert.assertEquals(new String[] {"Volleyball"}, bo.hobbies);
+        Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
     }
 
     @Test
@@ -260,11 +279,11 @@ public class ConfigPropertiesTest extends Arquillian {
     }
 
     @ConfigProperties
-    @Dependent
+    @RequestScoped
     public static class BeanTwo {
         private String host;
         int port;
-        public String endpoint;
+        String endpoint;
         /**
         * @return String return the host
         */

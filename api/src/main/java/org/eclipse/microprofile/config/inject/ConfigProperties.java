@@ -30,6 +30,7 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import javax.enterprise.util.AnnotationLiteral;
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
@@ -64,10 +65,36 @@ import javax.inject.Qualifier;
 @Qualifier
 public @interface ConfigProperties {
 
+
     /**
      * The prefix of the configuration properties
      * @return the configuration property prefix
      */
     @Nonbinding
     String prefix() default "";
+
+    /**
+     * Support inline instantiation of the {@link ConfigProperties} qualifier.
+     */
+    public final static class Literal extends AnnotationLiteral<ConfigProperties> implements ConfigProperties {
+
+        public static final Literal NOPREFIX = of(""); 
+
+        private static final long serialVersionUID = 1L;
+        private final String prefix;
+
+        public static Literal of(String prefix) {
+            return new Literal(prefix);
+        }
+
+        private Literal(String prefix){
+            this.prefix = prefix;
+        }
+
+        @Override
+        public String prefix() {
+            return prefix;
+        }
+
+    }
 }
