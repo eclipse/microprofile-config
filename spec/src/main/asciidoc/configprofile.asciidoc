@@ -79,7 +79,8 @@ If `mp.config.profile` is set to `live`, the property `%live.vehicle.name` is th
 ==== On Config Source level
 
 Config Profile also affects the default config source `microprofile-config.properties`. If multiple config sources exist under the `META-INF` folder on the classpath with the name like `microprofile-config-<profile_name>.properties`, 
-the config source matching the active profile name will be loaded while the others are ignored. If a matching config source is not found, the `microprofile-config.properties` will be loaded as the fallback config source. 
+the config source matching the active profile name will also be loaded on top of the default config source `microprofile-config.properties`. It means if the same property specified in both config sources, the value from the config source 
+`microprofile-config-<profile_name>.properties` will be used instead. If the property `mp.config.profile` is specified in the `microprofile-config-<profile_name>.properties`, this property will be discarded.
 
 For instance, there are following config sources provided in your application. 
 
@@ -89,6 +90,6 @@ META-INF\microprofile-config-dev.properties
 META-INF\microprofile-config-prod.properties
 META-INF\microprofile-config-testing.properties
 ```
-If the property `mp.config.profile` is set to `dev`, the config source `microprofile-config-dev.properties` will be loaded.
-Similarly, if `mp.config.profile` is set to `prod`, the config source `microprofile-config-prod.properties` will be loaded.
-However, if `mp.config.profile` is set to `live`, the config source `microprofile-config.properties` will be loaded as the fallback as the config source `microprofile-config-live.properties` does not exist.
+If the property `mp.config.profile` is set to `dev`, the config source `microprofile-config-dev.properties` will be loaded onto the config source of `microprofile-config.properties`.
+Similarly, if `mp.config.profile` is set to `prod`, the config source `microprofile-config-prod.properties` will be loaded onto the config source of `microprofile-config.properties`.
+However, if `mp.config.profile` is set to `live`, no additional property file will be loaded on the top of `microprofile-config.properties` as the config source `microprofile-config-live.properties` does not exist.
