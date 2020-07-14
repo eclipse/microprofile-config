@@ -35,7 +35,7 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
 /**
- * <p>
+ * 
  * Retrieve a number of related configuration properties with the specified prefix into a property class.
  * This class should contain a zero-arg constructor. Otherwise, non-portable behaviour occurs.
  * <pre>
@@ -51,9 +51,6 @@ import javax.inject.Qualifier;
  *      }
  * }
  * </pre>
- *
- * 
- *
  * @since 2.0
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * 
@@ -64,7 +61,6 @@ import javax.inject.Qualifier;
 @Documented
 @Qualifier
 public @interface ConfigProperties {
-
 
     /**
      * The prefix of the configuration properties
