@@ -68,7 +68,7 @@ public class ConfigPropertiesMissingPropertyInjectionTest extends Arquillian {
     public void test() {  
     }
 
-    @ConfigProperties(prefix="customer")
+    @ConfigProperties(prefix="customer.")
     @Dependent
     public static class BeanOne {
         private String name;

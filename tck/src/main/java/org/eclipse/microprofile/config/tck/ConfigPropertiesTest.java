@@ -88,9 +88,9 @@ public class ConfigPropertiesTest extends Arquillian {
                         "name=Harry\n" +
                         "age=21\n" +
                         "nationality=UK\n" +
-                        "other.name=Holly\n" +
-                        "other.age=20\n" +
-                        "other.nationality=USA\n" 
+                        "other$name=Holly\n" +
+                        "other$age=20\n" +
+                        "other$nationality=USA\n" 
                         ),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
@@ -134,7 +134,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
         
         //programmatic lookup of the beans
-        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
+        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client.")).get();
         Assert.assertEquals("Rob", bo.getName());
         Assert.assertEquals(25, bo.age);
         Assert.assertEquals("Engineer", bo.job);
@@ -145,7 +145,7 @@ public class ConfigPropertiesTest extends Arquillian {
     @Test
     public void testConfigPropertiesWithPrefixProgrammatic() {
         Config config = ConfigProvider.getConfig();
-        BeanOne cBeanOne = config.getConfigProperties(BeanOne.class, "client");
+        BeanOne cBeanOne = config.getConfigProperties(BeanOne.class, "client.");
         Assert.assertEquals("Rob", cBeanOne.getName());
         Assert.assertEquals(25, cBeanOne.age);
         Assert.assertEquals("Engineer", cBeanOne.job);
@@ -207,7 +207,7 @@ public class ConfigPropertiesTest extends Arquillian {
     @Test
     public void testConfigPropertiesNoPrefixOnBeanThenSupplyPrefixProgrammatic() {
         Config config = ConfigProvider.getConfig();
-        BeanTwo myBeanTwo = config.getConfigProperties(BeanTwo.class, "my");
+        BeanTwo myBeanTwo = config.getConfigProperties(BeanTwo.class, "my.");
         Assert.assertEquals("myhost", myBeanTwo.getHost());
         Assert.assertEquals("9081", myBeanTwo.port);
         Assert.assertEquals("poof", myBeanTwo.endpoint);
@@ -229,7 +229,7 @@ public class ConfigPropertiesTest extends Arquillian {
     @Test
     public void testNoConfigPropertiesAnnotationWithPrefixProgrammatic() {
         Config config = ConfigProvider.getConfig();
-        BeanThree myBeanThree = config.getConfigProperties(BeanThree.class, "other");
+        BeanThree myBeanThree = config.getConfigProperties(BeanThree.class, "other$");
         Assert.assertEquals("Holly", myBeanThree.name);
         Assert.assertEquals(20, myBeanThree.age);
         Assert.assertEquals("USA", myBeanThree.getNationality());
@@ -260,7 +260,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
-    @ConfigProperties(prefix="customer")
+    @ConfigProperties(prefix="customer.")
     @Dependent
     public static class BeanOne {
         private String name;
@@ -306,7 +306,7 @@ public class ConfigPropertiesTest extends Arquillian {
         }
     }
 
-    @ConfigProperties(prefix="cloud")
+    @ConfigProperties(prefix="cloud.")
     @Dependent
     public static class BeanFour {
         @ConfigProperty(name="a.host", defaultValue="mycloud.org")

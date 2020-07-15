@@ -72,7 +72,7 @@ public class ConfigPropertiesMissingPropertyPLTest extends Arquillian {
         BeanOne beanOne = config.getConfigProperties(BeanOne.class); //should throw exception
     }
 
-    @ConfigProperties(prefix="customer")
+    @ConfigProperties(prefix="customer.")
     @Dependent
     public static class BeanOne {
         private String name;

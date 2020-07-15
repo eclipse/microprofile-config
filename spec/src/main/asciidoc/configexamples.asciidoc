@@ -137,11 +137,11 @@ Since they are related, it makes more sense to aggregate them into a single prop
 MicroProfile Config provides a way to look up a number of configuration properties starting with the same prefix using the `@ConfigProperties` annotation, e.g. `ConfigProperties(prefix="myPrefix")`.
 When annotating a class with `@ConfigProperties` or `@ConfigProperties(prefix="myPrefix")`, any of its fields, regardless of the visibility, maps to a configuration property via the following mapping rules. 
 
-* If the `prefix` is present, the field `x` maps to the configuration property `<prefix>.x`. 
+* If the `prefix` is present, the field `x` maps to the configuration property `<prefix>x`. 
 * If the `prefix` is absent, the field `x` maps to the property name `x`. 
 
 If the field name `x` needs to be different from the config property name `y`, use `@ConfigProperty(name="y")` to perform the transformation. 
-If the prefix is present, the field `x` maps to the configuration property `<prefix>.y`, otherwise `y`.
+If the prefix is present, the field `x` maps to the configuration property `<prefix>y`, otherwise `y`.
 
 Considering the following config sources:
 
@@ -172,7 +172,7 @@ In order to retrieve the above properties in a single property class, you can us
 [source, java]
 ----
 
-@ConfigProperties(prefix="server")
+@ConfigProperties(prefix="server.")
 @ApplicationScoped
 public class Details {
     public String host; // the value of the configuration property server.host
@@ -194,7 +194,7 @@ You can then use one of the following to retrieve the properties.
 @Inject Details serverDetails;
 ----
 
-The `serverDetails` will contain the following info, as the prefix is `server`:
+The `serverDetails` will contain the following info, as the prefix is `server.`:
 
 ```
 serverDetails.host -> server.host -> localhost
@@ -209,7 +209,7 @@ In this case, the prefix associated with `@ConfigProperties` on this injection p
 ----
 @Inject @ConfigProperties(prefix="client") Details clientDetails;
 ----
-The prefix `client` overrides the prefix `server` on the `ServerDetails` bean. Therefore, this will retrieve the following properties.
+The prefix `client.` overrides the prefix `server.` on the `ServerDetails` bean. Therefore, this will retrieve the following properties.
 
 ```
 clientDetails.host -> client.host -> myHost
@@ -221,7 +221,7 @@ If `@ConfigProperties` has no associated prefix, it means the prefix is empty. e
 ----
 @Inject @ConfigProperties Details details; //prefix is empty
 ----
-The absence of the prefix means the prefix is empty, which overrides the prefix set on the bean class `server`. Therefore, this will retrieve the following properties.
+The absence of the prefix means the prefix is empty, which overrides the prefix set on the bean class `server.`. Therefore, this will retrieve the following properties.
 
 ```
 details.host -> host -> anotherHost
@@ -241,11 +241,11 @@ If any of the property value cannot be converted to the specified type, Deployme
 ----
 Config config = ConfigProvider.getConfig();
 Details serverDetails = config.getConfigProperties(Details.class);
-Details clientDetails = config.getConfigProperties(Details.class, "client"); 
+Details clientDetails = config.getConfigProperties(Details.class, "client."); 
 Details details = config.getConfigProperties(Details.class, ""); //use no prefix
 ----
 
-In the above example, the `serverDetails` will contain the following info, because the prefix `server` on the bean class `Details` is in action:
+In the above example, the `serverDetails` will contain the following info, because the prefix `server.` on the bean class `Details` is in action:
 
 ```
 serverDetails.host -> server.host -> localhost
@@ -253,7 +253,7 @@ serverDetails.port -> server.port -> 9080
 serverDetails.endpoint -> server.endpoint -> query
 serverDetails.getLocation() -> server.old.location -> London
 ```
-The `clientDetails` will retrieve the following properties, because the specified prefix `client` overrides the prefix on the bean class.
+The `clientDetails` will retrieve the following properties, because the specified prefix `client.` overrides the prefix on the bean class.
 
 ```
 clientDetails.host -> client.host -> myHost
@@ -261,7 +261,7 @@ clientDetails.port -> client.port -> 9081
 clientDetails.endpoint -> client.endpoint -> shelf
 clientDetails.getLocation() -> client.old.location -> Dublin
 ```
-The `empty` prefix overrides the prefix set on the bean class `server`. Therefore, this will retrieve the following properties.
+The `empty` prefix overrides the prefix set on the bean class `server.`. Therefore, this will retrieve the following properties.
 
 ```
 details.host -> host -> anotherHost
