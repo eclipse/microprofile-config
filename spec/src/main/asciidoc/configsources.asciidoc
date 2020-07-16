@@ -160,7 +160,8 @@ Alternatively, for the injection style, the following lookup should be used to r
 Whether a `ConfigSource` supports this dynamic behavior or not is dependent on how it's implemented.
 For an instance, the default `ConfigSource` microprofile-config.properties and Environment Variables are not dynamic 
 while System Properties are dynamic by nature. MicroProfile Config Implementation can decide whether 
-a `ConfigSource` can be dyanamic or not.
+a `ConfigSource` can be dynamic or not.
+
 === Cleaning up a ConfigSource
 
 If a `ConfigSource` implements the `java.lang.AutoCloseable` interface  then the `close()` method will be called when the underlying `Config` is being released.
