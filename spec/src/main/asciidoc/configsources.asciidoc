@@ -149,8 +149,12 @@ Please note that a single `ConfigSource` should be either registered directly or
 
 === Dynamic ConfigSource
 
-A dynamic ConfigSource is a `ConfigSource` where its content can be updated, such as updating a property name or value or adding or deleting config properties 
-from it. For the property lookup, the method `config.getValue()` or `config.getOptionalValue()` retrieves the up-to-date value.
+As a `ConfigSource` is a view of configuration data, its data may be changing, or unchanging. 
+If the data is changing, and a `ConfigSource` can represent its changes, we call that `ConfigSource` a dynamic `ConfigSource`, since at any two moments two operations on it may reflect two different sets of underlying configuration data. 
+If instead the data is unchanging, we call the `ConfigSource` a static `ConfigSource`, since at any two moments two operations on it will reflect only one set of underlying (unchanging) configuration data. 
+A caller cannot know whether a `ConfigSource` is dynamic or static. 
+
+For the property lookup, the method `config.getValue()` or `config.getOptionalValue()` retrieves the up-to-date value.
 Alternatively, for the injection style, the following lookup should be used to retrieve the up-to-date value.
 [source, text]
 ----
