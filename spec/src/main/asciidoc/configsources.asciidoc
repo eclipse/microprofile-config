@@ -147,9 +147,29 @@ public class ExampleYamlConfigSourceProvider
 
 Please note that a single `ConfigSource` should be either registered directly or via a `ConfigSourceProvider`, but never both ways.
 
+=== Dynamic ConfigSource
+
+As a `ConfigSource` is a view of configuration data, its data may be changing, or unchanging. 
+If the data is changing, and a `ConfigSource` can represent its changes, we call that `ConfigSource` a dynamic `ConfigSource`, since at any two moments two operations on it may reflect two different sets of underlying configuration data. 
+If instead the data is unchanging, we call the `ConfigSource` a static `ConfigSource`, since at any two moments two operations on it will reflect only one set of underlying (unchanging) configuration data. 
+A caller cannot know whether a `ConfigSource` is dynamic or static. 
+
+For the property lookup, the method `config.getValue()` or `config.getOptionalValue()` retrieves the up-to-date value.
+Alternatively, for the injection style, the following lookup should be used to retrieve the up-to-date value.
+[source, text]
+----
+    @Inject
+    @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
+    private javax.inject.Provider<Long> timeout; 
+----
+Whether a `ConfigSource` supports this dynamic behavior or not depends on how it's implemented.
+For instance, the default `ConfigSource` microprofile-config.properties and Environment Variables are not dynamic 
+while System Properties are dynamic by nature. MicroProfile Config Implementation can decide whether 
+a `ConfigSource` can be dynamic or not.
+
 === Cleaning up a ConfigSource
 
-If a `ConfigSource` implements the `java.lang.AutoCloseable` interface  then the `close()` method will be called when the underlying `Config` is being released.
+If a `ConfigSource` implements the `java.lang.AutoCloseable` interface then the `close()` method will be called when the underlying `Config` is being released.
 
 === ConfigSource and Mutable Data
 
