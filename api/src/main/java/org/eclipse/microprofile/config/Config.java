@@ -273,8 +273,10 @@ public interface Config {
 
     /**
      * Return all of the currently registered {@linkplain ConfigSource configuration sources} for this configuration.
+     * <p>
      * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe manner.
-     *
+     * The {@link java.util.Iterator Iterable} is not alterable and 
+     * contains a fixed number of {@linkplain ConfigSource configuration sources}, which may be either static or dynamic.
      * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();
