@@ -29,16 +29,16 @@ A full list of changes delivered in the 2.0 release can be found at link:https:/
 - ConfigSource#getPropertyNames is no longer a default method. The implementation of a ConfigSource must implement this method. (link:https://github.com/eclipse/microprofile-config/issues/431[431])
 
 === API/SPI Changes
-
 - Convenience methods have been added to Config allowing for the retrieval of multi-valued properties as lists instead of arrays (link:https://github.com/eclipse/microprofile-config/issues/496[#496])
-- Support Configuration Profile so that the corresponding properties associated with the active profile will be used (link:https://github.com/eclipse/microprofile-config/issues/418[#418])
-- Enable isolation of config properties into a separate POJO by introducing `@ConfigProperties` (link:https://github.com/eclipse/microprofile-config/issues/240[240])
+- Enable bulk-extraction of config properties into a separate POJO by introducing `@ConfigProperties` (link:https://github.com/eclipse/microprofile-config/issues/240[240])
 - Enable users to determine the winning source for a configuration value (link:https://github.com/eclipse/microprofile-config/issues/312[312]) (link:https://github.com/eclipse/microprofile-config/issues/43[43])
 - Expose conversion mechanism in Config API (link:https://github.com/eclipse/microprofile-config/issues/492[492])
+- Add unwrap() methods to Config (link:https://github.com/eclipse/microprofile-config/issues/84[84])
 
 === Functional Changes
+- Support Configuration Profiles so that the corresponding properties associated with the active profile are used (link:https://github.com/eclipse/microprofile-config/issues/418[#418])
 - Provide built-in Converters: OptinalInt, OptionalLong and OptionalDouble (link:https://github.com/eclipse/microprofile-config/issues/513[513])
-- Clarify behaviour of Converters for primitive wrappers (link:https://github.com/eclipse/microprofile-config/issues/520[520])
+- Clarifies that Converters for primitive wrappers apply to primitive types as well (link:https://github.com/eclipse/microprofile-config/issues/520[520])
 
 === Other Changes
 - Update to Jakart EE8 APIs for MP 4.0 (link:https://github.com/eclipse/microprofile-config/issues/469[469])
