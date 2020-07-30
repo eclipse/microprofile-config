@@ -1,5 +1,4 @@
 /*
- *******************************************************************************
  * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -24,8 +23,7 @@
  *      Merged and JavaDoc          c8525998a43fe798f367
  *   2016-11-14 - Emily Jiang / IBM
  *      API improvements + JavaDoc  f53258b8eca1253fee52
- *
- *******************************************************************************/
+ */
 package org.eclipse.microprofile.config.spi;
 
 import org.eclipse.microprofile.config.Config;
@@ -84,7 +82,7 @@ public interface ConfigBuilder {
     /**
      * Add the specified {@link Converter} instances to the configuration being built.
      * <p>
-     * The implementation may use reflection to determine the target type of the converter.  If the
+     * The implementation may use reflection to determine the target type of the converter. If the
      * type cannot be determined reflectively, this method may fail with a runtime exception.
      * <p>
      * When using lambda expressions for custom converters you should use the
@@ -114,7 +112,7 @@ public interface ConfigBuilder {
      * @return this configuration builder instance
      */
     <T> ConfigBuilder withConverter(Class<T> type, int priority, Converter<T> converter);
-    
+
     /**
      * Build a new {@link Config} instance based on this builder instance.
      *

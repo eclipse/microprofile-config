@@ -1,5 +1,4 @@
 /*
- *******************************************************************************
  * Copyright (c) 2011-2019 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -29,9 +28,7 @@
  *   2018-04-04 - Mark Struberg, Manfred Huber, Alex Falb, Gerhard Petracek
  *      ConfigSnapshot added. Initially authored in Apache DeltaSpike fdd1e3dcd9a12ceed831dd
  *      Additional reviews and feedback by Tomas Langer.
- *
- *******************************************************************************/
-
+ */
 package org.eclipse.microprofile.config;
 
 import java.lang.reflect.Array;
@@ -43,43 +40,48 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.Converter;
 
 /**
+ * Resolves the property value by searching through all configured {@link ConfigSource ConfigSources}. If the same
+ * property is specified in multiple {@link ConfigSource ConfigSources}, the value in the {@link ConfigSource} with the
+ * highest ordinal will be used.
  * <p>
- * Resolves the property value by searching through all configured
- * {@link ConfigSource ConfigSources}. If the same property is specified in multiple
- * {@link ConfigSource ConfigSources}, the value in the {@link ConfigSource} with the highest
- * ordinal will be used.
- * <p>If multiple {@link ConfigSource ConfigSources} are specified with
- * the same ordinal, the {@link ConfigSource#getName()} will be used for sorting.
+ * If multiple {@link ConfigSource ConfigSources} are specified with the same ordinal, the
+ * {@link ConfigSource#getName()} will be used for sorting.
  * <p>
  * The config objects produced via the injection model {@code @Inject Config} are guaranteed to be serializable, while
  * the programmatically created ones are not required to be serializable.
  * <p>
- * If one or more converters are registered for a class of a requested value then the registered {@link org.eclipse.microprofile.config.spi.Converter}
- * which has the highest {@code @javax.annotation.Priority} is used to convert the string value retrieved from the config sources.
+ * If one or more converters are registered for a class of a requested value then the registered
+ * {@link org.eclipse.microprofile.config.spi.Converter} which has the highest {@code @javax.annotation.Priority} is
+ * used to convert the string value retrieved from the config sources.
  *
  * <h2>Usage</h2>
  *
+ * <p>
  * For accessing the config you can use the {@link ConfigProvider}:
  *
  * <pre>
- * public void doSomething(
+ * public void doSomething() {
  *   Config cfg = ConfigProvider.getConfig();
  *   String archiveUrl = cfg.getValue("my.project.archive.endpoint", String.class);
  *   Integer archivePort = cfg.getValue("my.project.archive.port", Integer.class);
- * </pre>
- *
- * <p>It is also possible to inject the Config if a DI container is available:
- *
- * <pre>
- * public class MyService {
- *     &#064;Inject
- *     private Config config;
  * }
  * </pre>
  *
- * <p>See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} for accessing a configured value.
+ * <p>
+ * It is also possible to inject the Config if a DI container is available:
  *
- * <p>Configured values can also be accessed via injection.
+ * <pre>
+ * public class MyService {
+ *   &#064;Inject
+ *   private Config config;
+ * }
+ * </pre>
+ *
+ * <p>
+ * See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} for accessing a configured value.
+ *
+ * <p>
+ * Configured values can also be accessed via injection.
  * See {@link org.eclipse.microprofile.config.inject.ConfigProperty} for more information.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -98,12 +100,9 @@ public interface Config {
      * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
      * rather than recomputing it.
      *
-     * @param <T>
-     *             The property type
-     * @param propertyName
-     *             The configuration property name
-     * @param propertyType
-     *             The type into which the resolved property value should get converted
+     * @param <T> The property type
+     * @param propertyName The configuration property name
+     * @param propertyType The type into which the resolved property value should get converted
      * @return the resolved property value as an instance of the requested type
      * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
      * @throws java.util.NoSuchElementException if the property isn't present in the configuration
@@ -115,18 +114,15 @@ public interface Config {
      * {@linkplain ConfigSource configuration source}. The lookup of the configuration is performed immediatily,
      * meaning that calls to {@link ConfigValue} will always yeld the same results.
      * <p>
-     *
      * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
      * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
      * rather than recomputing it.
      * <p>
-     *
      * A {@link ConfigValue} is always returned even if a property name cannot be found. In this case, every method in
      * {@link ConfigValue} returns {@code null} except for {@link ConfigValue#getName()}, which includes the original
      * property name being looked up.
      *
-     * @param propertyName
-     *              The configuration property name
+     * @param propertyName The configuration property name
      * @return the resolved property value as a {@link ConfigValue}
      */
     ConfigValue getConfigValue(String propertyName);
@@ -139,12 +135,9 @@ public interface Config {
      * to compute; therefore, if the returned values are intended to be frequently used, callers should consider storing
      * rather than recomputing them.
      *
-     * @param <T>
-     *             The property type
-     * @param propertyName
-     *             The configuration property name
-     * @param propertyType
-     *             The type into which the resolved property values should get converted
+     * @param <T> The property type
+     * @param propertyName The configuration property name
+     * @param propertyType The type into which the resolved property values should get converted
      * @return the resolved property values as a list of instances of the requested type
      * @throws java.lang.IllegalArgumentException if the property values cannot be converted to the specified type
      * @throws java.util.NoSuchElementException if the property isn't present in the configuration
@@ -162,17 +155,13 @@ public interface Config {
      * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
      * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
      * rather than recomputing it.
-     *
+     * <p>
      * If this method is used very often then consider to locally store the configured value.
      *
-     * @param <T>
-     *             The property type
-     * @param propertyName
-     *             The configuration property name
-     * @param propertyType
-     *             The type into which the resolved property value should be converted
+     * @param <T> The property type
+     * @param propertyName The configuration property name
+     * @param propertyType The type into which the resolved property value should be converted
      * @return The resolved property value as an {@code Optional} wrapping the requested type
-     *
      * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
      */
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
@@ -185,12 +174,9 @@ public interface Config {
      * to compute; therefore, if the returned values are intended to be frequently used, callers should consider storing
      * rather than recomputing them.
      *
-     * @param <T>
-     *             The property type
-     * @param propertyName
-     *             The configuration property name
-     * @param propertyType
-     *             The type into which the resolved property values should be converted
+     * @param <T> The property type
+     * @param propertyName The configuration property name
+     * @param propertyType The type into which the resolved property values should be converted
      * @return The resolved property values as an {@code Optional} wrapping a list of the requested type
      *
      * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
@@ -202,47 +188,55 @@ public interface Config {
     }
 
     /**
-     * Return the resolved configuration properties instance with the specified prefix. 
-     * The type declaration can be annotated with 
-     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}. 
-     * If the type is annotated with {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}, 
-     * the prefix supplied in this method overrides the prefix associated with the annotation 
+     * Return the resolved configuration properties instance with the specified prefix.
+     * <p>
+     * The type declaration can be annotated with
      * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
-     * 
-     * @param <T> 
-     *              The Class Type
+     * <p>
+     * If the type is annotated with
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties},
+     * the prefix supplied in this method overrides the prefix associated with the annotation
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
+     *
+     * @param <T> The Class Type
      * @param configProperties
-     *              The class that contains a number of fields that maps to corresponding configuration properties. 
-     *              The type declaration can be annotated with 
+     *              The class that contains a number of fields that maps to corresponding configuration properties.
+     *              The type declaration can be annotated with
      *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
-     *              The prefix as the method parameter overrides the prefix set on the type.                
+     *              The prefix as the method parameter overrides the prefix set on the type.
      *              This class should contain a zero-arg constructor. Otherwise, non-portable behaviour occurs.
      * @param prefix
      *              The prefix for the configuration properties declared on the class configProperties.
      *              If the prefix is "", which means no prefix involved when performing property lookup.
      *              If the prefix is null, this method is equivalent to {@linkplain #getConfigProperties(Class)}.
-     * @return      An instance for the specified type and prefix 
+     * @return An instance for the specified type and prefix
      */
     <T> T getConfigProperties(Class<T> configProperties, String prefix);
 
     /**
-     * Return the resolved configuration properties instance. The type can be annotated with 
-     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}. 
-     * If the type is annotated with {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}, 
-     * the prefix associated with the annotation {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} will be used.
-     * @param <T> 
-     *              The Class Type
+     * Return the resolved configuration properties instance. The type can be annotated with
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
+     * <p>
+     * If the type is annotated with
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties},
+     * the prefix associated with the annotation
+     * {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} will be used.
+     *
+     * @param <T> The Class Type
      * @param configProperties
-     *              The class that contains a number of fields that maps to corresponding configuration properties. 
-     *              The type declaration can be annotated with 
-     *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}. 
-     *              If the type is annotated with {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}, 
-     *              the prefix on the annotation {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} 
-     *              will be honoured. 
-     *              The absence of the annotation {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties} 
-     *              or the absence of the prefix on the annotation means no prefix specified. 
+     *              The class that contains a number of fields that maps to corresponding configuration properties.
+     *              The type declaration can be annotated with
+     *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}.
+     *              If the type is annotated with
+     *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties},
+     *              the prefix on the annotation
+     *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}
+     *              will be used.
+     *              The absence of the annotation
+     *              {@linkplain org.eclipse.microprofile.config.inject.ConfigProperties @ConfigProperties}
+     *              or the absence of the prefix on the annotation means no prefix specified.
      *              This class should contain a zero-arg constructor. Otherwise, non-portable behaviour occurs.
-     * @return      An instance for the specified type
+     * @return An instance for the specified type
      */
     <T> T getConfigProperties(Class<T> configProperties);
 
@@ -264,16 +258,17 @@ public interface Config {
      * {@link java.util.Iterator Iterator} must adhere to the contract of that class, and must not return any more
      * elements once its {@link java.util.Iterator#hasNext() hasNext()} method returns {@code false}.
      * <p>
-     * The returned instance is thread safe and may be iterated concurrently.  The individual iterators are not
+     * The returned instance is thread safe and may be iterated concurrently. The individual iterators are not
      * thread-safe.
      *
-     * @return the names of all configured keys of the underlying configuration.
+     * @return the names of all configured keys of the underlying configuration
      */
     Iterable<String> getPropertyNames();
 
     /**
      * Return all of the currently registered {@linkplain ConfigSource configuration sources} for this configuration.
-     * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe manner.
+     * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe
+     * manner.
      *
      * @return the configuration sources
      */
@@ -282,11 +277,10 @@ public interface Config {
     /**
      * Return the {@link Converter} used by this instance to produce instances of the specified type from string values.
      *
-     * @param <T>
-     *             the conversion type
-     * @param forType
-     *             the type to be produced by the converter
-     * @return an {@link Optional} containing the converter, or empty if no converter is available for the specified type
+     * @param <T> the conversion type
+     * @param forType the type to be produced by the converter
+     * @return an {@link Optional} containing the converter, or empty if no converter is available for the specified
+     * type
      */
     <T> Optional<Converter<T>> getConverter(Class<T> forType);
 

@@ -16,9 +16,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.eclipse.microprofile.config.inject;
-
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.ElementType.METHOD;
@@ -35,35 +33,36 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
 /**
- * 
  * Retrieve a number of related configuration properties with the specified prefix into a property class.
  * This class should contain a zero-arg constructor. Otherwise, non-portable behaviour occurs.
+ *
+ * <h2>Example</h2>
+ *
  * <pre>
  * &#064;ConfigProperties(prefix="server")
  * public class MyServer {
- *      public String host; //maps the property name server.host
- *      public int port;    //maps to the property name server.port
- *      private String context; //maps to the property name server.context
- *      public &#064;ConfigProperty(name="old.location")
- *      String location; //maps to the property name server.old.location
- *      public String getContext() {
- *          return context;
- *      }
+ *   public String host;     //maps the property name server.host
+ *   public int port;        //maps to the property name server.port
+ *   private String context; //maps to the property name server.context
+ *   &#064;ConfigProperty(name="old.location")
+ *   public String location; //maps to the property name server.old.location
+ *   public String getContext() {
+ *     return context;
+ *   }
  * }
  * </pre>
+ *
  * @since 2.0
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
- * 
  */
-
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 @Retention(RUNTIME)
 @Documented
 @Qualifier
 public @interface ConfigProperties {
-
     /**
-     * The prefix of the configuration properties
+     * The prefix of the configuration properties.
+     *
      * @return the configuration property prefix
      */
     @Nonbinding
@@ -73,8 +72,7 @@ public @interface ConfigProperties {
      * Support inline instantiation of the {@link ConfigProperties} qualifier.
      */
     public final static class Literal extends AnnotationLiteral<ConfigProperties> implements ConfigProperties {
-
-        public static final Literal NOPREFIX = of(""); 
+        public static final Literal NOPREFIX = of("");
 
         private static final long serialVersionUID = 1L;
         private final String prefix;
@@ -91,6 +89,5 @@ public @interface ConfigProperties {
         public String prefix() {
             return prefix;
         }
-
     }
 }

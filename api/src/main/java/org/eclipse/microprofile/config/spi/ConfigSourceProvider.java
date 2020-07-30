@@ -1,5 +1,4 @@
 /*
- *******************************************************************************
  * Copyright (c) 2011-2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -24,9 +23,7 @@
  *      Extracted the Config part out of Apache DeltaSpike and proposed as Microprofile-Config
  *   2016-11-14 - Emily Jiang / IBM Corp
  *      Methods renamed, JavaDoc and cleanup
- *
- *******************************************************************************/
-
+ */
 package org.eclipse.microprofile.config.spi;
 
 /**
@@ -38,18 +35,16 @@ package org.eclipse.microprofile.config.spi;
  * Instances of this interface will be {@linkplain ConfigBuilder#addDiscoveredSources() discovered} via the
  * {@link java.util.ServiceLoader} mechanism and can be registered by providing a
  * {@code META-INF/services/org.eclipse.microprofile.config.spi.ConfigSourceProvider}
- * {@linkplain ClassLoader#getResource(String) resource} which contains
- * the fully qualified class name of the custom {@code ConfigSourceProvider} implementation.
+ * {@linkplain ClassLoader#getResource(String) resource} which contains the fully qualified class name of the custom
+ * {@code ConfigSourceProvider} implementation.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
- *
  */
 public interface ConfigSourceProvider {
-
     /**
-     * Return the {@link ConfigSource} instances that are provided by this provider.  An empty {@code Iterable} may
+     * Return the {@link ConfigSource} instances that are provided by this provider. An empty {@code Iterable} may
      * be returned if no sources are to be provided.
      *
      * @param forClassLoader the class loader which should be used for discovery and resource loading purposes
