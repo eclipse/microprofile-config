@@ -39,14 +39,14 @@ public interface ConfigValue {
     String getName();
 
     /**
-     * The value of the property lookup.
+     * The value of the property lookup with transformations (expanded, etc).
      *
      * @return the value of the property lookup or {@code null} if the property could not be found
      */
     String getValue();
 
     /**
-     * The value of the property lookup without any transformation (expansion, etc).
+     * The value of the property lookup without any transformation (expanded , etc).
      *
      * @return the raw value of the property lookup or {@code null} if the property could not be found.
      */

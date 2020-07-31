@@ -27,9 +27,10 @@ A full list of changes delivered in the 2.0 release can be found at link:https:/
 === Incompatible Changes
 
 - ConfigSource#getPropertyNames is no longer a default method. The implementation of a ConfigSource must implement this method. (link:https://github.com/eclipse/microprofile-config/issues/431[431]
-- Property expansion is a MicroProfile Config 2.0 feature. As such, previous versions of the specification would not
-evaluate expresions. With property expansion available, there is a chance that previous working configuration won't
-work anymore.
+- Previous versions of the specification would not evaluate Property Expressions. As such, previous working
+configuration may behave differently (if the used configuration contains values with Property Expressions
+syntax). Check the link:property-expressions.asciidoc[Property Expressions] section on how to go back to the
+previous behaviour.
 
 === API/SPI Changes
 - Convenience methods have been added to Config allowing for the retrieval of multi-valued properties as lists instead of arrays (link:https://github.com/eclipse/microprofile-config/issues/496[#496])
@@ -43,6 +44,7 @@ work anymore.
 - Provide built-in Converters: OptinalInt, OptionalLong and OptionalDouble (link:https://github.com/eclipse/microprofile-config/issues/513[513])
 - Clarifies that Converters for primitive wrappers apply to primitive types as well (link:https://github.com/eclipse/microprofile-config/issues/520[520])
 - Clarify that nulls cannot be passed in to Converters (link:https://github.com/eclipse/microprofile-config/pull/542[542])
+- Support Property Expressions: This provides a way to set and expand variables in property values (link:https://github.com/eclipse/microprofile-config/issues/118[118])
 
 === Other Changes
 - Update to Jakarta EE8 APIs for MP 4.0 (link:https://github.com/eclipse/microprofile-config/issues/469[469])

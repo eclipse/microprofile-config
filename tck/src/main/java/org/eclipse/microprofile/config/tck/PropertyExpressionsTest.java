@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,8 +19,10 @@
 package org.eclipse.microprofile.config.tck;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -35,6 +37,11 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
 public class PropertyExpressionsTest {
+    @AfterMethod
+    public void tearDown() {
+        ConfigProviderResolver.instance().releaseConfig(ConfigProvider.getConfig());
+    }
+
     @Test
     public void simpleExpression() {
         Config config = buildConfig("my.prop", "1234", "expression", "${my.prop}");

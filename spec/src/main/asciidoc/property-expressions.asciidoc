@@ -47,30 +47,51 @@ Consider the following configuration properties file:
 ----
 server.url=http://${server.host:example.org}:${server.port}/${server.endpoint}
 server.port=8080
-server.endpoint=${server.endpoint.path.foo${server.endpoint.path.bar}}
+server.endpoint=${server.endpoint.path.${server.endpoint.path.bar}}
 server.endpoint.path.foo=/foo
-server.endpoint.path.bar=/bar
+server.endpoint.path.bar=foo
 ----
 
-The property `server.url` is expanded to `http://example.org:8080/foo/bar`.
+The property `server.url` is expanded to `http://example.org:8080/foo`.
 
-If an expression cannot be expanded and does not have a default value a `NoSuchElementException` is thrown. In the
-Optional case, returns an empty Optional.
+If an expression cannot be expanded and does not have a default value, a `NoSuchElementException` is thrown. In the
+Optional case, an empty Optional will be returned.
 
-Composed expressions, are limited to the number of recurssion lookups performed. Implementations are encouraged to
-limit the number to `5`, but they can use higher limits if they wish to. When the number of allowed recursion lookups
-exceeds the limit, a `IllegalArgumentException` is thrown.
+The number of recursion lookups is not infinite, but a limited number for composed expressions. Implementations are
+encouraged to limit the number to `5`, but they can use higher limits if they wish to. When the number of allowed
+lookups exceeds the limit, a `IllegalArgumentException` is thrown.
 
-Property expressions applies to lookup methods in `Config`, like `getValue`, `getConfigValue` and `getOptionalValue`.
-Lookup methods in `ConfigSource`, may support property expressions as well, but it is not required by the specification.
+Property expressions applies to all the methods in `Config` that performs resolution of a configuration property,
+including `getValue`, `getValues`, `getConfigValue`, `getValues`, `getOptionalValue`, `getOptionalValues`
+and `getConfigProperties`. The methods `getValue` and `getProperties` in `ConfigSource`, may support property
+expressions as well, but it is not required by the specification.
 
-The escape character is "\".
+Property expressions must also be applied to configuration properties injected via CDI. A default value
+defined via `org.eclipse.microprofile.config.inject.ConfigProperty#defaultValue` is not eligible to be expanded since
+multiple candidates may be available.
+
+If a configuration property value or default value requires the raw value without expansion, the expression may be
+escaped with a backslash ("\", double "\\" for property file based sources). For instance:
+
+[source,properties]
+----
+server.url=\\${server.host}
+server.host=localhost
+----
+
+The value of `server.url` is `${server.host}`.
 
 === Backwards Compatibility
 
 MicroProfile Config implementations MUST provide a way to disable variable evaluation to provide backwards
-compatibility. The property `mp.config.property.expressions` can be set to `false` and disable property expressions. By
-default, property expressions are enabled.
+compatibility. The property `mp.config.property.expressions.enabled` was introduced for this purpose. The value of the
+property determines whether the property expression is enabled or disabled. The value `false` means the property
+expression is disabled, while `true` means enabled.
 
-If property expression expand is not desirable for a specific case, the raw value on a configuration property may be
+If property expression expansion is not desirable for a specific case, the raw value on a configuration property may be
 retrieved by calling `getRawValue()` in `ConfigValue`.
+
+Specific sources may already use a similar or identical syntax to the one described in this specification. To preserve
+this usage, `ConfigSource#getValue()` should perform the expression substitution and then return the resolved value.
+Should such a source return a value with an expression from `ConfigSource#getValue()`, usual expression substitution
+does occur as described by this spec.
