@@ -72,7 +72,7 @@ public @interface ConfigProperties {
      * Support inline instantiation of the {@link ConfigProperties} qualifier.
      */
     public final static class Literal extends AnnotationLiteral<ConfigProperties> implements ConfigProperties {
-        public static final Literal NOPREFIX = of("");
+        public static final Literal NO_PREFIX = of("");
 
         private static final long serialVersionUID = 1L;
         private final String prefix;

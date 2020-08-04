@@ -131,17 +131,17 @@ public class InjectedConfigUsageSample {
 
 === Aggregate related properties into a CDI bean
 
-When injecting a number of related configuration properties, it can be tedious to repeat the statement of `ConfigProperty` in scatter places. 
-Since they are related, it makes more sense to aggregate them into a single property class. 
+When injecting a number of related configuration properties, it can be tedious to repeat the statement of `ConfigProperty` in scatter places.
+Since they are related, it makes more sense to aggregate them into a single property class.
 
 MicroProfile Config provides a way to look up a number of configuration properties starting with the same prefix using the `@ConfigProperties` annotation, e.g. `ConfigProperties(prefix="myPrefix")`.
-When annotating a class with `@ConfigProperties` or `@ConfigProperties(prefix="myPrefix")`, any of its fields, regardless of the visibility, maps to a configuration property via the following mapping rules. 
+When annotating a class with `@ConfigProperties` or `@ConfigProperties(prefix="myPrefix")`, any of its fields, regardless of the visibility, maps to a configuration property via the following mapping rules.
 
-* If the `prefix` is present, the field `x` maps to the configuration property `<prefix>x`. 
-* If the `prefix` is absent, the field `x` maps to the property name `x`. 
+* If the `prefix` is present, the field `x` maps to the configuration property `<prefix>.x`.
+* If the `prefix` is absent, the field `x` maps to the property name `x`.
 
-If the field name `x` needs to be different from the config property name `y`, use `@ConfigProperty(name="y")` to perform the transformation. 
-If the prefix is present, the field `x` maps to the configuration property `<prefix>y`, otherwise `y`.
+If the field name `x` needs to be different from the config property name `y`, use `@ConfigProperty(name="y")` to perform the transformation.
+If the prefix is present, the field `x` maps to the configuration property `<prefix>.y`, otherwise `y`.
 
 Considering the following config sources:
 
@@ -172,17 +172,17 @@ In order to retrieve the above properties in a single property class, you can us
 [source, java]
 ----
 
-@ConfigProperties(prefix="server.")
+@ConfigProperties(prefix="server")
 @Dependent
 public class Details {
     public String host; // the value of the configuration property server.host
     public int port;   // the value of the configuration property server.port
     private String endpoint; //the value of the configuration property server.endpoint
     public @ConfigProperty(name="old.location")
-    String location; //the value of the configuration property server.old.location 
+    String location; //the value of the configuration property server.old.location
     public String getEndpoint() {
-        return endpoint;      
-    }     
+        return endpoint;
+    }
 }
 ----
 
@@ -190,7 +190,7 @@ You can then use one of the following to retrieve the properties.
 
 * Programmatic lookup of the bean annotated with `@ConfigProperites`
 
-Since the class with `@ConfigProperties` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g. 
+Since the class with `@ConfigProperties` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g.
 
 ```
 Details details= CDI.current().select(Details.class, ConfigProperties.Literal.NOPREFIX).get();
@@ -202,7 +202,7 @@ Details details= CDI.current().select(Details.class, ConfigProperties.Literal.NO
 @Inject Details serverDetails;
 ----
 
-The `serverDetails` will contain the following info, as the prefix is `server.`:
+The `serverDetails` will contain the following info, as the prefix is `server`:
 
 ```
 serverDetails.host -> server.host -> localhost
@@ -217,7 +217,7 @@ In this case, the prefix associated with `@ConfigProperties` on this injection p
 ----
 @Inject @ConfigProperties(prefix="client") Details clientDetails;
 ----
-The prefix `client.` overrides the prefix `server.` on the `ServerDetails` bean. Therefore, this will retrieve the following properties.
+The prefix `client` overrides the prefix `server` on the `ServerDetails` bean. Therefore, this will retrieve the following properties.
 
 ```
 clientDetails.host -> client.host -> myHost
@@ -229,7 +229,7 @@ If `@ConfigProperties` has no associated prefix, it means the prefix is empty. e
 ----
 @Inject @ConfigProperties Details details; //prefix is empty
 ----
-The absence of the prefix means the prefix is empty, which overrides the prefix set on the bean class `server.`. Therefore, this will retrieve the following properties.
+The absence of the prefix means the prefix is empty, which overrides the prefix set on the bean class `server`. Therefore, this will retrieve the following properties.
 
 ```
 details.host -> host -> anotherHost
@@ -238,17 +238,25 @@ details.endpoint -> endpoint -> book
 details.getLocation() -> old.location -> Berlin
 ```
 
-In the above two types of injection lookup, the configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified. 
-When preforming property lookup, `DeploymentException` will be thrown for the following scenarios:
+In the above two types of injection lookup, the configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified.
+When performing property lookup, a `DeploymentException` will be thrown for the following scenarios:
 
 1. The property is missing and neither default value nor the property return type is optional.
 Use one of the following to fix the problem.
 ** Define a value for the property
-** Supply a default value when defining the field. 
-** Use `@ConfigProperty` to provide a default value. 
+** Supply a default value when defining the field.
+** Use `@ConfigProperty` to provide a default value.
 ** Use `Optional<T>` or `OptionalInt`, `OptionalDouble`, `OptionalLong` as the type.
 
 2. The property value cannot be converted to the specified type
 
+If any of the property cannot be found and there is neither default value nor property is not optional, `java.util.NoSuchElementException` will be thrown.
+In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `@ConfigProperty` to provide a default value.
+You can also use `Optional<T>` or OptionalInt, OptionalDouble, OptionalLong as the type. If any property values cannot be converted to the specified type, `java.lang.IllegalArgumentException` will be thrown.
+
+When using programmatic lookup of the configuration properties, the configuration properties class does not need to be annotated with
+`@ConfigProperties`, if no prefix is to be supplied. The usage of the annotation `ConfigProperties` is only for supplying the prefix.
+However, when using injection of the configuration properties, the configuration properties class, which should be a CDI bean, must be annotated with `@ConfigProperties`.
+Otherwise, the fields will not be automatically resolved to the corresponding configuration properties.
 
 
