@@ -42,7 +42,7 @@ A full list of changes delivered in the 2.0 release can be found at link:https:/
 - Clarify that nulls cannot be passed in to Converters (link:https://github.com/eclipse/microprofile-config/pull/542[542])
 
 === Other Changes
-- Update to Jakart EE8 APIs for MP 4.0 (link:https://github.com/eclipse/microprofile-config/issues/469[469])
+- Update to Jakarta EE8 APIs for MP 4.0 (link:https://github.com/eclipse/microprofile-config/issues/469[469])
 - Enable MicroProfile Config repo to be built with Java 11 (link:https://github.com/eclipse/microprofile-config/issues/555[555])
 - TCK changes: (link:https://github.com/eclipse/microprofile-config/issues/563[563]) (link:https://github.com/eclipse/microprofile-config/issues/319[319])
 
