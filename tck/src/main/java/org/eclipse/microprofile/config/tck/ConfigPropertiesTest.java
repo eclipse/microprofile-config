@@ -21,6 +21,7 @@ package org.eclipse.microprofile.config.tck;
 
 import java.util.Optional;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 
@@ -273,6 +274,7 @@ public class ConfigPropertiesTest extends Arquillian {
     }
 
     @ConfigProperties
+    @RequestScoped
     public static class BeanTwo {
         private String host;
         int port;
