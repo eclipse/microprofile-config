@@ -21,7 +21,6 @@ package org.eclipse.microprofile.config.tck.broken;
 
 import java.util.NoSuchElementException;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.DeploymentException;
 
 import org.eclipse.microprofile.config.Config;
@@ -43,7 +42,7 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:emijiang6@googlemail.com">Emily Jiang</a>
  */
 public class ConfigPropertiesMissingPropertyPLTest extends Arquillian {
-        
+
     @Deployment
     @ShouldThrowException(DeploymentException.class)
     public static WebArchive deploy() {
@@ -53,32 +52,29 @@ public class ConfigPropertiesMissingPropertyPLTest extends Arquillian {
                 .addAsManifestResource(
                     new StringAsset(
                         "customer.name=Bob\n" +
-                        "customer.age=24\n" 
+                        "customer.age=24\n"
                         ),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
-        WebArchive war = ShrinkWrap
+        return ShrinkWrap
                 .create(WebArchive.class, "ConfigPropertiesTest.war")
                 .addAsLibrary(testJar);
-        return war;
     }
 
-    @Test
-    @ShouldThrowException(NoSuchElementException.class)
-    public void test() {  
+    @Test(expectedExceptions = NoSuchElementException.class)
+    public void test() {
         Config config = ConfigProvider.getConfig();
         BeanOne beanOne = config.getConfigProperties(BeanOne.class); //should throw exception
     }
 
     @ConfigProperties(prefix="customer.")
-    @Dependent
     public static class BeanOne {
         private String name;
         public int age;
         public String nationality; //no corresponding config property customer.nationality exists
-       
+
         /**
          * @return String return the name
          */
