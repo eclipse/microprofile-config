@@ -1,5 +1,4 @@
 /*
- *******************************************************************************
  * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -16,14 +15,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
+ */
 
 /**
  * This package contains classes which are used to implement the configuration API, and to extend the standard
  * configuration functionality in a portable way.
  * <p>
  * Users and frameworks may provide custom {@link org.eclipse.microprofile.config.spi.ConfigSource} and
- * {@link org.eclipse.microprofile.config.spi.Converter} instances.  Configuration instances may be set up and created
+ * {@link org.eclipse.microprofile.config.spi.Converter} instances. Configuration instances may be set up and created
  * using the {@link org.eclipse.microprofile.config.spi.ConfigBuilder} API.
  * <p>
  * The package also contains the class {@link org.eclipse.microprofile.config.spi.ConfigProviderResolver},

@@ -1,5 +1,4 @@
 /*
- *******************************************************************************
  * Copyright (c) 2016-2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -16,8 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *******************************************************************************/
-
+ */
 package org.eclipse.microprofile.config.spi;
 
 import java.util.Iterator;
@@ -69,6 +67,7 @@ public abstract class ConfigProviderResolver {
      * Get the configuration instance for the current application in the manner described by
      * {@link org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)}.
      *
+     * @param loader the class loader identifying the application
      * @return the configuration instance
      */
     public abstract Config getConfig(ClassLoader loader);
@@ -92,7 +91,6 @@ public abstract class ConfigProviderResolver {
      *
      * @param config the configuration to register
      * @param classLoader the class loader identifying the application
-     *
      * @throws IllegalStateException if there is already a configuration registered for the application
      */
     public abstract void registerConfig(Config config, ClassLoader classLoader);
@@ -107,8 +105,8 @@ public abstract class ConfigProviderResolver {
     public abstract void releaseConfig(Config config);
 
     /**
-     * Find and return the provider resolver instance.  If the provider resolver instance was already found,
-     * or was manually specified, that instance is returned.  Otherwise, {@link ServiceLoader} is used to
+     * Find and return the provider resolver instance. If the provider resolver instance was already found,
+     * or was manually specified, that instance is returned. Otherwise, {@link ServiceLoader} is used to
      * locate the first implementation that is visible from the class loader that defined this class.
      *
      * @return the provider resolver instance
@@ -125,7 +123,6 @@ public abstract class ConfigProviderResolver {
 
         return instance;
     }
-
 
     private static ConfigProviderResolver loadSpi(ClassLoader cl) {
         ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(
@@ -144,7 +141,7 @@ public abstract class ConfigProviderResolver {
      * pattern.
      * <p>
      * Note that calling this method after a different provider instance was {@linkplain #instance() already retrieved}
-     * can lead to inconsistent results.  Mixing usage of this method with the service loader
+     * can lead to inconsistent results. Mixing usage of this method with the service loader
      * pattern is for this reason strongly discouraged.
      *
      * @param resolver the instance to set, or {@code null} to unset the instance

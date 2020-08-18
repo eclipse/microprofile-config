@@ -21,7 +21,6 @@ package org.eclipse.microprofile.config.tck;
 
 import java.util.Optional;
 
-import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
@@ -48,7 +47,7 @@ import org.testng.annotations.Test;
 public class ConfigPropertiesTest extends Arquillian {
 
     private @Inject BeanOne customerBeanOne;
-    
+
     private @Inject @ConfigProperties(prefix="client") BeanOne clientBeanOne;
     private @Inject @ConfigProperties BeanOne beanOne;
 
@@ -61,45 +60,42 @@ public class ConfigPropertiesTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "ConfigPropertiesTest.jar")
-                .addClasses(ConfigPropertiesTest.class, BeanOne.class, BeanTwo.class, BeanThree.class, Location.class)
+                .addClasses(ConfigPropertiesTest.class, BeanOne.class, BeanTwo.class, BeanThree.class, BeanFour.class, Location.class)
                 .addAsManifestResource(
                     new StringAsset(
                         "customer.name=Bob\n" +
                         "customer.age=24\n" +
                         "customer.location=2 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
-                        "customer.job=Developer\n" + 
-                        "customer.new.hobbies=Badminton, Tennis\n" +
+                        "customer.job=Developer\n" +
+                        "customer.new.hobbies=Badminton,Tennis\n" +
                         "client.name=Rob\n" +
                         "client.age=25\n" +
                         "client.location=22 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
-                        "client.job=Engineer\n" + 
-                        "client.new.hobbies=Football, Tennis\n" +
-                        "name=Hob\n" +
-                        "age=26\n" +
-                        "location=222 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
-                        "job=Plumber\n" + 
-                        "new.hobbies=Volleyball\n" +
-                        "host=localhost\n" +
-                        "port=9080\n"+
-                        "endpoint=woof\n" + 
-                        "my.host=myhost\n" +
-                        "my.port=9081\n"+
-                        "my.endpoint=poof\n" +
+                        "client.job=Engineer\n" +
+                        "client.new.hobbies=Football,Tennis\n" +
                         "name=Harry\n" +
                         "age=21\n" +
                         "nationality=UK\n" +
+                        "location=222 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
+                        "job=Plumber\n" +
+                        "new.hobbies=Volleyball\n" +
+                        "host=localhost\n" +
+                        "port=9080\n"+
+                        "endpoint=woof\n" +
+                        "my.host=myhost\n" +
+                        "my.port=9081\n"+
+                        "my.endpoint=poof\n" +
                         "other$name=Holly\n" +
                         "other$age=20\n" +
-                        "other$nationality=USA\n" 
+                        "other$nationality=USA\n"
                         ),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
-        WebArchive war = ShrinkWrap
+        return ShrinkWrap
                 .create(WebArchive.class, "ConfigPropertiesTest.war")
                 .addAsLibrary(testJar);
-        return war;
     }
 
 
@@ -132,7 +128,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals("Engineer", clientBeanOne.job);
         Assert.assertEquals(new String[] {"Football", "Tennis"}, clientBeanOne.hobbies);
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
-        
+
         //programmatic lookup of the beans
         BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client.")).get();
         Assert.assertEquals("Rob", bo.getName());
@@ -155,16 +151,16 @@ public class ConfigPropertiesTest extends Arquillian {
 
     @Test
     public void testConfigPropertiesWithoutPrefix() {
-        Assert.assertEquals("Hob", beanOne.getName());
-        Assert.assertEquals(26, beanOne.age);
+        Assert.assertEquals("Harry", beanOne.getName());
+        Assert.assertEquals(21, beanOne.age);
         Assert.assertEquals("Plumber", beanOne.job);
         Assert.assertEquals(new String[] {"Volleyball"}, beanOne.hobbies);
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
-        
+
         //programmatic lookup of the beans
         BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.NOPREFIX).get();
-        Assert.assertEquals("Hob", bo.getName());
-        Assert.assertEquals(26, bo.age);
+        Assert.assertEquals("Harry", bo.getName());
+        Assert.assertEquals(21, bo.age);
         Assert.assertEquals("Plumber", bo.job);
         Assert.assertEquals(new String[] {"Volleyball"}, bo.hobbies);
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
@@ -174,8 +170,8 @@ public class ConfigPropertiesTest extends Arquillian {
     public void testConfigPropertiesWithoutPrefixProgrammatic() {
         Config config = ConfigProvider.getConfig();
         BeanOne beanOne = config.getConfigProperties(BeanOne.class, "");
-        Assert.assertEquals("Hob", beanOne.getName());
-        Assert.assertEquals(26, beanOne.age);
+        Assert.assertEquals("Harry", beanOne.getName());
+        Assert.assertEquals(21, beanOne.age);
         Assert.assertEquals("Plumber", beanOne.job);
         Assert.assertEquals(new String[] {"Volleyball"}, beanOne.hobbies);
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
@@ -184,7 +180,7 @@ public class ConfigPropertiesTest extends Arquillian {
     @Test
     public void testConfigPropertiesNoPrefixOnBean() {
         Assert.assertEquals("localhost", beanTwo.getHost());
-        Assert.assertEquals("9080", beanTwo.port);
+        Assert.assertEquals(9080, beanTwo.port);
         Assert.assertEquals("woof", beanTwo.endpoint);
     }
 
@@ -193,14 +189,14 @@ public class ConfigPropertiesTest extends Arquillian {
         Config config = ConfigProvider.getConfig();
         BeanTwo myBeanTwo = config.getConfigProperties(BeanTwo.class);
         Assert.assertEquals("localhost", myBeanTwo.getHost());
-        Assert.assertEquals("9080", myBeanTwo.port);
+        Assert.assertEquals(9080, myBeanTwo.port);
         Assert.assertEquals("woof", myBeanTwo.endpoint);
     }
 
     @Test
     public void testConfigPropertiesNoPrefixOnBeanThenSupplyPrefix() {
         Assert.assertEquals("myhost", myBeanTwo.getHost());
-        Assert.assertEquals("9081", myBeanTwo.port);
+        Assert.assertEquals(9081, myBeanTwo.port);
         Assert.assertEquals("poof", myBeanTwo.endpoint);
     }
 
@@ -209,7 +205,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Config config = ConfigProvider.getConfig();
         BeanTwo myBeanTwo = config.getConfigProperties(BeanTwo.class, "my.");
         Assert.assertEquals("myhost", myBeanTwo.getHost());
-        Assert.assertEquals("9081", myBeanTwo.port);
+        Assert.assertEquals(9081, myBeanTwo.port);
         Assert.assertEquals("poof", myBeanTwo.endpoint);
     }
 
@@ -247,7 +243,7 @@ public class ConfigPropertiesTest extends Arquillian {
     @Test
     public void testConfigPropertiesDefaultOnBean() {
         Assert.assertEquals("mycloud.org", myBeanFour.getHost());
-        Assert.assertEquals("9080", myBeanFour.port);
+        Assert.assertEquals(9080, myBeanFour.port);
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
@@ -256,12 +252,11 @@ public class ConfigPropertiesTest extends Arquillian {
         Config config = ConfigProvider.getConfig();
         BeanFour myBeanFour = config.getConfigProperties(BeanFour.class);
         Assert.assertEquals("mycloud.org", myBeanFour.getHost());
-        Assert.assertEquals("9080", myBeanFour.port);
+        Assert.assertEquals(9080, myBeanFour.port);
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
     @ConfigProperties(prefix="customer.")
-    @Dependent
     public static class BeanOne {
         private String name;
         int age;
@@ -292,8 +287,6 @@ public class ConfigPropertiesTest extends Arquillian {
         }
     }
 
-    
-    @Dependent
     public static class BeanThree {
         public String name;
         public int age;
@@ -307,15 +300,13 @@ public class ConfigPropertiesTest extends Arquillian {
     }
 
     @ConfigProperties(prefix="cloud.")
-    @Dependent
     public static class BeanFour {
         @ConfigProperty(name="a.host", defaultValue="mycloud.org")
         private String host;
         public int port = 9080;
         public String getHost() {
             return host;
-        }  
+        }
         public Optional<String> location;
     }
-
 }
