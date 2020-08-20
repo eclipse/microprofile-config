@@ -271,7 +271,6 @@ public interface Config {
      * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe 
      * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration sources}, 
      * determined at application start time, and the config sources themselves may be static or dynamic.
-     * contains a fixed number of {@linkplain ConfigSource configuration sources}, which may be either static or dynamic.
      * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();
