@@ -44,8 +44,10 @@ package org.eclipse.microprofile.config.spi;
  */
 public interface ConfigSourceProvider {
     /**
-     * Return the {@link ConfigSource} instances that are provided by this provider. An empty {@code Iterable} may
-     * be returned if no sources are to be provided.
+     * Return the {@link ConfigSource} instances that are provided by this provider.  
+     * The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration sources}, 
+     * determined at application start time, and the config sources themselves may be static or dynamic.
+     * An empty {@link java.lang.Iterable Iterable} may be returned if no sources are to be provided.
      *
      * @param forClassLoader the class loader which should be used for discovery and resource loading purposes
      * @return the {@link ConfigSource} instances to register to the configuration
