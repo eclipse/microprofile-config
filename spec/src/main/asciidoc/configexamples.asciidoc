@@ -137,14 +137,11 @@ Since they are related, it makes more sense to aggregate them into a single prop
 MicroProfile Config provides a way to look up a number of configuration properties starting with the same prefix using the `@ConfigProperties` annotation, e.g. `ConfigProperties(prefix="myPrefix")`.
 When annotating a class with `@ConfigProperties` or `@ConfigProperties(prefix="myPrefix")`, any of its fields, regardless of the visibility, maps to a configuration property via the following mapping rules. 
 
-* The `prefix` is present:
-** If the `separator` is absent, the field `x` maps to the configuration property `<prefix>.x`.
-** If the `separator` is present, the field `x` maps to the configuration property `<prefix><separator>x`. 
-* The `prefix` is absent:
-** The `separator` is ignored, and the field `x` maps to the property name `x`.
+* If the `prefix` is present, the field `x` maps to the configuration property `<prefix>x`. 
+* If the `prefix` is absent, the field `x` maps to the property name `x`. 
 
 If the field name `x` needs to be different from the config property name `y`, use `@ConfigProperty(name="y")` to perform the transformation. 
-The `@ConfigProperty` is only used to override the name part after the <prefix><separator>. In summary, the <prefix><separator> applies to all fields.
+If the prefix is present, the field `x` maps to the configuration property `<prefix>y`, otherwise `y`.
 
 Considering the following config sources:
 
@@ -160,22 +157,22 @@ server.old.location=London
 [source, text]
 ----
 config_ordinal = 150
-client_host = myHost
-client_port=9081
-client_endpoint=shelf
-client_old.location=Dublin
+client.host = myHost
+client.port=9081
+client.endpoint=shelf
+client.old.location=Dublin
 host = anotherHost
 port=9082
 endpoint=book
 old.location=Berlin
 ----
 
-In order to retrieve the above properties in a single CDI bean, you can use the `@ConfigProperties` annotation with a prefix.
+In order to retrieve the above properties in a single property class, you can use the `@ConfigProperties` annotation with a prefix.
 
 [source, java]
 ----
 
-@ConfigProperties(prefix="server")
+@ConfigProperties(prefix="server.")
 @Dependent
 public class Details {
     public String host; // the value of the configuration property server.host
@@ -196,7 +193,7 @@ You can then use one of the following to retrieve the properties.
 Since the class with `@ConfigProperties` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g. 
 
 ```
-Details details= CDI.current().select(Details.class, ConfigProperties.Literal.NO_PREFIX).get();
+Details details= CDI.current().select(Details.class, ConfigProperties.Literal.NOPREFIX).get();
 ```
 
 * Directly inject the bean annotated with `@ConfigProperties`
@@ -205,7 +202,7 @@ Details details= CDI.current().select(Details.class, ConfigProperties.Literal.NO
 @Inject Details serverDetails;
 ----
 
-The `serverDetails` will contain the following info, as the prefix is `server`:
+The `serverDetails` will contain the following info, as the prefix is `server.`:
 
 ```
 serverDetails.host -> server.host -> localhost
@@ -218,23 +215,21 @@ serverDetails.getLocation() -> server.old.location -> London
 In this case, the prefix associated with `@ConfigProperties` on this injection point overrides the prefix specified on the bean class.
 
 ----
-@Inject @ConfigProperties(prefix="client", separator="_") Details clientDetails;
+@Inject @ConfigProperties(prefix="client") Details clientDetails;
 ----
-On the `ServerDetails` bean, the prefix `client` overrides the prefix `server` and the separator `_` overrides the default separator `.`. 
-Therefore, the following properties will be retrieved.
+The prefix `client.` overrides the prefix `server.` on the `ServerDetails` bean. Therefore, this will retrieve the following properties.
 
 ```
-clientDetails.host -> client_host -> myHost
-clientDetails.port -> client_port -> 9081
-clientDetails.endpoint -> client_endpoint -> shelf
-clientDetails.getLocation() -> client_old.location -> Dublin
+clientDetails.host -> client.host -> myHost
+clientDetails.port -> client.port -> 9081
+clientDetails.endpoint -> client.endpoint -> shelf
+clientDetails.getLocation() -> client.old.location -> Dublin
 ```
-If `@ConfigProperties` has no associated prefix, it means the prefix is empty and the separator is not applicable. e.g.
+If `@ConfigProperties` has no associated prefix, it means the prefix is empty. e.g.
 ----
 @Inject @ConfigProperties Details details; //prefix is empty
 ----
-The absence of the prefix means the prefix is empty, which overrides the prefix set on the bean class `server`. 
-Therefore, the following properties will be retrieved.
+The absence of the prefix means the prefix is empty, which overrides the prefix set on the bean class `server.`. Therefore, this will retrieve the following properties.
 
 ```
 details.host -> host -> anotherHost
