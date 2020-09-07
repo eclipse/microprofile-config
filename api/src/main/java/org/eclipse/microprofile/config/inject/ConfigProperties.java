@@ -69,25 +69,40 @@ public @interface ConfigProperties {
     String prefix() default "";
 
     /**
+     * The separator between the prefix and the variable name. 
+     * If the prefix is blank, the separator is ignored.
+     * @return the separator between the prefix and the variable name
+     */
+    @Nonbinding
+    String separator() default ".";
+
+    /**
      * Support inline instantiation of the {@link ConfigProperties} qualifier.
      */
     public final static class Literal extends AnnotationLiteral<ConfigProperties> implements ConfigProperties {
-        public static final Literal NOPREFIX = of("");
+        public static final Literal NO_PREFIX = of("", ".");
 
         private static final long serialVersionUID = 1L;
         private final String prefix;
+        private final String separator;
 
-        public static Literal of(String prefix) {
-            return new Literal(prefix);
+        public static Literal of(String prefix, String separator) {
+            return new Literal(prefix, separator);
         }
 
-        private Literal(String prefix){
+        private Literal(String prefix, String separator){
             this.prefix = prefix;
+            this.separator = separator;
         }
 
         @Override
         public String prefix() {
             return prefix;
+        }
+
+        @Override
+        public String separator() {
+            return separator;
         }
     }
 }
