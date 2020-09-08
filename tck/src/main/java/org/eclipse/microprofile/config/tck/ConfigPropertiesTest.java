@@ -241,7 +241,8 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertNull(beanThree.getNationality());
     }
 
-    public void testNoConfigPropertiesAnnotationWithDifferentSepartor() {
+    @Test
+    public void testConfigPropertiesAnnotationWithDifferentSepartor() {
         Assert.assertEquals("Holly", myBeanThreeOne.name);
         Assert.assertEquals(20, myBeanThreeOne.age);
         Assert.assertEquals("USA", myBeanThreeOne.getNationality());
