@@ -48,4 +48,6 @@ include::converters.asciidoc[]
 
 include::configprofile.asciidoc[]
 
+include::property-expressions.asciidoc[]
+
 include::release_notes.asciidoc[]

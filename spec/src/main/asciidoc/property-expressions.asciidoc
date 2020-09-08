@@ -1,0 +1,97 @@
+//
+// Copyright (c) 2020 Contributors to the Eclipse Foundation
+//
+// See the NOTICE file(s) distributed with this work for additional
+// information regarding copyright ownership.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// You may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//    http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// Contributors:
+// Roberto Cortez
+
+[[property-expressions]]
+== Property Expressions
+
+The value of a configuration property may contain an expression corresponding to another configuration property. An
+expression string is a mix of plain strings and expression segments, which are wrapped by the sequence `${ ... }`.
+
+Consider the following configuration properties file:
+
+[source,properties]
+----
+server.url=http://${server.host}/endpoint
+server.host=example.org
+----
+
+When looking up the `server.url` property, the value will be resolved and expanded to `http://example.org/endpoint`.
+All MicroProfile Config rules still apply. The `Config` is able to resolve expressions from different ConfigSources.
+
+Additionally, it is also possible to use the following syntax for property expressions:
+
+* `${expression:value}` - Provides a default value after the `:` if the expression doesn't find a value.
+* `${my.prop${compose}}` - Composed expressions. Inner expressions are resolved first.
+* `${my.prop}${my.prop}` - Multiple expressions.
+
+Consider the following configuration properties file:
+
+[source,properties]
+----
+server.url=http://${server.host:example.org}:${server.port}/${server.endpoint}
+server.port=8080
+server.endpoint=${server.endpoint.path.${server.endpoint.path.bar}}
+server.endpoint.path.foo=/foo
+server.endpoint.path.bar=foo
+----
+
+The property `server.url` is expanded to `http://example.org:8080/foo`.
+
+If an expression cannot be expanded and does not have a default value, a `NoSuchElementException` is thrown. In the
+Optional case, an empty Optional will be returned.
+
+The number of recursion lookups is not infinite, but a limited number for composed expressions. Implementations are
+encouraged to limit the number to `5`, but they can use higher limits if they wish to. When the number of allowed
+lookups exceeds the limit, a `IllegalArgumentException` is thrown.
+
+Property expressions applies to all the methods in `Config` that performs resolution of a configuration property,
+including `getValue`, `getValues`, `getConfigValue`, `getValues`, `getOptionalValue`, `getOptionalValues`
+and `getConfigProperties`. The methods `getValue` and `getProperties` in `ConfigSource`, may support property
+expressions as well, but it is not required by the specification.
+
+Property expressions must also be applied to configuration properties injected via CDI. A default value
+defined via `org.eclipse.microprofile.config.inject.ConfigProperty#defaultValue` is not eligible to be expanded since
+multiple candidates may be available.
+
+If a configuration property value or default value requires the raw value without expansion, the expression may be
+escaped with a backslash ("\", double "\\" for property file based sources). For instance:
+
+[source,properties]
+----
+server.url=\\${server.host}
+server.host=localhost
+----
+
+The value of `server.url` is `${server.host}`.
+
+=== Backwards Compatibility
+
+MicroProfile Config implementations MUST provide a way to disable variable evaluation to provide backwards
+compatibility. The property `mp.config.property.expressions.enabled` was introduced for this purpose. The value of the
+property determines whether the property expression is enabled or disabled. The value `false` means the property
+expression is disabled, while `true` means enabled.
+
+If property expression expansion is not desirable for a specific case, the raw value on a configuration property may be
+retrieved by calling `getRawValue()` in `ConfigValue`.
+
+Specific sources may already use a similar or identical syntax to the one described in this specification. To preserve
+this usage, `ConfigSource#getValue()` should perform the expression substitution and then return the resolved value.
+Should such a source return a value with an expression from `ConfigSource#getValue()`, usual expression substitution
+does occur as described by this spec.
