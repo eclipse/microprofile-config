@@ -20,7 +20,6 @@ package org.eclipse.microprofile.config.tck;
 
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.ConfigValue;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -31,7 +30,6 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
@@ -150,25 +148,6 @@ public class ConfigValueTest extends Arquillian {
         @Override
         public int getOrdinal() {
             return 900;
-        }
-    }
-
-    @Dependent
-    public static class ConfigValueBean {
-        @Inject
-        @ConfigProperty(name = "my.prop")
-        private ConfigValue configValue;
-
-        @Inject
-        @ConfigProperty(name = "my.prop.default", defaultValue = "default")
-        private ConfigValue configValueDefault;
-
-        ConfigValue getConfigValue() {
-            return configValue;
-        }
-
-        ConfigValue getConfigValueDefault() {
-            return configValueDefault;
         }
     }
 }
