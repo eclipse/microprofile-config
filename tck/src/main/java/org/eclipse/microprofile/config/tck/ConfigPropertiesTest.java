@@ -55,6 +55,7 @@ public class ConfigPropertiesTest extends Arquillian {
     private @Inject @ConfigProperties(prefix="my") BeanTwo myBeanTwo;
     private @Inject BeanFour myBeanFour;
     private @Inject BeanThree beanThree;
+    private @Inject BeanThreeOne myBeanThreeOne;
 
     @Deployment
     public static WebArchive deploy() {
@@ -130,7 +131,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
 
         //programmatic lookup of the beans
-        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client.")).get();
+        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
         Assert.assertEquals("Rob", bo.getName());
         Assert.assertEquals(25, bo.age);
         Assert.assertEquals("Engineer", bo.job);
@@ -158,7 +159,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
 
         //programmatic lookup of the beans
-        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.NOPREFIX).get();
+        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.NO_PREFIX).get();
         Assert.assertEquals("Harry", bo.getName());
         Assert.assertEquals(21, bo.age);
         Assert.assertEquals("Plumber", bo.job);
@@ -240,6 +241,12 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertNull(beanThree.getNationality());
     }
 
+    public void testNoConfigPropertiesAnnotationWithDifferentSepartor() {
+        Assert.assertEquals("Holly", myBeanThreeOne.name);
+        Assert.assertEquals(20, myBeanThreeOne.age);
+        Assert.assertEquals("USA", myBeanThreeOne.getNationality());
+    }
+
     @Test
     public void testConfigPropertiesDefaultOnBean() {
         Assert.assertEquals("mycloud.org", myBeanFour.getHost());
@@ -256,7 +263,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
-    @ConfigProperties(prefix="customer.")
+    @ConfigProperties(prefix="customer")
     public static class BeanOne {
         private String name;
         int age;
@@ -299,7 +306,20 @@ public class ConfigPropertiesTest extends Arquillian {
         }
     }
 
-    @ConfigProperties(prefix="cloud.")
+    @ConfigProperties(prefix="other", separator="$")
+    public static class BeanThreeOne {
+        public String name;
+        public int age;
+        private String nationality;
+        /**
+        * @return String return the host
+        */
+        public String getNationality() {
+            return nationality;
+        }
+    }
+
+    @ConfigProperties(prefix="cloud")
     public static class BeanFour {
         @ConfigProperty(name="a.host", defaultValue="mycloud.org")
         private String host;
