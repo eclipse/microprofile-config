@@ -93,6 +93,19 @@ import org.eclipse.microprofile.config.spi.Converter;
 @org.osgi.annotation.versioning.ProviderType
 public interface Config {
     /**
+     * The value of the property specifies a single active profile.
+     */
+    String PROFILE = "mp.config.profile";
+
+    /**
+     * The value of the property determines whether the property expression is enabled or disabled. The value
+     * <code>false</code> means the property expression is disabled, while <code>true</code> means enabled.
+     *
+     * By default, the value is set to <code>true</code>.
+     */
+    String PROPERTY_EXPRESSIONS_ENABLED = "mp.config.property.expressions.enabled";
+
+    /**
      * Return the resolved property value with the specified type for the
      * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
      * <p>
@@ -215,8 +228,8 @@ public interface Config {
     /**
      * Return all of the currently registered {@linkplain ConfigSource configuration sources} for this configuration.
      * <p>
-     * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe 
-     * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration sources}, 
+     * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe
+     * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration sources},
      * determined at application start time, and the config sources themselves may be static or dynamic.
      * @return the configuration sources
      */

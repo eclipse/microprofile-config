@@ -25,6 +25,8 @@ import java.util.Set;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
+import static org.eclipse.microprofile.config.Config.PROFILE;
+
 /**
  * @author Emily Jiang
  */
@@ -33,7 +35,7 @@ public class CustomConfigProfileConfigSource implements ConfigSource {
     private Map<String, String> configValues = new HashMap<>();
 
     public CustomConfigProfileConfigSource() {
-        configValues.put("mp.config.profile", "test");
+        configValues.put(PROFILE, "test");
         configValues.put("%dev.vehicle.name", "bike");
         configValues.put("%prod.vehicle.name", "bus");
         configValues.put("%test.vehicle.name", "van");
@@ -56,7 +58,7 @@ public class CustomConfigProfileConfigSource implements ConfigSource {
     }
 
     @Override
-    public Set<String> getPropertyNames() {    
+    public Set<String> getPropertyNames() {
         return configValues.keySet();
     }
 }
