@@ -129,7 +129,7 @@ public class InjectedConfigUsageSample {
 }
 ----
 
-=== Aggregate related properties into a single POJO Example
+=== Aggregate related properties into a CDI bean
 
 When injecting a number of related configuration properties, it can be tedious to repeat the statement of `ConfigProperty` in scatter places. 
 Since they are related, it makes more sense to aggregate them into a single property class. 
@@ -174,9 +174,8 @@ In order to retrieve the above properties in a single property class, you can us
 
 [source, java]
 ----
-
 @ConfigProperties(prefix="server")
-@ApplicationScoped
+@Dependent
 public class Details {
     public String host; // the value of the configuration property server.host
     public int port;   // the value of the configuration property server.port
@@ -190,6 +189,14 @@ public class Details {
 ----
 
 You can then use one of the following to retrieve the properties.
+
+* Programmatic lookup of the bean annotated with `@ConfigProperites`
+
+Since the class with `@ConfigProperties` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g. 
+
+```
+Details details= CDI.current().select(Details.class, ConfigProperties.Literal.NOPREFIX).get();
+```
 
 * Directly inject the bean annotated with `@ConfigProperties`
 [source, java]
@@ -236,53 +243,16 @@ details.getLocation() -> old.location -> Berlin
 ```
 
 In the above two types of injection lookup, the configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified. 
-If any of the property is missing and there is neither default value nor property is not optional, DeploymentException will be thrown. 
-In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `@ConfigProperty` to provide a default value. 
-You can also use `Optional<T>` or OptionalInt, OptionalDouble, OptionalLong as the type.
-If any of the property value cannot be converted to the specified type, DeploymentException will be thrown as well.
+When preforming property lookup, `DeploymentException` will be thrown for the following scenarios:
 
-* programmatic look up via `Config.getConfigProperties()`
-[source, java]
-----
-Config config = ConfigProvider.getConfig();
-Details serverDetails = config.getConfigProperties(Details.class);
-Details clientDetails = config.getConfigProperties(Details.class, "client."); 
-Details details = config.getConfigProperties(Details.class, ""); //use no prefix
-----
+1. The property is missing and neither default value nor the property return type is optional.
+Use one of the following to fix the problem.
+** Define a value for the property
+** Supply a default value when defining the field. 
+** Use `@ConfigProperty` to provide a default value. 
+** Use `Optional<T>` or `OptionalInt`, `OptionalDouble`, `OptionalLong` as the type.
 
-In the above example, the `serverDetails` will contain the following info, because the prefix `server.` on the bean class `Details` is in action:
+2. The property value cannot be converted to the specified type
 
-```
-serverDetails.host -> server.host -> localhost
-serverDetails.port -> server.port -> 9080
-serverDetails.endpoint -> server.endpoint -> query
-serverDetails.getLocation() -> server.old.location -> London
-```
-The `clientDetails` will retrieve the following properties, because the specified prefix `client.` overrides the prefix on the bean class.
-
-```
-clientDetails.host -> client.host -> myHost
-clientDetails.port -> client.port -> 9081
-clientDetails.endpoint -> client.endpoint -> shelf
-clientDetails.getLocation() -> client.old.location -> Dublin
-```
-The `empty` prefix overrides the prefix set on the bean class `server.`. Therefore, this will retrieve the following properties.
-
-```
-details.host -> host -> anotherHost
-details.port -> port -> 9082
-details.endpoint -> endpoint -> book
-details.getLocation() -> old.location -> Berlin
-```
-In the above programmatic lookup, the configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified. 
-
-If any of the property cannot be found and there is neither default value nor property is not optional, `java.util.NoSuchElementException` will be thrown. 
-In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `@ConfigProperty` to provide a default value. 
-You can also use `Optional<T>` or OptionalInt, OptionalDouble, OptionalLong as the type. If any property values cannot be converted to the specified type, `java.lang.IllegalArgumentException` will be thrown.
-
-When using programmatic lookup of the configuration properties, the configuration properties class does not need to be annotated with 
-`@ConfigProperties`, if no prefix is to be supplied. The usage of the annotation `ConfigProperties` is only for supplying the prefix. 
-However, when using injection of the configuration properties, the configuration properties class, which should be a CDI bean, must be annotated with `@ConfigProperties`. 
-Otherwise, the fields will not be automatically resolved to the corresponding configuration properties.
 
 
