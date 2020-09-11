@@ -17,7 +17,7 @@
  * limitations under the License.
  *
  */
-package org.eclipse.microprofile.config.tck;
+package org.eclipse.microprofile.config.tck.EmptyValue;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

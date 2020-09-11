@@ -78,7 +78,7 @@ public class InjectedConfigUsageSample {
     @Inject
     private Config config;
 
-    //The property myprj.some.url must exist in one of the configsources, otherwise a
+    //The property myprj.some.url must exist with a non empty value, otherwise a
     //DeploymentException will be thrown.
     @Inject
     @ConfigProperty(name="myprj.some.url")
@@ -128,6 +128,247 @@ public class InjectedConfigUsageSample {
     @Inject @ConfigProperty(name="myPets") private Set<String> mySetPets;
 }
 ----
+
+=== Config value conversion rules
+
+The table below defines the conversion rules, including some special edge case scenarios.
+
+[cols="1,1,1,2a",options="header"]
+|===
+|Input String
+|Output type
+|Method
+|behaviour
+
+| "foo,bar"
+| String
+| getValue
+| "foo,bar"
+
+| "foo,bar"
+| String[]
+| getValue
+| {"foo", "bar"}
+
+| "foo,bar"
+| String
+| getOptionalValue
+| Optional.of("foo,bar")
+
+| "foo,bar"
+| String[]
+| getOptionalValue
+| Optional.of({"foo","bar"})
+
+| "foo,bar"
+| String
+| getOptionalValues
+| Optional.of("foo", "bar")
+
+| "foo,"
+| String
+| getValue
+| "foo,"
+
+| "foo,"
+| String[]
+| getValue
+| {"foo"}
+
+| "foo,"
+| String
+| getOptionalValue
+| Optional.of("foo,")
+
+| "foo,"
+| String[]
+| getOptionalValue
+| Optional.of({"foo"})
+
+| "foo,"
+| String
+| getOptionalValues
+| Optional.of("foo")
+
+| ",bar"
+| String
+| getValue
+| ",bar"
+
+| ",bar"
+| String[]
+| getValue
+| {"bar"}
+
+| ",bar"
+| String
+| getOptionalValue
+| Optional.of(",bar")
+
+| ",bar"
+| String[]
+| getOptionalValue
+| Optional.of({"bar"})
+
+| ",bar"
+| String
+| getOptionalValues
+| Optional.of("bar")
+
+| " " (space)
+| String
+| getValue
+| " "
+
+| " "(space)
+| String[]
+| getValue
+| {" "}
+
+| " "(space)
+| String
+| getOptionalValue
+| Optional.of(" ")
+
+| " "(space)
+| String[]
+| getOptionalValue
+| Optional.of({" "})
+
+| " "(space)
+| String
+| getOptionalValues
+| Optional.of(" ")
+
+| missing
+| String
+| getValue
+| throws `NoSuchElementException`
+
+| missing
+| String[]
+| getValue
+| throws `NoSuchElementException`
+
+| missing
+| String
+| getOptionalValue
+| Optional.empty()
+
+| missing
+| String[]
+| getOptionalValue
+| Optional.empty()
+
+| missing
+| String
+| getOptionalValues
+| Optional.empty()
+
+| ""
+| String
+| getValue
+| throws `NoSuchElementException`
+
+| ""
+| String[]
+| getValue
+| throws `NoSuchElementException`
+
+
+| ""
+| String
+| getOptionalValue
+| Optional.empty()
+
+| ""
+| String[]
+| getOptionalValue
+| Optional.empty()
+
+| ""
+| String
+| getOptionalValues
+| Optional.empty()
+
+| ","
+| String
+| getValue
+| ","
+
+| ","
+| String[]
+| getValue
+| throws `NoSuchElementException`
+
+| ","
+| String
+| getOptionalValue
+| Optional.of(",")
+
+| ","
+| String[]
+| getOptionalValue
+| Optional.empty()
+
+| ","
+| String
+| getOptionalValues
+| Optional.empty()
+
+| "\,"
+| String
+| getValue
+| "\,"
+
+| "\,"
+| String[]
+| getValue
+| throws `NoSuchElementException`
+
+
+| "\,"
+| String
+| getOptionalValue
+| Optional.of("\,")
+
+| "\,"
+| String[]
+| getOptionalValue
+| Optional.empty()
+
+| "\,"
+| String
+| getOptionalValues
+| Optional.empty()
+
+| ",,"
+| String
+| getValue
+| ",,"
+
+| ",,"
+| String[]
+| getValue
+| throws `NoSuchElementException`
+
+| ",,"
+| String
+| getOptionalValue
+| Optional.of(",,")
+
+| ",,"
+| String[]
+| getOptionalValue
+| Optional.empty()
+
+| ",,"
+| String
+| getOptionalValues
+| Optional.empty()
+
+
+|===
 
 === Aggregate related properties into a CDI bean
 
