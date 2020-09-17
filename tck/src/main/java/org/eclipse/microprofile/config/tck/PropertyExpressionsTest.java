@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
+import static org.eclipse.microprofile.config.Config.PROPERTY_EXPRESSIONS_ENABLED;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
@@ -125,7 +126,7 @@ public class PropertyExpressionsTest {
 
     @Test
     public void withoutExpansion() {
-        Config config = buildConfig("my.prop", "1234", "expression", "${my.prop}", "mp.config.property.expressions", "false");
+        Config config = buildConfig("my.prop", "1234", "expression", "${my.prop}", PROPERTY_EXPRESSIONS_ENABLED, "false");
 
         assertEquals("${my.prop}", config.getValue("expression", String.class));
     }
