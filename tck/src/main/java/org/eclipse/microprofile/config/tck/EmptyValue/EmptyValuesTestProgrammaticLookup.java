@@ -75,9 +75,8 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
 
     @Test
     public void testMissingStringGetOptionalValue() {
-        Assert.assertFalse(config.getOptionalValue("missing.string", String.class).isPresent());
-        Assert.assertFalse(config.getOptionalValue("missing.string", String[].class).isPresent());
-        Assert.assertFalse(config.getOptionalValues("missing.string", String.class).isPresent());
+        assertConfigurationNotPresentForOptional("missing.string");
+        assertConfigurationNotPresentForOptionalMultiple("missing.string");
     }
     @Test(expectedExceptions = NoSuchElementException.class)
     public void testEmptyStringGetValueArray() {
@@ -91,9 +90,8 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
 
     @Test
     public void testEmptyStringGetOptionalValue() {
-        Assert.assertFalse(config.getOptionalValue("empty.string", String.class).isPresent());
-        Assert.assertFalse(config.getOptionalValue("empty.string", String[].class).isPresent());
-        Assert.assertFalse(config.getOptionalValues("empty.string", String.class).isPresent());
+        assertConfigurationNotPresentForOptional("empty.string");
+        assertConfigurationNotPresentForOptionalMultiple("empty.string");
     }
     
     @Test(expectedExceptions = NoSuchElementException.class)
@@ -110,8 +108,7 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testCommaStringGetOptionalValue() {
         Assert.assertEquals(config.getOptionalValue("comma.string", String.class).get(), ",");
-        Assert.assertFalse(config.getOptionalValue("comma.string", String[].class).isPresent());
-        Assert.assertFalse(config.getOptionalValues("comma.string", String.class).isPresent());
+        assertConfigurationNotPresentForOptionalMultiple("comma.string");
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
@@ -128,8 +125,7 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testBackslashCommaStringGetOptionalValue() {
         Assert.assertEquals(config.getOptionalValue("backslash.comma.string", String.class).get(), "\\,");
-        Assert.assertFalse(config.getOptionalValue("backslash.comma.string", String[].class).isPresent());
-        Assert.assertFalse(config.getOptionalValues("backslash.comma.string", String.class).isPresent());
+        assertConfigurationNotPresentForOptionalMultiple("backslash.comma.string");
     }
 
     @Test(expectedExceptions = NoSuchElementException.class)
@@ -146,8 +142,7 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testDoubleCommaStringGetOptionalValues() {
         Assert.assertEquals(config.getOptionalValue("double.comma.string", String.class).get(), ",,");
-        Assert.assertFalse(config.getOptionalValue("double.comma.string", String[].class).isPresent());
-        Assert.assertFalse(config.getOptionalValues("double.comma.string", String.class).isPresent());
+        assertConfigurationNotPresentForOptionalMultiple("double.comma.string");
     }
 
     @Test
@@ -225,5 +220,14 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
         Assert.assertEquals(config.getOptionalValue("space.string", String.class).get(), " ");
         Assert.assertEquals(config.getOptionalValue("space.string", String[].class).get(), new String[] {" "});
         Assert.assertEquals(config.getOptionalValues("space.string", String.class).get(), Arrays.asList(" "));
+    }
+
+    private void assertConfigurationNotPresentForOptionalMultiple(String property) {
+        Assert.assertFalse(config.getOptionalValue(property, String[].class).isPresent());
+        Assert.assertFalse(config.getOptionalValues(property, String.class).isPresent());
+    }
+
+    private void assertConfigurationNotPresentForOptional(String property) {
+        Assert.assertFalse(config.getOptionalValue(property, String.class).isPresent());
     }
 }

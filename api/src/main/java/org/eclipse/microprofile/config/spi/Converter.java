@@ -120,7 +120,7 @@ import java.io.Serializable;
  * consider other values to be empty as well.
  * <p>
  * When a conversion results in an empty value, most converters should normally return {@code null}.  All of the built-in
- * converters except the primitive ones <em>must</em> return {@code null} for an empty value, <em>except</em> for the built-in converters for
+ * converters except the primitive ones <em>must</em> return {@code null} for an empty value, and for the built-in converters such as
  * {@code OptionalInt}, {@code OptionalLong}, and {@code OptionalDouble}, which <em>must</em> return their corresponding
  * {@code empty()} value for an empty input.
  * <p>

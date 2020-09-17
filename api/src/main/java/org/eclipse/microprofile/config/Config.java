@@ -33,7 +33,6 @@ package org.eclipse.microprofile.config;
 import java.util.Arrays;
 import java.lang.reflect.Array;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -101,8 +100,8 @@ public interface Config {
      * rather than recomputing it.
      * <p>
      * The result of this method is identical to the result of calling {@code getOptionalValue(propertyName, propertyType).get()}.
-     * In particular, If the given property name or the value element of this property does not exist, the {@link NoSuchElementException} is thrown.
-     * This method never returns {@code null}.
+     * In particular, If the given property name or the value element of this property does not exist, 
+     * the {@link java.util.NoSuchElementException} is thrown. This method never returns {@code null}.
      *
      * @param <T>
      *             The property type
@@ -112,9 +111,9 @@ public interface Config {
      *             The type into which the resolved property value should get converted
      * @return the resolved property value as an instance of the requested type (not {@code null})
      * @throws IllegalArgumentException if the property cannot be converted to the specified type
-     * @throws NoSuchElementException if the property name or the value of the property does not exist
+     * @throws java.util.NoSuchElementException if the property is not defined or is defined as an empty string
      */
-    <T> T getValue(String propertyName, Class<T> propertyType) throws IllegalArgumentException, NoSuchElementException;
+    <T> T getValue(String propertyName, Class<T> propertyType);
 
     /**
      * Return the {@link ConfigValue} for the specified property name from the underlying
@@ -172,7 +171,7 @@ public interface Config {
      *
      * @throws IllegalArgumentException if the property cannot be converted to the specified type
      */
-    <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType) throws IllegalArgumentException;
+    <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
      * Return the resolved property values with the specified type for the
