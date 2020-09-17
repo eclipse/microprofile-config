@@ -119,11 +119,6 @@ import java.io.Serializable;
  * For all converters, the empty string {@code ""} <em>must</em> be considered an empty value. Some converters <em>may</em>
  * consider other values to be empty as well.
  * <p>
- * When a conversion results in an empty value, most converters should normally return {@code null}.  All of the built-in
- * converters except the primitive ones <em>must</em> return {@code null} for an empty value, and for the built-in converters such as
- * {@code OptionalInt}, {@code OptionalLong}, and {@code OptionalDouble}, which <em>must</em> return their corresponding
- * {@code empty()} value for an empty input.
- * <p>
  * Implementations <em>may</em> (but are not required to) implement {@code Config.getOptionalValue()} using a
  * {@code Converter}.  If so, this converter <em>must</em> return {@code Optional.empty()} for an empty input.
  *
