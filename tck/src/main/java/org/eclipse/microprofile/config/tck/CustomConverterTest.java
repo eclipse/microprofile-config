@@ -47,7 +47,7 @@ public class CustomConverterTest extends Arquillian {
             .create(JavaArchive.class, "customConverterTest.jar")
             .addClass(CustomConverterTest.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-            .addAsServiceProvider(Converter.class,
+            .addAsServiceProviderAndClasses(Converter.class,
                                   IntegerConverter.class,
                                   LongConverter.class,
                                   DoubleConverter.class,
