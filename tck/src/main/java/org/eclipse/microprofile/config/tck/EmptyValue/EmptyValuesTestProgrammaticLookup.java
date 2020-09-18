@@ -17,7 +17,7 @@
  * limitations under the License.
  *
  */
-package org.eclipse.microprofile.config.tck.EmptyValue;
+package org.eclipse.microprofile.config.tck.emptyvalue;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
@@ -46,12 +46,12 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
                 .addAsManifestResource(new StringAsset(
                                             "empty.string=" + "\n" +
                                             "comma.string=," + "\n" +
-                                            "backslach.comma.string=\\," + "\n" +
+                                            "backslash.comma.string=\\\\," + "\n" +
                                             "double.comma.string=,," + "\n" +
                                             "foo.bar.string=foo,bar"+ "\n" +
                                             "foo.comma.string=foo,"+ "\n" +
                                             "comma.bar.string=,bar" + "\n" +
-                                            "space.string= "
+                                            "space.string=\\u0020"
                                             ),
                                        "microprofile-config.properties");
 

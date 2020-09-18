@@ -17,7 +17,7 @@
  * limitations under the License.
  *
  */
-package org.eclipse.microprofile.config.tck.EmptyValue;
+package org.eclipse.microprofile.config.tck.emptyvalue;
 
 import javax.enterprise.inject.spi.DeploymentException;
 import org.jboss.arquillian.container.test.api.Deployment;
