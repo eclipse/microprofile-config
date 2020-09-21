@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -41,7 +41,6 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Deployment
     public static Archive deployment() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "emptyValues.jar")
-                .addClasses(EmptyValuesTest.class, EmptyValuesBean.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsManifestResource(new StringAsset(
                                             "empty.string=" + "\n" +
