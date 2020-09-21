@@ -253,10 +253,3 @@ Use one of the following to fix the problem.
 If any of the property cannot be found and there is neither default value nor property is not optional, `java.util.NoSuchElementException` will be thrown.
 In order to avoid this, you can supply a default value when defining the field. Alternatively, you can use `@ConfigProperty` to provide a default value.
 You can also use `Optional<T>` or OptionalInt, OptionalDouble, OptionalLong as the type. If any property values cannot be converted to the specified type, `java.lang.IllegalArgumentException` will be thrown.
-
-When using programmatic lookup of the configuration properties, the configuration properties class does not need to be annotated with
-`@ConfigProperties`, if no prefix is to be supplied. The usage of the annotation `ConfigProperties` is only for supplying the prefix.
-However, when using injection of the configuration properties, the configuration properties class, which should be a CDI bean, must be annotated with `@ConfigProperties`.
-Otherwise, the fields will not be automatically resolved to the corresponding configuration properties.
-
-
