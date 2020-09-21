@@ -16,38 +16,90 @@
 
 = Running the Microprofile Config TCK
 
-Any Microprofile 1.2 and higher release must pass this test suite.
-The TCK uses `testng`
+Any Microprofile Config 2.0 implementation must pass this test suite. The TCK uses `TestNG` and `Arquillian`.
 
 == Dependencies
 
-To enable the tests in your project you need to add the following dependency to your build:
+To enable the TCK in your implementation you require at least the following dependencies:
 
 [source, xml]
 ----
 <properties>
-   <microprofile.config.version>1.1</microprofile.config.version>
+   <version.microprofile.config>2.0</version.microprofile.config>
+   <version.testng>6.14.3</version.testng>
+   <version.weld.api>3.1.Final</version.weld.api>
 </properties>
 
-<dependency>
-    <groupId>org.eclipse.microprofile.config</groupId>
-    <artifactId>microprofile-config-api</artifactId>
-    <version>${microprofile.config.version}</version>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>org.eclipse.microprofile.config</groupId>
+        <artifactId>microprofile-config-api</artifactId>
+        <version>${version.microprofile.config}</version>
+    </dependency>
 
-<dependency>
-    <groupId>org.eclipse.microprofile.config</groupId>
-    <artifactId>microprofile-config-tck</artifactId>
-    <version>${microprofile.config.version}</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>org.testng</groupId>
-    <artifactId>testng</artifactId>
-    <version>6.9.9</version>
-    <scope>test</scope>
-</dependency>
+    <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <version>2.0.2</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>1.3.5</version>
+        <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.eclipse.microprofile.config</groupId>
+        <artifactId>microprofile-config-tck</artifactId>
+        <version>${version.microprofile.config}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>${version.testng}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.weld</groupId>
+      <artifactId>weld-api</artifactId>
+      <version>${version.weld.api}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.weld</groupId>
+      <artifactId>weld-spi</artifactId>
+      <version>${version.weld.api}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.weld</groupId>
+      <artifactId>weld-core-impl</artifactId>
+      <version>${version.weld.api}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.arquillian.container</groupId>
+      <artifactId>arquillian-weld-embedded</artifactId>
+      <version>${version.weld.api}</version>
+      <scope>test</scope>
+    </dependency>
+</dependencies>
 ----
+
+The dependencis list specify `Weld` as the CDI container implementation. This may be replaced by any other CDI
+compatible implementation.
+
+Additional dependencies may be required to specify the artifacts containing the MicroProfile Config implementation that
+is going to betested.
 
 == Environment Requirements
 
@@ -68,20 +120,19 @@ See below for an example configuration to provide these environment variables in
 
 == Declaring the Tests to run
 
-You also need to specify which tests you want to run, e.g. create a file `tck-suite.xml` in your project which contains the following content:
+You also need to specify which tests you want to run, e.g. create a file `tck-suite.xml` in your project which contains
+the following content:
 [source, xml]
 ----
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="microprofile-config-TCK" verbose="2" configfailurepolicy="continue" >
-
-    <test name="microprofile-config 1.1 TCK">
+    <test name="microprofile-config 2.0 TCK">
         <packages>
             <package name="org.eclipse.microprofile.config.tck.*">
             </package>
         </packages>
     </test>
-
 </suite>
 ----
 
@@ -95,7 +146,7 @@ If you use Apache Maven then the tests are run via the `maven-surefire-plugin`
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.19.1</version>
+            <version>2.22.2</version>
             <configuration>
                 <suiteXmlFiles>
                     <suiteXmlFile>tck-suite.xml</suiteXmlFile>
@@ -136,7 +187,8 @@ If you don't want to use a tck-suite.xml file, you can also just use in line sur
 
 == Deploying additional Implementation Artifacts
 
-If your implementation needs additional Artifacts in the test Deployments then you have to add them via an Arquillian Extension as shown here:
+If your implementation needs additional Artifacts in the test Deployments then you have to add them via an `Arquillian
+Extension` as shown here:
 
 - https://github.com/apache/geronimo-config/blob/trunk/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigExtension.java[Arquillian Extension to register archive appending]
 - https://github.com/apache/geronimo-config/blob/trunk/impl/src/test/java/org/apache/geronimo/config/test/GeronimoConfigArchiveProcessor.java[Arquillian Extension that appends to the archive]
@@ -144,6 +196,4 @@ If your implementation needs additional Artifacts in the test Deployments then y
 
 == Example Implementation Using the TCK
 An example of how an implementation might go about integrating the Microprofile-Config TCK into a build
-can be found in the
-https://svn.apache.org/repos/asf/geronimo/components/config/trunk/[Apache Geronimo Project].
-
+can be found in the https://github.com/apache/geronimo-config[Apache Geronimo Project].
