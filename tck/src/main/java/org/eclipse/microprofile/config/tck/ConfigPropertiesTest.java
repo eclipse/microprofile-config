@@ -83,9 +83,9 @@ public class ConfigPropertiesTest extends Arquillian {
                         "my.host=myhost\n" +
                         "my.port=9081\n"+
                         "my.endpoint=poof\n" +
-                        "other$name=Holly\n" +
-                        "other$age=20\n" +
-                        "other$nationality=USA\n"
+                        "other.name=Holly\n" +
+                        "other.age=20\n" +
+                        "other.nationality=USA\n"
                         ),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
@@ -112,7 +112,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
 
         //programmatic lookup of the beans
-        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client.")).get();
+        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
         Assert.assertEquals("Rob", bo.getName());
         Assert.assertEquals(25, bo.age);
         Assert.assertEquals("Engineer", bo.job);
@@ -128,7 +128,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
 
         //programmatic lookup of the beans
-        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.NOPREFIX).get();
+        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.NO_PREFIX).get();
         Assert.assertEquals("Harry", bo.getName());
         Assert.assertEquals(21, bo.age);
         Assert.assertEquals("Plumber", bo.job);
@@ -166,7 +166,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
-    @ConfigProperties(prefix="customer.")
+    @ConfigProperties(prefix="customer")
     public static class BeanOne {
         private String name;
         int age;
@@ -209,7 +209,7 @@ public class ConfigPropertiesTest extends Arquillian {
         }
     }
 
-    @ConfigProperties(prefix="cloud.")
+    @ConfigProperties(prefix="cloud")
     public static class BeanFour {
         @ConfigProperty(name="a.host", defaultValue="mycloud.org")
         private String host;
