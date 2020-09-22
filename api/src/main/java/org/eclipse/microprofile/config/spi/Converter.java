@@ -114,13 +114,24 @@ import java.io.Serializable;
  * All <em>built in</em> Converters have a priority value of {@code 1}. <em>Implicit</em> converters are only created
  * when no other converter was found; therefore, they do not have a priority.
  *
+ * <h3 id="empty">Empty values</h3>
+ *
+ * For all converters, the empty string {@code ""} <em>must</em> be considered an empty value. Some converters <em>may</em>
+ * consider other values to be empty as well.
+ * <p>
+ * Implementations <em>may</em> (but are not required to) implement {@code Config.getOptionalValue()} using a
+ * {@code Converter}.  If so, this converter <em>must</em> return {@code Optional.empty()} for an empty input.
+ *
  * <h3>Array conversion</h3>
  *
  * <p>
  * A conforming implementation must support the automatic creation of an <em>implicit</em> converter for array types.
- * This converter uses a comma ({@code U+002C ','}) as a delimiter. To allow a comma to be embedded within individual
- * array element values, it may be escaped using a backslash ({@code U+005C '\'}) character. Any escaped comma
- * character will be included as a plain comma within the single element (the backslash is discarded by the converter).
+ * This converter uses a comma ({@code U+002C ','}) as a delimiter.  To allow a comma to be embedded within individual
+ * array element values, it may be escaped using a backslash ({@code U+005C '\'}) character.  Any escaped comma character
+ * will be included as a plain comma within the single element (the backslash is discarded by the converter).
+ * <p>
+ * Empty elements <em>must</em> not be included in the final array.  An array which would consist of only empty values
+ * <em>must</em> be considered empty; the array converter <em>must</em> return {@code null} in this case.
  *
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>

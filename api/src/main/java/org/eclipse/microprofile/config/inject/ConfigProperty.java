@@ -140,7 +140,8 @@ public @interface ConfigProperty {
     String name() default "";
 
     /**
-     * The default value if the configured property value does not exist.
+     * The default value if the configured property value does not exist. 
+     * Empty string as the default value will be ignored, which is same as not setting the default value.
      * <p>
      * If the target Type is not String a proper {@link org.eclipse.microprofile.config.spi.Converter} will get applied.
      * That means that any default value string should follow the formatting rules of the registered Converters.

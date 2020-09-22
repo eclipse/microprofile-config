@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,7 +17,7 @@
  * limitations under the License.
  *
  */
-package org.eclipse.microprofile.config.tck;
+package org.eclipse.microprofile.config.tck.emptyvalue;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 

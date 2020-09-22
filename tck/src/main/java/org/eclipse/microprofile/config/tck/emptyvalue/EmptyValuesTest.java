@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016-2020 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,10 +17,11 @@
  * limitations under the License.
  *
  */
-package org.eclipse.microprofile.config.tck;
+package org.eclipse.microprofile.config.tck.emptyvalue;
 
-import org.eclipse.microprofile.config.Config;
+import javax.enterprise.inject.spi.DeploymentException;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.ShouldThrowException;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -32,8 +33,6 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
-import static org.testng.Assert.assertEquals;
-
 public class EmptyValuesTest extends Arquillian {
 
     private static final String EMPTY_PROPERTY = "my.empty.property";
@@ -41,6 +40,7 @@ public class EmptyValuesTest extends Arquillian {
     public static final StringAsset EMPTY_STRING_ASSET = new StringAsset(PROP_FILE_EMPTY_PROPERTY + "=");
 
     @Deployment
+    @ShouldThrowException(DeploymentException.class)
     public static Archive deployment() {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "emptyValues.jar")
                 .addClasses(EmptyValuesTest.class, EmptyValuesBean.class)
@@ -55,25 +55,7 @@ public class EmptyValuesTest extends Arquillian {
     @Inject
     private EmptyValuesBean emptyValuesBean;
 
-    @Inject
-    private Config config;
-
     @Test
-    public void testEmptyStringValues() {
-        assertEquals(emptyValuesBean.getStringValue(), "");
-    }
-
-    @Test
-    public void testEmptyStringProgrammaticLookup() {
-        System.setProperty(EMPTY_PROPERTY, "");
-        String stringValue = config.getValue(EMPTY_PROPERTY, String.class);
-        assertEquals(stringValue, "");
-        System.clearProperty(EMPTY_PROPERTY);
-    }
-
-    @Test
-    public void testEmptyStringPropertyFromConfigFile() {
-        String stringValue = config.getValue(PROP_FILE_EMPTY_PROPERTY, String.class);
-        assertEquals(stringValue, "");
+    public void test() {
     }
 }

@@ -30,9 +30,8 @@
  *      Additional reviews and feedback by Tomas Langer.
  */
 package org.eclipse.microprofile.config;
-
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,13 +111,20 @@ public interface Config {
      * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
      * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
      * rather than recomputing it.
+     * <p>
+     * The result of this method is identical to the result of calling {@code getOptionalValue(propertyName, propertyType).get()}.
+     * In particular, If the given property name or the value element of this property does not exist, 
+     * the {@link java.util.NoSuchElementException} is thrown. This method never returns {@code null}.
      *
-     * @param <T> The property type
-     * @param propertyName The configuration property name
-     * @param propertyType The type into which the resolved property value should get converted
-     * @return the resolved property value as an instance of the requested type
-     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
-     * @throws java.util.NoSuchElementException if the property isn't present in the configuration
+     * @param <T>
+     *             The property type
+     * @param propertyName
+     *             The configuration property name
+     * @param propertyType
+     *             The type into which the resolved property value should get converted
+     * @return the resolved property value as an instance of the requested type (not {@code null})
+     * @throws IllegalArgumentException if the property cannot be converted to the specified type
+     * @throws java.util.NoSuchElementException if the property is not defined or is defined as an empty string
      */
     <T> T getValue(String propertyName, Class<T> propertyType);
 
@@ -175,7 +181,8 @@ public interface Config {
      * @param propertyName The configuration property name
      * @param propertyType The type into which the resolved property value should be converted
      * @return The resolved property value as an {@code Optional} wrapping the requested type
-     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
+     *
+     * @throws IllegalArgumentException if the property cannot be converted to the specified type
      */
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
