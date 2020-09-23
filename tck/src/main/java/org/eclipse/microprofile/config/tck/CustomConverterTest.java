@@ -46,13 +46,14 @@ public class CustomConverterTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
             .create(JavaArchive.class, "customConverterTest.jar")
             .addClass(CustomConverterTest.class)
+            .addClass(IntegerConverter.class)
+            .addClass(LongConverter.class)
+            .addClass(DoubleConverter.class)
+            .addClass(BooleanConverter.class)
+            .addClass(CharacterConverter.class)
             .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-            .addAsServiceProviderAndClasses(Converter.class,
-                                  IntegerConverter.class,
-                                  LongConverter.class,
-                                  DoubleConverter.class,
-                                  BooleanConverter.class,
-                                  CharacterConverter.class)
+            .addAsServiceProvider(Converter.class, IntegerConverter.class, LongConverter.class, DoubleConverter.class,
+                                  BooleanConverter.class, CharacterConverter.class)
             .as(JavaArchive.class);
 
         AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
