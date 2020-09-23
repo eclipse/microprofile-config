@@ -99,6 +99,7 @@
     </distributionManagement>
 
     <modules>
+        <module>build-tools</module>
         <module>api</module>
         <module>tck</module>
         <module>spec</module>
@@ -161,6 +162,37 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>net.revelc.code.formatter</groupId>
+                    <artifactId>formatter-maven-plugin</artifactId>
+                    <version>2.12.1</version>
+                    <executions>
+                        <execution>
+                            <phase>process-sources</phase>
+                            <goals>
+                                <goal>format</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>net.revelc.code</groupId>
+                    <artifactId>impsort-maven-plugin</artifactId>
+                    <version>1.4.1</version>
+                    <configuration>
+                        <groups>java.,javax.,org.,com.</groups>
+                        <staticGroups>*</staticGroups>
+                        <removeUnused>true</removeUnused>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>sort-imports</id>
+                            <goals>
+                                <goal>sort</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.5.3</version>
@@ -214,6 +246,19 @@
                 <artifactId>microprofile-maven-build-extension</artifactId>
                 <version>1.0</version>
                 <extensions>true</extensions>
+            </plugin>
+
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <configuration>
+                    <configFile>formatter.xml</configFile>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>net.revelc.code</groupId>
+                <artifactId>impsort-maven-plugin</artifactId>
             </plugin>
 
             <plugin>
@@ -283,9 +328,7 @@
                                 <module name="LeftCurly">
                                     <property name="option" value="EOL" />
                                 </module>
-                                <module name="RightCurly">
-                                    <property name="option" value="ALONE" />
-                                </module>
+                                <module name="RightCurly"/>
                                 <module name="EmptyStatement" />
                                 <module name="EqualsHashCode" />
                                 <module name="DefaultComesLast" />
@@ -330,10 +373,10 @@
                         <exclude>.factorypath</exclude>
                         <exclude>.editorconfig</exclude>
                         <exclude>.github/**</exclude>
+                        <exclude>.cache/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
