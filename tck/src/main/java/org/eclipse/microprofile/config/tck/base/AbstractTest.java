@@ -23,15 +23,14 @@ import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.asset.UrlAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 
-
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
 public class AbstractTest extends Arquillian {
 
-
     public static void addFile(JavaArchive archive, String originalPath) {
-        archive.addAsResource(new UrlAsset(Thread.currentThread().getContextClassLoader().getResource("internal/" + originalPath)),
+        archive.addAsResource(
+                new UrlAsset(Thread.currentThread().getContextClassLoader().getResource("internal/" + originalPath)),
                 originalPath);
     }
 

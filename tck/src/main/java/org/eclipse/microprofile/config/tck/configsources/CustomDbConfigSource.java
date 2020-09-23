@@ -58,9 +58,8 @@ public class CustomDbConfigSource implements ConfigSource {
 
     @Override
     public Set<String> getPropertyNames() {
-        
+
         return configValues.keySet();
     }
-
 
 }

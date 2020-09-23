@@ -52,18 +52,18 @@ public class ConfigPropertyFileProfileTest extends Arquillian {
                 .create(JavaArchive.class, "ConfigPropertyFileProfileTest.jar")
                 .addClasses(ConfigPropertyFileProfileTest.class, ProfilePropertyBean.class)
                 .addAsManifestResource(
-                    new StringAsset(
-                        "mp.config.profile=dev\n" +
-                        "vehicle.name=car\n" + 
-                        "vehicle.colour=red"),
+                        new StringAsset(
+                                "mp.config.profile=dev\n" +
+                                        "vehicle.name=car\n" +
+                                        "vehicle.colour=red"),
                         "microprofile-config.properties")
                 .addAsManifestResource(new StringAsset(
-                    "vehicle.name=bike\n" + 
-                    "vehicle.owner=Bob"),
-                    "microprofile-config-dev.properties")
+                        "vehicle.name=bike\n" +
+                                "vehicle.owner=Bob"),
+                        "microprofile-config-dev.properties")
                 .addAsManifestResource(new StringAsset(
-                        "vehicle.name=bike\n" + 
-                        "vehicle.age=5"),
+                        "vehicle.name=bike\n" +
+                                "vehicle.age=5"),
                         "microprofile-config-prod.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -76,8 +76,8 @@ public class ConfigPropertyFileProfileTest extends Arquillian {
     }
 
     /**
-     * Check both the file microprofile-config.properties and microprofile-config-dev.properties 
-     * are loaded as config sources but the file microprofile-config-prod.properties is ignored.
+     * Check both the file microprofile-config.properties and microprofile-config-dev.properties are loaded as config
+     * sources but the file microprofile-config-prod.properties is ignored.
      */
     @Test
     public void testConfigProfileWithDev() {
@@ -95,19 +95,19 @@ public class ConfigPropertyFileProfileTest extends Arquillian {
     @Dependent
     public static class ProfilePropertyBean {
         @Inject
-        @ConfigProperty(name="vehicle.name")
+        @ConfigProperty(name = "vehicle.name")
         private String name;
 
         @Inject
-        @ConfigProperty(name="vehicle.age", defaultValue="10")
+        @ConfigProperty(name = "vehicle.age", defaultValue = "10")
         private int age;
 
         @Inject
-        @ConfigProperty(name="vehicle.colour", defaultValue="black")
+        @ConfigProperty(name = "vehicle.colour", defaultValue = "black")
         private String colour;
 
         @Inject
-        @ConfigProperty(name="vehicle.owner", defaultValue="Jane")
+        @ConfigProperty(name = "vehicle.owner", defaultValue = "Jane")
         private String owner;
 
         public String getName() {
@@ -126,5 +126,5 @@ public class ConfigPropertyFileProfileTest extends Arquillian {
             return owner;
         }
     }
-  
+
 }

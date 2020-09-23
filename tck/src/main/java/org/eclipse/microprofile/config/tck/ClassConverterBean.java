@@ -44,20 +44,20 @@ public class ClassConverterBean {
     @Inject
     @ConfigProperty(name = "tck.config.test.javaconfig.converter.class.array")
     private List<Class> testClassList;
-    
-    public Class getTestClass(){
+
+    public Class getTestClass() {
         return testClass;
     }
 
-    public Class[] getTestClasses(){
+    public Class[] getTestClasses() {
         return testClasses;
     }
 
-    public Set<Class> getTestClassSet(){
+    public Set<Class> getTestClassSet() {
         return testClassSet;
     }
 
-    public List<Class> getTestClassList(){
+    public List<Class> getTestClassList() {
         return testClassList;
     }
 }

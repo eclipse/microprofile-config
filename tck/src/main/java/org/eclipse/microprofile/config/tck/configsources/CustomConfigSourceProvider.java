@@ -28,7 +28,6 @@ import java.util.List;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
 
-
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
@@ -41,8 +40,7 @@ public class CustomConfigSourceProvider implements ConfigSourceProvider {
         Enumeration<URL> yamlFiles = null;
         try {
             yamlFiles = forClassLoader.getResources("sampleconfig.yaml");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         while (yamlFiles.hasMoreElements()) {

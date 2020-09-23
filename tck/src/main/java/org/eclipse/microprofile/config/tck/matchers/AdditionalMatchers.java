@@ -19,10 +19,11 @@
 
 package org.eclipse.microprofile.config.tck.matchers;
 
+import static org.hamcrest.Matchers.closeTo;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import static org.hamcrest.Matchers.closeTo;
 
 /**
  *
@@ -42,9 +43,8 @@ public final class AdditionalMatchers {
             @Override
             public boolean matches(Object item) {
                 if (item instanceof Float) {
-                    return (doubleMatcher = closeTo(value, range)).matches(((Float)item).doubleValue());
-                }
-                else {
+                    return (doubleMatcher = closeTo(value, range)).matches(((Float) item).doubleValue());
+                } else {
                     return (doubleMatcher = closeTo(value, range)).matches(item);
                 }
             }
@@ -60,6 +60,5 @@ public final class AdditionalMatchers {
             }
         };
     }
-
 
 }

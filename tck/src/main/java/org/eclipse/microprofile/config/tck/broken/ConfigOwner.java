@@ -23,6 +23,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 /**
  * A bean contains a config property injection
  *
@@ -33,6 +34,6 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class ConfigOwner {
 
     @Inject
-    @ConfigProperty(name="my.long.value")
+    @ConfigProperty(name = "my.long.value")
     private Long configValue;
 }

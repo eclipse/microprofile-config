@@ -56,26 +56,26 @@ import org.osgi.annotation.bundle.Requirement;
  * Injecting a native value is recommended for a mandatory property and its value does not change at runtime or used by
  * a bean with RequestScoped.
  * <p>
- * A further recommendation is to use the built in {@code META-INF/microprofile-config.properties} file mechanism
- * to provide default values inside an Application. If no configured value exists for this property, a
+ * A further recommendation is to use the built in {@code META-INF/microprofile-config.properties} file mechanism to
+ * provide default values inside an Application. If no configured value exists for this property, a
  * {@code DeploymentException} will be thrown during startup.
  *
  * <pre>
  * &#064;Inject
- * &#064;ConfigProperty(name="my.long.property")
+ * &#064;ConfigProperty(name = "my.long.property")
  * private Long injectedLongValue;
  * </pre>
  *
  * <h3>Injecting Optional Values</h3>
  *
  * <p>
- * Contrary to natively injecting, if the property is not specified, this will not lead to a DeploymentException.
- * The following code injects a Long value to the {@code my.optional.long.property}. If the property does not exist,
- * the value {@code 123} will be assigned. to {@code injectedLongValue}.
+ * Contrary to natively injecting, if the property is not specified, this will not lead to a DeploymentException. The
+ * following code injects a Long value to the {@code my.optional.long.property}. If the property does not exist, the
+ * value {@code 123} will be assigned. to {@code injectedLongValue}.
  *
  * <pre>
  * &#064;Inject
- * &#064;ConfigProperty(name="my.optional.long.property", defaultValue="123")
+ * &#064;ConfigProperty(name = "my.optional.long.property", defaultValue = "123")
  * private Long injectedLongValue;
  * </pre>
  *
@@ -114,22 +114,21 @@ import org.osgi.annotation.bundle.Requirement;
 @Retention(RUNTIME)
 @Target({METHOD, FIELD, PARAMETER, TYPE})
 /*
- * Two @Requirement annotations are defined so that the result is a _weak requirement_.
- * One requirement is resolution:=optional which means that at runtime, if satisfied,
- * it will be wired, otherwise it is simply ignored. Another requirement is
- * effective:=active which means it is not visible at runtime, but applicable during
- * assembly where an effectviness of _active_ is specified.
+ * Two @Requirement annotations are defined so that the result is a _weak requirement_. One requirement is
+ * resolution:=optional which means that at runtime, if satisfied, it will be wired, otherwise it is simply ignored.
+ * Another requirement is effective:=active which means it is not visible at runtime, but applicable during assembly
+ * where an effectviness of _active_ is specified.
  */
 @Requirement(namespace = CDI_EXTENSION_PROPERTY, name = "org.eclipse.microprofile.config", effective = "active")
 @Requirement(namespace = CDI_EXTENSION_PROPERTY, name = "org.eclipse.microprofile.config", resolution = OPTIONAL)
 public @interface ConfigProperty {
-    String UNCONFIGURED_VALUE="org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
+    String UNCONFIGURED_VALUE = "org.eclipse.microprofile.config.configproperty.unconfigureddvalue";
     /**
      * The key of the config property used to look up the configuration value.
      * <p>
-     * If it is not specified, it will be derived automatically as {@code <class_name>.<injection_point_name>},
-     * where {@code injection_point_name} is the field name or parameter name, {@code class_name} is the fully
-     * qualified name of the class being injected to.
+     * If it is not specified, it will be derived automatically as {@code <class_name>.<injection_point_name>}, where
+     * {@code injection_point_name} is the field name or parameter name, {@code class_name} is the fully qualified name
+     * of the class being injected to.
      * <p>
      * If one of the {@code class_name} or {@code injection_point_name} cannot be determined, the value has to be
      * provided.
@@ -140,8 +139,8 @@ public @interface ConfigProperty {
     String name() default "";
 
     /**
-     * The default value if the configured property value does not exist. 
-     * Empty string as the default value will be ignored, which is same as not setting the default value.
+     * The default value if the configured property value does not exist. Empty string as the default value will be
+     * ignored, which is same as not setting the default value.
      * <p>
      * If the target Type is not String a proper {@link org.eclipse.microprofile.config.spi.Converter} will get applied.
      * That means that any default value string should follow the formatting rules of the registered Converters.

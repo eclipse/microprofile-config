@@ -25,7 +25,6 @@ package org.eclipse.microprofile.config.tck.converters;
 public class Duck {
     private final String name;
 
-
     public Duck(String name) {
         this.name = name;
     }

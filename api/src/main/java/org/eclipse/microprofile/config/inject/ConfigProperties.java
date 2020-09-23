@@ -18,10 +18,10 @@
  */
 package org.eclipse.microprofile.config.inject;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -33,22 +33,22 @@ import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;
 
 /**
- * Retrieve a number of related configuration properties with the specified prefix into a property class.
- * This class should contain a zero-arg constructor. Otherwise, non-portable behaviour occurs.
+ * Retrieve a number of related configuration properties with the specified prefix into a property class. This class
+ * should contain a zero-arg constructor. Otherwise, non-portable behaviour occurs.
  *
  * <h2>Example</h2>
  *
  * <pre>
- * &#064;ConfigProperties(prefix="server")
+ * &#064;ConfigProperties(prefix = "server")
  * public class MyServer {
- *   public String host;     //maps the property name server.host
- *   public int port;        //maps to the property name server.port
- *   private String context; //maps to the property name server.context
- *   &#064;ConfigProperty(name="old.location")
- *   public String location; //maps to the property name server.old.location
- *   public String getContext() {
- *     return context;
- *   }
+ *     public String host; // maps the property name server.host
+ *     public int port; // maps to the property name server.port
+ *     private String context; // maps to the property name server.context
+ *     &#064;ConfigProperty(name = "old.location")
+ *     public String location; // maps to the property name server.old.location
+ *     public String getContext() {
+ *         return context;
+ *     }
  * }
  * </pre>
  *
@@ -81,7 +81,7 @@ public @interface ConfigProperties {
             return new Literal(prefix);
         }
 
-        private Literal(String prefix){
+        private Literal(String prefix) {
             this.prefix = prefix;
         }
 

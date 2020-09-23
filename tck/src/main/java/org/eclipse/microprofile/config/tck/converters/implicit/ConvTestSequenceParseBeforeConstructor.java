@@ -21,8 +21,8 @@ package org.eclipse.microprofile.config.tck.converters.implicit;
 /**
  * Part of the implicit Converter test.
  *
- * Sample class which has a parse(CharSequence) and Constructor(String) method. 
- * The method parse(CharSequence) should be used instead of constructor(String).
+ * Sample class which has a parse(CharSequence) and Constructor(String) method. The method parse(CharSequence) should be
+ * used instead of constructor(String).
  *
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */

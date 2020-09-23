@@ -19,6 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
+
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
@@ -34,8 +36,6 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -61,7 +61,6 @@ public class CustomConfigSourceTest extends Arquillian {
                 .addAsLibrary(testJar);
         return war;
     }
-
 
     @Test
     public void testConfigSourceProvider() {

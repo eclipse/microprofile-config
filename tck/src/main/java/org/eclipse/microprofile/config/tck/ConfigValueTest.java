@@ -18,6 +18,17 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.ConfigValue;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -31,29 +42,20 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-
 public class ConfigValueTest extends Arquillian {
     @Deployment
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
-            .create(JavaArchive.class, "ConfigValueTest.jar")
-            .addClasses(ConfigValueBean.class)
-            .addAsServiceProvider(ConfigSource.class, ConfigValueConfigSource.class, ConfigValueLowerConfigSource.class)
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-            .as(JavaArchive.class);
+                .create(JavaArchive.class, "ConfigValueTest.jar")
+                .addClasses(ConfigValueBean.class)
+                .addAsServiceProvider(ConfigSource.class, ConfigValueConfigSource.class,
+                        ConfigValueLowerConfigSource.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .as(JavaArchive.class);
 
         return ShrinkWrap
-            .create(WebArchive.class, "ConfigValueTest.war")
-            .addAsLibrary(testJar);
+                .create(WebArchive.class, "ConfigValueTest.war")
+                .addAsLibrary(testJar);
     }
 
     @Test

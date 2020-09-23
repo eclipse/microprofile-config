@@ -58,5 +58,4 @@ public class MissingConverterOnInstanceInjectionTest extends Arquillian {
     public void test() {
     }
 
-    
 }

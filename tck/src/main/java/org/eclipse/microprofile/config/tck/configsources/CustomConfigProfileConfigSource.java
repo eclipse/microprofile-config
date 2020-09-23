@@ -19,13 +19,13 @@
  */
 package org.eclipse.microprofile.config.tck.configsources;
 
+import static org.eclipse.microprofile.config.Config.PROFILE;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
-
-import static org.eclipse.microprofile.config.Config.PROFILE;
 
 /**
  * @author Emily Jiang

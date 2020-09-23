@@ -62,8 +62,7 @@ public interface ConfigValue {
     /**
      * The {@link org.eclipse.microprofile.config.spi.ConfigSource} ordinal that loaded the property lookup.
      *
-     * @return the ConfigSource ordinal that loaded the property lookup or {@code 0} if the property could not be
-     * found
+     * @return the ConfigSource ordinal that loaded the property lookup or {@code 0} if the property could not be found
      */
     int getSourceOrdinal();
 }

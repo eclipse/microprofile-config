@@ -26,8 +26,6 @@ package org.eclipse.microprofile.config.tck.converters.implicit;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 
-
-
 public class ConvTestTypeWCharSequenceParse {
     private String val;
 

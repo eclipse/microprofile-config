@@ -40,24 +40,24 @@ import org.eclipse.microprofile.config.Config;
 @org.osgi.annotation.versioning.ProviderType
 public interface ConfigBuilder {
     /**
-     * Add the <a href="ConfigSource.html#default_config_sources"><em>default configuration sources</em></a>
-     * to the configuration being built.
+     * Add the <a href="ConfigSource.html#default_config_sources"><em>default configuration sources</em></a> to the
+     * configuration being built.
      *
      * @return this configuration builder instance
      */
     ConfigBuilder addDefaultSources();
 
     /**
-     * Add all configuration sources which can be <a href="ConfigSource.html#discovery">discovered</a> from
-     * this configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
+     * Add all configuration sources which can be <a href="ConfigSource.html#discovery">discovered</a> from this
+     * configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
      *
      * @return this configuration builder instance
      */
     ConfigBuilder addDiscoveredSources();
 
     /**
-     * Add all configuration converters which can be <a href="Converter.html#discovery">discovered</a> from
-     * this configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
+     * Add all configuration converters which can be <a href="Converter.html#discovery">discovered</a> from this
+     * configuration builder's {@linkplain #forClassLoader(ClassLoader) class loader}.
      *
      * @return this configuration builder instance
      */
@@ -66,7 +66,8 @@ public interface ConfigBuilder {
     /**
      * Specify the class loader for which this configuration is being built.
      *
-     * @param loader the class loader
+     * @param loader
+     *            the class loader
      * @return this configuration builder instance
      */
     ConfigBuilder forClassLoader(ClassLoader loader);
@@ -74,7 +75,8 @@ public interface ConfigBuilder {
     /**
      * Add the specified {@link ConfigSource} instances to the configuration being built.
      *
-     * @param sources the configuration sources
+     * @param sources
+     *            the configuration sources
      * @return this configuration builder instance
      */
     ConfigBuilder withSources(ConfigSource... sources);
@@ -82,17 +84,18 @@ public interface ConfigBuilder {
     /**
      * Add the specified {@link Converter} instances to the configuration being built.
      * <p>
-     * The implementation may use reflection to determine the target type of the converter. If the
-     * type cannot be determined reflectively, this method may fail with a runtime exception.
+     * The implementation may use reflection to determine the target type of the converter. If the type cannot be
+     * determined reflectively, this method may fail with a runtime exception.
      * <p>
      * When using lambda expressions for custom converters you should use the
-     * {@link #withConverter(Class, int, Converter)} method and pass the target type explicitly,
-     * since lambda expressions generally do not offer enough type information to the reflection API
-     * in order to determine the target converter type.
+     * {@link #withConverter(Class, int, Converter)} method and pass the target type explicitly, since lambda
+     * expressions generally do not offer enough type information to the reflection API in order to determine the target
+     * converter type.
      * <p>
      * The added converters will be given a priority of {@code 100}.
      *
-     * @param converters the converters to add
+     * @param converters
+     *            the converters to add
      * @return this configuration builder instance
      */
     ConfigBuilder withConverters(Converter<?>... converters);
@@ -100,15 +103,19 @@ public interface ConfigBuilder {
     /**
      * Add the specified {@link Converter} instance for the given type to the configuration being built.
      * <p>
-     * This method does not rely on reflection to determine the target type of the converter;
-     * therefore, lambda expressions may be used for the converter instance.
+     * This method does not rely on reflection to determine the target type of the converter; therefore, lambda
+     * expressions may be used for the converter instance.
      * <p>
      * The priority value of custom converters defaults to {@code 100} if not specified.
      *
-     * @param type the class of the type to convert
-     * @param priority the priority of the converter
-     * @param converter the converter (can not be {@code null})
-     * @param <T> the type to convert
+     * @param type
+     *            the class of the type to convert
+     * @param priority
+     *            the priority of the converter
+     * @param converter
+     *            the converter (can not be {@code null})
+     * @param <T>
+     *            the type to convert
      * @return this configuration builder instance
      */
     <T> ConfigBuilder withConverter(Class<T> type, int priority, Converter<T> converter);

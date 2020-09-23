@@ -31,15 +31,11 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
 /**
- * A test to verify that a {@link
- * org.eclipse.microprofile.config.inject.ConfigProperty}-annotated
- * injection point in an observer method with a payload that is not an
- * instance of {@link java.util.Optional} that does not have a
- * corresponding configuration property value set will cause a {@link
- * DeploymentException} to be thrown.
+ * A test to verify that a {@link org.eclipse.microprofile.config.inject.ConfigProperty}-annotated injection point in an
+ * observer method with a payload that is not an instance of {@link java.util.Optional} that does not have a
+ * corresponding configuration property value set will cause a {@link DeploymentException} to be thrown.
  *
- * @author <a href="https://about.me/lairdnelson"
- * target="_parent">Laird Nelson</a>
+ * @author <a href="https://about.me/lairdnelson" target="_parent">Laird Nelson</a>
  */
 public class MissingValueOnObserverMethodInjectionTest extends Arquillian {
 

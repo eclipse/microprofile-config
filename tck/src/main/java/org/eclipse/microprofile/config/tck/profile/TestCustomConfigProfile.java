@@ -50,15 +50,16 @@ public class TestCustomConfigProfile extends Arquillian {
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "TestConfigProfileTest.jar")
-                .addClasses(TestCustomConfigProfile.class, ProfilePropertyBean.class, CustomConfigProfileConfigSource.class)
+                .addClasses(TestCustomConfigProfile.class, ProfilePropertyBean.class,
+                        CustomConfigProfileConfigSource.class)
                 .addAsServiceProvider(ConfigSource.class, CustomConfigProfileConfigSource.class)
                 .addAsManifestResource(
-                    new StringAsset(
-                        "mp.config.profile=prod\n" +
-                        "%dev.vehicle.name=bus\n" +
-                        "%prod.vehicle.name=bike\n" +
-                        "%test.vehicle.name=coach\n" +
-                        "vehicle.name=car"),
+                        new StringAsset(
+                                "mp.config.profile=prod\n" +
+                                        "%dev.vehicle.name=bus\n" +
+                                        "%prod.vehicle.name=bike\n" +
+                                        "%test.vehicle.name=coach\n" +
+                                        "vehicle.name=car"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -79,7 +80,7 @@ public class TestCustomConfigProfile extends Arquillian {
     @Dependent
     public static class ProfilePropertyBean {
         @Inject
-        @ConfigProperty(name="vehicle.name")
+        @ConfigProperty(name = "vehicle.name")
         private String vehicleName;
         public String getConfigProperty() {
             return vehicleName;

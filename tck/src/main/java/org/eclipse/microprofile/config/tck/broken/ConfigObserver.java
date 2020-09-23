@@ -26,13 +26,10 @@ import javax.enterprise.event.Observes;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
- * A bean supporting the {@link
- * MissingValueOnObserverMethodInjectionTest} test that injects a
- * non-existent configuration property in a container lifecycle event
- * observer method.
+ * A bean supporting the {@link MissingValueOnObserverMethodInjectionTest} test that injects a non-existent
+ * configuration property in a container lifecycle event observer method.
  *
- * @author <a href="https://about.me/lairdnelson"
- * target="_parent">Laird Nelson</a>
+ * @author <a href="https://about.me/lairdnelson" target="_parent">Laird Nelson</a>
  *
  * @see MissingValueOnObserverMethodInjectionTest
  */
@@ -43,10 +40,8 @@ final class ConfigObserver {
         super();
     }
 
-    private static final void onStartup(@Observes @Initialized(ApplicationScoped.class)
-                                        final Object event,
-                                        @ConfigProperty(name = "this.property.does.not.exist")
-                                        final String nonExistentConfigurationPropertyValue) {
+    private static final void onStartup(@Observes @Initialized(ApplicationScoped.class) final Object event,
+            @ConfigProperty(name = "this.property.does.not.exist") final String nonExistentConfigurationPropertyValue) {
     }
 
 }

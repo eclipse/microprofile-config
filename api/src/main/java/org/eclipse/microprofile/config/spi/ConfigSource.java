@@ -35,9 +35,9 @@ import java.util.Set;
  * configuration sources may include:
  *
  * <ul>
- *   <li>a JNDI-backed naming service</li>
- *   <li>a properties file</li>
- *   <li>a database table</li>
+ * <li>a JNDI-backed naming service</li>
+ * <li>a properties file</li>
+ * <li>a database table</li>
  * </ul>
  *
  * <p>
@@ -52,15 +52,15 @@ import java.util.Set;
  * <p>
  * Some configuration sources are known as <em>default configuration sources</em>. These configuration sources are
  * normally available in all automatically-created configurations, and can be
- * {@linkplain ConfigBuilder#addDefaultSources() manually added} to manually-created configurations as well. The
- * default configuration sources are:
+ * {@linkplain ConfigBuilder#addDefaultSources() manually added} to manually-created configurations as well. The default
+ * configuration sources are:
  *
  * <ol>
- *   <li>{@linkplain System#getProperties() System properties}, with an {@linkplain #getOrdinal() ordinal value} of
- *   {@code 400}</li>
- *   <li>{@linkplain System#getenv() Environment properties}, with an ordinal value of {@code 300}</li>
- *   <li>The {@code /META-INF/microprofile-config.properties} {@linkplain ClassLoader#getResource(String) resource},
- *   with an ordinal value of {@code 100}</li>
+ * <li>{@linkplain System#getProperties() System properties}, with an {@linkplain #getOrdinal() ordinal value} of
+ * {@code 400}</li>
+ * <li>{@linkplain System#getenv() Environment properties}, with an ordinal value of {@code 300}</li>
+ * <li>The {@code /META-INF/microprofile-config.properties} {@linkplain ClassLoader#getResource(String) resource}, with
+ * an ordinal value of {@code 100}</li>
  * </ol>
  *
  * <h3>Environment variable name mapping rules</h3>
@@ -73,11 +73,11 @@ import java.util.Set;
  * <p>
  * Three environment variables are searched for a given property name (e.g. "{@code com.ACME.size}"):
  * <ol>
- *   <li>The exact name (i.e. "{@code com.ACME.size}")</li>
- *   <li>The name, with each character that is neither alphanumeric nor _ replaced with _
- *   (i.e. "{@code com_ACME_size}")</li>
- *   <li>The name, with each character that is neither alphanumeric nor _ replaced with _ and then converted to upper
- *   case (i.e. "{@code COM_ACME_SIZE}")</li>
+ * <li>The exact name (i.e. "{@code com.ACME.size}")</li>
+ * <li>The name, with each character that is neither alphanumeric nor _ replaced with _ (i.e.
+ * "{@code com_ACME_size}")</li>
+ * <li>The name, with each character that is neither alphanumeric nor _ replaced with _ and then converted to upper case
+ * (i.e. "{@code COM_ACME_SIZE}")</li>
  * </ol>
  *
  * <p>
@@ -91,14 +91,14 @@ import java.util.Set;
  * which contains the fully qualified {@code ConfigSource} implementation class name as its content.
  *
  * <p>
- * Configuration sources may also be added by defining
- * {@link org.eclipse.microprofile.config.spi.ConfigSourceProvider} classes which are discoverable in this manner.
+ * Configuration sources may also be added by defining {@link org.eclipse.microprofile.config.spi.ConfigSourceProvider}
+ * classes which are discoverable in this manner.
  *
  * <h3>Closing configuration sources</h3>
  *
  * <p>
- * If a configuration source implements the {@link AutoCloseable} interface, then its
- * {@linkplain AutoCloseable#close() close method} will be called when the underlying configuration is released.
+ * If a configuration source implements the {@link AutoCloseable} interface, then its {@linkplain AutoCloseable#close()
+ * close method} will be called when the underlying configuration is released.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
@@ -128,16 +128,16 @@ public interface ConfigSource {
     }
 
     /**
-     * Gets all property names known to this configuration source, potentially without evaluating the values.
-     * The returned property names may be a subset of the names of the total set of retrievable properties in this
-     * config source.
+     * Gets all property names known to this configuration source, potentially without evaluating the values. The
+     * returned property names may be a subset of the names of the total set of retrievable properties in this config
+     * source.
      * <p>
      * The returned set is not required to allow concurrent or multi-threaded iteration; however, if the same set is
      * returned by multiple calls to this method, then the implementation must support concurrent and multi-threaded
      * iteration of that set.
      * <p>
-     * The set of keys returned <em>may</em> be a point-in-time snapshot, or <em>may</em> change over time (even
-     * during active iteration) to reflect dynamic changes to the available set of keys.
+     * The set of keys returned <em>may</em> be a point-in-time snapshot, or <em>may</em> change over time (even during
+     * active iteration) to reflect dynamic changes to the available set of keys.
      *
      * @return a set of property names that are known to this configuration source
      */
@@ -147,22 +147,22 @@ public interface ConfigSource {
      * Return the ordinal priority value of this configuration source.
      * <p>
      * If a property is specified in multiple config sources, the value in the config source with the highest ordinal
-     * takes precedence. For configuration sources with the same ordinal value, the configuration source name will
-     * be used for sorting according to string sorting criteria.
+     * takes precedence. For configuration sources with the same ordinal value, the configuration source name will be
+     * used for sorting according to string sorting criteria.
      * <p>
-     * Note that this method is only evaluated during the construction of the configuration, and does not affect
-     * the ordering of configuration sources within a configuration after that time.
+     * Note that this method is only evaluated during the construction of the configuration, and does not affect the
+     * ordering of configuration sources within a configuration after that time.
      * <p>
      * The ordinal values for the default configuration sources can be found
      * <a href="#default_config_sources">above</a>.
      * <p>
      * Any configuration source which is a part of an application will typically use an ordinal between 0 and 200.
-     * Configuration sources provided by the container or 'environment' typically use an ordinal higher than 200.
-     * A framework which intends have values overridden by the application will use ordinals between 0 and 100.
+     * Configuration sources provided by the container or 'environment' typically use an ordinal higher than 200. A
+     * framework which intends have values overridden by the application will use ordinals between 0 and 100.
      * <p>
-     * The default implementation of this method looks for a configuration property named
-     * "{@link #CONFIG_ORDINAL config_ordinal}" to determine the ordinal value for this configuration source. If the
-     * property is not found, then the {@linkplain #DEFAULT_ORDINAL default ordinal value} is used.
+     * The default implementation of this method looks for a configuration property named "{@link #CONFIG_ORDINAL
+     * config_ordinal}" to determine the ordinal value for this configuration source. If the property is not found, then
+     * the {@linkplain #DEFAULT_ORDINAL default ordinal value} is used.
      * <p>
      * This method may be overridden by configuration source implementations to provide a different behavior.
      *
@@ -170,11 +170,10 @@ public interface ConfigSource {
      */
     default int getOrdinal() {
         String configOrdinal = getValue(CONFIG_ORDINAL);
-        if(configOrdinal != null) {
+        if (configOrdinal != null) {
             try {
                 return Integer.parseInt(configOrdinal);
-            }
-            catch (NumberFormatException ignored) {
+            } catch (NumberFormatException ignored) {
 
             }
         }
@@ -184,7 +183,8 @@ public interface ConfigSource {
     /**
      * Return the value for the specified property in this configuration source.
      *
-     * @param propertyName the property name
+     * @param propertyName
+     *            the property name
      * @return the property value, or {@code null} if the property is not present
      */
     String getValue(String propertyName);

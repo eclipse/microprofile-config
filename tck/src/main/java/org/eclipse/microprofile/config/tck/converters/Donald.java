@@ -37,14 +37,16 @@ public class Donald {
 
     /**
      * Ensure constructor cannot be auto-detected/auto-constructed.
-     * @param name the name, not null
+     * 
+     * @param name
+     *            the name, not null
      * @return a new instance, never null.
      */
-    public static Donald iLikeDonald(String name){
+    public static Donald iLikeDonald(String name) {
         return new Donald(name, true);
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 

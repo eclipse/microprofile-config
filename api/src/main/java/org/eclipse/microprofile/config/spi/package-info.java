@@ -25,8 +25,8 @@
  * {@link org.eclipse.microprofile.config.spi.Converter} instances. Configuration instances may be set up and created
  * using the {@link org.eclipse.microprofile.config.spi.ConfigBuilder} API.
  * <p>
- * The package also contains the class {@link org.eclipse.microprofile.config.spi.ConfigProviderResolver},
- * which is used to implement the specification itself.
+ * The package also contains the class {@link org.eclipse.microprofile.config.spi.ConfigProviderResolver}, which is used
+ * to implement the specification itself.
  *
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>

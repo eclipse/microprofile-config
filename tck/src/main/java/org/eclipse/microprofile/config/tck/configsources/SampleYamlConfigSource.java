@@ -53,7 +53,7 @@ public class SampleYamlConfigSource implements ConfigSource {
 
     @Override
     public Set<String> getPropertyNames() {
-        
+
         return config.keySet();
     }
 

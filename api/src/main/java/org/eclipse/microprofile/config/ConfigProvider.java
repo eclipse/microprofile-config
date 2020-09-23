@@ -36,22 +36,22 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  * A {@link Config} provides access to the application's configuration. It may have been automatically discovered, or
  * manually created and registered.
  * <p>
- * The default usage is to use {@link #getConfig()} to automatically pick up the
- * <em>configuration</em> for the current thread's {@linkplain Thread#getContextClassLoader() context class loader}.
+ * The default usage is to use {@link #getConfig()} to automatically pick up the <em>configuration</em> for the current
+ * thread's {@linkplain Thread#getContextClassLoader() context class loader}.
  * <p>
  * A <em>configuration</em> consists of information collected from the registered
  * <em>{@linkplain org.eclipse.microprofile.config.spi.ConfigSource configuration sources}</em>, combined with the set
- * of registered {@linkplain org.eclipse.microprofile.config.spi.Converter converters}.
- * The <em>configuration sources</em> get sorted according to their
- * <em>{@linkplain org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal() ordinal value}</em>.
- * Thus it is possible to override a lower-priority <em>configuration source</em> with a higher-priority one.
+ * of registered {@linkplain org.eclipse.microprofile.config.spi.Converter converters}. The <em>configuration
+ * sources</em> get sorted according to their
+ * <em>{@linkplain org.eclipse.microprofile.config.spi.ConfigSource#getOrdinal() ordinal value}</em>. Thus it is
+ * possible to override a lower-priority <em>configuration source</em> with a higher-priority one.
  * <p>
- * It is also possible to register custom <em>configuration sources</em> to flexibly
- * extend the configuration mechanism. For example, a configuration source could be provided which reads
- * configuration values from a database table.
+ * It is also possible to register custom <em>configuration sources</em> to flexibly extend the configuration mechanism.
+ * For example, a configuration source could be provided which reads configuration values from a database table.
  *
  * <p>
  * Example:
+ * 
  * <pre>
  * String restUrl = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.url&quot;, String.class);
  * Integer port = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.port&quot;, Integer.class);
@@ -71,8 +71,8 @@ public final class ConfigProvider {
     }
 
     /**
-     * Get the {@linkplain Config configuration} corresponding to the current application, as defined by the
-     * calling thread's {@linkplain Thread#getContextClassLoader() context class loader}.
+     * Get the {@linkplain Config configuration} corresponding to the current application, as defined by the calling
+     * thread's {@linkplain Thread#getContextClassLoader() context class loader}.
      * <p>
      * The {@link Config} instance will be created and registered to the context class loader if no such configuration
      * is already created and registered.
@@ -88,12 +88,13 @@ public final class ConfigProvider {
     /**
      * Get the {@linkplain Config configuration} for the application corresponding to the given class loader instance.
      * <p>
-     * The {@link Config} instance will be created and registered to the given class loader if no such configuration
-     * is already created and registered.
+     * The {@link Config} instance will be created and registered to the given class loader if no such configuration is
+     * already created and registered.
      * <p>
      * Each class loader corresponds to exactly one configuration.
      *
-     * @param cl the Classloader used to register the configuration instance
+     * @param cl
+     *            the Classloader used to register the configuration instance
      * @return the configuration instance for the given class loader
      */
     public static Config getConfig(ClassLoader cl) {

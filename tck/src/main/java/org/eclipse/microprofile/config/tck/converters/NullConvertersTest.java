@@ -18,16 +18,16 @@
  */
 package org.eclipse.microprofile.config.tck.converters;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.junit.Test;
+import static org.testng.Assert.assertThrows;
 
 import java.util.NoSuchElementException;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
-import static org.testng.Assert.assertThrows;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.junit.Test;
 
 public class NullConvertersTest {
     @Test
@@ -50,7 +50,7 @@ public class NullConvertersTest {
 
     private static <T> void convertNull(Config config, Class<T> converterType) {
         config.getConverter(converterType)
-              .map(converter -> converter.convert(null))
-              .orElseThrow(NoSuchElementException::new);
+                .map(converter -> converter.convert(null))
+                .orElseThrow(NoSuchElementException::new);
     }
 }
