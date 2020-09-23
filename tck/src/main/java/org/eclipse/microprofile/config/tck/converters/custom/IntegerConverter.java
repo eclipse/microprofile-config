@@ -19,9 +19,9 @@
  */
 package org.eclipse.microprofile.config.tck.converters.custom;
 
-import org.eclipse.microprofile.config.spi.Converter;
-
 import javax.annotation.Priority;
+
+import org.eclipse.microprofile.config.spi.Converter;
 
 @Priority(101)
 public class IntegerConverter implements Converter<Integer> {

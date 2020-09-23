@@ -56,63 +56,63 @@ public class ImplicitConverterTest extends Arquillian {
     @Deployment
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
-            .create(JavaArchive.class, "implicitConverterTest.jar")
-            .addPackage(ConvTestTypeWStringCt.class.getPackage())
-            .addClasses(ParseConverterInjection.class, ImplicitConverterTest.class)
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-            .as(JavaArchive.class);
+                .create(JavaArchive.class, "implicitConverterTest.jar")
+                .addPackage(ConvTestTypeWStringCt.class.getPackage())
+                .addClasses(ParseConverterInjection.class, ImplicitConverterTest.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .as(JavaArchive.class);
 
         addFile(testJar, "META-INF/microprofile-config.properties");
 
         WebArchive war = ShrinkWrap
-            .create(WebArchive.class, "implicitConverterTest.war")
-            .addAsLibrary(testJar);
+                .create(WebArchive.class, "implicitConverterTest.war")
+                .addAsLibrary(testJar);
         return war;
     }
 
-
     private @Inject Config config;
     private @Inject ParseConverterInjection parserConverterInjection;
-    
 
     @Test
     public void testImplicitConverterStringCt() {
         ConvTestTypeWStringCt value = config.getValue("tck.config.test.javaconfig.converter.implicit.stringCt",
-            ConvTestTypeWStringCt.class);
+                ConvTestTypeWStringCt.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringCt");
     }
 
     @Test
     public void testImplicitConverterStringValueOf() {
-        ConvTestTypeWStringValueOf value = config.getValue("tck.config.test.javaconfig.converter.implicit.stringValueOf",
-            ConvTestTypeWStringValueOf.class);
+        ConvTestTypeWStringValueOf value =
+                config.getValue("tck.config.test.javaconfig.converter.implicit.stringValueOf",
+                        ConvTestTypeWStringValueOf.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringValueOf");
     }
     @Test
     public void testImplicitConverterStringOf() {
         ConvTestTypeWStringOf value = config.getValue("tck.config.test.javaconfig.converter.implicit.stringOf",
-            ConvTestTypeWStringOf.class);
+                ConvTestTypeWStringOf.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringOf");
     }
-    
+
     @Test
     public void testImplicitConverterCharSequenceParse() {
-        ConvTestTypeWCharSequenceParse value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse", 
-             ConvTestTypeWCharSequenceParse.class);
+        ConvTestTypeWCharSequenceParse value =
+                config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse",
+                        ConvTestTypeWCharSequenceParse.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "charSequenceParse");
     }
     @Test
     public void testImplicitConverterCharSequenceParseJavaTime() {
-        YearMonth value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth", 
-             YearMonth.class);
+        YearMonth value = config.getValue("tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth",
+                YearMonth.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value, YearMonth.parse("2017-12"));
     }
-    
+
     @Test
     public void testImplicitConverterCharSequenceParseJavaTimeInjection() {
         Assert.assertNotNull(parserConverterInjection.getYearMonth());
@@ -122,7 +122,7 @@ public class ImplicitConverterTest extends Arquillian {
     @Test
     public void testImplicitConverterEnumValueOf() {
         SomeEnumToConvert value = config.getValue("tck.config.test.javaconfig.converter.implicit.enumValueOf",
-            SomeEnumToConvert.class);
+                SomeEnumToConvert.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value, SomeEnumToConvert.BAZ);
         Assert.assertEquals(value.name(), "BAZ");
@@ -130,26 +130,26 @@ public class ImplicitConverterTest extends Arquillian {
 
     @Test
     public void testImplicitConverterSquenceOfBeforeValueOf() {
-        ConvTestSequenceOfBeforeValueOf value = config.getValue
-        ("tck.config.test.javaconfig.converter.implicit.sequence.ofBeforeValueOf",
-        ConvTestSequenceOfBeforeValueOf.class);
+        ConvTestSequenceOfBeforeValueOf value =
+                config.getValue("tck.config.test.javaconfig.converter.implicit.sequence.ofBeforeValueOf",
+                        ConvTestSequenceOfBeforeValueOf.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "ofBeforeValueOf");
     }
 
     @Test
     public void testImplicitConverterSquenceValueOfBeforeParse() {
-        ConvTestSequenceValueOfBeforeParse value = config.getValue
-        ("tck.config.test.javaconfig.converter.implicit.sequence.valueOfBeforeParse",
-        ConvTestSequenceValueOfBeforeParse.class);
+        ConvTestSequenceValueOfBeforeParse value =
+                config.getValue("tck.config.test.javaconfig.converter.implicit.sequence.valueOfBeforeParse",
+                        ConvTestSequenceValueOfBeforeParse.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "valueOfBeforeParse");
     }
     @Test
     public void testImplicitConverterSquenceParseBeforeConstructor() {
-        ConvTestSequenceParseBeforeConstructor value = config.getValue
-        ("tck.config.test.javaconfig.converter.implicit.sequence.parseBeforeConstructor",
-        ConvTestSequenceParseBeforeConstructor.class);
+        ConvTestSequenceParseBeforeConstructor value =
+                config.getValue("tck.config.test.javaconfig.converter.implicit.sequence.parseBeforeConstructor",
+                        ConvTestSequenceParseBeforeConstructor.class);
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "parseBeforeConstructor");
     }
@@ -164,7 +164,7 @@ public class ImplicitConverterTest extends Arquillian {
     @Test
     public void testGetImplicitConverterStringValueOfConverter() {
         ConvTestTypeWStringValueOf value = config.getConverter(ConvTestTypeWStringValueOf.class).get()
-            .convert("stringValueOf");
+                .convert("stringValueOf");
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringValueOf");
     }
@@ -174,11 +174,11 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "stringOf");
     }
-    
+
     @Test
     public void testGetImplicitConverterCharSequenceParseConverter() {
         ConvTestTypeWCharSequenceParse value = config.getConverter(ConvTestTypeWCharSequenceParse.class).get()
-            .convert("charSequenceParse");
+                .convert("charSequenceParse");
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "charSequenceParse");
     }
@@ -188,7 +188,7 @@ public class ImplicitConverterTest extends Arquillian {
         Assert.assertNotNull(value);
         Assert.assertEquals(value, YearMonth.parse("2017-12"));
     }
-    
+
     @Test
     public void testGetImplicitConverterEnumValueOfConverter() {
         SomeEnumToConvert value = config.getConverter(SomeEnumToConvert.class).get().convert("BAZ");
@@ -200,7 +200,7 @@ public class ImplicitConverterTest extends Arquillian {
     @Test
     public void testGetImplicitConverterSquenceOfBeforeValueOfConverter() {
         ConvTestSequenceOfBeforeValueOf value = config.getConverter(ConvTestSequenceOfBeforeValueOf.class).get()
-            .convert("ofBeforeValueOf");
+                .convert("ofBeforeValueOf");
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "ofBeforeValueOf");
     }
@@ -208,14 +208,15 @@ public class ImplicitConverterTest extends Arquillian {
     @Test
     public void testGetImplicitConverterSquenceValueOfBeforeParseConverter() {
         ConvTestSequenceValueOfBeforeParse value = config.getConverter(ConvTestSequenceValueOfBeforeParse.class).get()
-            .convert("valueOfBeforeParse");
+                .convert("valueOfBeforeParse");
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "valueOfBeforeParse");
     }
     @Test
     public void testGetImplicitConverterSquenceParseBeforeConstructorConverter() {
-        ConvTestSequenceParseBeforeConstructor value = config.getConverter(ConvTestSequenceParseBeforeConstructor.class).get()
-            .convert("parseBeforeConstructor");
+        ConvTestSequenceParseBeforeConstructor value =
+                config.getConverter(ConvTestSequenceParseBeforeConstructor.class).get()
+                        .convert("parseBeforeConstructor");
         Assert.assertNotNull(value);
         Assert.assertEquals(value.getVal(), "parseBeforeConstructor");
     }

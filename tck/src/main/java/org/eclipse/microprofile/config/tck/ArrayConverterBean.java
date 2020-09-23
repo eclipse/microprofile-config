@@ -315,7 +315,7 @@ public class ArrayConverterBean {
     @Inject
     @ConfigProperty(name = "tck.config.test.javaconfig.converter.instantvalue")
     private Set<Instant> mySingleInstantSet;
- 
+
     @Inject
     @ConfigProperty(name = "tck.config.test.javaconfig.converter.urlvalues")
     private URL[] myUrlArray;

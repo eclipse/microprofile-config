@@ -46,29 +46,28 @@ import java.io.Serializable;
  * Global converters may be <em>built in</em>. Such converters are provided by the implementation. A compliant
  * implementation must provide build-in converters for <em>at least</em> the following types:
  * <ul>
- *   <li>{@code boolean} and {@code Boolean}, returning {@code true} for at least the following values (case insensitive):
- *   <ul>
- *     <li>{@code true}</li>
- *     <li>{@code yes}</li>
- *     <li>{@code y}</li>
- *     <li>{@code on}</li>
- *     <li>{@code 1}</li>
- *   </ul>
- *   <li>{@code byte} and {@code Byte}, accepting (at minimum) all values accepted by the
- *   {@link Byte#parseByte(String)} method</li>
- *   <li>{@code short} and {@code Short}, accepting (at minimum) all values accepted by the
- *   {@link Byte#parseByte(String)} method</li>
- *   <li>{@code int}, {@code Integer}, and {@code OptionalInt} accepting (at minimum) all values accepted by the
- *   {@link Integer#parseInt(String)}
- *   method</li>
- *   <li>{@code long}, {@code Long}, and {@code OptionalLong} accepting (at minimum) all values accepted by the
- *   {@link Long#parseLong(String)} method</li>
- *   <li>{@code float} and {@code Float}, accepting (at minimum) all values accepted by the
- *   {@link Float#parseFloat(String)} method</li>
- *   <li>{@code double}, {@code Double}, and {@code OptionalDouble} accepting (at minimum) all values accepted by the
- *   {@link Double#parseDouble(String)} method</li>
- *   <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
- *   <li>{@code java.lang.String}</li>
+ * <li>{@code boolean} and {@code Boolean}, returning {@code true} for at least the following values (case insensitive):
+ * <ul>
+ * <li>{@code true}</li>
+ * <li>{@code yes}</li>
+ * <li>{@code y}</li>
+ * <li>{@code on}</li>
+ * <li>{@code 1}</li>
+ * </ul>
+ * <li>{@code byte} and {@code Byte}, accepting (at minimum) all values accepted by the {@link Byte#parseByte(String)}
+ * method</li>
+ * <li>{@code short} and {@code Short}, accepting (at minimum) all values accepted by the {@link Byte#parseByte(String)}
+ * method</li>
+ * <li>{@code int}, {@code Integer}, and {@code OptionalInt} accepting (at minimum) all values accepted by the
+ * {@link Integer#parseInt(String)} method</li>
+ * <li>{@code long}, {@code Long}, and {@code OptionalLong} accepting (at minimum) all values accepted by the
+ * {@link Long#parseLong(String)} method</li>
+ * <li>{@code float} and {@code Float}, accepting (at minimum) all values accepted by the
+ * {@link Float#parseFloat(String)} method</li>
+ * <li>{@code double}, {@code Double}, and {@code OptionalDouble} accepting (at minimum) all values accepted by the
+ * {@link Double#parseDouble(String)} method</li>
+ * <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
+ * <li>{@code java.lang.String}</li>
  * </ul>
  *
  * <h3 id="discovery">Global converter discovery</h3>
@@ -90,13 +89,13 @@ import java.io.Serializable;
  * <em>implicit converter</em> if any of the following are true (in order):
  *
  * <ul>
- *   <li>the target type has a {@code public static T of(String)} method</li>
- *   <li>the target type has a {@code public static T valueOf(String)} method</li>
- *   <li>the target type has a {@code public static T parse(CharSequence)} method</li>
- *   <li>the target type has a public constructor with a single parameter of type {@code String}</li>
- *   <li>the target type is an array of any type corresponding to either a registered
- *   <a href="#global_converters"><em>global</em></a> converter or a
- *   <a href="#built_in_converters"><em>built in</em></a> or <em>implicit</em> converter</li>
+ * <li>the target type has a {@code public static T of(String)} method</li>
+ * <li>the target type has a {@code public static T valueOf(String)} method</li>
+ * <li>the target type has a {@code public static T parse(CharSequence)} method</li>
+ * <li>the target type has a public constructor with a single parameter of type {@code String}</li>
+ * <li>the target type is an array of any type corresponding to either a registered
+ * <a href="#global_converters"><em>global</em></a> converter or a <a href="#built_in_converters"><em>built in</em></a>
+ * or <em>implicit</em> converter</li>
  * </ul>
  *
  * <h3 id="priority">Converter priority</h3>
@@ -116,21 +115,21 @@ import java.io.Serializable;
  *
  * <h3 id="empty">Empty values</h3>
  *
- * For all converters, the empty string {@code ""} <em>must</em> be considered an empty value. Some converters <em>may</em>
- * consider other values to be empty as well.
+ * For all converters, the empty string {@code ""} <em>must</em> be considered an empty value. Some converters
+ * <em>may</em> consider other values to be empty as well.
  * <p>
  * Implementations <em>may</em> (but are not required to) implement {@code Config.getOptionalValue()} using a
- * {@code Converter}.  If so, this converter <em>must</em> return {@code Optional.empty()} for an empty input.
+ * {@code Converter}. If so, this converter <em>must</em> return {@code Optional.empty()} for an empty input.
  *
  * <h3>Array conversion</h3>
  *
  * <p>
  * A conforming implementation must support the automatic creation of an <em>implicit</em> converter for array types.
- * This converter uses a comma ({@code U+002C ','}) as a delimiter.  To allow a comma to be embedded within individual
- * array element values, it may be escaped using a backslash ({@code U+005C '\'}) character.  Any escaped comma character
+ * This converter uses a comma ({@code U+002C ','}) as a delimiter. To allow a comma to be embedded within individual
+ * array element values, it may be escaped using a backslash ({@code U+005C '\'}) character. Any escaped comma character
  * will be included as a plain comma within the single element (the backslash is discarded by the converter).
  * <p>
- * Empty elements <em>must</em> not be included in the final array.  An array which would consist of only empty values
+ * Empty elements <em>must</em> not be included in the final array. An array which would consist of only empty values
  * <em>must</em> be considered empty; the array converter <em>must</em> return {@code null} in this case.
  *
  * @author <a href="mailto:rsmeral@apache.org">Ron Smeral</a>
@@ -140,13 +139,16 @@ import java.io.Serializable;
  */
 public interface Converter<T> extends Serializable {
     /**
-     * Convert the given string value to a specified type. Callers <em>must not</em> pass in {@code null}
-     * for {@code value}; doing so may result in a {@code NullPointerException} being thrown.
+     * Convert the given string value to a specified type. Callers <em>must not</em> pass in {@code null} for
+     * {@code value}; doing so may result in a {@code NullPointerException} being thrown.
      *
-     * @param value the string representation of a property value (must not be {@code null})
+     * @param value
+     *            the string representation of a property value (must not be {@code null})
      * @return the converted value, or {@code null} if the value is empty
-     * @throws IllegalArgumentException if the value cannot be converted to the specified type
-     * @throws NullPointerException if the given value was {@code null}
+     * @throws IllegalArgumentException
+     *             if the value cannot be converted to the specified type
+     * @throws NullPointerException
+     *             if the given value was {@code null}
      */
     T convert(String value) throws IllegalArgumentException, NullPointerException;
 }

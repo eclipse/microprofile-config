@@ -70,20 +70,20 @@ public class ConfigProviderTest extends Arquillian {
     }
 
     @BeforeClass
-    public static void setupCheck(){
-        //check that there is at least one property which is unique to the environment and not also a system property
+    public static void setupCheck() {
+        // check that there is at least one property which is unique to the environment and not also a system property
         boolean checkOK = false;
         Map<String, String> env = System.getenv();
         Properties properties = System.getProperties();
         for (Map.Entry<String, String> envEntry : env.entrySet()) {
             String key = envEntry.getKey();
-            if(!properties.containsKey(key)) {
+            if (!properties.containsKey(key)) {
                 checkOK = true;
                 break;
             }
         }
-        Assert.assertTrue(checkOK, "Ensure that there is at least one property which is unique to "+
-                          "the environment variables and not also a system property.");
+        Assert.assertTrue(checkOK, "Ensure that there is at least one property which is unique to " +
+                "the environment variables and not also a system property.");
     }
 
     @Test
@@ -151,10 +151,13 @@ public class ConfigProviderTest extends Arquillian {
             Assert.fail("Injected config should be serializable, but could not serialize it", ex);
         }
         Object readObject = null;
-        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
+        try (ObjectInputStream in =
+                new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
             readObject = in.readObject();
         } catch (IOException | ClassNotFoundException ex) {
-            Assert.fail("Injected config should be serializable, but could not deserialize a previously serialized instance", ex);
+            Assert.fail(
+                    "Injected config should be serializable, but could not deserialize a previously serialized instance",
+                    ex);
         }
         MatcherAssert.assertThat("Deserialized object", readObject, CoreMatchers.instanceOf(Config.class));
     }
@@ -166,11 +169,11 @@ public class ConfigProviderTest extends Arquillian {
         System.setProperty(configKey, configValue);
         AtomicBoolean foundKey = new AtomicBoolean(false);
         config.getConfigSources().forEach(c -> {
-            if(c.getPropertyNames().contains(configKey)) {
+            if (c.getPropertyNames().contains(configKey)) {
                 foundKey.set(true);
             }
         });
 
-        Assert.assertTrue(foundKey.get(), "Unable to find property "+configKey);
+        Assert.assertTrue(foundKey.get(), "Unable to find property " + configKey);
     }
 }

@@ -23,30 +23,30 @@
  * <h2>Rationale</h2>
  *
  * <p>
- * For many project artifacts (e.g. WAR, EAR) it should be possible to build them only once
- * and then install them at different customers, stages, etc.
- * They need to target those different execution environments without the necessity of any repackaging.
- * In other words: depending on the situation they need different configuration.
+ * For many project artifacts (e.g. WAR, EAR) it should be possible to build them only once and then install them at
+ * different customers, stages, etc. They need to target those different execution environments without the necessity of
+ * any repackaging. In other words: depending on the situation they need different configuration.
  *
  * <p>
- * This is easily achievable by having a set of default configuration values inside the project artifact.
- * But be able to overwrite those default values from external.
+ * This is easily achievable by having a set of default configuration values inside the project artifact. But be able to
+ * overwrite those default values from external.
  *
  * <h2>How it works</h2>
  *
  * <p>
  * A <em>Configuration</em> consists of the information collected from the registered
- * {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}.
- * These {@code ConfigSources} get sorted according to their <i>ordinal</i>.
- * That way it is possible to overwrite configuration with lower importance from outside.
+ * {@link org.eclipse.microprofile.config.spi.ConfigSource ConfigSources}. These {@code ConfigSources} get sorted
+ * according to their <i>ordinal</i>. That way it is possible to overwrite configuration with lower importance from
+ * outside.
  *
- * <p>By default there are 3 ConfigSources:
+ * <p>
+ * By default there are 3 ConfigSources:
  *
  * <ul>
- *   <li>{@code System.getProperties()} (ordinal=400)</li>
- *   <li>{@code System.getenv()} (ordinal=300)</li>
- *   <li>all {@code META-INF/microprofile-config.properties} files on the ClassPath.
- *    (ordinal=100, separately configurable via a config_ordinal property inside each file)</li>
+ * <li>{@code System.getProperties()} (ordinal=400)</li>
+ * <li>{@code System.getenv()} (ordinal=300)</li>
+ * <li>all {@code META-INF/microprofile-config.properties} files on the ClassPath. (ordinal=100, separately configurable
+ * via a config_ordinal property inside each file)</li>
  * </ul>
  *
  * <p>
@@ -84,4 +84,3 @@
  */
 @org.osgi.annotation.versioning.Version("2.0.0")
 package org.eclipse.microprofile.config;
-

@@ -30,9 +30,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class ParseConverterInjection {
     private @Inject @ConfigProperty(name = "tck.config.test.javaconfig.converter.implicit.charSequenceParse.yearmonth") YearMonth yearMonth;
 
-    public YearMonth getYearMonth(){
+    public YearMonth getYearMonth() {
         return yearMonth;
     }
 }
-
-

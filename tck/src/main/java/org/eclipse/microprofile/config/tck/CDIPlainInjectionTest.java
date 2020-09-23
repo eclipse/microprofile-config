@@ -27,15 +27,15 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
 import javax.inject.Provider;
-import org.eclipse.microprofile.config.ConfigProvider;
 
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.matchers.AdditionalMatchers;
@@ -49,8 +49,8 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
- * Test cases for CDI-based API that test retrieving values from the configuration.
- * The tests depend only on CDI 1.2.
+ * Test cases for CDI-based API that test retrieving values from the configuration. The tests depend only on CDI 1.2.
+ * 
  * @author Ondrej Mihalyi
  */
 public class CDIPlainInjectionTest extends Arquillian {
@@ -79,8 +79,8 @@ public class CDIPlainInjectionTest extends Arquillian {
 
         assertThat(bean.stringProperty, is(equalTo("text")));
         assertThat(bean.booleanProperty, is(true));
-        assertThat(bean.byteProperty, is(equalTo((byte)127)));
-        assertThat(bean.shortProperty, is(equalTo((short)32767)));
+        assertThat(bean.byteProperty, is(equalTo((byte) 127)));
+        assertThat(bean.shortProperty, is(equalTo((short) 32767)));
         assertThat(bean.intProperty, is(equalTo(5)));
         assertThat(bean.longProperty, is(equalTo(10L)));
         assertThat(bean.floatProperty, is(floatCloseTo(10.5f, 0.1f)));
@@ -88,8 +88,8 @@ public class CDIPlainInjectionTest extends Arquillian {
         assertThat(bean.charProperty, is(equalTo('c')));
 
         assertThat(bean.booleanObjProperty, is(true));
-        assertThat(bean.byteObjProperty, is(equalTo(Byte.valueOf((byte)127))));
-        assertThat(bean.shortObjProperty, is(equalTo(Short.valueOf((short)32767))));
+        assertThat(bean.byteObjProperty, is(equalTo(Byte.valueOf((byte) 127))));
+        assertThat(bean.shortObjProperty, is(equalTo(Short.valueOf((short) 32767))));
         assertThat(bean.integerProperty, is(equalTo(5)));
         assertThat(bean.longObjProperty, is(equalTo(10L)));
         assertThat(bean.floatObjProperty, is(floatCloseTo(10.5f, 0.1f)));
@@ -127,7 +127,8 @@ public class CDIPlainInjectionTest extends Arquillian {
 
         assertThat(bean.doublePropertyWithDefaultValue, is(closeTo(
                 ConfigProvider.getConfig().getOptionalValue("my.not.configured.double.property", Double.class)
-                        .orElse(3.1415), 0.1)));
+                        .orElse(3.1415),
+                0.1)));
     }
 
     @Test
@@ -135,7 +136,8 @@ public class CDIPlainInjectionTest extends Arquillian {
 
         DynamicValuesBean bean = getBeanOfType(DynamicValuesBean.class);
 
-        //X TODO clarify how Provider<T> and Supplier<T> should behave for missing values assertThat(bean.getIntProperty(), is(nullValue()));
+        // X TODO clarify how Provider<T> and Supplier<T> should behave for missing values
+        // assertThat(bean.getIntProperty(), is(nullValue()));
 
         assertThat(bean.getIntProperty(), is(equalTo(5)));
         assertThat(bean.getStringSupplierProperty(), is(equalTo("text")));
@@ -182,77 +184,77 @@ public class CDIPlainInjectionTest extends Arquillian {
     public static class SimpleValuesBean {
 
         @Inject
-        @ConfigProperty(name="my.string.property")
+        @ConfigProperty(name = "my.string.property")
         private String stringProperty;
 
         @Inject
-        @ConfigProperty(name="my.boolean.property")
+        @ConfigProperty(name = "my.boolean.property")
         private Boolean booleanObjProperty;
 
         @Inject
-        @ConfigProperty(name="my.boolean.property")
+        @ConfigProperty(name = "my.boolean.property")
         private boolean booleanProperty;
 
         @Inject
-        @ConfigProperty(name="my.byte.property")
+        @ConfigProperty(name = "my.byte.property")
         private Byte byteObjProperty;
 
         @Inject
-        @ConfigProperty(name="my.byte.property")
+        @ConfigProperty(name = "my.byte.property")
         private byte byteProperty;
 
         @Inject
-        @ConfigProperty(name="my.short.property")
+        @ConfigProperty(name = "my.short.property")
         private Short shortObjProperty;
 
         @Inject
-        @ConfigProperty(name="my.short.property")
+        @ConfigProperty(name = "my.short.property")
         private short shortProperty;
 
         @Inject
-        @ConfigProperty(name="my.int.property")
+        @ConfigProperty(name = "my.int.property")
         private Integer integerProperty;
 
         @Inject
-        @ConfigProperty(name="my.int.property")
+        @ConfigProperty(name = "my.int.property")
         private int intProperty;
 
         @Inject
-        @ConfigProperty(name="my.long.property")
+        @ConfigProperty(name = "my.long.property")
         private Long longObjProperty;
 
         @Inject
-        @ConfigProperty(name="my.long.property")
+        @ConfigProperty(name = "my.long.property")
         private long longProperty;
 
         @Inject
-        @ConfigProperty(name="my.float.property")
+        @ConfigProperty(name = "my.float.property")
         private Float floatObjProperty;
 
         @Inject
-        @ConfigProperty(name="my.float.property")
+        @ConfigProperty(name = "my.float.property")
         private float floatProperty;
 
         @Inject
-        @ConfigProperty(name="my.double.property")
+        @ConfigProperty(name = "my.double.property")
         private Double doubleObjProperty;
 
         @Inject
-        @ConfigProperty(name="my.double.property")
+        @ConfigProperty(name = "my.double.property")
         private double doubleProperty;
 
         @Inject
-        @ConfigProperty(name="my.char.property")
+        @ConfigProperty(name = "my.char.property")
         private Character characterProperty;
 
         @Inject
-        @ConfigProperty(name="my.char.property")
+        @ConfigProperty(name = "my.char.property")
         private char charProperty;
 
         // the property is not configured in any ConfigSource but its defaultValue will
         // be used to set the field.
         @Inject
-        @ConfigProperty(name="my.not.configured.double.property", defaultValue = "3.1415")
+        @ConfigProperty(name = "my.not.configured.double.property", defaultValue = "3.1415")
         private Double doublePropertyWithDefaultValue;
 
     }
@@ -261,11 +263,11 @@ public class CDIPlainInjectionTest extends Arquillian {
     public static class DynamicValuesBean {
 
         @Inject
-        @ConfigProperty(name="my.int.property")
+        @ConfigProperty(name = "my.int.property")
         private Provider<Integer> intPropertyProvider;
 
         @Inject
-        @ConfigProperty(name="my.string.property")
+        @ConfigProperty(name = "my.string.property")
         private Supplier<String> stringPropertySupplier;
 
         public Integer getIntProperty() {

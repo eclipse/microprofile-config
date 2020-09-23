@@ -19,6 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
@@ -36,31 +38,30 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.inject.Inject;
-
 public class CustomConverterTest extends Arquillian {
     private @Inject Config config;
 
     @Deployment
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
-            .create(JavaArchive.class, "customConverterTest.jar")
-            .addClass(CustomConverterTest.class)
-            .addClass(IntegerConverter.class)
-            .addClass(LongConverter.class)
-            .addClass(DoubleConverter.class)
-            .addClass(BooleanConverter.class)
-            .addClass(CharacterConverter.class)
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-            .addAsServiceProvider(Converter.class, IntegerConverter.class, LongConverter.class, DoubleConverter.class,
-                                  BooleanConverter.class, CharacterConverter.class)
-            .as(JavaArchive.class);
+                .create(JavaArchive.class, "customConverterTest.jar")
+                .addClass(CustomConverterTest.class)
+                .addClass(IntegerConverter.class)
+                .addClass(LongConverter.class)
+                .addClass(DoubleConverter.class)
+                .addClass(BooleanConverter.class)
+                .addClass(CharacterConverter.class)
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .addAsServiceProvider(Converter.class, IntegerConverter.class, LongConverter.class,
+                        DoubleConverter.class,
+                        BooleanConverter.class, CharacterConverter.class)
+                .as(JavaArchive.class);
 
         AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
 
         return ShrinkWrap
-            .create(WebArchive.class, "customConverterTest.war")
-            .addAsLibrary(testJar);
+                .create(WebArchive.class, "customConverterTest.war")
+                .addAsLibrary(testJar);
     }
 
     @Test

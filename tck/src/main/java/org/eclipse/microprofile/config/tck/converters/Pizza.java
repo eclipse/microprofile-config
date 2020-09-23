@@ -26,7 +26,6 @@ public class Pizza {
     private String flavor;
     private String size;
 
-
     public Pizza(String flavour, String size) {
         this.flavor = flavour;
         this.size = size;
@@ -40,24 +39,28 @@ public class Pizza {
         return flavor;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
-       final int prime = 31;
-       int result = 1;
-       result = prime * result + ((flavor == null) ? 0 : flavor.hashCode());
-       result = prime * result + ((size == null) ? 0 : size.hashCode());
-       return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((flavor == null) ? 0 : flavor.hashCode());
+        result = prime * result + ((size == null) ? 0 : size.hashCode());
+        return result;
     }
 
-   /* (non-Javadoc)
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj){
+        if (this == obj) {
             return true;
         }
         if (obj == null) {
@@ -69,23 +72,20 @@ public class Pizza {
 
         Pizza other = (Pizza) obj;
         if (flavor == null) {
-           if (other.flavor != null) {
-               return false;
-           }
-        } 
-        else if (!flavor.equals(other.flavor)) {
-           return false;
+            if (other.flavor != null) {
+                return false;
+            }
+        } else if (!flavor.equals(other.flavor)) {
+            return false;
         }
         if (size == null) {
-           if (other.size != null) {
-               return false;
-           }
-        } 
-        else if (!size.equals(other.size)) {
+            if (other.size != null) {
+                return false;
+            }
+        } else if (!size.equals(other.size)) {
             return false;
         }
         return true;
     }
-    
-  
+
 }

@@ -22,6 +22,8 @@ package org.eclipse.microprofile.config.tck.emptyvalue;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.Config;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -34,8 +36,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.inject.Inject;
-
 public class EmptyValuesTestProgrammaticLookup extends Arquillian {
 
     @Deployment
@@ -43,16 +43,15 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "emptyValues.jar")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsManifestResource(new StringAsset(
-                                            "empty.string=" + "\n" +
-                                            "comma.string=," + "\n" +
-                                            "backslash.comma.string=\\\\," + "\n" +
-                                            "double.comma.string=,," + "\n" +
-                                            "foo.bar.string=foo,bar"+ "\n" +
-                                            "foo.comma.string=foo,"+ "\n" +
-                                            "comma.bar.string=,bar" + "\n" +
-                                            "space.string=\\u0020"
-                                            ),
-                                       "microprofile-config.properties");
+                        "empty.string=" + "\n" +
+                                "comma.string=," + "\n" +
+                                "backslash.comma.string=\\\\," + "\n" +
+                                "double.comma.string=,," + "\n" +
+                                "foo.bar.string=foo,bar" + "\n" +
+                                "foo.comma.string=foo," + "\n" +
+                                "comma.bar.string=,bar" + "\n" +
+                                "space.string=\\u0020"),
+                        "microprofile-config.properties");
 
         return ShrinkWrap.create(WebArchive.class)
                 .addAsLibrary(jar)
@@ -92,7 +91,7 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
         assertConfigurationNotPresentForOptional("empty.string");
         assertConfigurationNotPresentForOptionalMultiple("empty.string");
     }
-    
+
     @Test(expectedExceptions = NoSuchElementException.class)
     public void testCommaStringGetValueArray() {
         String[] values = config.getValue("comma.string", String[].class);
@@ -147,7 +146,7 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testFooBarStringGetValueArray() {
         String[] values = config.getValue("foo.bar.string", String[].class);
-        Assert.assertEquals(values, new String[] {"foo", "bar"});
+        Assert.assertEquals(values, new String[]{"foo", "bar"});
 
     }
 
@@ -160,14 +159,16 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testFooBarStringGetOptionalValues() {
         Assert.assertEquals(config.getOptionalValue("foo.bar.string", String.class).get(), "foo,bar");
-        Assert.assertEquals(config.getOptionalValue("foo.bar.string", String[].class).get(), new String[] {"foo", "bar"});
-        Assert.assertEquals(config.getOptionalValues("foo.bar.string", String.class).get(), Arrays.asList("foo", "bar"));
-        
+        Assert.assertEquals(config.getOptionalValue("foo.bar.string", String[].class).get(),
+                new String[]{"foo", "bar"});
+        Assert.assertEquals(config.getOptionalValues("foo.bar.string", String.class).get(),
+                Arrays.asList("foo", "bar"));
+
     }
     @Test
     public void testFooCommaStringGetValueArray() {
         String[] values = config.getValue("foo.comma.string", String[].class);
-        Assert.assertEquals(values, new String[] {"foo"});
+        Assert.assertEquals(values, new String[]{"foo"});
     }
 
     @Test
@@ -179,14 +180,14 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testFooCommaStringGetOptionalValues() {
         Assert.assertEquals(config.getOptionalValue("foo.comma.string", String.class).get(), "foo,");
-        Assert.assertEquals(config.getOptionalValue("foo.comma.string", String[].class).get(), new String[] {"foo"});
+        Assert.assertEquals(config.getOptionalValue("foo.comma.string", String[].class).get(), new String[]{"foo"});
         Assert.assertEquals(config.getOptionalValues("foo.comma.string", String.class).get(), Arrays.asList("foo"));
     }
 
     @Test
     public void testCommaBarStringGetValueArray() {
         String[] values = config.getValue("comma.bar.string", String[].class);
-        Assert.assertEquals(values, new String[] {"bar"});
+        Assert.assertEquals(values, new String[]{"bar"});
     }
 
     @Test
@@ -198,14 +199,14 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testCommaBarStringGetOptionalValues() {
         Assert.assertEquals(config.getOptionalValue("comma.bar.string", String.class).get(), ",bar");
-        Assert.assertEquals(config.getOptionalValue("comma.bar.string", String[].class).get(), new String[] {"bar"});
-        Assert.assertEquals(config.getOptionalValues("comma.bar.string", String.class).get(), Arrays.asList("bar"));    
+        Assert.assertEquals(config.getOptionalValue("comma.bar.string", String[].class).get(), new String[]{"bar"});
+        Assert.assertEquals(config.getOptionalValues("comma.bar.string", String.class).get(), Arrays.asList("bar"));
     }
 
     @Test
     public void testSpaceStringGetValueArray() {
         String[] values = config.getValue("space.string", String[].class);
-        Assert.assertEquals(values, new String[] {" "});
+        Assert.assertEquals(values, new String[]{" "});
     }
 
     @Test
@@ -217,7 +218,7 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     @Test
     public void testSpaceStringGetOptionalValue() {
         Assert.assertEquals(config.getOptionalValue("space.string", String.class).get(), " ");
-        Assert.assertEquals(config.getOptionalValue("space.string", String[].class).get(), new String[] {" "});
+        Assert.assertEquals(config.getOptionalValue("space.string", String[].class).get(), new String[]{" "});
         Assert.assertEquals(config.getOptionalValues("space.string", String.class).get(), Arrays.asList(" "));
     }
 

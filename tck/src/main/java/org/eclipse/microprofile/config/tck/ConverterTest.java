@@ -109,8 +109,8 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testDonaldConversionWithLambdaConverter() {
         Config newConfig = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
-            .build();
+                .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+                .build();
         Donald donald = newConfig.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
         Assert.assertNotNull(donald);
         Assert.assertEquals(donald.getName(), "Duck");
@@ -119,8 +119,8 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetDonaldConverterWithLambdaConverter() {
         Config newConfig = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
-            .build();
+                .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+                .build();
         Donald donald = newConfig.getConverter(Donald.class).get().convert("Duck");
         Assert.assertNotNull(donald);
         Assert.assertEquals(donald.getName(), "Duck");
@@ -131,22 +131,22 @@ public class ConverterTest extends Arquillian {
         // defines 2 config with the lambda converters defined in different orders.
         // Order must not matter, the lambda with the upper case must always be used as it has the highest priority
         Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
-            .build();
+                .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
+                .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+                .build();
         Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
-            .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
-            .build();
+                .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+                .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
+                .build();
 
         Donald donald = config1.getConverter(Donald.class).get().convert("Duck");
         Assert.assertNotNull(donald);
         Assert.assertEquals(donald.getName(), "DUCK",
-            "The converter with the highest priority (using upper case) must be used.");
+                "The converter with the highest priority (using upper case) must be used.");
         donald = config2.getConverter(Donald.class).get().convert("Duck");
         Assert.assertNotNull(donald);
         Assert.assertEquals(donald.getName(), "DUCK",
-            "The converter with the highest priority (using upper case) must be used.");
+                "The converter with the highest priority (using upper case) must be used.");
     }
 
     @Test
@@ -154,34 +154,34 @@ public class ConverterTest extends Arquillian {
         // defines 2 config with the lambda converters defined in different orders.
         // Order must not matter, the lambda with the upper case must always be used as it has the highest priority
         Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
-            .build();
+                .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
+                .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+                .build();
         Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
-            .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
-            .build();
+                .withConverter(Donald.class, 100, (s) -> Donald.iLikeDonald(s))
+                .withConverter(Donald.class, 101, (s) -> Donald.iLikeDonald(s.toUpperCase()))
+                .build();
 
         Donald donald = config1.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
         Assert.assertNotNull(donald);
         Assert.assertEquals(donald.getName(), "DUCK",
-            "The converter with the highest priority (using upper case) must be used.");
+                "The converter with the highest priority (using upper case) must be used.");
         donald = config2.getValue("tck.config.test.javaconfig.converter.donaldname", Donald.class);
         Assert.assertNotNull(donald);
         Assert.assertEquals(donald.getName(), "DUCK",
-            "The converter with the highest priority (using upper case) must be used.");
+                "The converter with the highest priority (using upper case) must be used.");
     }
 
     @Test
     public void testByte() {
         Byte value = config.getValue("tck.config.test.javaconfig.converter.bytevalue", Byte.class);
-        Assert.assertEquals(value, Byte.valueOf((byte)123));
+        Assert.assertEquals(value, Byte.valueOf((byte) 123));
     }
 
     @Test
     public void testbyte() {
         byte value = config.getValue("tck.config.test.javaconfig.converter.bytevalue", byte.class);
-        Assert.assertEquals(value, (byte)123);
+        Assert.assertEquals(value, (byte) 123);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -192,13 +192,13 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetByteConverter() {
         Byte value = config.getConverter(Byte.class).get().convert("123");
-        Assert.assertEquals(value, Byte.valueOf((byte)123));
+        Assert.assertEquals(value, Byte.valueOf((byte) 123));
     }
 
     @Test
     public void testGetbyteConverter() {
         byte value = config.getConverter(byte.class).get().convert("123");
-        Assert.assertEquals(value, (byte)123);
+        Assert.assertEquals(value, (byte) 123);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -209,13 +209,13 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testShort() {
         Short value = config.getValue("tck.config.test.javaconfig.converter.shortvalue", Short.class);
-        Assert.assertEquals(value, Short.valueOf((short)1234));
+        Assert.assertEquals(value, Short.valueOf((short) 1234));
     }
 
     @Test
     public void testshort() {
         short value = config.getValue("tck.config.test.javaconfig.converter.shortvalue", short.class);
-        Assert.assertEquals(value, (short)1234);
+        Assert.assertEquals(value, (short) 1234);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -226,13 +226,13 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetShortConverter() {
         Short value = config.getConverter(Short.class).get().convert("1234");
-        Assert.assertEquals(value, Short.valueOf((short)1234));
+        Assert.assertEquals(value, Short.valueOf((short) 1234));
     }
 
     @Test
     public void testGetshortConverter() {
         short value = config.getConverter(short.class).get().convert("1234");
-        Assert.assertEquals(value, (short)1234);
+        Assert.assertEquals(value, (short) 1234);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -351,7 +351,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testdouble() {
         double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue", double.class);
-        Assert.assertEquals(value,12.34d);
+        Assert.assertEquals(value, 12.34d);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -368,7 +368,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetdoubleConverter() {
         double value = config.getConverter(double.class).get().convert("12.34");
-        Assert.assertEquals(value,12.34d);
+        Assert.assertEquals(value, 12.34d);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -478,7 +478,8 @@ public class ConverterTest extends Arquillian {
 
     @Test
     public void testLocalDateTime() {
-        LocalDateTime value = config.getValue("tck.config.test.javaconfig.converter.localdatetimevalue", LocalDateTime.class);
+        LocalDateTime value =
+                config.getValue("tck.config.test.javaconfig.converter.localdatetimevalue", LocalDateTime.class);
         Assert.assertEquals(value, LocalDateTime.parse("2017-12-24T10:25:30"));
     }
 
@@ -500,7 +501,8 @@ public class ConverterTest extends Arquillian {
 
     @Test
     public void testOffsetDateTime() {
-        OffsetDateTime value = config.getValue("tck.config.test.javaconfig.converter.offsetdatetimevalue", OffsetDateTime.class);
+        OffsetDateTime value =
+                config.getValue("tck.config.test.javaconfig.converter.offsetdatetimevalue", OffsetDateTime.class);
         Assert.assertEquals(value, OffsetDateTime.parse("2007-12-03T10:15:30+01:00"));
     }
 
@@ -594,8 +596,10 @@ public class ConverterTest extends Arquillian {
     public void testBoolean() {
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true", Boolean.class));
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true", boolean.class));
-        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_uppercase", Boolean.class));
-        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_mixedcase", Boolean.class));
+        Assert.assertTrue(
+                config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_uppercase", Boolean.class));
+        Assert.assertTrue(
+                config.getValue("tck.config.test.javaconfig.configvalue.boolean.true_mixedcase", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.false", Boolean.class));
 
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.one", Boolean.class));
@@ -603,8 +607,10 @@ public class ConverterTest extends Arquillian {
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.seventeen", Boolean.class));
 
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.yes", Boolean.class));
-        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.yes_uppercase", Boolean.class));
-        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.yes_mixedcase", Boolean.class));
+        Assert.assertTrue(
+                config.getValue("tck.config.test.javaconfig.configvalue.boolean.yes_uppercase", Boolean.class));
+        Assert.assertTrue(
+                config.getValue("tck.config.test.javaconfig.configvalue.boolean.yes_mixedcase", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.no", Boolean.class));
 
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.y", Boolean.class));
@@ -612,8 +618,10 @@ public class ConverterTest extends Arquillian {
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.n", Boolean.class));
 
         Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.on", Boolean.class));
-        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_uppercase", Boolean.class));
-        Assert.assertTrue(config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_mixedcase", Boolean.class));
+        Assert.assertTrue(
+                config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_uppercase", Boolean.class));
+        Assert.assertTrue(
+                config.getValue("tck.config.test.javaconfig.configvalue.boolean.on_mixedcase", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", Boolean.class));
         Assert.assertFalse(config.getValue("tck.config.test.javaconfig.configvalue.boolean.off", boolean.class));
     }
@@ -622,7 +630,7 @@ public class ConverterTest extends Arquillian {
     public void testGetBooleanConverter() {
         Converter<Boolean> converter = config.getConverter(Boolean.class).get();
         Converter<Boolean> primitiveConverter = config.getConverter(boolean.class).get();
-        
+
         Assert.assertTrue(converter.convert("true"));
         Assert.assertTrue(primitiveConverter.convert("true"));
         Assert.assertTrue(converter.convert("TRUE"));
@@ -664,22 +672,22 @@ public class ConverterTest extends Arquillian {
         // defines 2 config with the converters defined in different orders.
         // Order must not matter, the UpperCaseDuckConverter must always be used as it has the highest priority
         Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverters(new UpperCaseDuckConverter(), new DuckConverter())
-            .build();
+                .withConverters(new UpperCaseDuckConverter(), new DuckConverter())
+                .build();
         Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverters(new DuckConverter(), new UpperCaseDuckConverter())
-            .build();
+                .withConverters(new DuckConverter(), new UpperCaseDuckConverter())
+                .build();
 
         Duck duck = config1.getValue("tck.config.test.javaconfig.converter.duckname", Duck.class);
         Assert.assertNotNull(duck);
         Assert.assertEquals(duck.getName(), "HANNELORE",
-            "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
+                "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
 
         duck = config2.getValue("tck.config.test.javaconfig.converter.duckname", Duck.class);
         Assert.assertNotNull(duck);
         // the UpperCaseDuckConverter has highest priority
         Assert.assertEquals(duck.getName(), "HANNELORE",
-            "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
+                "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
     }
 
     @Test
@@ -687,22 +695,22 @@ public class ConverterTest extends Arquillian {
         // defines 2 config with the converters defined in different orders.
         // Order must not matter, the UpperCaseDuckConverter must always be used as it has the highest priority
         Config config1 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverters(new UpperCaseDuckConverter(), new DuckConverter())
-            .build();
+                .withConverters(new UpperCaseDuckConverter(), new DuckConverter())
+                .build();
         Config config2 = ConfigProviderResolver.instance().getBuilder().addDefaultSources()
-            .withConverters(new DuckConverter(), new UpperCaseDuckConverter())
-            .build();
+                .withConverters(new DuckConverter(), new UpperCaseDuckConverter())
+                .build();
 
         Duck duck = config1.getConverter(Duck.class).get().convert("Hannelore");
         Assert.assertNotNull(duck);
         Assert.assertEquals(duck.getName(), "HANNELORE",
-            "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
+                "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
 
         duck = config2.getConverter(Duck.class).get().convert("Hannelore");
         Assert.assertNotNull(duck);
         // the UpperCaseDuckConverter has highest priority
         Assert.assertEquals(duck.getName(), "HANNELORE",
-            "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
+                "The converter with the highest priority (UpperCaseDuckConverter) must be used.");
     }
 
     @Test
@@ -759,13 +767,16 @@ public class ConverterTest extends Arquillian {
             Assert.fail("Converter instance should be serializable, but could not serialize it", ex);
         }
         Object readObject = null;
-        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
+        try (ObjectInputStream in =
+                new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
             readObject = in.readObject();
         } catch (IOException | ClassNotFoundException ex) {
-            Assert.fail("Converter instance should be serializable, but could not deserialize a previously serialized instance", ex);
+            Assert.fail(
+                    "Converter instance should be serializable, but could not deserialize a previously serialized instance",
+                    ex);
         }
         Assert.assertEquals(((DuckConverter) ((Converter<?>) readObject)).convert("Donald").getName(),
-             original.convert("Donald").getName(),"Converted values to be equal");
+                original.convert("Donald").getName(), "Converted values to be equal");
     }
 
     @Test
@@ -779,12 +790,15 @@ public class ConverterTest extends Arquillian {
             Assert.fail("Converter instance should be serializable, but could not serialize it", ex);
         }
         Object readObject = null;
-        try (ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
+        try (ObjectInputStream in =
+                new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray()))) {
             readObject = in.readObject();
         } catch (IOException | ClassNotFoundException ex) {
-            Assert.fail("Converter instance should be serializable, but could not deserialize a previously serialized instance", ex);
+            Assert.fail(
+                    "Converter instance should be serializable, but could not deserialize a previously serialized instance",
+                    ex);
         }
         Assert.assertEquals(((Converter<Duck>) readObject).convert("Donald").getName(),
-             original.convert("Donald").getName(),"Converted values to be equal");
+                original.convert("Donald").getName(), "Converted values to be equal");
     }
 }

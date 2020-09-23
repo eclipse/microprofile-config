@@ -18,12 +18,10 @@
  */
 package org.eclipse.microprofile.config.tck;
 
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
-import org.eclipse.microprofile.config.spi.ConfigSource;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
+import static java.util.stream.Collectors.toList;
+import static org.eclipse.microprofile.config.Config.PROPERTY_EXPRESSIONS_ENABLED;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertThrows;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,10 +30,12 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
-import static org.eclipse.microprofile.config.Config.PROPERTY_EXPRESSIONS_ENABLED;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertThrows;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
 
 public class PropertyExpressionsTest {
     @AfterMethod
@@ -109,7 +109,7 @@ public class PropertyExpressionsTest {
     @Test
     public void multipleExpansions() {
         Config config = buildConfig("my.prop", "1234", "my.prop.two", "${my.prop}", "my.prop.three",
-                                            "${my.prop.two}", "my.prop.four", "${my.prop.three}");
+                "${my.prop.two}", "my.prop.four", "${my.prop.three}");
 
         assertEquals("1234", config.getValue("my.prop", String.class));
         assertEquals("1234", config.getValue("my.prop.two", String.class));
@@ -126,7 +126,8 @@ public class PropertyExpressionsTest {
 
     @Test
     public void withoutExpansion() {
-        Config config = buildConfig("my.prop", "1234", "expression", "${my.prop}", PROPERTY_EXPRESSIONS_ENABLED, "false");
+        Config config =
+                buildConfig("my.prop", "1234", "expression", "${my.prop}", PROPERTY_EXPRESSIONS_ENABLED, "false");
 
         assertEquals("${my.prop}", config.getValue("expression", String.class));
     }
@@ -170,22 +171,22 @@ public class PropertyExpressionsTest {
         }
 
         return ConfigProviderResolver.instance().getBuilder()
-                                     .withSources(new ConfigSource() {
-                                         @Override
-                                         public Set<String> getPropertyNames() {
-                                             return properties.keySet();
-                                         }
+                .withSources(new ConfigSource() {
+                    @Override
+                    public Set<String> getPropertyNames() {
+                        return properties.keySet();
+                    }
 
-                                         @Override
-                                         public String getValue(String propertyName) {
-                                             return properties.get(propertyName);
-                                         }
+                    @Override
+                    public String getValue(String propertyName) {
+                        return properties.get(propertyName);
+                    }
 
-                                         @Override
-                                         public String getName() {
-                                             return "test";
-                                         }
-                                     })
-                                     .build();
+                    @Override
+                    public String getName() {
+                        return "test";
+                    }
+                })
+                .build();
     }
 }

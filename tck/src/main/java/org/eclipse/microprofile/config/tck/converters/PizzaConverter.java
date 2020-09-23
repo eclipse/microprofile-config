@@ -29,7 +29,7 @@ public class PizzaConverter implements Converter<Pizza> {
     @Override
     public Pizza convert(String value) {
         String[] parts = value.split(":");
-        if (parts.length ==2) {
+        if (parts.length == 2) {
             String size = parts[0];
             String flavor = parts[1];
             return new Pizza(flavor, size);

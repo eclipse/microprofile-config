@@ -50,12 +50,12 @@ public class ProdProfileTest extends Arquillian {
                 .create(JavaArchive.class, "ProdProfileTest.jar")
                 .addClasses(ProdProfileTest.class, ProfilePropertyBean.class)
                 .addAsManifestResource(
-                    new StringAsset(
-                        "mp.config.profile=prod\n" +
-                        "%dev.vehicle.name=bike\n" +
-                        "%prod.vehicle.name=bus\n" +
-                        "%test.vehicle.name=van\n" +
-                        "vehicle.name=car"),
+                        new StringAsset(
+                                "mp.config.profile=prod\n" +
+                                        "%dev.vehicle.name=bike\n" +
+                                        "%prod.vehicle.name=bus\n" +
+                                        "%test.vehicle.name=van\n" +
+                                        "vehicle.name=car"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -76,7 +76,7 @@ public class ProdProfileTest extends Arquillian {
     @Dependent
     public static class ProfilePropertyBean {
         @Inject
-        @ConfigProperty(name="vehicle.name")
+        @ConfigProperty(name = "vehicle.name")
         private String vehicleName;
         public String getConfigProperty() {
             return vehicleName;

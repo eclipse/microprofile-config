@@ -30,8 +30,9 @@
  *      Additional reviews and feedback by Tomas Langer.
  */
 package org.eclipse.microprofile.config;
-import java.util.Arrays;
+
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,9 +61,9 @@ import org.eclipse.microprofile.config.spi.Converter;
  *
  * <pre>
  * public void doSomething() {
- *   Config cfg = ConfigProvider.getConfig();
- *   String archiveUrl = cfg.getValue("my.project.archive.endpoint", String.class);
- *   Integer archivePort = cfg.getValue("my.project.archive.port", Integer.class);
+ *     Config cfg = ConfigProvider.getConfig();
+ *     String archiveUrl = cfg.getValue("my.project.archive.endpoint", String.class);
+ *     Integer archivePort = cfg.getValue("my.project.archive.port", Integer.class);
  * }
  * </pre>
  *
@@ -71,8 +72,8 @@ import org.eclipse.microprofile.config.spi.Converter;
  *
  * <pre>
  * public class MyService {
- *   &#064;Inject
- *   private Config config;
+ *     &#064;Inject
+ *     private Config config;
  * }
  * </pre>
  *
@@ -80,8 +81,8 @@ import org.eclipse.microprofile.config.spi.Converter;
  * See {@link #getValue(String, Class)} and {@link #getOptionalValue(String, Class)} for accessing a configured value.
  *
  * <p>
- * Configured values can also be accessed via injection.
- * See {@link org.eclipse.microprofile.config.inject.ConfigProperty} for more information.
+ * Configured values can also be accessed via injection. See
+ * {@link org.eclipse.microprofile.config.inject.ConfigProperty} for more information.
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
@@ -105,61 +106,70 @@ public interface Config {
     String PROPERTY_EXPRESSIONS_ENABLED = "mp.config.property.expressions.enabled";
 
     /**
-     * Return the resolved property value with the specified type for the
-     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
+     * Return the resolved property value with the specified type for the specified property name from the underlying
+     * {@linkplain ConfigSource configuration sources}.
      * <p>
-     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
-     * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
-     * rather than recomputing it.
+     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive to compute;
+     * therefore, if the returned value is intended to be frequently used, callers should consider storing rather than
+     * recomputing it.
      * <p>
-     * The result of this method is identical to the result of calling {@code getOptionalValue(propertyName, propertyType).get()}.
-     * In particular, If the given property name or the value element of this property does not exist, 
-     * the {@link java.util.NoSuchElementException} is thrown. This method never returns {@code null}.
+     * The result of this method is identical to the result of calling
+     * {@code getOptionalValue(propertyName, propertyType).get()}. In particular, If the given property name or the
+     * value element of this property does not exist, the {@link java.util.NoSuchElementException} is thrown. This
+     * method never returns {@code null}.
      *
      * @param <T>
-     *             The property type
+     *            The property type
      * @param propertyName
-     *             The configuration property name
+     *            The configuration property name
      * @param propertyType
-     *             The type into which the resolved property value should get converted
+     *            The type into which the resolved property value should get converted
      * @return the resolved property value as an instance of the requested type (not {@code null})
-     * @throws IllegalArgumentException if the property cannot be converted to the specified type
-     * @throws java.util.NoSuchElementException if the property is not defined or is defined as an empty string
+     * @throws IllegalArgumentException
+     *             if the property cannot be converted to the specified type
+     * @throws java.util.NoSuchElementException
+     *             if the property is not defined or is defined as an empty string
      */
     <T> T getValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Return the {@link ConfigValue} for the specified property name from the underlying
-     * {@linkplain ConfigSource configuration source}. The lookup of the configuration is performed immediatily,
-     * meaning that calls to {@link ConfigValue} will always yeld the same results.
+     * Return the {@link ConfigValue} for the specified property name from the underlying {@linkplain ConfigSource
+     * configuration source}. The lookup of the configuration is performed immediatily, meaning that calls to
+     * {@link ConfigValue} will always yeld the same results.
      * <p>
-     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
-     * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
-     * rather than recomputing it.
+     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive to compute;
+     * therefore, if the returned value is intended to be frequently used, callers should consider storing rather than
+     * recomputing it.
      * <p>
      * A {@link ConfigValue} is always returned even if a property name cannot be found. In this case, every method in
      * {@link ConfigValue} returns {@code null} except for {@link ConfigValue#getName()}, which includes the original
      * property name being looked up.
      *
-     * @param propertyName The configuration property name
+     * @param propertyName
+     *            The configuration property name
      * @return the resolved property value as a {@link ConfigValue}
      */
     ConfigValue getConfigValue(String propertyName);
 
     /**
-     * Return the resolved property values with the specified type for the
-     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
+     * Return the resolved property values with the specified type for the specified property name from the underlying
+     * {@linkplain ConfigSource configuration sources}.
      * <p>
-     * The configuration values are not guaranteed to be cached by the implementation, and may be expensive
-     * to compute; therefore, if the returned values are intended to be frequently used, callers should consider storing
-     * rather than recomputing them.
+     * The configuration values are not guaranteed to be cached by the implementation, and may be expensive to compute;
+     * therefore, if the returned values are intended to be frequently used, callers should consider storing rather than
+     * recomputing them.
      *
-     * @param <T> The property type
-     * @param propertyName The configuration property name
-     * @param propertyType The type into which the resolved property values should get converted
+     * @param <T>
+     *            The property type
+     * @param propertyName
+     *            The configuration property name
+     * @param propertyType
+     *            The type into which the resolved property values should get converted
      * @return the resolved property values as a list of instances of the requested type
-     * @throws java.lang.IllegalArgumentException if the property values cannot be converted to the specified type
-     * @throws java.util.NoSuchElementException if the property isn't present in the configuration
+     * @throws java.lang.IllegalArgumentException
+     *             if the property values cannot be converted to the specified type
+     * @throws java.util.NoSuchElementException
+     *             if the property isn't present in the configuration
      */
     default <T> List<T> getValues(String propertyName, Class<T> propertyType) {
         @SuppressWarnings("unchecked")
@@ -168,38 +178,46 @@ public interface Config {
     }
 
     /**
-     * Return the resolved property value with the specified type for the
-     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
+     * Return the resolved property value with the specified type for the specified property name from the underlying
+     * {@linkplain ConfigSource configuration sources}.
      * <p>
-     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive
-     * to compute; therefore, if the returned value is intended to be frequently used, callers should consider storing
-     * rather than recomputing it.
+     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive to compute;
+     * therefore, if the returned value is intended to be frequently used, callers should consider storing rather than
+     * recomputing it.
      * <p>
      * If this method is used very often then consider to locally store the configured value.
      *
-     * @param <T> The property type
-     * @param propertyName The configuration property name
-     * @param propertyType The type into which the resolved property value should be converted
+     * @param <T>
+     *            The property type
+     * @param propertyName
+     *            The configuration property name
+     * @param propertyType
+     *            The type into which the resolved property value should be converted
      * @return The resolved property value as an {@code Optional} wrapping the requested type
      *
-     * @throws IllegalArgumentException if the property cannot be converted to the specified type
+     * @throws IllegalArgumentException
+     *             if the property cannot be converted to the specified type
      */
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
-     * Return the resolved property values with the specified type for the
-     * specified property name from the underlying {@linkplain ConfigSource configuration sources}.
+     * Return the resolved property values with the specified type for the specified property name from the underlying
+     * {@linkplain ConfigSource configuration sources}.
      * <p>
-     * The configuration values are not guaranteed to be cached by the implementation, and may be expensive
-     * to compute; therefore, if the returned values are intended to be frequently used, callers should consider storing
-     * rather than recomputing them.
+     * The configuration values are not guaranteed to be cached by the implementation, and may be expensive to compute;
+     * therefore, if the returned values are intended to be frequently used, callers should consider storing rather than
+     * recomputing them.
      *
-     * @param <T> The property type
-     * @param propertyName The configuration property name
-     * @param propertyType The type into which the resolved property values should be converted
+     * @param <T>
+     *            The property type
+     * @param propertyName
+     *            The configuration property name
+     * @param propertyType
+     *            The type into which the resolved property values should be converted
      * @return The resolved property values as an {@code Optional} wrapping a list of the requested type
      *
-     * @throws java.lang.IllegalArgumentException if the property cannot be converted to the specified type
+     * @throws java.lang.IllegalArgumentException
+     *             if the property cannot be converted to the specified type
      */
     default <T> Optional<List<T>> getOptionalValues(String propertyName, Class<T> propertyType) {
         @SuppressWarnings("unchecked")
@@ -216,8 +234,8 @@ public interface Config {
      * There is no guarantee about the completeness or currency of the names returned, nor is there any guarantee that a
      * name that is returned by the iterator will resolve to a non-empty value or be found in any configuration source
      * associated with the configuration; for example, it is allowed for this method to return an empty set always.
-     * However, the implementation <em>should</em> return a set of names that is useful to a
-     * user that wishes to browse the configuration.
+     * However, the implementation <em>should</em> return a set of names that is useful to a user that wishes to browse
+     * the configuration.
      * <p>
      * It is implementation-defined whether the returned names reflect a point-in-time "snapshot" of names, or an
      * aggregation of multiple point-in-time "snapshots", or a more dynamic view of the available property names.
@@ -236,8 +254,9 @@ public interface Config {
      * Return all of the currently registered {@linkplain ConfigSource configuration sources} for this configuration.
      * <p>
      * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe
-     * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration sources},
-     * determined at application start time, and the config sources themselves may be static or dynamic.
+     * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration
+     * sources}, determined at application start time, and the config sources themselves may be static or dynamic.
+     * 
      * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();
@@ -245,10 +264,12 @@ public interface Config {
     /**
      * Return the {@link Converter} used by this instance to produce instances of the specified type from string values.
      *
-     * @param <T> the conversion type
-     * @param forType the type to be produced by the converter
+     * @param <T>
+     *            the conversion type
+     * @param forType
+     *            the type to be produced by the converter
      * @return an {@link Optional} containing the converter, or empty if no converter is available for the specified
-     * type
+     *         type
      */
     <T> Optional<Converter<T>> getConverter(Class<T> forType);
 
@@ -260,10 +281,13 @@ public interface Config {
      * <p>
      * Unwraping to the provider specific API may lead to non-portable behaviour.
      *
-     * @param type Class representing the type to unwrap to
-     * @param <T> The type to unwrap to
+     * @param type
+     *            Class representing the type to unwrap to
+     * @param <T>
+     *            The type to unwrap to
      * @return An instance of the given type
-     * @throws IllegalArgumentException If the current provider does not support unwrapping to the given type
+     * @throws IllegalArgumentException
+     *             If the current provider does not support unwrapping to the given type
      */
     <T> T unwrap(Class<T> type);
 }

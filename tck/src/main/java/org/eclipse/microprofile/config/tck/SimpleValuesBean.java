@@ -19,34 +19,35 @@
 
 package org.eclipse.microprofile.config.tck;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Dependent
 public class SimpleValuesBean {
 
     @Inject
-    @ConfigProperty(name="my.string/property")
+    @ConfigProperty(name = "my.string/property")
     private String stringProperty;
 
     @Inject
-    @ConfigProperty(name="my.boolean.property")
+    @ConfigProperty(name = "my.boolean.property")
     private boolean booleanProperty;
 
     @Inject
-    @ConfigProperty(name="my.int/property")
+    @ConfigProperty(name = "my.int/property")
     private int intProperty;
 
-    public String getStringProperty(){
-       return this.stringProperty;
+    public String getStringProperty() {
+        return this.stringProperty;
     }
 
-    public boolean getBooleanProperty(){
-       return this.booleanProperty;
+    public boolean getBooleanProperty() {
+        return this.booleanProperty;
     }
 
-    public int getIntProperty(){
-       return this.intProperty;
+    public int getIntProperty() {
+        return this.intProperty;
     }
 }

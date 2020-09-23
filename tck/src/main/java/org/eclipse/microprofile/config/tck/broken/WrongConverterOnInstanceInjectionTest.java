@@ -58,6 +58,4 @@ public class WrongConverterOnInstanceInjectionTest extends Arquillian {
     public void test() {
     }
 
-
-    
 }

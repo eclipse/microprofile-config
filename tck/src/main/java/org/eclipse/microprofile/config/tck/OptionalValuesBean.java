@@ -19,14 +19,15 @@
  */
 package org.eclipse.microprofile.config.tck;
 
-import org.eclipse.microprofile.config.inject.ConfigProperty;
-
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 /**
  * Declare a bean for config property injections.

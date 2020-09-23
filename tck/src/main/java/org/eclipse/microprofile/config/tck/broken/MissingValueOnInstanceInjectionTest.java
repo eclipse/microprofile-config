@@ -56,6 +56,4 @@ public class MissingValueOnInstanceInjectionTest extends Arquillian {
     public void test() {
     }
 
-
-    
 }

@@ -46,11 +46,11 @@ public class ConfigPropertiesTest extends Arquillian {
 
     private @Inject BeanOne customerBeanOne;
 
-    private @Inject @ConfigProperties(prefix="client") BeanOne clientBeanOne;
+    private @Inject @ConfigProperties(prefix = "client") BeanOne clientBeanOne;
     private @Inject @ConfigProperties BeanOne beanOne;
 
     private @Inject BeanTwo beanTwo;
-    private @Inject @ConfigProperties(prefix="my") BeanTwo myBeanTwo;
+    private @Inject @ConfigProperties(prefix = "my") BeanTwo myBeanTwo;
     private @Inject BeanFour myBeanFour;
     private @Inject BeanThree beanThree;
 
@@ -58,35 +58,35 @@ public class ConfigPropertiesTest extends Arquillian {
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "ConfigPropertiesTest.jar")
-                .addClasses(ConfigPropertiesTest.class, BeanOne.class, BeanTwo.class, BeanThree.class, BeanFour.class, Location.class)
+                .addClasses(ConfigPropertiesTest.class, BeanOne.class, BeanTwo.class, BeanThree.class, BeanFour.class,
+                        Location.class)
                 .addAsManifestResource(
-                    new StringAsset(
-                        "customer.name=Bob\n" +
-                        "customer.age=24\n" +
-                        "customer.location=2 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
-                        "customer.job=Developer\n" +
-                        "customer.new.hobbies=Badminton,Tennis\n" +
-                        "client.name=Rob\n" +
-                        "client.age=25\n" +
-                        "client.location=22 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
-                        "client.job=Engineer\n" +
-                        "client.new.hobbies=Football,Tennis\n" +
-                        "name=Harry\n" +
-                        "age=21\n" +
-                        "nationality=UK\n" +
-                        "location=222 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
-                        "job=Plumber\n" +
-                        "new.hobbies=Volleyball\n" +
-                        "host=localhost\n" +
-                        "port=9080\n"+
-                        "endpoint=woof\n" +
-                        "my.host=myhost\n" +
-                        "my.port=9081\n"+
-                        "my.endpoint=poof\n" +
-                        "other.name=Holly\n" +
-                        "other.age=20\n" +
-                        "other.nationality=USA\n"
-                        ),
+                        new StringAsset(
+                                "customer.name=Bob\n" +
+                                        "customer.age=24\n" +
+                                        "customer.location=2 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
+                                        "customer.job=Developer\n" +
+                                        "customer.new.hobbies=Badminton,Tennis\n" +
+                                        "client.name=Rob\n" +
+                                        "client.age=25\n" +
+                                        "client.location=22 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
+                                        "client.job=Engineer\n" +
+                                        "client.new.hobbies=Football,Tennis\n" +
+                                        "name=Harry\n" +
+                                        "age=21\n" +
+                                        "nationality=UK\n" +
+                                        "location=222 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
+                                        "job=Plumber\n" +
+                                        "new.hobbies=Volleyball\n" +
+                                        "host=localhost\n" +
+                                        "port=9080\n" +
+                                        "endpoint=woof\n" +
+                                        "my.host=myhost\n" +
+                                        "my.port=9081\n" +
+                                        "my.endpoint=poof\n" +
+                                        "other.name=Holly\n" +
+                                        "other.age=20\n" +
+                                        "other.nationality=USA\n"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -100,7 +100,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals("Bob", customerBeanOne.getName());
         Assert.assertEquals(24, customerBeanOne.age);
         Assert.assertEquals("Developer", customerBeanOne.job);
-        Assert.assertEquals(new String[] {"Badminton", "Tennis"}, customerBeanOne.hobbies);
+        Assert.assertEquals(new String[]{"Badminton", "Tennis"}, customerBeanOne.hobbies);
         Assert.assertEquals(new Location("2 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), customerBeanOne.location);
     }
     @Test
@@ -108,15 +108,15 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals("Rob", clientBeanOne.getName());
         Assert.assertEquals(25, clientBeanOne.age);
         Assert.assertEquals("Engineer", clientBeanOne.job);
-        Assert.assertEquals(new String[] {"Football", "Tennis"}, clientBeanOne.hobbies);
+        Assert.assertEquals(new String[]{"Football", "Tennis"}, clientBeanOne.hobbies);
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
 
-        //programmatic lookup of the beans
-        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
+        // programmatic lookup of the beans
+        BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
         Assert.assertEquals("Rob", bo.getName());
         Assert.assertEquals(25, bo.age);
         Assert.assertEquals("Engineer", bo.job);
-        Assert.assertEquals(new String[] {"Football", "Tennis"}, bo.hobbies);
+        Assert.assertEquals(new String[]{"Football", "Tennis"}, bo.hobbies);
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
     }
     @Test
@@ -124,15 +124,15 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals("Harry", beanOne.getName());
         Assert.assertEquals(21, beanOne.age);
         Assert.assertEquals("Plumber", beanOne.job);
-        Assert.assertEquals(new String[] {"Volleyball"}, beanOne.hobbies);
+        Assert.assertEquals(new String[]{"Volleyball"}, beanOne.hobbies);
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
 
-        //programmatic lookup of the beans
-        BeanOne bo= CDI.current().select(BeanOne.class, ConfigProperties.Literal.NO_PREFIX).get();
+        // programmatic lookup of the beans
+        BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.NO_PREFIX).get();
         Assert.assertEquals("Harry", bo.getName());
         Assert.assertEquals(21, bo.age);
         Assert.assertEquals("Plumber", bo.job);
-        Assert.assertEquals(new String[] {"Volleyball"}, bo.hobbies);
+        Assert.assertEquals(new String[]{"Volleyball"}, bo.hobbies);
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
     }
 
@@ -152,9 +152,9 @@ public class ConfigPropertiesTest extends Arquillian {
 
     @Test
     public void testNoConfigPropertiesAnnotationInjection() {
-        //The fields on beanThree are not resolved to config properties,
+        // The fields on beanThree are not resolved to config properties,
         // as the bean class has no ConfigProperties annotation.
-        Assert.assertNull( beanThree.name);
+        Assert.assertNull(beanThree.name);
         Assert.assertEquals(0, beanThree.age);
         Assert.assertNull(beanThree.getNationality());
     }
@@ -166,13 +166,13 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
-    @ConfigProperties(prefix="customer")
+    @ConfigProperties(prefix = "customer")
     public static class BeanOne {
         private String name;
         int age;
         public Location location;
         protected String job;
-        @ConfigProperty(name="new.hobbies")
+        @ConfigProperty(name = "new.hobbies")
         public String[] hobbies;
 
         /**
@@ -190,8 +190,8 @@ public class ConfigPropertiesTest extends Arquillian {
         int port;
         String endpoint;
         /**
-        * @return String return the host
-        */
+         * @return String return the host
+         */
         public String getHost() {
             return host;
         }
@@ -202,16 +202,16 @@ public class ConfigPropertiesTest extends Arquillian {
         public int age;
         private String nationality;
         /**
-        * @return String return the host
-        */
+         * @return String return the host
+         */
         public String getNationality() {
             return nationality;
         }
     }
 
-    @ConfigProperties(prefix="cloud")
+    @ConfigProperties(prefix = "cloud")
     public static class BeanFour {
-        @ConfigProperty(name="a.host", defaultValue="mycloud.org")
+        @ConfigProperty(name = "a.host", defaultValue = "mycloud.org")
         private String host;
         public int port = 9080;
         public String getHost() {

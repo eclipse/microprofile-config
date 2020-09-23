@@ -38,12 +38,10 @@ import aQute.bnd.annotation.spi.ServiceConsumer;
  */
 
 /*
- * The @ServiceConsumer annotation adds support for Service Loader Mediator in
- * order to support wiring of Service Loader providers to consumers in OSGi.
- * However, the requirements generated are specified as effective:=active to
- * prevent this from being a strict requirement. As such the API is usable in
- * runtimes without a Service Loader Mediator implementation while allowing for
- * such to be enabled when using the resolver during assembly.
+ * The @ServiceConsumer annotation adds support for Service Loader Mediator in order to support wiring of Service Loader
+ * providers to consumers in OSGi. However, the requirements generated are specified as effective:=active to prevent
+ * this from being a strict requirement. As such the API is usable in runtimes without a Service Loader Mediator
+ * implementation while allowing for such to be enabled when using the resolver during assembly.
  */
 @ServiceConsumer(value = ConfigProviderResolver.class, effective = "active")
 public abstract class ConfigProviderResolver {
@@ -67,7 +65,8 @@ public abstract class ConfigProviderResolver {
      * Get the configuration instance for the current application in the manner described by
      * {@link org.eclipse.microprofile.config.ConfigProvider#getConfig(ClassLoader)}.
      *
-     * @param loader the class loader identifying the application
+     * @param loader
+     *            the class loader identifying the application
      * @return the configuration instance
      */
     public abstract Config getConfig(ClassLoader loader);
@@ -77,37 +76,42 @@ public abstract class ConfigProviderResolver {
      * <p>
      * The returned configuration builder must initially contain no registered configuration sources.
      * <p>
-     * The returned configuration builder must initially contain only
-     * <a href="Converter.html#built_in_converters">built in converters</a>.
+     * The returned configuration builder must initially contain only <a href="Converter.html#built_in_converters">built
+     * in converters</a>.
      *
      * @return a new configuration builder instance
      */
     public abstract ConfigBuilder getBuilder();
 
     /**
-     * Register the given {@link Config} instance to the application identified by the given class loader.
-     * If the class loader is {@code null}, then the current application (as identified by the
+     * Register the given {@link Config} instance to the application identified by the given class loader. If the class
+     * loader is {@code null}, then the current application (as identified by the
      * {@linkplain Thread#getContextClassLoader() thread context class loader}) will be used.
      *
-     * @param config the configuration to register
-     * @param classLoader the class loader identifying the application
-     * @throws IllegalStateException if there is already a configuration registered for the application
+     * @param config
+     *            the configuration to register
+     * @param classLoader
+     *            the class loader identifying the application
+     * @throws IllegalStateException
+     *             if there is already a configuration registered for the application
      */
     public abstract void registerConfig(Config config, ClassLoader classLoader);
 
     /**
-     * A {@link Config} normally gets released if the Application it is associated with gets destroyed.
-     * Invoke this method if you like to destroy the Config prematurely.
+     * A {@link Config} normally gets released if the Application it is associated with gets destroyed. Invoke this
+     * method if you like to destroy the Config prematurely.
      *
      * If the given Config is associated within an Application then it will be unregistered.
-     * @param config the config to be released
+     * 
+     * @param config
+     *            the config to be released
      */
     public abstract void releaseConfig(Config config);
 
     /**
-     * Find and return the provider resolver instance. If the provider resolver instance was already found,
-     * or was manually specified, that instance is returned. Otherwise, {@link ServiceLoader} is used to
-     * locate the first implementation that is visible from the class loader that defined this class.
+     * Find and return the provider resolver instance. If the provider resolver instance was already found, or was
+     * manually specified, that instance is returned. Otherwise, {@link ServiceLoader} is used to locate the first
+     * implementation that is visible from the class loader that defined this class.
      *
      * @return the provider resolver instance
      */
@@ -126,25 +130,25 @@ public abstract class ConfigProviderResolver {
 
     private static ConfigProviderResolver loadSpi(ClassLoader cl) {
         ServiceLoader<ConfigProviderResolver> sl = ServiceLoader.load(
-                        ConfigProviderResolver.class, cl);
+                ConfigProviderResolver.class, cl);
         final Iterator<ConfigProviderResolver> iterator = sl.iterator();
         if (iterator.hasNext()) {
             return iterator.next();
         }
         throw new IllegalStateException(
-                        "No ConfigProviderResolver implementation found!");
+                "No ConfigProviderResolver implementation found!");
     }
 
     /**
      * Set the instance. It is used by OSGi environments that do not support
-     * <a href="https://osgi.org/specification/osgi.cmpn/7.0.0/service.loader.html">the service loader</a>
-     * pattern.
+     * <a href="https://osgi.org/specification/osgi.cmpn/7.0.0/service.loader.html">the service loader</a> pattern.
      * <p>
      * Note that calling this method after a different provider instance was {@linkplain #instance() already retrieved}
-     * can lead to inconsistent results. Mixing usage of this method with the service loader
-     * pattern is for this reason strongly discouraged.
+     * can lead to inconsistent results. Mixing usage of this method with the service loader pattern is for this reason
+     * strongly discouraged.
      *
-     * @param resolver the instance to set, or {@code null} to unset the instance
+     * @param resolver
+     *            the instance to set, or {@code null} to unset the instance
      */
     public static void setInstance(ConfigProviderResolver resolver) {
         instance = resolver;

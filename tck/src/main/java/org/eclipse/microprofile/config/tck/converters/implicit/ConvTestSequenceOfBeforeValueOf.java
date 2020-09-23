@@ -21,8 +21,7 @@ package org.eclipse.microprofile.config.tck.converters.implicit;
 /**
  * Part of the implicit Converter test.
  *
- * Sample class which has a of(String) and valueOf(String) method.
- * The method of() should be used instead of valueOf().
+ * Sample class which has a of(String) and valueOf(String) method. The method of() should be used instead of valueOf().
  *
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */

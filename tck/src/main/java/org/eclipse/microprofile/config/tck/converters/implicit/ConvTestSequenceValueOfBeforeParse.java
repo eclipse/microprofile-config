@@ -21,8 +21,8 @@ package org.eclipse.microprofile.config.tck.converters.implicit;
 /**
  * Part of the implicit Converter test.
  *
- * Sample class which has a parse(CharSequence) and valueOf(String) method. 
- * The method valueOf(String) should be used instead of the parse(Charsequence) method.
+ * Sample class which has a parse(CharSequence) and valueOf(String) method. The method valueOf(String) should be used
+ * instead of the parse(Charsequence) method.
  *
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  */

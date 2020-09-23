@@ -47,17 +47,17 @@ public class ClassConverterTest extends Arquillian {
     public static WebArchive deploy() {
         String archiveName = ClassConverterTest.class.getSimpleName();
         JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, archiveName+".jar")
+                .create(JavaArchive.class, archiveName + ".jar")
                 .addClasses(ClassConverterBean.class, ClassConverterTest.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
 
-            addFile(testJar, "META-INF/microprofile-config.properties");
+        addFile(testJar, "META-INF/microprofile-config.properties");
 
-            WebArchive war = ShrinkWrap
-                .create(WebArchive.class, archiveName+".war")
+        WebArchive war = ShrinkWrap
+                .create(WebArchive.class, archiveName + ".war")
                 .addAsLibrary(testJar);
-            return war;
+        return war;
     }
 
     @Inject
@@ -78,10 +78,10 @@ public class ClassConverterTest extends Arquillian {
     @Test
     public void testGetClassConverter() {
         Class<?> testClass = config.getConverter(Class.class).get()
-            .convert("org.eclipse.microprofile.config.tck.ClassConverterTest");
+                .convert("org.eclipse.microprofile.config.tck.ClassConverterTest");
         assertEquals(testClass, ClassConverterTest.class);
         Class<?>[] testClasses = config.getConverter(Class[].class).get()
-            .convert("org.eclipse.microprofile.config.tck.ClassConverterTest,java.lang.String");
+                .convert("org.eclipse.microprofile.config.tck.ClassConverterTest,java.lang.String");
         assertEquals(testClasses.length, 2);
         assertEquals(testClasses, new Class[]{ClassConverterTest.class, String.class});
     }
@@ -92,7 +92,8 @@ public class ClassConverterTest extends Arquillian {
         assertEquals(classConverterBean.getTestClasses().length, 2);
         assertEquals(classConverterBean.getTestClasses(), new Class[]{ClassConverterTest.class, String.class});
         assertEquals(classConverterBean.getTestClassSet().size(), 2);
-        assertEquals(classConverterBean.getTestClassSet(), new LinkedHashSet<>(Arrays.asList(ClassConverterTest.class, String.class)));
+        assertEquals(classConverterBean.getTestClassSet(),
+                new LinkedHashSet<>(Arrays.asList(ClassConverterTest.class, String.class)));
         assertEquals(classConverterBean.getTestClassList().size(), 2);
         assertEquals(classConverterBean.getTestClassList(), Arrays.asList(ClassConverterTest.class, String.class));
     }

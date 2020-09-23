@@ -49,10 +49,9 @@ public class ConfigPropertiesMissingPropertyInjectionTest extends Arquillian {
                 .create(JavaArchive.class, "ConfigPropertiesTest.jar")
                 .addClasses(ConfigPropertiesMissingPropertyInjectionTest.class, BeanOne.class)
                 .addAsManifestResource(
-                    new StringAsset(
-                        "customer.name=Bob\n" +
-                        "customer.age=24\n"
-                        ),
+                        new StringAsset(
+                                "customer.name=Bob\n" +
+                                        "customer.age=24\n"),
                         "microprofile-config.properties")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .as(JavaArchive.class);
@@ -66,11 +65,11 @@ public class ConfigPropertiesMissingPropertyInjectionTest extends Arquillian {
     public void test() {
     }
 
-    @ConfigProperties(prefix="customer")
+    @ConfigProperties(prefix = "customer")
     public static class BeanOne {
         private String name;
         public int age;
-        public String nationality; //no corresponding config property customer.nationality exists
+        public String nationality; // no corresponding config property customer.nationality exists
 
         /**
          * @return String return the name

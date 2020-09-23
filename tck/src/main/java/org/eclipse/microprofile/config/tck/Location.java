@@ -33,10 +33,9 @@ public class Location {
         this.road = parts[0];
         this.city = parts[1];
         this.county = parts[2];
-        this.postcode=parts[3];
-        this.country=parts[4];
+        this.postcode = parts[3];
+        this.country = parts[4];
     }
-
 
     /**
      * @return String return the road
@@ -82,14 +81,14 @@ public class Location {
             return false;
         }
         Location location = (Location) o;
-        return Objects.equals(road, location.road) && Objects.equals(city, location.city) 
-            && Objects.equals(county, location.county) && Objects.equals(postcode, location.postcode) && Objects.equals(country, location.country);
+        return Objects.equals(road, location.road) && Objects.equals(city, location.city)
+                && Objects.equals(county, location.county) && Objects.equals(postcode, location.postcode)
+                && Objects.equals(country, location.country);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(road, city, county, postcode, country);
     }
-
 
 }
