@@ -111,6 +111,8 @@ The following environment variable and their values must be present in the test 
 * `my_string_property` with the value `haha`
 * `MY_STRING_PROPERTY` with the value `woohoo`
 * `MP_TCK_ENV_DUMMY` with the value `dummy`
+* `config_ordinal` with `45`
+* `customer_name` with Bob`
 
 The following system properties and their values must be present in the test runner environment:
 
