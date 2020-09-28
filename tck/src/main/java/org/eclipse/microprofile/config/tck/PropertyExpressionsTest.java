@@ -34,10 +34,29 @@ import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-public class PropertyExpressionsTest {
+public class PropertyExpressionsTest extends Arquillian {
+
+    @Deployment
+    public static WebArchive deployment() {
+        JavaArchive testJar = ShrinkWrap
+                .create(JavaArchive.class, "PropertyExpressionsTest.jar")
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .as(JavaArchive.class);
+
+        return ShrinkWrap
+                .create(WebArchive.class, "PropertyExpressionsTest.war")
+                .addAsLibrary(testJar);
+    }
+
     @AfterMethod
     public void tearDown() {
         ConfigProviderResolver.instance().releaseConfig(ConfigProvider.getConfig());
@@ -155,7 +174,6 @@ public class PropertyExpressionsTest {
     @Test
     void expressionMissing() {
         Config config = buildConfig("my.prop", "${expression}", "my.prop.partial", "${expression}partial");
-
         assertThrows(Exception.class, () -> config.getValue("my.prop", String.class));
         assertThrows(Exception.class, () -> config.getValue("my.prop.partial", String.class));
     }
