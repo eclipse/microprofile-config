@@ -111,6 +111,8 @@ The following environment variable and their values must be present in the test 
 * `my_string_property` with the value `haha`
 * `MY_STRING_PROPERTY` with the value `woohoo`
 * `MP_TCK_ENV_DUMMY` with the value `dummy`
+* `config_ordinal` with `45`
+* `customer_name` with `Bob`
 
 The following system properties and their values must be present in the test runner environment:
 
@@ -158,9 +160,13 @@ If you use Apache Maven then the tests are run via the `maven-surefire-plugin`
                     <MY_BOOLEAN_PROPERTY>true</MY_BOOLEAN_PROPERTY>
                     <my_string_property>haha</my_string_property>
                     <MY_STRING_PROPERTY>woohoo</MY_STRING_PROPERTY>
+                    <config_ordinal>45</config_ordinal>
+                    <customer_name>Bob</customer_name>
                 </environmentVariables>
                 <systemProperties>
                     <mp.tck.prop.dummy>dummy</mp.tck.prop.dummy>
+                    <customer.hobby>Tennis</customer.hobby>
+                    <config_ordinal>120</config_ordinal>
                 </systemProperties>
             </configuration>
         </plugin>
