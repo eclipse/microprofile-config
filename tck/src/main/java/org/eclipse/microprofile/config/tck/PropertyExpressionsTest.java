@@ -23,6 +23,7 @@ import static org.eclipse.microprofile.config.Config.PROPERTY_EXPRESSIONS_ENABLE
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertThrows;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -57,9 +57,14 @@ public class PropertyExpressionsTest extends Arquillian {
                 .addAsLibrary(testJar);
     }
 
+    private List<Config> builtConfigs = new ArrayList<>();
+
     @AfterMethod
     public void tearDown() {
-        ConfigProviderResolver.instance().releaseConfig(ConfigProvider.getConfig());
+        for (Config config : builtConfigs) {
+            ConfigProviderResolver.instance().releaseConfig(config);
+        }
+        builtConfigs.clear();
     }
 
     @Test
@@ -178,7 +183,7 @@ public class PropertyExpressionsTest extends Arquillian {
         assertThrows(Exception.class, () -> config.getValue("my.prop.partial", String.class));
     }
 
-    private static Config buildConfig(String... keyValues) {
+    private Config buildConfig(String... keyValues) {
         if (keyValues.length % 2 != 0) {
             throw new IllegalArgumentException("keyValues array must be a multiple of 2");
         }
@@ -188,7 +193,7 @@ public class PropertyExpressionsTest extends Arquillian {
             properties.put(keyValues[i], keyValues[i + 1]);
         }
 
-        return ConfigProviderResolver.instance().getBuilder()
+        Config result = ConfigProviderResolver.instance().getBuilder()
                 .withSources(new ConfigSource() {
                     @Override
                     public Set<String> getPropertyNames() {
@@ -206,5 +211,8 @@ public class PropertyExpressionsTest extends Arquillian {
                     }
                 })
                 .build();
+
+        builtConfigs.add(result);
+        return result;
     }
 }
