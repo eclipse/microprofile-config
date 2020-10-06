@@ -22,11 +22,11 @@
 [[configprofile]]
 == Config Profile
 
-Config Profile indicates the project phase, such as dev, testing, live, etc. 
+Config Profile indicates the project phase, such as dev, testing, live, etc.
 
 === Specify Config Profile
 
-The config profile can be specified via the property `mp.config.profile`, which can be set in any of the configuration sources. The value of the property can contain only characters that are valid for config property names. 
+The config profile can be specified via the property `mp.config.profile`, which can be set in any of the configuration sources. The value of the property can contain only characters that are valid for config property names.
 This is because the name of the profile is directly stored in the name of the config property. It can be set when starting your application. e.g.
 
 [source, text]
@@ -34,9 +34,9 @@ This is because the name of the profile is directly stored in the name of the co
 java -jar myapp.jar -Dmp.config.profile=testing
 ----
 
-The value of the property `mp.config.profile` shouldn't be updated after the application is started. It's only read once and will not be updated once the `Config` object is constructed. If the property value of `mp.config.profile` is modified afterwards, the behavior is undefined and any changes to its value made later can be ignored by the implementation. 
+The value of the property `mp.config.profile` shouldn't be updated after the application is started. It's only read once and will not be updated once the `Config` object is constructed. If the property value of `mp.config.profile` is modified afterwards, the behavior is undefined and any changes to its value made later can be ignored by the implementation.
 
-The value of the property `mp.config.profile` specifies a single active profile. Only one profile can be active at a time. Commas in the value have no special meaning. For example, if the value of `mp.config.profile` is `testing,live`,  a single profile named `testing,live` is active instead of two active profiles. 
+The value of the property `mp.config.profile` specifies a single active profile. Implementations are free to provide additional mechanisms to support multiple active profiles.
 If the property `mp.config.profile` is specified in multiple config sources, the value of the property is determined following the same rules as other configuration properties, which means the value in the config source with the highest ordinal wins.
 
 === How Config Profile works
@@ -44,8 +44,8 @@ If the property `mp.config.profile` is specified in multiple config sources, the
 ==== On Property level
 The configuration property that utilizes the Config Profile is called a "profile-specific" property. A "profile-specific" property name consists of the following sequence: `% <profile name>.<original property name>`.
 
-Conforming implementations are required to search for a configuration source with the highest ordinal (priority) that provides either the property name or the "profile-specific" property name. 
-If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned. If it doesn't contain the "profile-specific" name, the value of the plain property will be returned. 
+Conforming implementations are required to search for a configuration source with the highest ordinal (priority) that provides either the property name or the "profile-specific" property name.
+If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned. If it doesn't contain the "profile-specific" name, the value of the plain property will be returned.
 
 
 For instance, a config source can be specified as follows.
@@ -70,7 +70,7 @@ A config property associated with the Config Profile can be looked up as shown b
 String vehicleName = ConfigProvider.getConfig().getValue("vehicle.name", String.class);
 ----
 
-If the property `mp.config.profile` is set to `dev`, the property `%dev.vehicle.name` is the Active Property. An active property overrides the properties in the same config source. 
+If the property `mp.config.profile` is set to `dev`, the property `%dev.vehicle.name` is the Active Property. An active property overrides the properties in the same config source.
 In more details, if `mp.config.profile` is set to `dev`, the property `%dev.vehicle.name` overrides the property `vehicle.name`. The `vehicleName` will be set to `car`.
 The properties `%live.vehicle.name` and `%testing.vehicle.name` are inactive config properties and don't override the property `vehicle.name`.
 
@@ -78,11 +78,11 @@ If `mp.config.profile` is set to `live`, the property `%live.vehicle.name` is th
 
 ==== On Config Source level
 
-Config Profile also affects the default config source `microprofile-config.properties`. If multiple config sources exist under the `META-INF` folder on the classpath with the name like `microprofile-config-<profile_name>.properties`, 
-the config source matching the active profile name will also be loaded on top of the default config source `microprofile-config.properties`. It means if the same property specified in both config sources, the value from the config source 
+Config Profile also affects the default config source `microprofile-config.properties`. If multiple config sources exist under the `META-INF` folder on the classpath with the name like `microprofile-config-<profile_name>.properties`,
+the config source matching the active profile name will also be loaded on top of the default config source `microprofile-config.properties`. It means if the same property specified in both config sources, the value from the config source
 `microprofile-config-<profile_name>.properties` will be used instead. If the property `mp.config.profile` is specified in the `microprofile-config-<profile_name>.properties`, this property will be discarded.
 
-For instance, there are following config sources provided in your application. 
+For instance, there are following config sources provided in your application.
 
 ```
 META-INF\microprofile-config.properties
