@@ -32,7 +32,6 @@ import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -56,11 +55,11 @@ public class ConfigPropertiesTest extends Arquillian {
 
     @Deployment
     public static WebArchive deploy() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "ConfigPropertiesTest.jar")
+        return ShrinkWrap
+                .create(WebArchive.class, "ConfigPropertiesTest.war")
                 .addClasses(ConfigPropertiesTest.class, BeanOne.class, BeanTwo.class, BeanThree.class, BeanFour.class,
                         Location.class)
-                .addAsManifestResource(
+                .addAsResource(
                         new StringAsset(
                                 "customer.name=Bob\n" +
                                         "customer.age=24\n" +
@@ -87,13 +86,8 @@ public class ConfigPropertiesTest extends Arquillian {
                                         "other.name=Holly\n" +
                                         "other.age=20\n" +
                                         "other.nationality=USA\n"),
-                        "microprofile-config.properties")
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);
-
-        return ShrinkWrap
-                .create(WebArchive.class, "ConfigPropertiesTest.war")
-                .addAsLibrary(testJar);
+                        "META-INF/microprofile-config.properties")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
     @Test
     public void testConfigPropertiesPlainInjection() {

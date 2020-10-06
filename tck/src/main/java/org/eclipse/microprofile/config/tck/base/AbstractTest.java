@@ -21,20 +21,20 @@ package org.eclipse.microprofile.config.tck.base;
 
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.asset.UrlAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.container.ResourceContainer;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
 public class AbstractTest extends Arquillian {
 
-    public static void addFile(JavaArchive archive, String originalPath) {
+    public static void addFile(ResourceContainer<?> archive, String originalPath) {
         archive.addAsResource(
                 new UrlAsset(Thread.currentThread().getContextClassLoader().getResource("internal/" + originalPath)),
                 originalPath);
     }
 
-    public static void addFile(JavaArchive archive, String originalFile, String targetFile) {
+    public static void addFile(ResourceContainer<?> archive, String originalFile, String targetFile) {
         archive.addAsResource(new UrlAsset(Thread.currentThread().getContextClassLoader().getResource(originalFile)),
                 targetFile);
     }

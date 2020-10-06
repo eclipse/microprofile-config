@@ -20,6 +20,7 @@
 package org.eclipse.microprofile.config.tck.configsources;
 
 import javax.inject.Inject;
+
 import org.eclipse.microprofile.config.Config;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -44,52 +45,50 @@ public class DefaultConfigSourceOrdinalTest extends Arquillian {
     @Deployment
     public static Archive deployment() {
         JavaArchive testJar = ShrinkWrap
-            .create(JavaArchive.class, "DefaultConfigSourceOrdinalTest.jar")
-            .addClasses(DefaultConfigSourceOrdinalTest.class)
-            .addAsManifestResource(
-                    new StringAsset(
-                        "config_ordinal=200\n" +
-                        "customer_name=Bill\n" +
-                        "customer.hobby=Badminton"
-                        ),
+                .create(JavaArchive.class, "DefaultConfigSourceOrdinalTest.jar")
+                .addClasses(DefaultConfigSourceOrdinalTest.class)
+                .addAsManifestResource(
+                        new StringAsset(
+                                "config_ordinal=200\n" +
+                                        "customer_name=Bill\n" +
+                                        "customer.hobby=Badminton"),
                         "microprofile-config.properties")
-            .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-            .as(JavaArchive.class);
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
+                .as(JavaArchive.class);
 
         WebArchive war = ShrinkWrap
-            .create(WebArchive.class, "DefaultConfigSourceOrdinalTest.war")
-            .addAsLibrary(testJar);
+                .create(WebArchive.class, "DefaultConfigSourceOrdinalTest.war")
+                .addAsLibrary(testJar);
         return war;
     }
 
     @BeforeClass
     public void checkSetup() {
-       //check whether the environment variables were populated by the executor correctly
+        // check whether the environment variables were populated by the executor correctly
 
         if (!"45".equals(System.getenv("config_ordinal"))) {
-         Assert.fail("Before running this test, the environment variable \"config_ordinal\" must be set with the value of 45");
+            Assert.fail(
+                    "Before running this test, the environment variable \"config_ordinal\" must be set with the value of 45");
         }
         if (!"Bob".equals(System.getenv("customer_name"))) {
-         Assert.fail("Before running this test, the environment variable \"customer_name\" must be set with the value of Bob");
+            Assert.fail(
+                    "Before running this test, the environment variable \"customer_name\" must be set with the value of Bob");
         }
         System.setProperty("customer.hobby", "Tennis");
         System.setProperty("config_ordinal", "120");
-        
-        
-        
+
     }
-    
+
     @Test
     public void testOrdinalForEnv() {
         Assert.assertEquals("Bill", config.getValue("customer_name", String.class));
         Assert.assertEquals(200, config.getConfigValue("customer_name").getSourceOrdinal());
     }
-    
+
     @Test
     public void testOrdinalForSystemProps() {
         Assert.assertEquals("Badminton", config.getValue("customer.hobby", String.class));
         Assert.assertEquals(200, config.getConfigValue("customer.hobby").getSourceOrdinal());
     }
-    
-    
+
 }

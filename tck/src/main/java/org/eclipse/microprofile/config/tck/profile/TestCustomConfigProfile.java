@@ -32,11 +32,9 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.configsources.CustomConfigProfileConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
@@ -47,26 +45,21 @@ import org.testng.annotations.Test;
  */
 public class TestCustomConfigProfile extends Arquillian {
     @Deployment
-    public static Archive deployment() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "TestConfigProfileTest.jar")
+    public static WebArchive deployment() {
+        WebArchive war = ShrinkWrap
+                .create(WebArchive.class, "TestConfigProfileTest.war")
                 .addClasses(TestCustomConfigProfile.class, ProfilePropertyBean.class,
                         CustomConfigProfileConfigSource.class)
                 .addAsServiceProvider(ConfigSource.class, CustomConfigProfileConfigSource.class)
-                .addAsManifestResource(
+                .addAsResource(
                         new StringAsset(
                                 "mp.config.profile=prod\n" +
                                         "%dev.vehicle.name=bus\n" +
                                         "%prod.vehicle.name=bike\n" +
                                         "%test.vehicle.name=coach\n" +
                                         "vehicle.name=car"),
-                        "microprofile-config.properties")
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);
-
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "TestConfigProfileTest.war")
-                .addAsLibrary(testJar);
+                        "META-INF/microprofile-config.properties")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
         return war;
     }
 

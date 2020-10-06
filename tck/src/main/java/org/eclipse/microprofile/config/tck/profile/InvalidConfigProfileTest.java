@@ -30,11 +30,9 @@ import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
@@ -45,24 +43,21 @@ import org.testng.annotations.Test;
  */
 public class InvalidConfigProfileTest extends Arquillian {
     @Deployment
-    public static Archive deployment() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "InvalidConfigProfileTest.jar")
+    public static WebArchive deployment() {
+
+        WebArchive war = ShrinkWrap
+                .create(WebArchive.class, "InvalidConfigProfileTest.war")
                 .addClasses(InvalidConfigProfileTest.class, ProfilePropertyBean.class)
-                .addAsManifestResource(
+                .addAsResource(
                         new StringAsset(
                                 "mp.config.profile=invalid\n" +
                                         "%dev.vehicle.name=bike\n" +
                                         "%prod.vehicle.name=bus\n" +
                                         "%test.vehicle.name=van\n" +
                                         "vehicle.name=car"),
-                        "microprofile-config.properties")
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);
+                        "META-INF/microprofile-config.properties")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "InvalidConfigProfileTest.war")
-                .addAsLibrary(testJar);
         return war;
     }
 
