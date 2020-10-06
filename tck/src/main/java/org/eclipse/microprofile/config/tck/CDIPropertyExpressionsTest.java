@@ -35,23 +35,17 @@ import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
 public class CDIPropertyExpressionsTest extends Arquillian {
     @Deployment
     public static Archive<?> deployment() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "CDIPropertyExpressionsTest.jar")
-                .addClasses(PropertyExpressionBean.class)
-                .addAsServiceProvider(ConfigSource.class, PropertyExpressionConfigSource.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);
-
         return ShrinkWrap
                 .create(WebArchive.class, "CDIPropertyExpressionsTest.war")
-                .addAsLibrary(testJar);
+                .addClasses(PropertyExpressionBean.class)
+                .addAsServiceProvider(ConfigSource.class, PropertyExpressionConfigSource.class)
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Inject

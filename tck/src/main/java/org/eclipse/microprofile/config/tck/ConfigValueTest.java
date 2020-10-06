@@ -35,27 +35,20 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
 
 public class ConfigValueTest extends Arquillian {
     @Deployment
-    public static Archive deployment() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "ConfigValueTest.jar")
+    public static WebArchive deployment() {
+        return ShrinkWrap
+                .create(WebArchive.class, "ConfigValueTest.war")
                 .addClasses(ConfigValueBean.class)
                 .addAsServiceProvider(ConfigSource.class, ConfigValueConfigSource.class,
                         ConfigValueLowerConfigSource.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);
-
-        return ShrinkWrap
-                .create(WebArchive.class, "ConfigValueTest.war")
-                .addAsLibrary(testJar);
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test

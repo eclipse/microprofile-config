@@ -39,7 +39,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -54,18 +53,14 @@ public class ConfigProviderTest extends Arquillian {
 
     @Deployment
     public static WebArchive deploy() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "configProviderTest.jar")
-                .addPackage(AbstractTest.class.getPackage())
-                .addClass(ConfigProviderTest.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-                .as(JavaArchive.class);
-
-        AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
-
         WebArchive war = ShrinkWrap
                 .create(WebArchive.class, "configProviderTest.war")
-                .addAsLibrary(testJar);
+                .addPackage(AbstractTest.class.getPackage())
+                .addClass(ConfigProviderTest.class)
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+
+        AbstractTest.addFile(war, "META-INF/microprofile-config.properties");
+
         return war;
     }
 
