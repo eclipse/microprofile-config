@@ -85,14 +85,14 @@ public class ConfigValueTest extends Arquillian {
     public void configValueInjection() {
         final ConfigValue configValue = configValueBean.getConfigValue();
         assertNotNull(configValue);
-        assertEquals( configValue.getName(), "my.prop");
+        assertEquals(configValue.getName(), "my.prop");
         assertEquals(configValue.getValue(), "1234");
         assertEquals(configValue.getSourceName(), ConfigValueConfigSource.class.getSimpleName());
-        assertEquals( configValue.getSourceOrdinal(), 1000);
+        assertEquals(configValue.getSourceOrdinal(), 1000);
 
         final ConfigValue configValueDefault = configValueBean.getConfigValueDefault();
         assertNotNull(configValueDefault);
-        assertEquals( configValue.getName(), "my.prop");
+        assertEquals(configValue.getName(), "my.prop");
         assertEquals(configValueDefault.getValue(), "default");
         assertNull(configValueDefault.getSourceName());
     }
