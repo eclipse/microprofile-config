@@ -20,9 +20,7 @@
 package org.eclipse.microprofile.config.tck.broken;
 
 import javax.enterprise.inject.spi.DeploymentException;
-import javax.inject.Inject;
 
-import org.eclipse.microprofile.config.inject.ConfigProperties;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.ShouldThrowException;
 import org.jboss.arquillian.testng.Arquillian;
@@ -40,14 +38,12 @@ import org.testng.annotations.Test;
  */
 public class ConfigPropertiesMissingPropertyInjectionTest extends Arquillian {
 
-    private @Inject BeanOne customerBeanOne;
-
     @Deployment
     @ShouldThrowException(DeploymentException.class)
     public static WebArchive deploy() {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "ConfigPropertiesTest.jar")
-                .addClasses(ConfigPropertiesMissingPropertyInjectionTest.class, BeanOne.class)
+                .addClasses(ConfigPropertiesBeanMissingProperty.class)
                 .addAsManifestResource(
                         new StringAsset(
                                 "customer.name=Bob\n" +
@@ -63,19 +59,5 @@ public class ConfigPropertiesMissingPropertyInjectionTest extends Arquillian {
 
     @Test
     public void test() {
-    }
-
-    @ConfigProperties(prefix = "customer")
-    public static class BeanOne {
-        private String name;
-        public int age;
-        public String nationality; // no corresponding config property customer.nationality exists
-
-        /**
-         * @return String return the name
-         */
-        public String getName() {
-            return name;
-        }
     }
 }
