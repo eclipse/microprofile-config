@@ -55,20 +55,20 @@ public class ConfigValueTest extends Arquillian {
     void configValue() {
         ConfigValue configValue = ConfigProvider.getConfig().getConfigValue("my.prop");
         assertNotNull(configValue);
-        assertEquals("my.prop", configValue.getName());
-        assertEquals("1234", configValue.getValue());
-        assertEquals("ConfigValueConfigSource", configValue.getSourceName());
-        assertEquals(1000, configValue.getSourceOrdinal());
+        assertEquals(configValue.getName(), "my.prop");
+        assertEquals(configValue.getValue(), "1234");
+        assertEquals(configValue.getSourceName(), "ConfigValueConfigSource");
+        assertEquals(configValue.getSourceOrdinal(), 1000);
     }
 
     @Test
     public void configValueEmpty() {
         ConfigValue configValue = ConfigProvider.getConfig().getConfigValue("not.found");
         assertNotNull(configValue);
-        assertEquals("not.found", configValue.getName());
+        assertEquals(configValue.getName(), "not.found");
         assertNull(configValue.getValue());
         assertNull(configValue.getSourceName());
-        assertEquals(0, configValue.getSourceOrdinal());
+        assertEquals(configValue.getSourceOrdinal(), 0);
     }
 
     @Inject
@@ -78,15 +78,15 @@ public class ConfigValueTest extends Arquillian {
     public void configValueInjection() {
         final ConfigValue configValue = configValueBean.getConfigValue();
         assertNotNull(configValue);
-        assertEquals("my.prop", configValue.getName());
-        assertEquals("1234", configValue.getValue());
-        assertEquals(ConfigValueConfigSource.class.getSimpleName(), configValue.getSourceName());
-        assertEquals(1000, configValue.getSourceOrdinal());
+        assertEquals(configValue.getName(), "my.prop");
+        assertEquals(configValue.getValue(), "1234");
+        assertEquals(configValue.getSourceName(), ConfigValueConfigSource.class.getSimpleName());
+        assertEquals(configValue.getSourceOrdinal(), 1000);
 
         final ConfigValue configValueDefault = configValueBean.getConfigValueDefault();
         assertNotNull(configValueDefault);
-        assertEquals("my.prop", configValue.getName());
-        assertEquals("default", configValueDefault.getValue());
+        assertEquals(configValue.getName(), "my.prop");
+        assertEquals(configValueDefault.getValue(), "default");
         assertNull(configValueDefault.getSourceName());
     }
 
