@@ -46,4 +46,4 @@ jobs:
           java-version: ${{matrix.java}}
 
       - name: build with maven
-        run: mvn -ntp install
+        run: mvn -ntp formatter:validate install
