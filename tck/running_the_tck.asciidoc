@@ -117,6 +117,8 @@ The following environment variable and their values must be present in the test 
 The following system properties and their values must be present in the test runner environment:
 
 * `mp.tck.prop.dummy` with the value `dummy`
+* `config_ordinal` with the value `120`
+* `customer.hobby` with the value `Tennis`
 
 See below for an example configuration to provide these environment variables in a Maven pom.xml.
 

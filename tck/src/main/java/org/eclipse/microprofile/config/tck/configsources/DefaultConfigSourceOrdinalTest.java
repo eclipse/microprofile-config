@@ -74,8 +74,14 @@ public class DefaultConfigSourceOrdinalTest extends Arquillian {
             Assert.fail(
                     "Before running this test, the environment variable \"customer_name\" must be set with the value of Bob");
         }
-        System.setProperty("customer.hobby", "Tennis");
-        System.setProperty("config_ordinal", "120");
+        if (!"120".equals(System.getProperty("config_ordinal"))) {
+            Assert.fail(
+                    "Before running this test, the system property \"config_ordinal\" must be set with the value of 120");
+        }
+        if (!"Tennis".equals(System.getProperty("customer.hobby"))) {
+            Assert.fail(
+                    "Before running this test, the system property \"customer.hobby\" must be set with the value of Tennis");
+        }
 
     }
 
