@@ -27,9 +27,22 @@ import java.util.OptionalLong;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
-import org.junit.Test;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.testng.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.testng.annotations.Test;
 
-public class NullConvertersTest {
+public class NullConvertersTest extends Arquillian {
+
+    @Deployment
+    public static WebArchive deployment() {
+        return ShrinkWrap
+                .create(WebArchive.class, "NullConvertersTest.war")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+    }
+
     @Test
     public void nulls() {
         final Config config = ConfigProvider.getConfig();
