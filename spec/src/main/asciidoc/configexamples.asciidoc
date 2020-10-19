@@ -429,57 +429,97 @@ public class Details {
 
 You can then use one of the following to retrieve the properties.
 
-* Programmatic lookup of the bean annotated with `@ConfigProperites`
+==== Programmatic lookup of the bean annotated with `@ConfigProperites`
 
 Since the class with `@ConfigProperties` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g.
 
-```
-Details details= CDI.current().select(Details.class, ConfigProperties.Literal.NOPREFIX).get();
-```
-
-* Directly inject the bean annotated with `@ConfigProperties`
 [source, java]
 ----
-@Inject Details serverDetails;
+Details details = CDI.current().select(Details.class, ConfigProperties.Literal.NO:PREFIX).get();
+----
+
+==== Inject the bean annotated with `@ConfigProperties`
+
+[source, java]
+----
+@Inject
+@ConfigProperties
+Details serverDetails;
 ----
 
 The `serverDetails` will contain the following info, as the prefix is `server`:
 
-```
+[source, properties]
+----
 serverDetails.host -> server.host -> localhost
 serverDetails.port -> server.port -> 9080
 serverDetails.endpoint -> server.endpoint -> query
 serverDetails.getLocation() -> server.old.location -> London
-```
-* Specify `@ConfigProperties` when injecting the bean annotated with `@ConfigProperties`
+----
+
+Specify the prefix attribute on the annotation `@ConfigProperties` when injecting the bean.
 
 In this case, the prefix associated with `@ConfigProperties` on this injection point overrides the prefix specified on the bean class.
 
+[source, java]
 ----
-@Inject @ConfigProperties(prefix="client") Details clientDetails;
+@Inject
+@ConfigProperties(prefix="client")
+Details clientDetails;
 ----
+
 The prefix `client` overrides the prefix `server` on the `ServerDetails` bean. Therefore, this will retrieve the following properties.
 
-```
+[source, properties]
+----
 clientDetails.host -> client.host -> myHost
 clientDetails.port -> client.port -> 9081
 clientDetails.endpoint -> client.endpoint -> shelf
 clientDetails.getLocation() -> client.old.location -> Dublin
-```
-If `@ConfigProperties` has no associated prefix, it means the prefix is empty. e.g.
 ----
-@Inject @ConfigProperties Details details; //prefix is empty
-----
-The absence of the prefix means the prefix is empty, which overrides the prefix set on the bean class `server`. Therefore, this will retrieve the following properties.
 
-```
+If `@ConfigProperties` has no associated prefix at the injection point, it defaults to the prefix set in the `Details`
+class, `server`.
+
+[source, java]
+----
+@Inject
+@ConfigProperties
+Details details;
+----
+
+Therefore, this will retrieve the following properties.
+
+[source, properties]
+----
+serverDetails.host -> server.host -> localhost
+serverDetails.port -> server.port -> 9080
+serverDetails.endpoint -> server.endpoint -> query
+serverDetails.getLocation() -> server.old.location -> London
+----
+
+If `@ConfigProperties` specifies an empty prefix at the injection point:
+
+[source, java]
+----
+@Inject
+@ConfigProperties(prefix = "")
+Details details;
+----
+
+It overrides the prefix set on the bean class `server` with an empty string `""`
+
+[source, properties]
+----
 details.host -> host -> anotherHost
 details.port -> port -> 9082
 details.endpoint -> endpoint -> book
 details.getLocation() -> old.location -> Berlin
-```
+----
 
-In the above two types of injection lookup, the configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified.
+==== ConfigProperties bean class validation
+
+The configuration properties class should contain a zero-arg constructor. Otherwise, the behaviour is unspecified.
 When performing property lookup, a `DeploymentException` will be thrown for the following scenarios:
 
 1. The property is missing and neither default value nor the property return type is optional.

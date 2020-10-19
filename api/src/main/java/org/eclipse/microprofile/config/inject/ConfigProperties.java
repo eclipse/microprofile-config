@@ -60,19 +60,21 @@ import javax.inject.Qualifier;
 @Documented
 @Qualifier
 public @interface ConfigProperties {
+    String UNCONFIGURED_PREFIX = "org.eclipse.microprofile.config.inject.configproperties.unconfiguredprefix";
+
     /**
      * The prefix of the configuration properties.
      *
      * @return the configuration property prefix
      */
     @Nonbinding
-    String prefix() default "";
+    String prefix() default UNCONFIGURED_PREFIX;
 
     /**
      * Support inline instantiation of the {@link ConfigProperties} qualifier.
      */
-    public final static class Literal extends AnnotationLiteral<ConfigProperties> implements ConfigProperties {
-        public static final Literal NO_PREFIX = of("");
+    final class Literal extends AnnotationLiteral<ConfigProperties> implements ConfigProperties {
+        public static final Literal NO_PREFIX = of(UNCONFIGURED_PREFIX);
 
         private static final long serialVersionUID = 1L;
         private final String prefix;
