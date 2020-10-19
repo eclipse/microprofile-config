@@ -29,7 +29,7 @@ A full list of changes delivered in the 2.0 release can be found at link:https:/
 - ConfigSource#getPropertyNames is no longer a default method. The implementation of a ConfigSource must implement this method. (link:https://github.com/eclipse/microprofile-config/issues/431[431])
 - Previous versions of the specification would not evaluate Property Expressions. As such, previous working
 configuration may behave differently (if the used configuration contains values with Property Expressions
-syntax). Check the link:property-expressions.asciidoc[Property Expressions] section on how to go back to the
+syntax). Check the <<property-expressions,Property Expressions>> section on how to go back to the
 previous behaviour.
 - Empty value or other special characters are no longer a valid config value for a particular return type. Refer to the earlier section of this spec for more details.
 In the previous release, the empty value was returned as an empty value. From now on, the empty value will cause `NoSuchElementException` to be thrown.
