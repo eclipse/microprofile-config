@@ -48,7 +48,7 @@ Consider the following configuration properties file:
 server.url=http://${server.host:example.org}:${server.port}/${server.endpoint}
 server.port=8080
 server.endpoint=${server.endpoint.path.${server.endpoint.path.bar}}
-server.endpoint.path.foo=/foo
+server.endpoint.path.foo=foo
 server.endpoint.path.bar=foo
 ----
 
