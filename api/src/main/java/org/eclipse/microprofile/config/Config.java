@@ -134,8 +134,8 @@ public interface Config {
 
     /**
      * Return the {@link ConfigValue} for the specified property name from the underlying {@linkplain ConfigSource
-     * configuration source}. The lookup of the configuration is performed immediatily, meaning that calls to
-     * {@link ConfigValue} will always yeld the same results.
+     * configuration source}. The lookup of the configuration is performed immediately, meaning that calls to
+     * {@link ConfigValue} will always yield the same results.
      * <p>
      * The configuration value is not guaranteed to be cached by the implementation, and may be expensive to compute;
      * therefore, if the returned value is intended to be frequently used, callers should consider storing rather than
@@ -279,7 +279,7 @@ public interface Config {
      * If the MP Config provider implementation does not support the specified class, a {@link IllegalArgumentException}
      * is thrown.
      * <p>
-     * Unwraping to the provider specific API may lead to non-portable behaviour.
+     * Unwrapping to the provider specific API may lead to non-portable behaviour.
      *
      * @param type
      *            Class representing the type to unwrap to
