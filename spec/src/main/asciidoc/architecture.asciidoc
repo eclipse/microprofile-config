@@ -30,13 +30,13 @@ All this must be possible without the need to re-package the whole application b
 
 MicroProfile Config provides a way to achieve this goal by aggregating configuration from many different <<configsource,ConfigSources>> and presents a single merged view to the user.
 This allows the application to bundle default configuration within the application.
-It also allows to override the defaults from outside or erase the property by simply specifying the property name without providing an value or an empty string as the value, 
+It also allows to override the defaults from outside or erase the property by simply specifying the property name without providing a value or an empty string as the value, 
 e.g. via an environment variable a Java system property or via a container like Docker.
 MicroProfile Config also allows to implement and register own configuration sources in a portable way, e.g. for reading configuration values from a shared database in an application cluster.
 
 
 Internally, the core MicroProfile Config mechanism is purely String/String based.
-Type-safety is intentionally only provided on top of that by using the proper <<Converter,Converters>> before handing the value out to the caller.
+Type-safety is intentionally only provided on top of that by using the proper <<converters,Converters>> before handing the value out to the caller.
 
 The configuration key might use dot-separated blocks to prevent name conflicts. This is similar to Java package namespacing:
 

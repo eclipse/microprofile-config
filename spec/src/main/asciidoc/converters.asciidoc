@@ -21,8 +21,8 @@
 // John D. Ament
 // Gunnar Morling
 
-[[converter]]
-== Converter
+[[converters]]
+== Converters
 
 For providing type-safe configuration we need to convert from the configured Strings into target types.
 This happens by providing ``Converter``s in the `Config`.
@@ -50,7 +50,7 @@ The converters for these types must throw an NPE if given a null value to conver
 
 A custom `Converter` must implement the generic interface `org.eclipse.microprofile.config.spi.Converter` and conform to
 the API requirements of that interface.
-The Type parameter of the interface is the target type the String is converted to. If your converter targets a wrapper of a primitive type (e.g. `java.lang.Integer`), the converter applies to both the wrapper type and the primitive type (e.g `int`)
+The Type parameter of the interface is the target type the String is converted to. If your converter targets a wrapper of a primitive type (e.g. `java.lang.Integer`), the converter applies to both the wrapper type and the primitive type (e.g. `int`)
 You have to register your implementation in a file `/META-INF/services/org.eclipse.microprofile.config.spi.Converter` with the fully qualified class name of the custom implementation.
 
 A custom `Converter` can define a priority with the `@javax.annotation.Priority` annotation.

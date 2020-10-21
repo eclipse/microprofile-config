@@ -23,7 +23,7 @@
 == Config Usage Examples
 
 
-An application can obtain it's configuration programmatically via the `ConfigProvider`.
+An application can obtain its configuration programmatically via the `ConfigProvider`.
 In CDI enabled beans it can also get injected via `@Inject Config`.
 An application can then access its configured values via this `Config` instance.
 
@@ -78,7 +78,7 @@ public class InjectedConfigUsageSample {
     @Inject
     private Config config;
 
-    //The property myprj.some.url must exist with a non empty value, otherwise a
+    //The property myprj.some.url must exist with a non-empty value, otherwise a
     //DeploymentException will be thrown.
     @Inject
     @ConfigProperty(name="myprj.some.url")
@@ -108,7 +108,7 @@ public class InjectedConfigUsageSample {
     //Injects a Provider for the value of myprj.some.dynamic.timeout property to
     //resolve the property dynamically. Each invocation to Provider#get() will
     //resolve the latest value from underlying Config.
-    //The existence of configured values will get checked during startup.
+    //The existence of configured values will get checked during start-up.
     //Instances of Provider<T> are guaranteed to be Serializable.
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")

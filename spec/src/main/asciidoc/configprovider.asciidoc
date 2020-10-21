@@ -49,7 +49,7 @@ There are 4 different ways to create a `Config` instance:
 * A factory method `ConfigProviderResolver#getBuilder()` to create a `ConfigBuilder` object.
 The builder has no config sources. Only the default converters are added. The `ConfigBuilder` object can be filled manually via methods like `ConfigBuilder#withSources(ConfigSources... sources)`.
    This configuration instance will by default not be shared by the `ConfigProvider`.
-  This method is intended be used if a IoC container or any other external Factory can be used to give access to a manually created shared `Config`.
+  This method is intended be used if an IoC container or any other external Factory can be used to give access to a manually created shared `Config`.
 ** Create a builder:
 +
 ```
@@ -77,7 +77,7 @@ The `Config` object created via builder pattern can be managed as follows:
 
 * A factory method `ConfigProviderResolver#releaseConfig(Config config)` to release the `Config` instance. This will unbind the current `Config` from the application.
 The <<configsource, ConfigSources>> that implement the `java.io.Closeable` interface will be properly destroyed.
-The <<converter, Converters>> that implement the `java.io.Closeable` interface will be properly destroyed.
+The <<converters, Converters>> that implement the `java.io.Closeable` interface will be properly destroyed.
 Any subsequent call to `ConfigProvider#getConfig()` or `ConfigProvider#getConfig(ClassLoader forClassLoader)` will result in a new `Config` instance.
 
 All methods in the `ConfigProvider`, `ConfigProviderResolver` and `Config` implementations are thread safe and reentrant.
