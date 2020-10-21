@@ -59,7 +59,7 @@ Optional case, an empty Optional will be returned.
 
 The number of recursion lookups is not infinite, but a limited number for composed expressions. Implementations are
 encouraged to limit the number to `5`, but they can use higher limits if they wish to. When the number of allowed
-lookups exceeds the limit, a `IllegalArgumentException` is thrown.
+lookups exceeds the limit, an `IllegalArgumentException` is thrown.
 
 Property expressions applies to all the methods in `Config` that performs resolution of a configuration property,
 including `getValue`, `getValues`, `getConfigValue`, `getValues`, `getOptionalValue`, `getOptionalValues`
@@ -71,7 +71,7 @@ defined via `org.eclipse.microprofile.config.inject.ConfigProperty#defaultValue`
 multiple candidates may be available.
 
 If a configuration property value or default value requires the raw value without expansion, the expression may be
-escaped with a backslash ("\", double "\\" for property file based sources). For instance:
+escaped with a backslash ("\", double "\\" for property file-based sources). For instance:
 
 [source,properties]
 ----
