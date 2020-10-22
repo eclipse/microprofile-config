@@ -70,8 +70,8 @@ import org.osgi.annotation.bundle.Requirement;
  *
  * <p>
  * Contrary to natively injecting, if the property is not specified, this will not lead to a DeploymentException. The
- * following code injects a Long value to the {@code my.optional.long.property}. If the property does not exist, the
- * value {@code 123} will be assigned. to {@code injectedLongValue}.
+ * following code injects a Long value to the {@code my.optional.long.property}. If the property is not defined, the
+ * value {@code 123} will be assigned to {@code injectedLongValue}.
  *
  * <pre>
  * &#064;Inject
@@ -139,12 +139,18 @@ public @interface ConfigProperty {
     String name() default "";
 
     /**
-     * The default value if the configured property value does not exist. Empty string as the default value will be
-     * ignored, which is same as not setting the default value.
+     * The default value if the configured property does not exist. This value acts as a configure source with the
+     * lowest ordinal.
      * <p>
-     * If the target Type is not String a proper {@link org.eclipse.microprofile.config.spi.Converter} will get applied.
-     * That means that any default value string should follow the formatting rules of the registered Converters.
-     *
+     * If the target Type is not String, a proper {@link org.eclipse.microprofile.config.spi.Converter} will get
+     * applied.
+     * 
+     * Empty string as the default value will be ignored, which is same as not setting the default value. That means
+     * that any default value string should follow the formatting rules of the registered Converters.
+     * 
+     * If a property has been emptied by a config source with a higher ordinal by setting an empty configuration value
+     * or by using a value causing the used converter returning {@code null}, the default value will not be used.
+     * 
      * @return the default value as a string
      */
     @Nonbinding
