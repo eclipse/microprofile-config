@@ -21,6 +21,7 @@ package org.eclipse.microprofile.config.tck;
 
 import java.util.Optional;
 
+import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.spi.CDI;
 import javax.inject.Inject;
@@ -42,16 +43,26 @@ import org.testng.annotations.Test;
  * @author <a href="mailto:emijiang6@googlemail.com">Emily Jiang</a>
  */
 public class ConfigPropertiesTest extends Arquillian {
-
-    private @Inject BeanOne customerBeanOne;
-
-    private @Inject @ConfigProperties(prefix = "client") BeanOne clientBeanOne;
-    private @Inject @ConfigProperties BeanOne beanOne;
-
-    private @Inject BeanTwo beanTwo;
-    private @Inject @ConfigProperties(prefix = "my") BeanTwo myBeanTwo;
-    private @Inject BeanFour myBeanFour;
-    private @Inject BeanThree beanThree;
+    @Inject
+    @ConfigProperties
+    private BeanOne customerBeanOne;
+    @Inject
+    @ConfigProperties(prefix = "client")
+    private BeanOne clientBeanOne;
+    @Inject
+    @ConfigProperties(prefix = "")
+    private BeanOne beanOne;
+    @Inject
+    @ConfigProperties
+    private BeanTwo beanTwo;
+    @Inject
+    @ConfigProperties(prefix = "my")
+    private BeanTwo myBeanTwo;
+    @Inject
+    @ConfigProperties
+    private BeanFour myBeanFour;
+    @Inject
+    private BeanThree beanThree;
 
     @Deployment
     public static WebArchive deploy() {
@@ -89,6 +100,7 @@ public class ConfigPropertiesTest extends Arquillian {
                         "META-INF/microprofile-config.properties")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
+
     @Test
     public void testConfigPropertiesPlainInjection() {
         Assert.assertEquals("Bob", customerBeanOne.getName());
@@ -97,6 +109,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new String[]{"Badminton", "Tennis"}, customerBeanOne.hobbies);
         Assert.assertEquals(new Location("2 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), customerBeanOne.location);
     }
+
     @Test
     public void testConfigPropertiesWithPrefix() {
         Assert.assertEquals("Rob", clientBeanOne.getName());
@@ -113,6 +126,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new String[]{"Football", "Tennis"}, bo.hobbies);
         Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
     }
+
     @Test
     public void testConfigPropertiesWithoutPrefix() {
         Assert.assertEquals("Harry", beanOne.getName());
@@ -122,7 +136,7 @@ public class ConfigPropertiesTest extends Arquillian {
         Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
 
         // programmatic lookup of the beans
-        BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.NO_PREFIX).get();
+        BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("")).get();
         Assert.assertEquals("Harry", bo.getName());
         Assert.assertEquals(21, bo.age);
         Assert.assertEquals("Plumber", bo.job);
@@ -191,6 +205,7 @@ public class ConfigPropertiesTest extends Arquillian {
         }
     }
 
+    @Dependent
     public static class BeanThree {
         public String name;
         public int age;
