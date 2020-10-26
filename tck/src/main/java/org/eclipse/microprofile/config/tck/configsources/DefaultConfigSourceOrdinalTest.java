@@ -82,7 +82,6 @@ public class DefaultConfigSourceOrdinalTest extends Arquillian {
             Assert.fail(
                     "Before running this test, the system property \"customer.hobby\" must be set with the value of Tennis");
         }
-
     }
 
     @Test

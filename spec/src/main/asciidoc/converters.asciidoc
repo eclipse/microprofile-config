@@ -102,6 +102,8 @@ If no built-in nor custom `Converter` exists for a requested Type `T`, an implic
 * The target type `T` has a `public static T parse(CharSequence)` method, or
 * The target type `T` has a public Constructor with a `String` parameter
 
+If a converter returns `null` for a given config value, the property will be treated as being deleted. If it is a required property, `NoSuchElementException` will be thrown. Even if `defaultValue` is specified on the property injection, the `defaultValue` will not be used.
+
 === Cleaning up a Converter
 
 If a `Converter` implements the `java.lang.AutoCloseable` interface  then the `close()` method will be called when the underlying `Config` is being released.

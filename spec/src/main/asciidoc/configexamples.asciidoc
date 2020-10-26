@@ -370,6 +370,10 @@ The table below defines the conversion rules, including some special edge case s
 
 |===
 
+=== Remove config properties
+Sometimes, there is a need to remove a property. This can be done by setting an empty value or a value causing the corresponding converter returning `null` in a config source. 
+When injecting a property that has been deleted, `DeploymentException` will be thrown unless the return type is `Optional`. 
+
 === Aggregate related properties into a CDI bean
 
 When injecting a number of related configuration properties, it can be tedious to repeat the statement of `ConfigProperty` in scatter places.

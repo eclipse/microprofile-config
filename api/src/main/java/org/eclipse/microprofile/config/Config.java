@@ -128,7 +128,7 @@ public interface Config {
      * @throws IllegalArgumentException
      *             if the property cannot be converted to the specified type
      * @throws java.util.NoSuchElementException
-     *             if the property is not defined or is defined as an empty string
+     *             if the property is not defined or is defined as an empty string or the converter returns {@code null}
      */
     <T> T getValue(String propertyName, Class<T> propertyType);
 
@@ -169,7 +169,8 @@ public interface Config {
      * @throws java.lang.IllegalArgumentException
      *             if the property values cannot be converted to the specified type
      * @throws java.util.NoSuchElementException
-     *             if the property isn't present in the configuration
+     *             if the property isn't present in the configuration or is defined as an empty string or the converter
+     *             returns {@code null}
      */
     default <T> List<T> getValues(String propertyName, Class<T> propertyType) {
         @SuppressWarnings("unchecked")
