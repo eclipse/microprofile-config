@@ -49,6 +49,7 @@ In the previous release, the empty value was returned as an empty value. From no
 - Clarifies that Converters for primitive wrappers apply to primitive types as well (link:https://github.com/eclipse/microprofile-config/issues/520[520])
 - Clarify that nulls cannot be passed in to Converters (link:https://github.com/eclipse/microprofile-config/pull/542[542])
 - Support Property Expressions: This provides a way to set and expand variables in property values (link:https://github.com/eclipse/microprofile-config/issues/118[118])
+- Specify the behaviour when a converter returns null (link:https://github.com/eclipse/microprofile-config/issues/608[608])
 
 === Other Changes
 - Update to Jakarta EE8 APIs for MP 4.0 (link:https://github.com/eclipse/microprofile-config/issues/469[469])
