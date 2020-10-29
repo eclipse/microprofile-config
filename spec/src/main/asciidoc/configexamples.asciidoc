@@ -324,7 +324,7 @@ The table below defines the conversion rules, including some special edge case s
 | "\,"
 | String[]
 | getValue
-| throws `NoSuchElementException`
+| {","}
 
 
 | "\,"
@@ -335,12 +335,12 @@ The table below defines the conversion rules, including some special edge case s
 | "\,"
 | String[]
 | getOptionalValue
-| Optional.empty()
+| Optional.of({","})
 
 | "\,"
 | String
 | getOptionalValues
-| Optional.empty()
+| Optional.of(List.of(","))
 
 | ",,"
 | String
