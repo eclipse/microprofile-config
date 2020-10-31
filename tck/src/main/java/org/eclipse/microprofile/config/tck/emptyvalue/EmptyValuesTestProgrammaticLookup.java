@@ -109,15 +109,23 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
         assertConfigurationNotPresentForOptionalMultiple("comma.string");
     }
 
-    @Test(expectedExceptions = NoSuchElementException.class)
+    @Test
     public void testBackslashCommaStringGetValueArray() {
         String[] values = config.getValue("backslash.comma.string", String[].class);
+        Assert.assertEquals(values, new String[]{","});
+
     }
 
     @Test
     public void testBackslashCommaStringGetValue() {
         String value = config.getValue("backslash.comma.string", String.class);
         Assert.assertEquals(value, "\\,");
+    }
+
+    @Test
+    public void testBackslashCommaStringGetOptionalValueAsArrayOrList() {
+        Assert.assertEquals(config.getOptionalValue("backslash.comma.string", String[].class).get(), new String[]{","});
+        Assert.assertEquals(config.getOptionalValues("backslash.comma.string", String.class).get(), Arrays.asList(","));
     }
 
     @Test
