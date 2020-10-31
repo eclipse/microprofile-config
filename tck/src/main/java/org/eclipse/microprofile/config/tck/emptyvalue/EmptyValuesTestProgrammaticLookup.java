@@ -123,7 +123,7 @@ public class EmptyValuesTestProgrammaticLookup extends Arquillian {
     }
 
     @Test
-    public void testBackslashCommaStringGetOptionalValueAsArrayorList() {
+    public void testBackslashCommaStringGetOptionalValueAsArrayOrList() {
         Assert.assertEquals(config.getOptionalValue("backslash.comma.string", String[].class).get(), new String[]{","});
         Assert.assertEquals(config.getOptionalValues("backslash.comma.string", String.class).get(), Arrays.asList(","));
     }
