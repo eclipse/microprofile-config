@@ -19,12 +19,10 @@
  */
 package org.eclipse.microprofile.config.tck.converters.convertToNull;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.spi.DeploymentException;
 import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.converters.Pizza;
 import org.eclipse.microprofile.config.tck.converters.PizzaConverter;
@@ -44,14 +42,14 @@ import org.testng.annotations.Test;
  */
 public class ConvertedNullValueBrokenInjectionTest extends Arquillian {
     private @Inject Config config;
-    private @Inject MyBean myBean;
+    private @Inject ConvertedNullValueBrokenInjectionBean myBean;
 
     @Deployment
     @ShouldThrowException(DeploymentException.class)
     public static Archive deployment() {
         return ShrinkWrap.create(WebArchive.class, "ConvertedNullValueBrokenInjectionTest.war")
                 .addClasses(ConvertedNullValueBrokenInjectionTest.class, Pizza.class, PizzaConverter.class,
-                        MyBean.class)
+                        ConvertedNullValueBrokenInjectionBean.class)
                 .addAsResource(
                         new StringAsset(
                                 "partial.pizza=cheese"),
@@ -63,16 +61,6 @@ public class ConvertedNullValueBrokenInjectionTest extends Arquillian {
 
     @Test
     public void test() {
-    }
-
-    @ApplicationScoped
-    public static class MyBean {
-
-        private @Inject @ConfigProperty(name = "partial.pizza", defaultValue = "medium:chicken") Pizza myPizza;
-
-        public Pizza getPizza() {
-            return myPizza;
-        }
     }
 
 }
