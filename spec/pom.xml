@@ -111,10 +111,7 @@
                         </goals>
                         <configuration>
                             <repositoryId>ossrh</repositoryId>
-                            <!--
                             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                            -->
-                            <url>file:/tmp/repo</url>
                             <file>${config.spec.pdf}</file>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${project.artifactId}</artifactId>
@@ -130,10 +127,7 @@
                         </goals>
                         <configuration>
                             <repositoryId>ossrh</repositoryId>
-                            <!--
                             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                            -->
-                            <url>file:/tmp/repo</url>
                             <file>${config.spec.html}</file>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>${project.artifactId}</artifactId>
