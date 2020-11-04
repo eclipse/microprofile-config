@@ -16,8 +16,8 @@
 //
 
 = Configuration for MicroProfile
-:authors: Mark Struberg, Emily Jiang, John D. Ament
-:email: struberg@apache.org, emijiang@uk.ibm.com, john.d.ament@gmail.com
+:authors: Mark Struberg, Emily Jiang, John D. Ament, Roberto Cortez, Jan Bernitt
+:email: struberg@apache.org, emijiang@uk.ibm.com, john.d.ament@gmail.com, radcortez@yahoo.com, jaanbernitt@gmail.com
 :version-label!:
 :sectanchors:
 :doctype: book
