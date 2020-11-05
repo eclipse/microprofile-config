@@ -103,12 +103,10 @@
                                 <artifact>
                                     <file>${config.spec.pdf}</file>
                                     <type>pdf</type>
-                                    <classifier>pdf</classifier>
                                 </artifact>
                                 <artifact>
                                     <file>${config.spec.html}</file>
                                     <type>html</type>
-                                    <classifier>html</classifier>
                                 </artifact>
                             </artifacts>
                         </configuration>
