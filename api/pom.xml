@@ -62,8 +62,55 @@
                 </dependencies>
             </plugin>
             <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/apidocs/doc-files/</outputDirectory>
+                            <overwrite>true</overwrite>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/javadoc/licenses/${revremark}/</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                        <failOnError>false</failOnError>
+                        <additionalparam>${javadoc.options}</additionalparam>
+                        <docfilessubdirs>true</docfilessubdirs>
+                        <attach>true</attach>
+                        <doclint>none</doclint>
+                        <doctitle>${project.name}</doctitle>
+                        <windowtitle>${project.name}</windowtitle>
+                        <header><![CDATA[<br>${project.name} v${project.version}]]></header>
+                        <bottom>
+<![CDATA[
+        Copyright &#169; ${inceptionYear} &#x2013; {currentYear} {organizationName}. All rights reserved.
+        <br>
+        Use is subject to <a href="{@docRoot}/doc-files/license.html" target="_top">license terms</a>.
+    ]]>
+                        </bottom>
+                        <tags>
+                            <tag>
+                                <name>implSpec</name>
+                                <placement>a</placement>
+                                <head>Implementation Specification:</head>
+                            </tag>
+                        </tags>
+                    </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>

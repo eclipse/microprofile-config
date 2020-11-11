@@ -34,6 +34,9 @@
         <bnd.version>5.1.0</bnd.version>
         <checkstyle.version>2.17</checkstyle.version>
         <checkstyle.methodNameFormat>^_?[a-z][a-zA-Z0-9]*$</checkstyle.methodNameFormat>
+        <revremark>Draft</revremark>
+        <inceptionYear>2016</inceptionYear>
+        
     </properties>
 
     <licenses>
@@ -374,8 +377,29 @@
                         <exclude>.editorconfig</exclude>
                         <exclude>.github/**</exclude>
                         <exclude>.cache/**</exclude>
+                        <exclude>**/*.html</exclude>
+                        <exclude>**/license-efsl.adoc</exclude>
+                        <exclude>**/*.asciidoc</exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.12</version>
+                    <executions>
+                        <execution>
+                            <id>timestamp-property</id>
+                            <goals>
+                                <goal>timestamp-property</goal>
+                            </goals>
+                            <phase>validate</phase>
+                            <configuration>
+                                <name>currentYear</name>
+                                <pattern>yyyy</pattern>
+                            </configuration>
+                        </execution>
+                    </executions>
             </plugin>
         </plugins>
     </build>
