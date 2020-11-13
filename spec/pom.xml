@@ -33,8 +33,6 @@
         <asciidoctorj-pdf.version>1.5.0-alpha.15</asciidoctorj-pdf.version>
         <maven.build.timestamp.format>MMMM dd, yyyy</maven.build.timestamp.format>
         <revisiondate>${maven.build.timestamp}</revisiondate>
-        <revremark>Draft</revremark>
-
         <config.spec.pdf>${project.build.directory}/generated-docs/${project.build.finalName}.pdf</config.spec.pdf>
         <config.spec.html>${project.build.directory}/generated-docs/${project.build.finalName}.html</config.spec.html>
     </properties>
