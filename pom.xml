@@ -380,6 +380,7 @@
                         <exclude>**/*.html</exclude>
                         <exclude>**/license-efsl.adoc</exclude>
                         <exclude>**/*.asciidoc</exclude>
+                        <exclude>**/*LICENSE*.md</exclude>
                     </excludes>
                 </configuration>
             </plugin>
