@@ -1,8 +1,8 @@
 ---
 name: Compatible Certification Request
 about: Start a request for a compatible certification 
-title: '[MP Component] [Version] Compatible Certification Request'
-label: 'Certification'
+title: 'MicroProfiel Config [Version] Compatible Certification Request'
+labels: 'Certification :trophy:'
 assignees: ''
 
 ---
