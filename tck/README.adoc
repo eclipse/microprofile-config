@@ -40,8 +40,6 @@ To enable the TCK in your implementation you require at least the following depe
 [source, xml]
 ----
 <properties>
-   <version.microprofile.config>2.0</version.microprofile.config>
-   <version.testng>6.14.3</version.testng>
    <version.weld.api>3.1.Final</version.weld.api>
 </properties>
 
@@ -49,34 +47,20 @@ To enable the TCK in your implementation you require at least the following depe
     <dependency>
         <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile-config-api</artifactId>
-        <version>${version.microprofile.config}</version>
+        <version>${project.version}</version>
     </dependency>
 
     <dependency>
         <groupId>jakarta.enterprise</groupId>
         <artifactId>jakarta.enterprise.cdi-api</artifactId>
-        <version>2.0.2</version>
-        <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-        <groupId>jakarta.annotation</groupId>
-        <artifactId>jakarta.annotation-api</artifactId>
-        <version>1.3.5</version>
+        <version>${dependency.jakarta.cdi.version}</version>
         <scope>provided</scope>
     </dependency>
 
     <dependency>
         <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile-config-tck</artifactId>
-        <version>${version.microprofile.config}</version>
-        <scope>test</scope>
-    </dependency>
-
-    <dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>${version.testng}</version>
+        <version>${project.version}</version>
         <scope>test</scope>
     </dependency>
 

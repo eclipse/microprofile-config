@@ -21,8 +21,8 @@ package org.eclipse.microprofile.config.tck.profile;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.CDI;
