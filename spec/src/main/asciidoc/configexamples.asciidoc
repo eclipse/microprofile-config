@@ -496,10 +496,10 @@ Therefore, this will retrieve the following properties.
 
 [source, properties]
 ----
-serverDetails.host -> server.host -> localhost
-serverDetails.port -> server.port -> 9080
-serverDetails.endpoint -> server.endpoint -> query
-serverDetails.getLocation() -> server.old.location -> London
+details.host -> server.host -> localhost
+details.port -> server.port -> 9080
+details.endpoint -> server.endpoint -> query
+details.getLocation() -> server.old.location -> London
 ----
 
 If `@ConfigProperties` specifies an empty prefix at the injection point:
