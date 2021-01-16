@@ -35,7 +35,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -45,7 +45,7 @@ import org.testng.annotations.Test;
  * Prerequisite: The following environment variables must be set prior to running this test: "my_int_property" with the
  * value of "45" "MY_BOOLEAN_PROPERTY" with the value of "true" "my_string_property" with the value of "haha"
  * "MY_STRING_PROPERTY" with the value of "woohoo"
- * 
+ *
  * @author Emily Jiang
  */
 public class CDIPropertyNameMatchingTest extends Arquillian {

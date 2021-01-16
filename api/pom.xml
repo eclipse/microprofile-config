@@ -17,183 +17,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <!-- This is just for now and will not work if the API has a separate release cycle than the rest. -->
         <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile-config-parent</artifactId>
         <version>2.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-api</artifactId>
     <name>MicroProfile Config API</name>
     <description>MicroProfile Config :: API</description>
-    <url>https://microprofile.io/project/eclipse/microprofile-config</url>
+
     <dependencies>
+        <dependency>
+            <groupId>jakarta.enterprise</groupId>
+            <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>biz.aQute.bnd</groupId>
             <artifactId>biz.aQute.bnd.annotation</artifactId>
         </dependency>
         <dependency>
-            <groupId>jakarta.enterprise</groupId>
-            <artifactId>jakarta.enterprise.cdi-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.service.cdi</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>osgi.annotation</artifactId>
-        </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>net.revelc.code.formatter</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.eclipse.microprofile.config</groupId>
-                        <artifactId>microprofile-config-build-tools</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/apidocs/doc-files/</outputDirectory>
-                            <overwrite>true</overwrite>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/javadoc/licenses/${revremark}/</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                        <failOnError>false</failOnError>
-                        <additionalparam>${javadoc.options}</additionalparam>
-                        <docfilessubdirs>true</docfilessubdirs>
-                        <attach>true</attach>
-                        <doclint>none</doclint>
-                        <doctitle>${project.name}</doctitle>
-                        <windowtitle>${project.name}</windowtitle>
-                        <header><![CDATA[<br>${project.name} v${project.version}]]></header>
-                        <bottom>
-<![CDATA[
-        Copyright &#169; ${inceptionYear} &#x2013; {currentYear} {organizationName}. All rights reserved.
-        <br>
-        Use is subject to <a href="{@docRoot}/doc-files/license.html" target="_top">license terms</a>.
-    ]]>
-                        </bottom>
-                        <tags>
-                            <tag>
-                                <name>implSpec</name>
-                                <placement>a</placement>
-                                <head>Implementation Specification:</head>
-                            </tag>
-                        </tags>
-                    </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>biz.aQute.bnd</groupId>
-                <artifactId>bnd-maven-plugin</artifactId>
-                <version>${bnd.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>bnd-process</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>biz.aQute.bnd</groupId>
-                <artifactId>bnd-baseline-maven-plugin</artifactId>
-                <version>${bnd.version}</version>
-                <configuration>
-                    <base>
-                        <version>1.4</version>
-                    </base>
-                    <includeDistributionManagement>false</includeDistributionManagement>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>baseline</id>
-                        <goals>
-                            <goal>baseline</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>eclipse-jarsigner</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.eclipse.cbi.maven.plugins</groupId>
-                        <artifactId>eclipse-jarsigner-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
