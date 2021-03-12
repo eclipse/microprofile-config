@@ -41,6 +41,7 @@ The following ``Converter``s are provided by MicroProfile Config by default:
 * `double`, `java.lang.Double`, and `java.util.OptionalDouble`; a dot '.' is used to separate the fractional digits
 * `char` and `java.lang.Character`
 * `java.lang.Class` based on the result of `Class.forName`
+* `java.lang.String`
 
 All built-in ``Converter``s have the `@Priority` of `1`.
 
