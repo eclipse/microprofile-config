@@ -433,7 +433,7 @@ public class Details {
 
 You can then use one of the following to retrieve the properties.
 
-==== Programmatic lookup of the bean annotated with `@ConfigProperites`
+==== Programmatic lookup of the bean annotated with `@ConfigProperties`
 
 Since the class with `@ConfigProperties` is a CDI bean, you can use the programmatic lookup provided by CDI, e.g.
 
