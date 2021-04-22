@@ -40,6 +40,7 @@ import javax.inject.Qualifier;
  *
  * <pre>
  * &#064;ConfigProperties(prefix = "server")
+ * &#064;Dependent
  * public class MyServer {
  *     public String host; // maps the property name server.host
  *     public int port; // maps to the property name server.port
