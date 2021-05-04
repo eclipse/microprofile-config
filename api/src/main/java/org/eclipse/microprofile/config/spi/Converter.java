@@ -67,7 +67,6 @@ import java.io.Serializable;
  * <li>{@code double}, {@code Double}, and {@code OptionalDouble} accepting (at minimum) all values accepted by the
  * {@link Double#parseDouble(String)} method</li>
  * <li>{@code java.lang.Class} based on the result of {@link java.lang.Class#forName}</li>
- * <li>{@code java.lang.String}</li>
  * </ul>
  *
  * <h3 id="discovery">Global converter discovery</h3>
