@@ -1733,7 +1733,9 @@ public class ArrayConverterTest extends Arquillian {
         URL[] single = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URL[].class);
         Assert.assertNotNull(single);
         Assert.assertEquals(single.length, 1);
-        Assert.assertEquals(single[0].toURI(), new URL[]{new URL("http://microprofile.io")}[0].toURI());
+        URL[] expectedSingleValue = new URL[]{
+                new URL("http://microprofile.io")};
+        assertURLArrayEquals(single, expectedSingleValue);
     }
 
     @Test

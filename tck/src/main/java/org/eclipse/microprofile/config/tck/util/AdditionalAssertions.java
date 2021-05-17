@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017-2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,13 +31,23 @@ import java.util.stream.IntStream;
 import org.testng.Assert;
 
 /**
- *
- * @author Joseph Cass
+ * @author <a href="mailto:emijiang6@googlemail.com">Emily Jiang</a>
+ * @author <a href="mailto:josephcass149@gmail.com">Joseph Cass</a>
  */
 public final class AdditionalAssertions {
 
     private AdditionalAssertions() {
         // utility class
+    }
+
+    /**
+     * Use URI.equals() since URL.equals() performs DNS resolution which is undesired. See #549
+     * 
+     * @throws URISyntaxException
+     *             if either URL is not formatted correctly
+     */
+    public static boolean urlEquals(URL expected, URL actual) throws URISyntaxException {
+        return (expected.toURI().equals(actual.toURI()));
     }
 
     public static void assertURLArrayEquals(URL[] value, URL[] expectedValue) throws MalformedURLException {
@@ -48,7 +58,7 @@ public final class AdditionalAssertions {
 
         Assert.assertTrue(IntStream.range(0, expectedValue.size()).allMatch(i -> {
             try {
-                return expectedValue.get(i).toURI().equals(value.get(i).toURI());
+                return urlEquals(expectedValue.get(i), value.get(i));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -67,7 +77,7 @@ public final class AdditionalAssertions {
             boolean found = false;
             URL url = it.next();
             for (URL thisURL : expectedURLSet) {
-                if (thisURL.toURI().equals(url.toURI())) {
+                if (urlEquals(thisURL, url)) {
                     found = true;
                     break;
                 }
