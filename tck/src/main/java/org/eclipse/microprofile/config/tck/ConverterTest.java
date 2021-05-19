@@ -19,6 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import static org.eclipse.microprofile.config.tck.util.AdditionalAssertions.urlEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
@@ -714,9 +717,9 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test
-    public void testURLConverter() throws MalformedURLException {
+    public void testURLConverter() throws MalformedURLException, URISyntaxException {
         URL url = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URL.class);
-        Assert.assertEquals(url, new URL("http://microprofile.io"));
+        Assert.assertTrue(urlEquals(url, new URL("http://microprofile.io")));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -725,9 +728,9 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test
-    public void testGetURLConverter() throws MalformedURLException {
+    public void testGetURLConverter() throws MalformedURLException, URISyntaxException {
         URL url = config.getConverter(URL.class).get().convert("http://microprofile.io");
-        Assert.assertEquals(url, new URL("http://microprofile.io"));
+        Assert.assertTrue(urlEquals(url, new URL("http://microprofile.io")));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
