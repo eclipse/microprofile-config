@@ -32,5 +32,5 @@
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  *
  */
-@org.osgi.annotation.versioning.Version("2.0")
+@org.osgi.annotation.versioning.Version("3.0")
 package org.eclipse.microprofile.config.spi;

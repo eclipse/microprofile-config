@@ -82,5 +82,5 @@
  * @author <a href="emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-@org.osgi.annotation.versioning.Version("2.0.0")
+@org.osgi.annotation.versioning.Version("3.0.0")
 package org.eclipse.microprofile.config;

@@ -19,11 +19,11 @@
  */
 package org.eclipse.microprofile.config.tck.broken;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
 
 /**
  * A bean supporting the {@link MissingValueOnObserverMethodInjectionTest} test that injects a non-existent

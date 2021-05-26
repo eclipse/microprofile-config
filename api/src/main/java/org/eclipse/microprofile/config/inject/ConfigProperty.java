@@ -29,16 +29,16 @@ import static org.osgi.service.cdi.CDIConstants.CDI_EXTENSION_PROPERTY;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.enterprise.util.Nonbinding;
-import javax.inject.Qualifier;
-
 import org.osgi.annotation.bundle.Requirement;
+
+import jakarta.enterprise.util.Nonbinding;
+import jakarta.inject.Qualifier;
 
 /**
  * Binds the injection point with a configured value.
  * <p>
  * Can be used to annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or
- * {@code javax.inject.Provider<TYPE>}, where {@code TYPE} can be {@code String} and all types which have appropriate
+ * {@code jakarta.inject.Provider<TYPE>}, where {@code TYPE} can be {@code String} and all types which have appropriate
  * converters.
  * <p>
  * Injected values are the same values that would be retrieved from an injected

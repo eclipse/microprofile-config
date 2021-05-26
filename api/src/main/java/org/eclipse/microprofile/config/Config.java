@@ -51,7 +51,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * the programmatically created ones are not required to be serializable.
  * <p>
  * If one or more converters are registered for a class of a requested value then the registered
- * {@link org.eclipse.microprofile.config.spi.Converter} which has the highest {@code @javax.annotation.Priority} is
+ * {@link org.eclipse.microprofile.config.spi.Converter} which has the highest {@code @jakarta.annotation.Priority} is
  * used to convert the string value retrieved from the config sources.
  *
  * <h2>Usage</h2>

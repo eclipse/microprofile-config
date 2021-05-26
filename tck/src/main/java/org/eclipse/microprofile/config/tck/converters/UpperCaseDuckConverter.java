@@ -20,9 +20,9 @@
 
 package org.eclipse.microprofile.config.tck.converters;
 
-import javax.annotation.Priority;
-
 import org.eclipse.microprofile.config.spi.Converter;
+
+import jakarta.annotation.Priority;
 
 /**
  * Always create a duck with an upper case name

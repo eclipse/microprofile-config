@@ -100,7 +100,7 @@ import java.io.Serializable;
  * <h3 id="priority">Converter priority</h3>
  *
  * <p>
- * A converter implementation class can specify a priority by way of the standard {@code javax.annotation.Priority}
+ * A converter implementation class can specify a priority by way of the standard {@code jakarta.annotation.Priority}
  * annotation or by explicitly specifying the priority value to the appropriate
  * {@linkplain ConfigBuilder#withConverter(Class, int, Converter) builder method}.
  * <p>
