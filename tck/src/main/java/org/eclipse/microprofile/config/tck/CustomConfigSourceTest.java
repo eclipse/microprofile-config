@@ -21,8 +21,6 @@ package org.eclipse.microprofile.config.tck;
 
 import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
@@ -36,6 +34,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import jakarta.inject.Inject;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>

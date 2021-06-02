@@ -19,8 +19,6 @@
  */
 package org.eclipse.microprofile.config.tck;
 
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
@@ -37,6 +35,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import jakarta.inject.Inject;
 
 public class CustomConverterTest extends Arquillian {
     private @Inject Config config;
@@ -91,7 +91,7 @@ public class CustomConverterTest extends Arquillian {
     @Test
     public void testDouble() {
         Double value = config.getValue("tck.config.test.javaconfig.custom.converter.doublevalue", Double.class);
-        Assert.assertEquals(value, 999.9);
+        Assert.assertEquals(value, new Double(999.9));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class CustomConverterTest extends Arquillian {
     @Test
     public void testGetDoubleConverter() {
         Double value = config.getConverter(Double.class).get().convert("1.0");
-        Assert.assertEquals(value, 999.9);
+        Assert.assertEquals(value, new Double(999.9));
     }
 
     @Test

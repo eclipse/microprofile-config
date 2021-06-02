@@ -39,8 +39,6 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
@@ -62,6 +60,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import jakarta.inject.Inject;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -314,7 +314,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testFloat() {
         Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class);
-        Assert.assertEquals(value, 12.34f);
+        Assert.assertEquals(value, new Float(12.34f));
     }
 
     @Test
@@ -331,7 +331,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetFloatConverter() {
         Float value = config.getConverter(Float.class).get().convert("12.34");
-        Assert.assertEquals(value, 12.34f);
+        Assert.assertEquals(value, new Float(12.34f));
     }
 
     @Test
@@ -348,7 +348,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testDouble() {
         Double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue", Double.class);
-        Assert.assertEquals(value, 12.34d);
+        Assert.assertEquals(value, new Double(12.34d));
     }
 
     @Test
@@ -365,7 +365,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetDoubleConverter() {
         Double value = config.getConverter(Double.class).get().convert("12.34");
-        Assert.assertEquals(value, 12.34d);
+        Assert.assertEquals(value, new Double(12.34d));
     }
 
     @Test
