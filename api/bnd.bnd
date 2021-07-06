@@ -19,12 +19,12 @@ Bundle-SymbolicName: org.eclipse.microprofile.config
         osgi.contract=JavaCDI;\
         version:List<Version>='2.0,1.1';\
         uses:='\
-            javax.decorator,\
-            javax.enterprise.context,\
-            javax.enterprise.context.spi,\
-            javax.enterprise.event,\
-            javax.enterprise.inject,\
-            javax.enterprise.inject.spi,\
-            javax.enterprise.util'
+            jakarta.decorator,\
+            jakarta.enterprise.context,\
+            jakarta.enterprise.context.spi,\
+            jakarta.enterprise.event,\
+            jakarta.enterprise.inject,\
+            jakarta.enterprise.inject.spi,\
+            jakarta.enterprise.util'
 
 # [1] https://www.osgi.org/portable-java-contract-definitions/

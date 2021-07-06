@@ -112,7 +112,7 @@ public class InjectedConfigUsageSample {
     //Instances of Provider<T> are guaranteed to be Serializable.
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
-    private javax.inject.Provider<Long> timeout;
+    private jakarta.inject.Provider<Long> timeout;
 
     //Injects a Supplier for the value of myprj.some.supplier.timeout property to
     //resolve the property dynamically. Each invocation to Supplier#get() will
