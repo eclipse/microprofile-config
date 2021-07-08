@@ -55,7 +55,8 @@ server.endpoint.path.bar=foo
 The property `server.url` is expanded to `http://example.org:8080/foo`.
 
 If an expression cannot be expanded and does not have a default value, a `NoSuchElementException` is thrown. In the
-Optional case, an empty Optional will be returned.
+Optional case, an empty Optional will be returned. In the `ConfigValue` case, an `ConfigValue` with only
+the name of the property will be returned.
 
 The number of recursion lookups is not infinite, but a limited number for composed expressions. Implementations are
 encouraged to limit the number to `5`, but they can use higher limits if they wish to. When the number of allowed

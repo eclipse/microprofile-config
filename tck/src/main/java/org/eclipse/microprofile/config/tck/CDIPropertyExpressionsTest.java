@@ -19,9 +19,16 @@
 package org.eclipse.microprofile.config.tck;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
 
 import org.eclipse.microprofile.config.ConfigValue;
@@ -64,6 +71,20 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         assertEquals(propertyExpressionBean.expressionDefault, "${expression}");
     }
 
+    @Test
+    public void badExpansion() {
+        assertFalse(propertyExpressionBean.badExpansion.isPresent());
+        assertFalse(propertyExpressionBean.badExpansionInt.isPresent());
+        assertFalse(propertyExpressionBean.badExpansionDouble.isPresent());
+        assertFalse(propertyExpressionBean.badExpansionLong.isPresent());
+
+        assertNotNull(propertyExpressionBean.badExpansionConfigValue);
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getName(), "expression");
+        assertNull(propertyExpressionBean.badExpansionConfigValue.getValue());
+        assertNull(propertyExpressionBean.badExpansionConfigValue.getSourceName());
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getSourceOrdinal(), 0);
+    }
+
     @Dependent
     public static class PropertyExpressionBean {
         @Inject
@@ -75,6 +96,19 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         @Inject
         @ConfigProperty(name = "another.prop", defaultValue = "${expression}")
         String expressionDefault;
+        @ConfigProperty(name = "bad.property.expression.prop")
+        Optional<String> badExpansion;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        OptionalInt badExpansionInt;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        OptionalDouble badExpansionDouble;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        OptionalLong badExpansionLong;
+        @ConfigProperty(name = "bad.property.expression.prop")
+        ConfigValue badExpansionConfigValue;
     }
 
     public static class PropertyExpressionConfigSource implements ConfigSource {
@@ -83,6 +117,7 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         public PropertyExpressionConfigSource() {
             properties.put("my.prop", "${expression}");
             properties.put("expression", "1234");
+            properties.put("bad.property.expression.prop", "${missing.prop}");
         }
 
         @Override

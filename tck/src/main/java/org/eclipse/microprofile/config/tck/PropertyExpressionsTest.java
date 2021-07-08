@@ -21,6 +21,8 @@ package org.eclipse.microprofile.config.tck;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.microprofile.config.Config.PROPERTY_EXPRESSIONS_ENABLED;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertThrows;
 
 import java.util.ArrayList;
@@ -28,10 +30,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigValue;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -124,10 +128,48 @@ public class PropertyExpressionsTest extends Arquillian {
     }
 
     @Test
+    void noExpressionButOptional() {
+        Config config = buildConfig("expression", "${my.prop}");
+
+        assertEquals(Optional.empty(), config.getOptionalValue("expression", String.class));
+    }
+
+    @Test
+    void noExpressionButConfigValue() {
+        Config config = buildConfig("expression", "${my.prop}");
+
+        ConfigValue configValue = config.getConfigValue("expression");
+        assertNotNull(configValue);
+        assertEquals(configValue.getName(), "expression");
+        assertNull(configValue.getValue());
+        assertNull(configValue.getSourceName());
+        assertEquals(configValue.getSourceOrdinal(), 0);
+    }
+
+    @Test
     public void noExpressionComposed() {
         Config config = buildConfig("expression", "${my.prop${compose}}");
 
         assertThrows(NoSuchElementException.class, () -> config.getValue("expression", String.class));
+    }
+
+    @Test
+    void noExpressionComposedButOptional() {
+        Config config = buildConfig("expression", "${my.prop${compose}}");
+
+        assertEquals(Optional.empty(), config.getOptionalValue("expression", String.class));
+    }
+
+    @Test
+    void noExpressionComposedButConfigValue() {
+        Config config = buildConfig("expression", "${my.prop${compose}}");
+
+        ConfigValue configValue = config.getConfigValue("expression");
+        assertNotNull(configValue);
+        assertEquals(configValue.getName(), "expression");
+        assertNull(configValue.getValue());
+        assertNull(configValue.getSourceName());
+        assertEquals(configValue.getSourceOrdinal(), 0);
     }
 
     @Test
