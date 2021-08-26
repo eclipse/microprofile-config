@@ -19,12 +19,31 @@
 // John D. Ament
 // Emily Jiang
 
+[[release_notes]]
+== Release Notes
+This section documents the changes introduced by individual releases.
+
+[[release_notes_30]]
+=== Release Notes for MicroProfile Config 3.0
+
+A full list of changes delivered in the 3.0 release can be found at link:https://github.com/eclipse/microprofile-config/milestone/10?closed=1[MicroProfile Config 3.0 Milestone].
+
+==== Incompatible Changes
+This release aligns with Jakarta EE 9.1, so it won't work with earlier versions of Jakarta or Java EE.
+
+==== API/SPI Changes
+There are no functional changes introduced in this release, except the dependency updating from javax to jakarta.
+
+==== Other Changes
+- @ConfigProperties Javadoc clarification (link:https://github.com/eclipse/microprofile-config/issues/618[618])
+- The Spec and JavaDoc are inconsistent about String Converters (link:https://github.com/eclipse/microprofile-config/issues/680[680])
+
 [[release_notes_20]]
-== Release Notes for MicroProfile Config 2.0
+=== Release Notes for MicroProfile Config 2.0
 
 A full list of changes delivered in the 2.0 release can be found at link:https://github.com/eclipse/microprofile-config/milestone/8?closed=1[MicroProfile Config 2.0 Milestone].
 
-=== Incompatible Changes
+==== Incompatible Changes
 
 - ConfigSource#getPropertyNames is no longer a default method. The implementation of a ConfigSource must implement this method. (link:https://github.com/eclipse/microprofile-config/issues/431[431])
 - Previous versions of the specification would not evaluate Property Expressions. As such, previous working
@@ -36,14 +55,14 @@ In the previous release, the empty value was returned as an empty value. From no
 (link:https://github.com/eclipse/microprofile-config/issues/446[446]) (link:https://github.com/eclipse/microprofile-config/issues/531[531])
 (link:https://github.com/eclipse/microprofile-config/issues/532[532]) (link:https://github.com/eclipse/microprofile-config/issues/397[397]) (link:https://github.com/eclipse/microprofile-config/issues/633[633])
 
-=== API/SPI Changes
+==== API/SPI Changes
 - Convenience methods have been added to Config allowing for the retrieval of multi-valued properties as lists instead of arrays (link:https://github.com/eclipse/microprofile-config/issues/496[#496])
 - Enable bulk-extraction of config properties into a separate POJO by introducing `@ConfigProperties` (link:https://github.com/eclipse/microprofile-config/issues/240[240])
 - Enable users to determine the winning source for a configuration value (link:https://github.com/eclipse/microprofile-config/issues/312[312]) (link:https://github.com/eclipse/microprofile-config/issues/43[43])
 - Expose conversion mechanism in Config API (link:https://github.com/eclipse/microprofile-config/issues/492[492])
 - Add unwrap() methods to Config (link:https://github.com/eclipse/microprofile-config/issues/84[84])
 
-=== Functional Changes
+==== Functional Changes
 - Support Configuration Profiles so that the corresponding properties associated with the active profile are used (link:https://github.com/eclipse/microprofile-config/issues/418[#418])
 - Provide built-in Converters: OptinalInt, OptionalLong and OptionalDouble (link:https://github.com/eclipse/microprofile-config/issues/513[513])
 - Clarifies that Converters for primitive wrappers apply to primitive types as well (link:https://github.com/eclipse/microprofile-config/issues/520[520])
@@ -51,60 +70,60 @@ In the previous release, the empty value was returned as an empty value. From no
 - Support Property Expressions: This provides a way to set and expand variables in property values (link:https://github.com/eclipse/microprofile-config/issues/118[118])
 - Specify the behaviour when a converter returns null (link:https://github.com/eclipse/microprofile-config/issues/608[608])
 
-=== Other Changes
+==== Other Changes
 - Update to Jakarta EE8 APIs for MP 4.0 (link:https://github.com/eclipse/microprofile-config/issues/469[469])
 - Enable MicroProfile Config repo to be built with Java 11 (link:https://github.com/eclipse/microprofile-config/issues/555[555])
 - TCK changes: (link:https://github.com/eclipse/microprofile-config/issues/563[563]) (link:https://github.com/eclipse/microprofile-config/issues/319[319]) (link:https://github.com/eclipse/microprofile-config/issues/573[573])
 - Spec clarification: (link:https://github.com/eclipse/microprofile-config/issues/371[371])
 
 [[release_notes_14]]
-== Release Notes for MicroProfile Config 1.4
+=== Release Notes for MicroProfile Config 1.4
 
 A full list of changes delivered in the 1.4 release can be found at link:https://github.com/eclipse/microprofile-config/milestone/7?closed=1[MicroProfile Config 1.4 Milestone].
 
-=== API/SPI Changes
+==== API/SPI Changes
 
 - Prevent incorrect caching of ConfigProviderResolver (link:https://github.com/eclipse/microprofile-config/issues/265[#265])
 - ConfigProviderResolver classloading issues (link:https://github.com/eclipse/microprofile-config/issues/450[#450]) (link:https://github.com/eclipse/microprofile-config/issues/390[#390])
 - Converter extends Serializable (link:https://github.com/eclipse/microprofile-config/issues/473[#473])
 
-=== Spec Changes
+==== Spec Changes
 
 - Change the priority of implicit converters (link:https://github.com/eclipse/microprofile-config/issues/383[#383])
 - Clarify if @ConfigProperty injected values are bean passivating enabled (link:https://github.com/eclipse/microprofile-config/issues/404[#404])
 - Add built-in converters for byte, short and char (link:https://github.com/eclipse/microprofile-config/issues/386[#386])
 
 
-=== Other Changes
+==== Other Changes
 
 - Exclude EL API transitive dependency (link:https://github.com/eclipse/microprofile-config/issues/440[#440])
 - Other minor spec wording or Javadoc updates
 
 [[release_notes_13]]
-== Release Notes for MicroProfile Config 1.3
+=== Release Notes for MicroProfile Config 1.3
 
 The following changes occurred in the 1.3 release, compared to 1.2
 
 A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/4?closed=1[MicroProfile Config 1.3 Milestone]
 
-=== API/SPI Changes
+==== API/SPI Changes
 
 No API/SPI changes.
 
-=== Functional Changes
+==== Functional Changes
 
 - The implicit (common sense) converters have been improved and some of the built-in converters are removed from the spec as they are covered by implicit converters. The method invocation sequence on implicit converters are further improved (link:https://github.com/eclipse/microprofile-config/issues/325[#325]).
 
 - Implementations must also support the mapping of a config property to the corresponding environment variable (link:https://github.com/eclipse/microprofile-config/issues/264[#264])
 
-=== Specification Changes
+==== Specification Changes
 
 - Specification changes to document
  (link:https://github.com/eclipse/microprofile-config/issues/348[#348]),
  (link:https://github.com/eclipse/microprofile-config/issues/325[#325]),
  (link:https://github.com/eclipse/microprofile-config/issues/264[#264])
 
-=== Other Changes
+==== Other Changes
 More CTS were added:
 
 - Assert URI will be converted (link:https://github.com/eclipse/microprofile-config/issues/322[#322])
@@ -116,17 +135,17 @@ More CTS were added:
 Java2 security related change (link:https://github.com/eclipse/microprofile-config/issues/343[#343])
 
 [[release_notes_12]]
-== Release Notes for MicroProfile Config 1.2
+=== Release Notes for MicroProfile Config 1.2
 
 The following changes occurred in the 1.2 release, compared to 1.1
 
 A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/3?closed=1[MicroProfile Config 1.2 Milestone]
 
-=== API/SPI Changes
+==== API/SPI Changes
 
 - The `ConfigBuilder` SPI has been extended with a method that allows for a converter with the specified class type to be registered  (link:https://github.com/eclipse/microprofile-config/issues/205[#205]). This change removes the limitation, which was unable to add a lambda converter, from the previous releases.
 
-=== Functional Changes
+==== Functional Changes
 
 - Implementations must now support the array converter (link:https://github.com/eclipse/microprofile-config/issues/259[#259]).
 For the array converter, the programmatic lookup of a property (e.g. `config.getValue(myProp, String[].class)`) must support the return type of the array. For the injection lookup, an Array, List or Set must be supported as well (e.g. `@Inject @ConfigProperty(name="myProp") private List<String> propValue;`).
@@ -135,7 +154,7 @@ For the array converter, the programmatic lookup of a property (e.g. `config.get
 
 - Implementations must also support Class converter (link:https://github.com/eclipse/microprofile-config/issues/267[#267])
 
-=== Specification Changes
+==== Specification Changes
 
 - Specification changes to document
  (link:https://github.com/eclipse/microprofile-config/issues/205[#205]),
@@ -143,30 +162,28 @@ For the array converter, the programmatic lookup of a property (e.g. `config.get
  (link:https://github.com/eclipse/microprofile-config/issues/269[#269])
  (link:https://github.com/eclipse/microprofile-config/issues/267[#267])
 
-=== Other Changes
+==== Other Changes
 The API bundle can work with either CDI 1.2 or CDI 2.0 in OSGi environment (link:https://github.com/eclipse/microprofile-config/issues/249[#249]).
 
 A TCK test was added to ensure the search path of `microprofile-config.properties` for a `war` archive is `WEB-INF\classes\META-INF` (link:https://github.com/eclipse/microprofile-config/issues/268[#268])
 
-
-[[release_notes_11]]
-== Release Notes for MicroProfile Config 1.1
+=== Release Notes for MicroProfile Config 1.1
 
 The following changes occurred in the 1.1 release, compared to 1.0
 
 A full list of changes may be found on the link:https://github.com/eclipse/microprofile-config/milestone/2?closed=1[MicroProfile Config 1.1 Milestone]
 
-=== API/SPI Changes
+==== API/SPI Changes
 
 - The `ConfigSource` SPI has been extended with a default method that returns the property names for a given `ConfigSource`  (link:https://github.com/eclipse/microprofile-config/issues/178[#178])
 
-=== Functional Changes
+==== Functional Changes
 
 - Implementations must now include a `URL` Converter, of `@Priority(1)` (link:https://github.com/eclipse/microprofile-config/issues/181[#181])
 - The format of the default property name for an injection point using `@ConfigProperty` has been changed to no longer lower case the first letter of the class.  Implementations may still support this behavior.  Instead, MicroProfile Config 1.1 requires the actual class name to be used. (link:https://github.com/eclipse/microprofile-config/issues/233[#233])
 - Implementations must now support primitive types, in addition to the already specified primitive type wrappers (link:https://github.com/eclipse/microprofile-config/issues/204[#204])
 
-=== Specification Changes
+==== Specification Changes
 
 - Clarified what it means for a value to be present (link:https://github.com/eclipse/microprofile-config/issues/216[#216])
 
