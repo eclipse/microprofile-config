@@ -29,13 +29,13 @@ This section documents the changes introduced by individual releases.
 A full list of changes delivered in the 3.0 release can be found at link:https://github.com/eclipse/microprofile-config/milestone/10?closed=1[MicroProfile Config 3.0 Milestone].
 
 ==== Incompatible Changes
-This release aligns with Jakarta EE 9.1, so it won't work with earlier versions of Jakarta or Java EE.
+This release aligns with Jakarta EE 9.1 (link:https://github.com/eclipse/microprofile-config/issues/668[668]), so it won't work with earlier versions of Jakarta or Java EE.
 
 ==== API/SPI Changes
 There are no functional changes introduced in this release, except the dependency updating from javax to jakarta.
 
 ==== Other Changes
-- @ConfigProperties Javadoc clarification (link:https://github.com/eclipse/microprofile-config/issues/618[618])
+- @ConfigProperties Javadoc clarification (link:https://github.com/eclipse/microprofile-config/issues/681[681])
 - The Spec and JavaDoc are inconsistent about String Converters (link:https://github.com/eclipse/microprofile-config/issues/680[680])
 
 [[release_notes_20]]
