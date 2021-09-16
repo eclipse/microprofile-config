@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016, 2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -83,7 +83,6 @@ public class ConfigProviderTest extends Arquillian {
 
     @Test
     public void testEnvironmentConfigSource() {
-        Assert.assertNotNull(config.getValue("path", String.class));
         String value = System.getenv().get("MP_TCK_ENV_DUMMY");
         Assert.assertNotNull(value);
         Assert.assertEquals("dummy", value);

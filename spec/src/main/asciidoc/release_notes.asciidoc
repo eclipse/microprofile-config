@@ -37,6 +37,7 @@ There are no functional changes introduced in this release, except the dependenc
 ==== Other Changes
 - @ConfigProperties Javadoc clarification (link:https://github.com/eclipse/microprofile-config/issues/681[681])
 - The Spec and JavaDoc are inconsistent about String Converters (link:https://github.com/eclipse/microprofile-config/issues/680[680])
+- ConfigProviderTest TCK bug (link:https://github.com/eclipse/microprofile-config/issues/664[664])
 
 [[release_notes_20]]
 === Release Notes for MicroProfile Config 2.0
