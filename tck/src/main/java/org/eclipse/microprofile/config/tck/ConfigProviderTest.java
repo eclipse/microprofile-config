@@ -83,7 +83,6 @@ public class ConfigProviderTest extends Arquillian {
 
     @Test
     public void testEnvironmentConfigSource() {
-        Assert.assertNotNull(config.getValue("path", String.class));
         String value = System.getenv().get("MP_TCK_ENV_DUMMY");
         Assert.assertNotNull(value);
         Assert.assertEquals("dummy", value);
