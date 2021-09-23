@@ -188,7 +188,9 @@ public interface ConfigSource {
      *            the property name
      * @return the property value, or {@code null} if the property is not present
      */
-    String getValue(String propertyName);
+    default String getValue(String propertyName) {
+        return null;
+    }
 
     /**
      * The name of the configuration source. The name might be used for logging or for analysis of configured values,
