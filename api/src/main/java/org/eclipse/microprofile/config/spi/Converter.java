@@ -28,6 +28,8 @@ package org.eclipse.microprofile.config.spi;
 
 import java.io.Serializable;
 
+import org.eclipse.microprofile.config.Config;
+
 /**
  * A mechanism for converting configured values from {@link String} to any Java type.
  *
@@ -150,4 +152,18 @@ public interface Converter<T> extends Serializable {
      *             if the given value was {@code null}
      */
     T convert(String value) throws IllegalArgumentException, NullPointerException;
+
+    /**
+     * Convert the given config node (may be an object, list or value) to the specified type.
+     *
+     * @param config config node to convert
+     * @return the converted value
+     * @throws IllegalArgumentException
+     *             if the value cannot be converted to the specified type
+     * @throws NullPointerException
+     *             if the given value was {@code null}
+     */
+    default T convert(Config config) throws IllegalArgumentException, NullPointerException {
+        throw new IllegalArgumentException("Default implementation of converter");
+    }
 }

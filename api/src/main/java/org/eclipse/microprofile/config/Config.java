@@ -34,7 +34,9 @@ package org.eclipse.microprofile.config;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.spi.Converter;
@@ -129,7 +131,9 @@ public interface Config {
      *             if the property cannot be converted to the specified type
      * @throws java.util.NoSuchElementException
      *             if the property is not defined or is defined as an empty string or the converter returns {@code null}
+     * @deprecated use {@link #get(String)} and {@link #as(Class)} instead
      */
+    @Deprecated
     <T> T getValue(String propertyName, Class<T> propertyType);
 
     /**
@@ -148,7 +152,9 @@ public interface Config {
      * @param propertyName
      *            The configuration property name
      * @return the resolved property value as a {@link ConfigValue}
+     * @deprecated use {@link #get(String)} and methods on the config node
      */
+    @Deprecated
     ConfigValue getConfigValue(String propertyName);
 
     /**
@@ -171,7 +177,9 @@ public interface Config {
      * @throws java.util.NoSuchElementException
      *             if the property isn't present in the configuration or is defined as an empty string or the converter
      *             returns {@code null}
+     * @deprecated use {@link #get(String)} and #asList(Class)
      */
+    @Deprecated
     default <T> List<T> getValues(String propertyName, Class<T> propertyType) {
         @SuppressWarnings("unchecked")
         Class<T[]> arrayType = (Class<T[]>) Array.newInstance(propertyType, 0).getClass();
@@ -198,7 +206,9 @@ public interface Config {
      *
      * @throws IllegalArgumentException
      *             if the property cannot be converted to the specified type
+     * @deprecated use {@link #get(String)} and {@link #as(Class)} instead
      */
+    @Deprecated
     <T> Optional<T> getOptionalValue(String propertyName, Class<T> propertyType);
 
     /**
@@ -219,7 +229,9 @@ public interface Config {
      *
      * @throws java.lang.IllegalArgumentException
      *             if the property cannot be converted to the specified type
+     * @deprecated use {@link #get(String)} and #asList(Class)
      */
+    @Deprecated
     default <T> Optional<List<T>> getOptionalValues(String propertyName, Class<T> propertyType) {
         @SuppressWarnings("unchecked")
         Class<T[]> arrayType = (Class<T[]>) Array.newInstance(propertyType, 0).getClass();
@@ -257,7 +269,7 @@ public interface Config {
      * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe
      * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration
      * sources}, determined at application start time, and the config sources themselves may be static or dynamic.
-     * 
+     *
      * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();
@@ -291,4 +303,181 @@ public interface Config {
      *             If the current provider does not support unwrapping to the given type
      */
     <T> T unwrap(Class<T> type);
+
+    /*
+     * Tree handling methods
+     */
+
+    /**
+     * Fully qualified key of this config node (such as {@code server.port}).
+     * Returns an empty String for root config.
+     *
+     * @return key of this config
+     */
+    String key();
+
+    /**
+     * Name of this node - the last element of a fully qualified key.
+     * <p>
+     * For example for key {@code server.port} this method would return {@code port}.
+     *
+     * @return name of this node
+     */
+    String name();
+
+    /**
+     * Single sub-node for the specified name.
+     * For example if requested for key {@code server}, this method would return a config
+     * representing the {@code server} node, which would have for example a child {@code port}.
+     *
+     * @param name name of the nested node to retrieve
+     * @return sub node, never null
+     */
+    Config get(String name);
+
+    /**
+     * A detached node removes prefixes of each sub-node of the current node.
+     * <p>
+     * Let's assume this node is {@code server} and contains {@code host} and {@code port}.
+     * The method {@link #key()} for {@code host} would return {@code server.host}.
+     * If we call a method {@link #key()} on a detached instance, it would return just {@code host}.
+     *
+     * @return a detached config instance
+     */
+    Config detach();
+
+    /**
+     * Type of this node.
+     *
+     * @return type
+     */
+    Type type();
+
+    /**
+     * Returns {@code true} if the node exists, whether an object, a list, or a
+     * value node.
+     *
+     * @return {@code true} if the node exists
+     */
+    default boolean exists() {
+        return type() != Type.MISSING;
+    }
+
+    /**
+     * Returns {@code true} if this configuration node has a direct value.
+     * <p>
+     * Example (using properties files) for each node type:
+     * <p>
+     * {@link Type#OBJECT} - the node {@code server.tls} is an object node with direct value:
+     * <pre>
+     * # this is not recommended, yet it is possible:
+     * server.tls=true
+     * server.tls.version=1.2
+     * server.tls.keystore=abc.p12
+     * </pre>
+     * <p>
+     * {@link Type#LIST} - the node {@code server.ports} is a list node with direct value:
+     * TODO this may actually not be supported by the spec, as it can only be achieved through properties
+     * <pre>
+     * # this is not recommended, yet it is possible:
+     * server.ports=8080
+     * server.ports.0=8081
+     * server.ports.1=8082
+     * </pre>
+     * <p>
+     * {@link Type#VALUE} - the nodes {@code server.port} and {@code server.host} are values
+     * <pre>
+     * server.port=8080
+     * server.host=localhost
+     * </pre>
+     *
+     * @return {@code true} if the node has direct value, {@code false} otherwise.
+     */
+    boolean hasValue();
+
+    /**
+     * Typed value created using a converter function.
+     * The converter is called only if this config node exists.
+     *
+     * @param converter to create an instance from config node
+     * @param <T> type of the object
+     * @return converted value of this node, or an empty optional if this node does not exist
+     * @throws java.lang.IllegalArgumentException if this config node cannot be converted to the desired type
+     */
+    <T> Optional<T> as(Function<Config, T> converter);
+
+    /**
+     * Typed value created using a configured converter.
+     *
+     * @param type class to convert to
+     * @param <T> type of the object
+     * @return converted value of this node, or empty optional if this node does not exist
+     * @throws java.lang.IllegalArgumentException if this config node cannot be converted to the desired type
+     */
+    <T> Optional<T> as(Class<T> type);
+
+    /**
+     * Map to a list of typed values.
+     * This method is only available if the current node is a {@link org.eclipse.microprofile.config.Config.Type#LIST}
+     * or if it has a direct value. In case a direct value of type String exists, it expects comma separated elements.
+     *
+     * @param type class to convert each element to
+     * @param <T> type of the object
+     * @return list of typed values
+     * @throws java.lang.IllegalArgumentException if this config node cannot be converted to the desired type
+     */
+    <T> Optional<List<T>> asList(Class<T> type);
+
+    /**
+     * Contains the (known) config values as a map of key->value pairs.
+     *
+     * @return map of sub keys of this config node, or empty if this node does not exist
+     */
+    Optional<Map<String, String>> asMap();
+
+    /**
+     * A list of child nodes.
+     * In case this node is {@link org.eclipse.microprofile.config.Config.Type#LIST} returns the list in the correct order.
+     * In case this node is {@link org.eclipse.microprofile.config.Config.Type#OBJECT} returns all direct child nodes
+     *      (in an unknown order)
+     *
+     * @return list of child nodes, or empty if this node does not exist
+     */
+    Optional<List<Config>> asNodeList();
+
+    /*
+     * Shortcut helper methods
+     */
+    default Optional<String> asString() {
+        return as(String.class);
+    }
+
+    default Optional<Integer> asInt() {
+        return as(Integer.class);
+    }
+
+    /**
+     * Config node type.
+     */
+    enum Type {
+        /**
+         * Object node with named members and a possible direct value.
+         */
+        OBJECT,
+        /**
+         * List node with a list of indexed parameters.
+         * Note that a list node can also be accessed as an object node - child elements
+         * have indexed keys starting from {@code 0}.
+         * List nodes may also have a direct value.
+         */
+        LIST,
+        /**
+         * Value node is a leaf node - it does not have any child nodes, only direct value.
+         */
+        VALUE,
+        /**
+         * Node is missing, it will return only empty values.
+         */
+        MISSING
+    }
 }
