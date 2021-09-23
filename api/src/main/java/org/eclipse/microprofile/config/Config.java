@@ -385,7 +385,7 @@ public interface Config {
      * server.ports.1=8082
      * </pre>
      * <p>
-     * {@link Type#VALUE} - the nodes {@code server.port} and {@code server.host} are values
+     * {@link Type#LEAF} - the nodes {@code server.port} and {@code server.host} are values
      * <pre>
      * server.port=8080
      * server.host=localhost
@@ -474,7 +474,7 @@ public interface Config {
         /**
          * Value node is a leaf node - it does not have any child nodes, only direct value.
          */
-        VALUE,
+        LEAF,
         /**
          * Node is missing, it will return only empty values.
          */
