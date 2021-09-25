@@ -439,7 +439,7 @@ Since the class with `@ConfigProperties` is a CDI bean, you can use the programm
 
 [source, java]
 ----
-Details details = CDI.current().select(Details.class, ConfigProperties.Literal.NO:PREFIX).get();
+Details details = CDI.current().select(Details.class, ConfigProperties.Literal.NO_PREFIX).get();
 ----
 
 ==== Inject the bean annotated with `@ConfigProperties`
