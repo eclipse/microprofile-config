@@ -25,7 +25,7 @@
 
 A `ConfigSource` is exactly what its name says: a source for configured values.
 The `Config` uses all configured implementations of `ConfigSource` to look up the property in question. Dynamically added config sources after the `Config` object has been built would be ignored, 
-which means `Config.getConfigSources` always returns the same collection of `ConfigSource`s. The same rule applies to `ConfigSourceProvider.getConfigSources`.
+which means `Config.getConfigSources` always returns the same collection of ``ConfigSource``s. The same rule applies to `ConfigSourceProvider.getConfigSources`.
 
 === ConfigSource Ordering
 
