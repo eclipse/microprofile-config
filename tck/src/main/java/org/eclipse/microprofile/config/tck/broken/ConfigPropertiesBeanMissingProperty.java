@@ -21,7 +21,10 @@ package org.eclipse.microprofile.config.tck.broken;
 
 import org.eclipse.microprofile.config.inject.ConfigProperties;
 
+import jakarta.enterprise.context.Dependent;
+
 @ConfigProperties(prefix = "customer")
+@Dependent
 public class ConfigPropertiesBeanMissingProperty {
     private String name;
     public int age;

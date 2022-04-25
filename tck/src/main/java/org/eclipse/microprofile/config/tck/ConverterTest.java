@@ -62,6 +62,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
 
 /**
@@ -98,8 +99,7 @@ public class ConverterTest extends Arquillian {
     }
 
     @Inject
-    @ConfigProperty(name = "tck.config.test.javaconfig.converter.duckname")
-    private Duck namedDuck;
+    InjectingBean bean;
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDonaldNotConvertedByDefault() {
@@ -664,7 +664,7 @@ public class ConverterTest extends Arquillian {
 
     @Test
     public void testCustomConverter() {
-        Assert.assertEquals(namedDuck.getName(), "Hannelore");
+        Assert.assertEquals(bean.getNamedDuck().getName(), "Hannelore");
     }
 
     @Test
@@ -805,5 +805,18 @@ public class ConverterTest extends Arquillian {
         }
         Assert.assertEquals(((Converter<Duck>) readObject).convert("Donald").getName(),
                 original.convert("Donald").getName(), "Converted values to be equal");
+    }
+
+    // declare a proper bean with bean defining annotation as an injection target for config-related injection
+    @Dependent
+    public static class InjectingBean {
+
+        @Inject
+        @ConfigProperty(name = "tck.config.test.javaconfig.converter.duckname")
+        private Duck namedDuck;
+
+        public Duck getNamedDuck() {
+            return namedDuck;
+        }
     }
 }
