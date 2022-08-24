@@ -57,7 +57,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -77,8 +76,8 @@ public class ConverterTest extends Arquillian {
 
     @Deployment
     public static WebArchive deploy() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "converterTest.jar")
+        WebArchive testWar = ShrinkWrap
+                .create(WebArchive.class, "converterTest.war")
                 .addClass(ConverterTest.class)
                 .addPackage(CustomDbConfigSource.class.getPackage())
                 .addClasses(DuckConverter.class, Duck.class, Donald.class, UpperCaseDuckConverter.class,
@@ -87,19 +86,16 @@ public class ConverterTest extends Arquillian {
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
                 .addAsServiceProvider(Converter.class, DuckConverter.class)
-                .as(JavaArchive.class);
+                .as(WebArchive.class);
 
-        AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
-        AbstractTest.addFile(testJar, "sampleconfig.yaml");
+        AbstractTest.addFile(testWar, "META-INF/microprofile-config.properties");
+        AbstractTest.addFile(testWar, "sampleconfig.yaml");
 
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "converterTest.war")
-                .addAsLibrary(testJar);
-        return war;
+        return testWar;
     }
 
     @Inject
-    InjectingBean bean;
+    private InjectingBean bean;
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDonaldNotConvertedByDefault() {
