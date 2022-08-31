@@ -121,6 +121,11 @@ public class InjectedConfigUsageSample {
     @ConfigProperty(name="myprj.some.supplier.timeout", defaultValue="100")
     private java.util.function.Supplier<Long> timeout;
 
+    //Injects a Map to resolve multiple configuration parameters under the same configuration key.
+    @Inject
+    @ConfigProperty(name = "myprj.some.reasons", defaultValue = "200=OK;201=Created")
+    private java.util.Map<Integer, String> reasons;
+
     //The following code injects an Array, List or Set for the `myPets` property,
     //where its value is a comma separated value ( myPets=dog,cat,dog\\,cat)
     @Inject @ConfigProperty(name="myPets") private String[] myArrayPets;
@@ -371,8 +376,8 @@ The table below defines the conversion rules, including some special edge case s
 |===
 
 === Remove config properties
-Sometimes, there is a need to remove a property. This can be done by setting an empty value or a value causing the corresponding converter returning `null` in a config source. 
-When injecting a property that has been deleted, `DeploymentException` will be thrown unless the return type is `Optional`. 
+Sometimes, there is a need to remove a property. This can be done by setting an empty value or a value causing the corresponding converter returning `null` in a config source.
+When injecting a property that has been deleted, `DeploymentException` will be thrown unless the return type is `Optional`.
 
 === Aggregate related properties into a CDI bean
 
