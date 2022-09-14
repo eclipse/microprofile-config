@@ -19,7 +19,7 @@
     <parent>
         <groupId>org.eclipse.microprofile</groupId>
         <artifactId>microprofile-parent</artifactId>
-        <version>2.1</version>
+        <version>2.6</version>
     </parent>
 
     <groupId>org.eclipse.microprofile.config</groupId>
@@ -32,6 +32,7 @@
 
     <properties>
         <inceptionYear>2016</inceptionYear>
+        <version.microprofile.tck.bom>2.6</version.microprofile.tck.bom>
     </properties>
 
     <issueManagement>
