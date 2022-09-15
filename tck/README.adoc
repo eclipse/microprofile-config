@@ -16,7 +16,7 @@
 
 = Running the Microprofile Config TCK
 
-Any Microprofile Config 2.0 implementation must pass this test suite. The TCK uses `TestNG` and `Arquillian`.
+Any Microprofile Config 3.0 implementation must pass this test suite. The TCK uses `TestNG` and `Arquillian`.
 
 == Hardware Requirements
 
@@ -204,3 +204,9 @@ Extension` as shown here:
 == Example Implementation Using the TCK
 An example of how an implementation might go about integrating the Microprofile-Config TCK into a build
 can be found in the https://github.com/apache/geronimo-config[Apache Geronimo Project].
+
+== Getting the tests running on CDI 3.0 and CDI 4.0
+The test ConfigPropertiesTest.java relies an behaviour from CDI where an empty beans.xml to make test classes included in the archive CDI beans without the need of bean defining annotations.
+However, in CDI 4.0, this behaviour has changed. Therefore, the implementation has to provide an option to make empty beans.xml behave the same as CDI 3.0. 
+This utilised the feature required by CDI 4.0 specification (For compatibility with CDI versions prior to 4.0, CDI Full products must contain an option that causes an archive with empty beans.xml to be considered an explicit bean archive.). 
+In Open Liberty, it can be achieved via setting a property.
