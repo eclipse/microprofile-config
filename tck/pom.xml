@@ -19,11 +19,23 @@
     <parent>
         <groupId>org.eclipse.microprofile.config</groupId>
         <artifactId>microprofile-config-parent</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>microprofile-config-tck</artifactId>
     <name>MicroProfile Config TCK</name>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.eclipse.microprofile</groupId>
+                <artifactId>microprofile-tck-bom</artifactId>
+                <version>${version.microprofile.tck.bom}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
