@@ -21,6 +21,9 @@ package org.eclipse.microprofile.config.tck;
 
 import java.util.Optional;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperties;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -31,11 +34,6 @@ import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.inject.Inject;
 
 /**
  * Verify the support {@code ConfigProperties}.
@@ -48,7 +46,7 @@ public class ConfigPropertiesTest extends Arquillian {
     public static WebArchive deploy() {
         return ShrinkWrap
                 .create(WebArchive.class, "ConfigPropertiesTest.war")
-                .addClasses(ConfigPropertiesTest.class, BeanOne.class, BeanTwo.class, BeanThree.class, BeanFour.class,
+                .addClasses(ConfigPropertiesTest.class, BeanOne.class, BeanThree.class, BeanFour.class,
                         Location.class)
                 .addAsResource(
                         new StringAsset(
@@ -68,12 +66,6 @@ public class ConfigPropertiesTest extends Arquillian {
                                         "location=222 Hook Road, Winchester, Hampshire, SO21 2JN, UK\n" +
                                         "job=Plumber\n" +
                                         "new.hobbies=Volleyball\n" +
-                                        "host=localhost\n" +
-                                        "port=9080\n" +
-                                        "endpoint=woof\n" +
-                                        "my.host=myhost\n" +
-                                        "my.port=9081\n" +
-                                        "my.endpoint=poof\n" +
                                         "other.name=Holly\n" +
                                         "other.age=20\n" +
                                         "other.nationality=USA\n"),
@@ -131,22 +123,6 @@ public class ConfigPropertiesTest extends Arquillian {
     }
 
     @Test
-    public void testConfigPropertiesNoPrefixOnBean() {
-        BeanTwo beanTwo = bean.getBeanTwo();
-        Assert.assertEquals("localhost", beanTwo.getHost());
-        Assert.assertEquals(9080, beanTwo.port);
-        Assert.assertEquals("woof", beanTwo.endpoint);
-    }
-
-    @Test
-    public void testConfigPropertiesNoPrefixOnBeanThenSupplyPrefix() {
-        BeanTwo myBeanTwo = bean.getMyBeanTwo();
-        Assert.assertEquals("myhost", myBeanTwo.getHost());
-        Assert.assertEquals(9081, myBeanTwo.port);
-        Assert.assertEquals("poof", myBeanTwo.endpoint);
-    }
-
-    @Test
     public void testNoConfigPropertiesAnnotationInjection() {
         // The fields on beanThree are not resolved to config properties,
         // as the bean class has no ConfigProperties annotation.
@@ -182,19 +158,6 @@ public class ConfigPropertiesTest extends Arquillian {
         }
     }
 
-    @ConfigProperties
-    @RequestScoped
-    public static class BeanTwo {
-        private String host;
-        int port;
-        String endpoint;
-        /**
-         * @return String return the host
-         */
-        public String getHost() {
-            return host;
-        }
-    }
 
     @Dependent
     public static class BeanThree {
@@ -239,14 +202,6 @@ public class ConfigPropertiesTest extends Arquillian {
 
         @Inject
         @ConfigProperties
-        private BeanTwo beanTwo;
-
-        @Inject
-        @ConfigProperties(prefix = "my")
-        private BeanTwo myBeanTwo;
-
-        @Inject
-        @ConfigProperties
         private BeanFour myBeanFour;
 
         @Inject
@@ -262,14 +217,6 @@ public class ConfigPropertiesTest extends Arquillian {
 
         public BeanOne getBeanOne() {
             return beanOne;
-        }
-
-        public BeanTwo getBeanTwo() {
-            return beanTwo;
-        }
-
-        public BeanTwo getMyBeanTwo() {
-            return myBeanTwo;
         }
 
         public BeanFour getMyBeanFour() {
