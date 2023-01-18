@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -79,7 +79,7 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         assertFalse(propertyExpressionBean.badExpansionLong.isPresent());
 
         assertNotNull(propertyExpressionBean.badExpansionConfigValue);
-        assertEquals(propertyExpressionBean.badExpansionConfigValue.getName(), "expression");
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getName(), "bad.property.expression.prop");
         assertNull(propertyExpressionBean.badExpansionConfigValue.getValue());
         assertNull(propertyExpressionBean.badExpansionConfigValue.getSourceName());
         assertEquals(propertyExpressionBean.badExpansionConfigValue.getSourceOrdinal(), 0);
@@ -96,6 +96,7 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         @Inject
         @ConfigProperty(name = "another.prop", defaultValue = "${expression}")
         String expressionDefault;
+        @Inject
         @ConfigProperty(name = "bad.property.expression.prop")
         Optional<String> badExpansion;
         @Inject
@@ -107,6 +108,7 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         @Inject
         @ConfigProperty(name = "bad.property.expression.prop")
         OptionalLong badExpansionLong;
+        @Inject
         @ConfigProperty(name = "bad.property.expression.prop")
         ConfigValue badExpansionConfigValue;
     }
