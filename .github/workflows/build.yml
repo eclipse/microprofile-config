@@ -31,11 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [8, 11]
+        java: [11,17]
     name: build with jdk ${{matrix.java}}
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3
         name: checkout
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
