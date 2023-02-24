@@ -142,8 +142,8 @@ public class PropertyExpressionsTest extends Arquillian {
         assertNotNull(configValue);
         assertEquals(configValue.getName(), "expression");
         assertNull(configValue.getValue());
-        assertNull(configValue.getSourceName());
-        assertEquals(configValue.getSourceOrdinal(), 0);
+        assertEquals(configValue.getSourceName(), "test");
+        assertEquals(configValue.getSourceOrdinal(), 100);
     }
 
     @Test
@@ -168,8 +168,8 @@ public class PropertyExpressionsTest extends Arquillian {
         assertNotNull(configValue);
         assertEquals(configValue.getName(), "expression");
         assertNull(configValue.getValue());
-        assertNull(configValue.getSourceName());
-        assertEquals(configValue.getSourceOrdinal(), 0);
+        assertEquals(configValue.getSourceName(), "test");
+        assertEquals(configValue.getSourceOrdinal(), 100);
     }
 
     @Test
