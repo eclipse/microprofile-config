@@ -81,8 +81,8 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         assertNotNull(propertyExpressionBean.badExpansionConfigValue);
         assertEquals(propertyExpressionBean.badExpansionConfigValue.getName(), "bad.property.expression.prop");
         assertNull(propertyExpressionBean.badExpansionConfigValue.getValue());
-        assertNull(propertyExpressionBean.badExpansionConfigValue.getSourceName());
-        assertEquals(propertyExpressionBean.badExpansionConfigValue.getSourceOrdinal(), 0);
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getSourceName(), "test");
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getSourceOrdinal(), 100);
     }
 
     @Dependent
@@ -134,7 +134,7 @@ public class CDIPropertyExpressionsTest extends Arquillian {
 
         @Override
         public String getName() {
-            return this.getClass().getName();
+            return "test";
         }
     }
 }
