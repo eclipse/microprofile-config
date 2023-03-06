@@ -47,4 +47,6 @@ jobs:
           java-version: ${{matrix.java}}
 
       - name: build with maven
-        run: mvn -ntp formatter:validate install
+        run: |
+            mvn -q -N io.takari:maven:0.7.7:wrapper -Dmaven=3.8.7 && ./mvnw -v
+            ./mvnw -ntp formatter:validate install
