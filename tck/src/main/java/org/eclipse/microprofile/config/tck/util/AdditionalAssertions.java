@@ -42,7 +42,7 @@ public final class AdditionalAssertions {
 
     /**
      * Use URI.equals() since URL.equals() performs DNS resolution which is undesired. See #549
-     * 
+     *
      * @throws URISyntaxException
      *             if either URL is not formatted correctly
      */

@@ -144,13 +144,13 @@ public @interface ConfigProperty {
      * <p>
      * If the target Type is not String, a proper {@link org.eclipse.microprofile.config.spi.Converter} will get
      * applied.
-     * 
+     *
      * Empty string as the default value will be ignored, which is same as not setting the default value. That means
      * that any default value string should follow the formatting rules of the registered Converters.
-     * 
+     *
      * If a property has been emptied by a config source with a higher ordinal by setting an empty configuration value
      * or by using a value causing the used converter returning {@code null}, the default value will not be used.
-     * 
+     *
      * @return the default value as a string
      */
     @Nonbinding

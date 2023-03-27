@@ -49,7 +49,7 @@ import jakarta.inject.Inject;
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author <a href="mailto:jmesnil@redhat.com">Jeff Mesnil</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
- * 
+ *
  */
 public class ImplicitConverterTest extends Arquillian {
 
