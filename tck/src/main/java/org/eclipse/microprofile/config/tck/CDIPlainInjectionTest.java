@@ -50,7 +50,7 @@ import jakarta.inject.Provider;
 
 /**
  * Test cases for CDI-based API that test retrieving values from the configuration. The tests depend only on CDI 1.2.
- * 
+ *
  * @author Ondrej Mihalyi
  */
 public class CDIPlainInjectionTest extends Arquillian {

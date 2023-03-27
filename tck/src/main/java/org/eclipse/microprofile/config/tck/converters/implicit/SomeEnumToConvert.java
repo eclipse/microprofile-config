@@ -20,7 +20,7 @@ package org.eclipse.microprofile.config.tck.converters.implicit;
 
 /**
  * Sample enum to test implicit Converter Rules
- * 
+ *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  */
 public enum SomeEnumToConvert {

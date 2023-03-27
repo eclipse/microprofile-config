@@ -51,7 +51,7 @@ import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
  *
  * <p>
  * Example:
- * 
+ *
  * <pre>
  * String restUrl = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.url&quot;, String.class);
  * Integer port = ConfigProvider.getConfig().getValue(&quot;myproject.some.remote.service.port&quot;, Integer.class);

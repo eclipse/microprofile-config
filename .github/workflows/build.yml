@@ -48,5 +48,5 @@ jobs:
 
       - name: build with maven
         run: |
-            mvn -q -N io.takari:maven:0.7.7:wrapper -Dmaven=3.8.7 && ./mvnw -v
+            mvn -q -N io.takari:maven:0.7.7:wrapper -Dmaven=3.9.0 && ./mvnw -v
             ./mvnw -ntp formatter:validate install
