@@ -81,15 +81,21 @@
         <dependencies>
             <!-- TODO - Investigate BND Dependencies-->
             <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>osgi.annotation</artifactId>
+                <version>8.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>biz.aQute.bnd.annotation</artifactId>
-                <version>5.3.0</version>
+                <version>6.2.0</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.service.cdi</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
                 <scope>provided</scope>
             </dependency>
 
