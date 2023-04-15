@@ -110,6 +110,7 @@ import jakarta.inject.Qualifier;
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
+@javax.inject.Qualifier
 @Qualifier
 @Retention(RUNTIME)
 @Target({METHOD, FIELD, PARAMETER, TYPE})
