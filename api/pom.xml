@@ -39,6 +39,11 @@
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.service.cdi</artifactId>
         </dependency>
+        <!-- https://github.com/eclipse/microprofile-config/issues/777 -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
