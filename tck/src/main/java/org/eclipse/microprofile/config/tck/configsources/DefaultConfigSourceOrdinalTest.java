@@ -86,14 +86,14 @@ public class DefaultConfigSourceOrdinalTest extends Arquillian {
 
     @Test
     public void testOrdinalForEnv() {
-        Assert.assertEquals("Bill", config.getValue("customer_name", String.class));
-        Assert.assertEquals(200, config.getConfigValue("customer_name").getSourceOrdinal());
+        Assert.assertEquals(config.getValue("customer_name", String.class), "Bill");
+        Assert.assertEquals(config.getConfigValue("customer_name").getSourceOrdinal(), 200);
     }
 
     @Test
     public void testOrdinalForSystemProps() {
-        Assert.assertEquals("Badminton", config.getValue("customer.hobby", String.class));
-        Assert.assertEquals(200, config.getConfigValue("customer.hobby").getSourceOrdinal());
+        Assert.assertEquals(config.getValue("customer.hobby", String.class), "Badminton");
+        Assert.assertEquals(config.getConfigValue("customer.hobby").getSourceOrdinal(), 200);
     }
 
 }
