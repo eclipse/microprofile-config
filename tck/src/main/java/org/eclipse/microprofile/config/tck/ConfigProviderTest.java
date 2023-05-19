@@ -85,8 +85,8 @@ public class ConfigProviderTest extends Arquillian {
     public void testEnvironmentConfigSource() {
         String value = System.getenv().get("MP_TCK_ENV_DUMMY");
         Assert.assertNotNull(value);
-        Assert.assertEquals("dummy", value);
-        Assert.assertEquals(value, config.getValue("mp.tck.env.dummy", String.class));
+        Assert.assertEquals(value, "dummy");
+        Assert.assertEquals(config.getValue("mp.tck.env.dummy", String.class), "dummy");
     }
 
     @Test
@@ -94,8 +94,8 @@ public class ConfigProviderTest extends Arquillian {
         Assert.assertNotNull(config.getValue("java.version", String.class));
         String value = System.getProperties().getProperty("mp.tck.prop.dummy");
         Assert.assertNotNull(value);
-        Assert.assertEquals("dummy", value);
-        Assert.assertEquals(value, config.getValue("mp.tck.prop.dummy", String.class));
+        Assert.assertEquals(value, "dummy");
+        Assert.assertEquals(config.getValue("mp.tck.prop.dummy", String.class), "dummy");
     }
 
     @Test

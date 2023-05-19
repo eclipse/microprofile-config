@@ -75,49 +75,49 @@ public class PropertyExpressionsTest extends Arquillian {
     public void simpleExpression() {
         Config config = buildConfig("my.prop", "1234", "expression", "${my.prop}");
 
-        assertEquals("1234", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "1234");
     }
 
     @Test
     public void multipleExpressions() {
         Config config = buildConfig("my.prop", "1234", "expression", "${my.prop}${my.prop}");
 
-        assertEquals("12341234", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "12341234");
     }
 
     @Test
     public void composedExpressions() {
         Config config = buildConfig("my.prop", "1234", "expression", "${${compose}}", "compose", "my.prop");
 
-        assertEquals("1234", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "1234");
     }
 
     @Test
     public void defaultExpression() {
         Config config = buildConfig("expression", "${my.prop:1234}");
 
-        assertEquals("1234", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "1234");
     }
 
     @Test
     public void defaultExpressionEmpty() {
         Config config = buildConfig("expression", "12${my.prop:}34");
 
-        assertEquals("1234", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "1234");
     }
 
     @Test
     public void defaultExpressionComposed() {
         Config config = buildConfig("expression", "${my.prop:${compose}}", "compose", "1234");
 
-        assertEquals("1234", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "1234");
     }
 
     @Test
     public void defaultExpressionComposedEmpty() {
         Config config = buildConfig("expression", "${my.prop:${compose:}}", "my.prop", "1234");
 
-        assertEquals("1234", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "1234");
     }
 
     @Test
@@ -131,7 +131,7 @@ public class PropertyExpressionsTest extends Arquillian {
     void noExpressionButOptional() {
         Config config = buildConfig("expression", "${my.prop}");
 
-        assertEquals(Optional.empty(), config.getOptionalValue("expression", String.class));
+        assertEquals(config.getOptionalValue("expression", String.class), Optional.empty());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class PropertyExpressionsTest extends Arquillian {
     void noExpressionComposedButOptional() {
         Config config = buildConfig("expression", "${my.prop${compose}}");
 
-        assertEquals(Optional.empty(), config.getOptionalValue("expression", String.class));
+        assertEquals(config.getOptionalValue("expression", String.class), Optional.empty());
     }
 
     @Test
@@ -177,10 +177,10 @@ public class PropertyExpressionsTest extends Arquillian {
         Config config = buildConfig("my.prop", "1234", "my.prop.two", "${my.prop}", "my.prop.three",
                 "${my.prop.two}", "my.prop.four", "${my.prop.three}");
 
-        assertEquals("1234", config.getValue("my.prop", String.class));
-        assertEquals("1234", config.getValue("my.prop.two", String.class));
-        assertEquals("1234", config.getValue("my.prop.three", String.class));
-        assertEquals("1234", config.getValue("my.prop.four", String.class));
+        assertEquals(config.getValue("my.prop", String.class), "1234");
+        assertEquals(config.getValue("my.prop.two", String.class), "1234");
+        assertEquals(config.getValue("my.prop.three", String.class), "1234");
+        assertEquals(config.getValue("my.prop.four", String.class), "1234");
     }
 
     @Test
@@ -195,12 +195,12 @@ public class PropertyExpressionsTest extends Arquillian {
         Config config =
                 buildConfig("my.prop", "1234", "expression", "${my.prop}", PROPERTY_EXPRESSIONS_ENABLED, "false");
 
-        assertEquals("${my.prop}", config.getValue("expression", String.class));
+        assertEquals(config.getValue("expression", String.class), "${my.prop}");
     }
 
     @Test
     public void escape() {
-        assertEquals("${my.prop}", buildConfig("expression", "\\${my.prop}").getValue("expression", String.class));
+        assertEquals(buildConfig("expression", "\\${my.prop}").getValue("expression", String.class), "${my.prop}");
     }
 
     @Test
@@ -208,14 +208,14 @@ public class PropertyExpressionsTest extends Arquillian {
         Config config = buildConfig("list", "cat,dog,${mouse},sea\\,turtle", "mouse", "mouse");
 
         final List<String> list = config.getValues("list", String.class);
-        assertEquals(4, list.size());
+        assertEquals(list.size(), 4);
         assertEquals(list, Stream.of("cat", "dog", "mouse", "sea,turtle").collect(toList()));
     }
 
     @Test
     void escapeBraces() {
         Config config = buildConfig("my.prop", "${value:111{111}");
-        assertEquals("111{111", config.getValue("my.prop", String.class));
+        assertEquals(config.getValue("my.prop", String.class), "111{111");
     }
 
     @Test

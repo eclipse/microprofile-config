@@ -87,63 +87,63 @@ public class ConfigPropertiesTest extends Arquillian {
     @Test
     public void testConfigPropertiesPlainInjection() {
         BeanOne customerBeanOne = bean.getCustomerBeanOne();
-        Assert.assertEquals("Bob", customerBeanOne.getName());
-        Assert.assertEquals(24, customerBeanOne.age);
-        Assert.assertEquals("Developer", customerBeanOne.job);
-        Assert.assertEquals(new String[]{"Badminton", "Tennis"}, customerBeanOne.hobbies);
-        Assert.assertEquals(new Location("2 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), customerBeanOne.location);
+        Assert.assertEquals(customerBeanOne.getName(), "Bob");
+        Assert.assertEquals(customerBeanOne.age, 24);
+        Assert.assertEquals(customerBeanOne.job, "Developer");
+        Assert.assertEquals(customerBeanOne.hobbies, new String[]{"Badminton", "Tennis"});
+        Assert.assertEquals(customerBeanOne.location, new Location("2 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
     }
 
     @Test
     public void testConfigPropertiesWithPrefix() {
         BeanOne clientBeanOne = bean.getClientBeanOne();
-        Assert.assertEquals("Rob", clientBeanOne.getName());
-        Assert.assertEquals(25, clientBeanOne.age);
-        Assert.assertEquals("Engineer", clientBeanOne.job);
-        Assert.assertEquals(new String[]{"Football", "Tennis"}, clientBeanOne.hobbies);
-        Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
+        Assert.assertEquals(clientBeanOne.getName(), "Rob");
+        Assert.assertEquals(clientBeanOne.age, 25);
+        Assert.assertEquals(clientBeanOne.job, "Engineer");
+        Assert.assertEquals(clientBeanOne.hobbies, new String[]{"Football", "Tennis"});
+        Assert.assertEquals(clientBeanOne.location, new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
 
         // programmatic lookup of the beans
         BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
-        Assert.assertEquals("Rob", bo.getName());
-        Assert.assertEquals(25, bo.age);
-        Assert.assertEquals("Engineer", bo.job);
-        Assert.assertEquals(new String[]{"Football", "Tennis"}, bo.hobbies);
-        Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
+        Assert.assertEquals(bo.getName(), "Rob");
+        Assert.assertEquals(bo.age, 25);
+        Assert.assertEquals(bo.job, "Engineer");
+        Assert.assertEquals(bo.hobbies, new String[]{"Football", "Tennis"});
+        Assert.assertEquals(bo.location, new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
     }
 
     @Test
     public void testConfigPropertiesWithoutPrefix() {
         BeanOne beanOne = bean.getBeanOne();
-        Assert.assertEquals("Harry", beanOne.getName());
-        Assert.assertEquals(21, beanOne.age);
-        Assert.assertEquals("Plumber", beanOne.job);
-        Assert.assertEquals(new String[]{"Volleyball"}, beanOne.hobbies);
-        Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
+        Assert.assertEquals(beanOne.getName(), "Harry");
+        Assert.assertEquals(beanOne.age, 21);
+        Assert.assertEquals(beanOne.job, "Plumber");
+        Assert.assertEquals(beanOne.hobbies, new String[]{"Volleyball"});
+        Assert.assertEquals(beanOne.location, new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
 
         // programmatic lookup of the beans
         BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("")).get();
-        Assert.assertEquals("Harry", bo.getName());
-        Assert.assertEquals(21, bo.age);
-        Assert.assertEquals("Plumber", bo.job);
-        Assert.assertEquals(new String[]{"Volleyball"}, bo.hobbies);
-        Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
+        Assert.assertEquals(bo.getName(), "Harry");
+        Assert.assertEquals(bo.age, 21);
+        Assert.assertEquals(bo.job, "Plumber");
+        Assert.assertEquals(bo.hobbies, new String[]{"Volleyball"});
+        Assert.assertEquals(bo.location, new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
     }
 
     @Test
     public void testConfigPropertiesNoPrefixOnBean() {
         BeanTwo beanTwo = bean.getBeanTwo();
-        Assert.assertEquals("localhost", beanTwo.getHost());
-        Assert.assertEquals(9080, beanTwo.port);
-        Assert.assertEquals("woof", beanTwo.endpoint);
+        Assert.assertEquals(beanTwo.getHost(), "localhost");
+        Assert.assertEquals(beanTwo.port, 9080);
+        Assert.assertEquals(beanTwo.endpoint, "woof");
     }
 
     @Test
     public void testConfigPropertiesNoPrefixOnBeanThenSupplyPrefix() {
         BeanTwo myBeanTwo = bean.getMyBeanTwo();
-        Assert.assertEquals("myhost", myBeanTwo.getHost());
-        Assert.assertEquals(9081, myBeanTwo.port);
-        Assert.assertEquals("poof", myBeanTwo.endpoint);
+        Assert.assertEquals(myBeanTwo.getHost(), "myhost");
+        Assert.assertEquals(myBeanTwo.port, 9081);
+        Assert.assertEquals(myBeanTwo.endpoint, "poof");
     }
 
     @Test
@@ -152,15 +152,15 @@ public class ConfigPropertiesTest extends Arquillian {
         // as the bean class has no ConfigProperties annotation.
         BeanThree beanThree = bean.getBeanThree();
         Assert.assertNull(beanThree.name);
-        Assert.assertEquals(0, beanThree.age);
+        Assert.assertEquals(beanThree.age, 0);
         Assert.assertNull(beanThree.getNationality());
     }
 
     @Test
     public void testConfigPropertiesDefaultOnBean() {
         BeanFour myBeanFour = bean.getMyBeanFour();
-        Assert.assertEquals("mycloud.org", myBeanFour.getHost());
-        Assert.assertEquals(9080, myBeanFour.port);
+        Assert.assertEquals(myBeanFour.getHost(), "mycloud.org");
+        Assert.assertEquals(myBeanFour.port, 9080);
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
