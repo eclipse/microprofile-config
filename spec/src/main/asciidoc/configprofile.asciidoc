@@ -45,7 +45,9 @@ If the property `mp.config.profile` is specified in multiple config sources, the
 The configuration property that utilizes the Config Profile is called a "profile-specific" property. A "profile-specific" property name consists of the following sequence: `% <profile name>.<original property name>`.
 
 Conforming implementations are required to search all configuration sources that provide either the property name or the "profile-specific" property name.
-If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned. If it doesn't contain the "profile-specific" name, the value of the plain property will be returned.
+If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned.
+If it doesn't contain the "profile-specific" name, the value of the plain property will be returned.
+Thus, the "profile-specific" concept only influences which value is to be surfaced per config source.
 
 For instance, a config source (ordinal 100) can be specified as follows.
 
@@ -76,8 +78,7 @@ The properties `%live.vehicle.name` and `%testing.vehicle.name` are inactive con
 If `mp.config.profile` is set to `live`, the property `%live.vehicle.name` is the active property. The `vehicleName` will be `train`. Similarly, `bike` will be the value of `vehicleName`, if the profile is `testing`.
 If no profile is active, `lorry` will be the value of `vehicleName`.
 
-When another configuration source provides the same property, the final resulting value of the lookup depends on the ordinal (priority) of all providing sources.
-
+As explained above, the override scope is per configure source.
 For instance, an additional source (ordinal 300) may be specified as follows:
 
 [source, text]
