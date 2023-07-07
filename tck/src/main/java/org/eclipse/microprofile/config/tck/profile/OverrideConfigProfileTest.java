@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Test cases for Config profile
  *
- * @author Emily Jiang
+ * @author Oliver Bertuch
  */
 public class OverrideConfigProfileTest extends Arquillian {
     @Deployment
