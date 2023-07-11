@@ -49,9 +49,9 @@ public class OverrideConfigProfileTest extends Arquillian {
                 .addAsResource(
                         new StringAsset(
                                 "mp.config.profile=dev\n" +
-                                "%dev." + PROPERTY + "=foo\n" +
-                                PROPERTY + "=bar\n"),
-                    "META-INF/microprofile-config.properties")
+                                        "%dev." + PROPERTY + "=foo\n" +
+                                        PROPERTY + "=bar\n"),
+                        "META-INF/microprofile-config.properties")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         return war;
@@ -61,9 +61,9 @@ public class OverrideConfigProfileTest extends Arquillian {
     private static final String EXPECTED = "dummy";
 
     /**
-     * This test relies on the system property "mp.tck.prop.dummy" being set to "dummy" as described in the TCK
-     * README as a requirement for runners. System properties are per the TCK requirements at ordinal 120, so shall
-     * override the given properties in the microprofile-config.properties file (ordinal 100) included in the WAR above.
+     * This test relies on the system property "mp.tck.prop.dummy" being set to "dummy" as described in the TCK README
+     * as a requirement for runners. System properties are per the TCK requirements at ordinal 120, so shall override
+     * the given properties in the microprofile-config.properties file (ordinal 100) included in the WAR above.
      */
     @Test
     public void testConfigProfileWithDevAndOverride() {
