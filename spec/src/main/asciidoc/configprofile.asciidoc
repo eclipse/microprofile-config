@@ -44,11 +44,12 @@ If the property `mp.config.profile` is specified in multiple config sources, the
 ==== On Property level
 The configuration property that utilizes the Config Profile is called a "profile-specific" property. A "profile-specific" property name consists of the following sequence: `% <profile name>.<original property name>`.
 
-Conforming implementations are required to search for a configuration source with the highest ordinal (priority) that provides either the property name or the "profile-specific" property name.
-If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned. If it doesn't contain the "profile-specific" name, the value of the plain property will be returned.
+Conforming implementations are required to search all configuration sources that provide either the property name or the "profile-specific" property name.
+If the configuration source provides the "profile-specific" name, the value of the "profile-specific" property will be returned.
+If it doesn't contain the "profile-specific" name, the value of the plain property will be returned.
+Thus, the "profile-specific" concept only influences which value is to be surfaced per config source.
 
-
-For instance, a config source can be specified as follows.
+For instance, a config source (ordinal 100) can be specified as follows.
 
 [source, text]
 ----
@@ -75,6 +76,17 @@ In more details, if `mp.config.profile` is set to `dev`, the property `%dev.vehi
 The properties `%live.vehicle.name` and `%testing.vehicle.name` are inactive config properties and don't override the property `vehicle.name`.
 
 If `mp.config.profile` is set to `live`, the property `%live.vehicle.name` is the active property. The `vehicleName` will be `train`. Similarly, `bike` will be the value of `vehicleName`, if the profile is `testing`.
+If no profile is active, `lorry` will be the value of `vehicleName`.
+
+As explained above, the override scope is per configure source.
+For instance, an additional source (ordinal 300) may be specified as follows:
+
+[source, text]
+----
+vehicle.name=helicopter
+----
+
+The value of `vehicleName` will be `helicopter` no matter which profile might be active, as the higher ordinal (300 versus 100) makes the later source win.
 
 ==== On Config Source level
 
