@@ -34,13 +34,9 @@ import jakarta.enterprise.event.Observes;
  * @see MissingValueOnObserverMethodInjectionTest
  */
 @ApplicationScoped
-final class ConfigObserver {
+public class ConfigObserver {
 
-    private ConfigObserver() {
-        super();
-    }
-
-    private static final void onStartup(@Observes @Initialized(ApplicationScoped.class) final Object event,
+    public void onStartup(@Observes @Initialized(ApplicationScoped.class) final Object event,
             @ConfigProperty(name = "this.property.does.not.exist") final String nonExistentConfigurationPropertyValue) {
     }
 
