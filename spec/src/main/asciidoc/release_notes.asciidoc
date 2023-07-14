@@ -23,6 +23,24 @@
 == Release Notes
 This section documents the changes introduced by individual releases.
 
+[[release_notes_31]]
+=== Release Notes for MicroProfile Config 3.1
+
+A full list of changes delivered in the 3.1 release can be found at link:https://github.com/eclipse/microprofile-config/milestone/11?closed=1[MicroProfile Config 3.1 Milestone].
+
+==== Incompatible Changes
+no
+
+==== API/SPI Changes
+no
+
+==== Other Changes
+- TCK tests assume empty bean.XML is discovery mode ALL (link:https://github.com/eclipse/microprofile-config/issues/765[765])
+- Make the TCK tests CDI 4 compatible (link:https://github.com/eclipse/microprofile-config/issues/742[742])
+- TCK: MissingValueOnObserverMethodInjectionTest fails for a different reason (link:https://github.com/eclipse/microprofile-config/issues/543[543])
+- Spec of precedence for sources when using profiles seems vague (link:https://github.com/eclipse/microprofile-config/issues/781[781])
+
+
 [[release_notes_30]]
 === Release Notes for MicroProfile Config 3.0
 
