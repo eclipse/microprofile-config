@@ -19,8 +19,6 @@
  */
 package org.eclipse.microprofile.config.tck.broken;
 
-import javax.enterprise.inject.spi.DeploymentException;
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.ShouldThrowException;
 import org.jboss.arquillian.testng.Arquillian;
@@ -29,6 +27,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
+
+import jakarta.enterprise.inject.spi.DeploymentException;
 
 /**
  * Verify that injectng a native value which is not configured will lead to a deployment error.

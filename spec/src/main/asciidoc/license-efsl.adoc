@@ -11,7 +11,7 @@ Release: {revdate}
 
 == Copyright
 
-Copyright (c) 2016, 2020 Eclipse Foundation.
+Copyright (c) {inceptionYear} , {currentYear} Eclipse Foundation.
 
 === Eclipse Foundation Specification License
 

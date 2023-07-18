@@ -102,7 +102,7 @@ public abstract class ConfigProviderResolver {
      * method if you like to destroy the Config prematurely.
      *
      * If the given Config is associated within an Application then it will be unregistered.
-     * 
+     *
      * @param config
      *            the config to be released
      */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2020, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,13 +19,17 @@
 package org.eclipse.microprofile.config.tck;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 import java.util.Set;
-
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.ConfigValue;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -37,6 +41,9 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
+
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 public class CDIPropertyExpressionsTest extends Arquillian {
     @Deployment
@@ -64,6 +71,20 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         assertEquals(propertyExpressionBean.expressionDefault, "${expression}");
     }
 
+    @Test
+    public void badExpansion() {
+        assertFalse(propertyExpressionBean.badExpansion.isPresent());
+        assertFalse(propertyExpressionBean.badExpansionInt.isPresent());
+        assertFalse(propertyExpressionBean.badExpansionDouble.isPresent());
+        assertFalse(propertyExpressionBean.badExpansionLong.isPresent());
+
+        assertNotNull(propertyExpressionBean.badExpansionConfigValue);
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getName(), "bad.property.expression.prop");
+        assertNull(propertyExpressionBean.badExpansionConfigValue.getValue());
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getSourceName(), "test");
+        assertEquals(propertyExpressionBean.badExpansionConfigValue.getSourceOrdinal(), 100);
+    }
+
     @Dependent
     public static class PropertyExpressionBean {
         @Inject
@@ -75,6 +96,21 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         @Inject
         @ConfigProperty(name = "another.prop", defaultValue = "${expression}")
         String expressionDefault;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        Optional<String> badExpansion;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        OptionalInt badExpansionInt;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        OptionalDouble badExpansionDouble;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        OptionalLong badExpansionLong;
+        @Inject
+        @ConfigProperty(name = "bad.property.expression.prop")
+        ConfigValue badExpansionConfigValue;
     }
 
     public static class PropertyExpressionConfigSource implements ConfigSource {
@@ -83,6 +119,7 @@ public class CDIPropertyExpressionsTest extends Arquillian {
         public PropertyExpressionConfigSource() {
             properties.put("my.prop", "${expression}");
             properties.put("expression", "1234");
+            properties.put("bad.property.expression.prop", "${missing.prop}");
         }
 
         @Override
@@ -97,7 +134,7 @@ public class CDIPropertyExpressionsTest extends Arquillian {
 
         @Override
         public String getName() {
-            return this.getClass().getName();
+            return "test";
         }
     }
 }

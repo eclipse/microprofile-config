@@ -23,8 +23,6 @@ import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
 
 import java.time.YearMonth;
 
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceOfBeforeValueOf;
 import org.eclipse.microprofile.config.tck.converters.implicit.ConvTestSequenceParseBeforeConstructor;
@@ -43,13 +41,15 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import jakarta.inject.Inject;
+
 /**
  * Test the implicit converter handling.
  *
  * @author <a href="mailto:struberg@yahoo.de">Mark Struberg</a>
  * @author <a href="mailto:jmesnil@redhat.com">Jeff Mesnil</a>
  * @author <a href="mailto:emijiang@uk.ibm.com">Emily Jiang</a>
- * 
+ *
  */
 public class ImplicitConverterTest extends Arquillian {
 

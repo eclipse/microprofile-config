@@ -21,11 +21,6 @@ package org.eclipse.microprofile.config.tck;
 
 import java.util.Optional;
 
-import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.spi.CDI;
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.inject.ConfigProperties;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -37,32 +32,17 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+
 /**
  * Verify the support {@code ConfigProperties}.
  *
  * @author <a href="mailto:emijiang6@googlemail.com">Emily Jiang</a>
  */
 public class ConfigPropertiesTest extends Arquillian {
-    @Inject
-    @ConfigProperties
-    private BeanOne customerBeanOne;
-    @Inject
-    @ConfigProperties(prefix = "client")
-    private BeanOne clientBeanOne;
-    @Inject
-    @ConfigProperties(prefix = "")
-    private BeanOne beanOne;
-    @Inject
-    @ConfigProperties
-    private BeanTwo beanTwo;
-    @Inject
-    @ConfigProperties(prefix = "my")
-    private BeanTwo myBeanTwo;
-    @Inject
-    @ConfigProperties
-    private BeanFour myBeanFour;
-    @Inject
-    private BeanThree beanThree;
 
     @Deployment
     public static WebArchive deploy() {
@@ -101,80 +81,91 @@ public class ConfigPropertiesTest extends Arquillian {
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
+    @Inject
+    InjectingBean bean;
+
     @Test
     public void testConfigPropertiesPlainInjection() {
-        Assert.assertEquals("Bob", customerBeanOne.getName());
-        Assert.assertEquals(24, customerBeanOne.age);
-        Assert.assertEquals("Developer", customerBeanOne.job);
-        Assert.assertEquals(new String[]{"Badminton", "Tennis"}, customerBeanOne.hobbies);
-        Assert.assertEquals(new Location("2 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), customerBeanOne.location);
+        BeanOne customerBeanOne = bean.getCustomerBeanOne();
+        Assert.assertEquals(customerBeanOne.getName(), "Bob");
+        Assert.assertEquals(customerBeanOne.age, 24);
+        Assert.assertEquals(customerBeanOne.job, "Developer");
+        Assert.assertEquals(customerBeanOne.hobbies, new String[]{"Badminton", "Tennis"});
+        Assert.assertEquals(customerBeanOne.location, new Location("2 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
     }
 
     @Test
     public void testConfigPropertiesWithPrefix() {
-        Assert.assertEquals("Rob", clientBeanOne.getName());
-        Assert.assertEquals(25, clientBeanOne.age);
-        Assert.assertEquals("Engineer", clientBeanOne.job);
-        Assert.assertEquals(new String[]{"Football", "Tennis"}, clientBeanOne.hobbies);
-        Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), clientBeanOne.location);
+        BeanOne clientBeanOne = bean.getClientBeanOne();
+        Assert.assertEquals(clientBeanOne.getName(), "Rob");
+        Assert.assertEquals(clientBeanOne.age, 25);
+        Assert.assertEquals(clientBeanOne.job, "Engineer");
+        Assert.assertEquals(clientBeanOne.hobbies, new String[]{"Football", "Tennis"});
+        Assert.assertEquals(clientBeanOne.location, new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
 
         // programmatic lookup of the beans
         BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("client")).get();
-        Assert.assertEquals("Rob", bo.getName());
-        Assert.assertEquals(25, bo.age);
-        Assert.assertEquals("Engineer", bo.job);
-        Assert.assertEquals(new String[]{"Football", "Tennis"}, bo.hobbies);
-        Assert.assertEquals(new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
+        Assert.assertEquals(bo.getName(), "Rob");
+        Assert.assertEquals(bo.age, 25);
+        Assert.assertEquals(bo.job, "Engineer");
+        Assert.assertEquals(bo.hobbies, new String[]{"Football", "Tennis"});
+        Assert.assertEquals(bo.location, new Location("22 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
     }
 
     @Test
     public void testConfigPropertiesWithoutPrefix() {
-        Assert.assertEquals("Harry", beanOne.getName());
-        Assert.assertEquals(21, beanOne.age);
-        Assert.assertEquals("Plumber", beanOne.job);
-        Assert.assertEquals(new String[]{"Volleyball"}, beanOne.hobbies);
-        Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), beanOne.location);
+        BeanOne beanOne = bean.getBeanOne();
+        Assert.assertEquals(beanOne.getName(), "Harry");
+        Assert.assertEquals(beanOne.age, 21);
+        Assert.assertEquals(beanOne.job, "Plumber");
+        Assert.assertEquals(beanOne.hobbies, new String[]{"Volleyball"});
+        Assert.assertEquals(beanOne.location, new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
 
         // programmatic lookup of the beans
         BeanOne bo = CDI.current().select(BeanOne.class, ConfigProperties.Literal.of("")).get();
-        Assert.assertEquals("Harry", bo.getName());
-        Assert.assertEquals(21, bo.age);
-        Assert.assertEquals("Plumber", bo.job);
-        Assert.assertEquals(new String[]{"Volleyball"}, bo.hobbies);
-        Assert.assertEquals(new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"), bo.location);
+        Assert.assertEquals(bo.getName(), "Harry");
+        Assert.assertEquals(bo.age, 21);
+        Assert.assertEquals(bo.job, "Plumber");
+        Assert.assertEquals(bo.hobbies, new String[]{"Volleyball"});
+        Assert.assertEquals(bo.location, new Location("222 Hook Road, Winchester, Hampshire, SO21 2JN, UK"));
     }
 
     @Test
     public void testConfigPropertiesNoPrefixOnBean() {
-        Assert.assertEquals("localhost", beanTwo.getHost());
-        Assert.assertEquals(9080, beanTwo.port);
-        Assert.assertEquals("woof", beanTwo.endpoint);
+        BeanTwo beanTwo = bean.getBeanTwo();
+        Assert.assertEquals(beanTwo.getHost(), "localhost");
+        Assert.assertEquals(beanTwo.port, 9080);
+        Assert.assertEquals(beanTwo.endpoint, "woof");
     }
 
     @Test
     public void testConfigPropertiesNoPrefixOnBeanThenSupplyPrefix() {
-        Assert.assertEquals("myhost", myBeanTwo.getHost());
-        Assert.assertEquals(9081, myBeanTwo.port);
-        Assert.assertEquals("poof", myBeanTwo.endpoint);
+        BeanTwo myBeanTwo = bean.getMyBeanTwo();
+        Assert.assertEquals(myBeanTwo.getHost(), "myhost");
+        Assert.assertEquals(myBeanTwo.port, 9081);
+        Assert.assertEquals(myBeanTwo.endpoint, "poof");
     }
 
     @Test
     public void testNoConfigPropertiesAnnotationInjection() {
         // The fields on beanThree are not resolved to config properties,
         // as the bean class has no ConfigProperties annotation.
+        BeanThree beanThree = bean.getBeanThree();
         Assert.assertNull(beanThree.name);
-        Assert.assertEquals(0, beanThree.age);
+        Assert.assertEquals(beanThree.age, 0);
         Assert.assertNull(beanThree.getNationality());
     }
 
     @Test
     public void testConfigPropertiesDefaultOnBean() {
-        Assert.assertEquals("mycloud.org", myBeanFour.getHost());
-        Assert.assertEquals(9080, myBeanFour.port);
+        BeanFour myBeanFour = bean.getMyBeanFour();
+        Assert.assertEquals(myBeanFour.getHost(), "mycloud.org");
+        Assert.assertEquals(myBeanFour.port, 9080);
         Assert.assertFalse(myBeanFour.location.isPresent());
     }
 
     @ConfigProperties(prefix = "customer")
+    @Dependent
     public static class BeanOne {
         private String name;
         int age;
@@ -219,6 +210,7 @@ public class ConfigPropertiesTest extends Arquillian {
     }
 
     @ConfigProperties(prefix = "cloud")
+    @Dependent
     public static class BeanFour {
         @ConfigProperty(name = "a.host", defaultValue = "mycloud.org")
         private String host;
@@ -227,5 +219,65 @@ public class ConfigPropertiesTest extends Arquillian {
             return host;
         }
         public Optional<String> location;
+    }
+
+    // declare a proper bean with bean defining annotation as an injection target for config-related injection
+    @Dependent
+    public static class InjectingBean {
+
+        @Inject
+        @ConfigProperties
+        private BeanOne customerBeanOne;
+
+        @Inject
+        @ConfigProperties(prefix = "client")
+        private BeanOne clientBeanOne;
+
+        @Inject
+        @ConfigProperties(prefix = "")
+        private BeanOne beanOne;
+
+        @Inject
+        @ConfigProperties
+        private BeanTwo beanTwo;
+
+        @Inject
+        @ConfigProperties(prefix = "my")
+        private BeanTwo myBeanTwo;
+
+        @Inject
+        @ConfigProperties
+        private BeanFour myBeanFour;
+
+        @Inject
+        private BeanThree beanThree;
+
+        public BeanOne getCustomerBeanOne() {
+            return customerBeanOne;
+        }
+
+        public BeanOne getClientBeanOne() {
+            return clientBeanOne;
+        }
+
+        public BeanOne getBeanOne() {
+            return beanOne;
+        }
+
+        public BeanTwo getBeanTwo() {
+            return beanTwo;
+        }
+
+        public BeanTwo getMyBeanTwo() {
+            return myBeanTwo;
+        }
+
+        public BeanFour getMyBeanFour() {
+            return myBeanFour;
+        }
+
+        public BeanThree getBeanThree() {
+            return beanThree;
+        }
     }
 }

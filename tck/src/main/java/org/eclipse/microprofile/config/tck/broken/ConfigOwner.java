@@ -19,10 +19,10 @@
  */
 package org.eclipse.microprofile.config.tck.broken;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 /**
  * A bean contains a config property injection

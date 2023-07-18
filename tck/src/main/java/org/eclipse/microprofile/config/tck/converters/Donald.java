@@ -37,7 +37,7 @@ public class Donald {
 
     /**
      * Ensure constructor cannot be auto-detected/auto-constructed.
-     * 
+     *
      * @param name
      *            the name, not null
      * @return a new instance, never null.

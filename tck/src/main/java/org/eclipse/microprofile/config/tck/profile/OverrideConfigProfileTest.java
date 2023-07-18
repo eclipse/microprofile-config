@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -39,42 +39,50 @@ import jakarta.inject.Inject;
 /**
  * Test cases for Config profile
  *
- * @author Emily Jiang
+ * @author Oliver Bertuch
  */
-public class InvalidConfigProfileTest extends Arquillian {
+public class OverrideConfigProfileTest extends Arquillian {
     @Deployment
     public static WebArchive deployment() {
-
         WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "InvalidConfigProfileTest.war")
-                .addClasses(InvalidConfigProfileTest.class, ProfilePropertyBean.class)
+                .create(WebArchive.class, "OverrideConfigProfileTest.war")
+                .addClasses(OverrideConfigProfileTest.class, ProfilePropertyBean.class)
                 .addAsResource(
                         new StringAsset(
-                                "mp.config.profile=invalid\n" +
-                                        "%dev.vehicle.name=bike\n" +
-                                        "%prod.vehicle.name=bus\n" +
-                                        "%test.vehicle.name=van\n" +
-                                        "vehicle.name=car"),
+                                "mp.config.profile=dev\n" +
+                                        "%dev." + PROPERTY + "=foo\n" +
+                                        PROPERTY + "=bar\n"),
                         "META-INF/microprofile-config.properties")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
         return war;
     }
 
+    private static final String PROPERTY = "mp.tck.prop.dummy";
+    private static final String EXPECTED = "dummy";
+
+    /**
+     * This test relies on the system property "mp.tck.prop.dummy" being set to "dummy" as described in the TCK README
+     * as a requirement for runners. System properties are per the TCK requirements at ordinal 120, so shall override
+     * the given properties in the microprofile-config.properties file (ordinal 100) included in the WAR above.
+     */
     @Test
-    public void testConfigProfileWithDev() {
+    public void testConfigProfileWithDevAndOverride() {
+        assertThat(System.getProperty(PROPERTY), is(equalTo(EXPECTED)));
+
         ProfilePropertyBean bean = CDI.current().select(ProfilePropertyBean.class).get();
-        assertThat(bean.getConfigProperty(), is(equalTo("car")));
-        assertThat(ConfigProvider.getConfig().getValue("vehicle.name", String.class), is(equalTo("car")));
+        assertThat(bean.getConfigProperty(), is(equalTo(EXPECTED)));
+
+        assertThat(ConfigProvider.getConfig().getValue(PROPERTY, String.class), is(equalTo(EXPECTED)));
     }
 
     @Dependent
     public static class ProfilePropertyBean {
         @Inject
-        @ConfigProperty(name = "vehicle.name")
-        private String vehicleName;
+        @ConfigProperty(name = PROPERTY)
+        private String stringProperty;
         public String getConfigProperty() {
-            return vehicleName;
+            return stringProperty;
         }
     }
 }

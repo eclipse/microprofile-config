@@ -112,7 +112,7 @@ public class InjectedConfigUsageSample {
     //Instances of Provider<T> are guaranteed to be Serializable.
     @Inject
     @ConfigProperty(name="myprj.some.dynamic.timeout", defaultValue="100")
-    private javax.inject.Provider<Long> timeout;
+    private jakarta.inject.Provider<Long> timeout;
 
     //Injects a Supplier for the value of myprj.some.supplier.timeout property to
     //resolve the property dynamically. Each invocation to Supplier#get() will
@@ -439,7 +439,7 @@ Since the class with `@ConfigProperties` is a CDI bean, you can use the programm
 
 [source, java]
 ----
-Details details = CDI.current().select(Details.class, ConfigProperties.Literal.NO:PREFIX).get();
+Details details = CDI.current().select(Details.class, ConfigProperties.Literal.NO_PREFIX).get();
 ----
 
 ==== Inject the bean annotated with `@ConfigProperties`

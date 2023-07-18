@@ -22,8 +22,6 @@ package org.eclipse.microprofile.config.tck.emptyvalue;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.Config;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
@@ -35,6 +33,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import jakarta.inject.Inject;
 
 public class EmptyValuesTestProgrammaticLookup extends Arquillian {
 

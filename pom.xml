@@ -19,12 +19,12 @@
     <parent>
         <groupId>org.eclipse.microprofile</groupId>
         <artifactId>microprofile-parent</artifactId>
-        <version>1.0</version>
+        <version>2.8</version>
     </parent>
 
     <groupId>org.eclipse.microprofile.config</groupId>
     <artifactId>microprofile-config-parent</artifactId>
-    <version>2.1-SNAPSHOT</version>
+    <version>3.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>MicroProfile Config</name>
@@ -32,20 +32,8 @@
 
     <properties>
         <inceptionYear>2016</inceptionYear>
+        <version.microprofile.tck.bom>3.0</version.microprofile.tck.bom>
     </properties>
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <organization>
-        <name>Eclipse Foundation</name>
-        <url>http://www.eclipse.org/</url>
-    </organization>
 
     <issueManagement>
         <system>GitHub</system>
@@ -92,15 +80,21 @@
         <dependencies>
             <!-- TODO - Investigate BND Dependencies-->
             <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>osgi.annotation</artifactId>
+                <version>8.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>biz.aQute.bnd</groupId>
                 <artifactId>biz.aQute.bnd.annotation</artifactId>
-                <version>5.3.0</version>
+                <version>6.4.1</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.service.cdi</artifactId>
-                <version>1.0.0</version>
+                <version>1.0.1</version>
                 <scope>provided</scope>
             </dependency>
 

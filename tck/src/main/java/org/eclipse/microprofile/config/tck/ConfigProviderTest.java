@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016, 2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -28,8 +28,6 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.eclipse.microprofile.config.tck.base.AbstractTest;
@@ -43,6 +41,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import jakarta.inject.Inject;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -83,11 +83,10 @@ public class ConfigProviderTest extends Arquillian {
 
     @Test
     public void testEnvironmentConfigSource() {
-        Assert.assertNotNull(config.getValue("path", String.class));
         String value = System.getenv().get("MP_TCK_ENV_DUMMY");
         Assert.assertNotNull(value);
-        Assert.assertEquals("dummy", value);
-        Assert.assertEquals(value, config.getValue("mp.tck.env.dummy", String.class));
+        Assert.assertEquals(value, "dummy");
+        Assert.assertEquals(config.getValue("mp.tck.env.dummy", String.class), "dummy");
     }
 
     @Test
@@ -95,8 +94,8 @@ public class ConfigProviderTest extends Arquillian {
         Assert.assertNotNull(config.getValue("java.version", String.class));
         String value = System.getProperties().getProperty("mp.tck.prop.dummy");
         Assert.assertNotNull(value);
-        Assert.assertEquals("dummy", value);
-        Assert.assertEquals(value, config.getValue("mp.tck.prop.dummy", String.class));
+        Assert.assertEquals(value, "dummy");
+        Assert.assertEquals(config.getValue("mp.tck.prop.dummy", String.class), "dummy");
     }
 
     @Test

@@ -19,9 +19,9 @@
  */
 package org.eclipse.microprofile.config.tck.converters.custom;
 
-import javax.annotation.Priority;
-
 import org.eclipse.microprofile.config.spi.Converter;
+
+import jakarta.annotation.Priority;
 
 @Priority(101)
 public class DoubleConverter implements Converter<Double> {

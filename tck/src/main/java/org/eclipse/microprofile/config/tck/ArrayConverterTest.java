@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2017, 2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,6 +20,9 @@
 package org.eclipse.microprofile.config.tck;
 
 import static org.eclipse.microprofile.config.tck.base.AbstractTest.addFile;
+import static org.eclipse.microprofile.config.tck.util.AdditionalAssertions.assertURLArrayEquals;
+import static org.eclipse.microprofile.config.tck.util.AdditionalAssertions.assertURLListEquals;
+import static org.eclipse.microprofile.config.tck.util.AdditionalAssertions.assertURLSetEquals;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -34,19 +37,16 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.IntStream;
-
-import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.converters.Pizza;
 import org.eclipse.microprofile.config.tck.converters.PizzaConverter;
+import org.eclipse.microprofile.config.tck.util.AdditionalAssertions;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -55,6 +55,8 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import jakarta.inject.Inject;
 
 /**
  * Test the implicit converter handling.
@@ -68,7 +70,7 @@ public class ArrayConverterTest extends Arquillian {
         JavaArchive testJar = ShrinkWrap
                 .create(JavaArchive.class, "arrayConverterTest.jar")
                 .addPackage(PizzaConverter.class.getPackage())
-                .addClasses(ArrayConverterTest.class, ArrayConverterBean.class)
+                .addClasses(ArrayConverterTest.class, ArrayConverterBean.class, AdditionalAssertions.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(Converter.class, PizzaConverter.class)
                 .as(JavaArchive.class);
@@ -1719,22 +1721,6 @@ public class ArrayConverterTest extends Arquillian {
 
     /////////////////////////////////// Test URL[] //////////////////////////
 
-    private void assertURLArrayEquals(URL[] value, URL[] expectedValue) throws MalformedURLException {
-        assertURLListEquals(Arrays.asList(value), Arrays.asList(expectedValue));
-    }
-
-    private void assertURLListEquals(List<URL> value, List<URL> expectedValue) throws MalformedURLException {
-
-        Assert.assertTrue(IntStream.range(0, expectedValue.size()).allMatch(i -> {
-            try {
-                return expectedValue.get(i).toURI().equals(value.get(i).toURI());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
-            return false;
-        }));
-    }
-
     @Test
     public void testUrlArrayLookupProgrammatically() throws MalformedURLException, URISyntaxException {
         URL[] value = config.getValue("tck.config.test.javaconfig.converter.urlvalues", URL[].class);
@@ -1748,7 +1734,9 @@ public class ArrayConverterTest extends Arquillian {
         URL[] single = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URL[].class);
         Assert.assertNotNull(single);
         Assert.assertEquals(single.length, 1);
-        Assert.assertEquals(single[0].toURI(), new URL[]{new URL("http://microprofile.io")}[0].toURI());
+        URL[] expectedSingleValue = new URL[]{
+                new URL("http://microprofile.io")};
+        assertURLArrayEquals(single, expectedSingleValue);
     }
 
     @Test
@@ -1863,30 +1851,6 @@ public class ArrayConverterTest extends Arquillian {
         Assert.assertEquals(converterBean.getMySingleUrlList(), expectedSingleValue);
     }
 
-    private boolean assertURLSetEquals(Set<URL> valueSet, Set<URL> expectedURLSet)
-            throws MalformedURLException, URISyntaxException {
-        if (valueSet.size() != expectedURLSet.size()) {
-            return false;
-        }
-        Iterator<URL> it = valueSet.iterator();
-        boolean isEquals = true;
-        while (it.hasNext()) {
-            boolean found = false;
-            URL url = it.next();
-            for (URL thisURL : expectedURLSet) {
-                if (thisURL.toURI().equals(url.toURI())) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                isEquals = false;
-                break;
-            }
-        }
-        return isEquals;
-
-    }
     @Test
     public void testURLSetInjection() throws MalformedURLException, URISyntaxException {
         Set<URL> values = converterBean.getMyUrlSet();
@@ -1894,11 +1858,11 @@ public class ArrayConverterTest extends Arquillian {
         Set<URL> expectedURLSet = new LinkedHashSet<>(Arrays.asList(
                 new URL("http://openliberty.io"),
                 new URL("http://microprofile.io")));
-        Assert.assertTrue(assertURLSetEquals(values, expectedURLSet));
+        assertURLSetEquals(values, expectedURLSet);
 
         Assert.assertEquals(converterBean.getMySingleUrlSet().size(), 1);
         Set<URL> expectedSingleUrlSet = Collections.singleton(new URL("http://microprofile.io"));
-        Assert.assertTrue(assertURLSetEquals(converterBean.getMySingleUrlSet(), expectedSingleUrlSet));
+        assertURLSetEquals(converterBean.getMySingleUrlSet(), expectedSingleUrlSet);
     }
 
     /////////////////////////////////// Test URI[] //////////////////////////

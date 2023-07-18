@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2017 Contributors to the Eclipse Foundation
+ * Copyright (c) 2016, 2021 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,6 +19,8 @@
  */
 package org.eclipse.microprofile.config.tck;
 
+import static org.eclipse.microprofile.config.tck.util.AdditionalAssertions.urlEquals;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
@@ -35,8 +38,6 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
-
-import javax.inject.Inject;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
@@ -51,14 +52,17 @@ import org.eclipse.microprofile.config.tck.converters.Donald;
 import org.eclipse.microprofile.config.tck.converters.Duck;
 import org.eclipse.microprofile.config.tck.converters.DuckConverter;
 import org.eclipse.microprofile.config.tck.converters.UpperCaseDuckConverter;
+import org.eclipse.microprofile.config.tck.util.AdditionalAssertions;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.testng.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import jakarta.enterprise.context.Dependent;
+import jakarta.inject.Inject;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
@@ -72,29 +76,26 @@ public class ConverterTest extends Arquillian {
 
     @Deployment
     public static WebArchive deploy() {
-        JavaArchive testJar = ShrinkWrap
-                .create(JavaArchive.class, "converterTest.jar")
+        WebArchive testWar = ShrinkWrap
+                .create(WebArchive.class, "converterTest.war")
                 .addClass(ConverterTest.class)
                 .addPackage(CustomDbConfigSource.class.getPackage())
-                .addClasses(DuckConverter.class, Duck.class, Donald.class, UpperCaseDuckConverter.class)
+                .addClasses(DuckConverter.class, Duck.class, Donald.class, UpperCaseDuckConverter.class,
+                        AdditionalAssertions.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsServiceProvider(ConfigSource.class, CustomDbConfigSource.class)
                 .addAsServiceProvider(ConfigSourceProvider.class, CustomConfigSourceProvider.class)
                 .addAsServiceProvider(Converter.class, DuckConverter.class)
-                .as(JavaArchive.class);
+                .as(WebArchive.class);
 
-        AbstractTest.addFile(testJar, "META-INF/microprofile-config.properties");
-        AbstractTest.addFile(testJar, "sampleconfig.yaml");
+        AbstractTest.addFile(testWar, "META-INF/microprofile-config.properties");
+        AbstractTest.addFile(testWar, "sampleconfig.yaml");
 
-        WebArchive war = ShrinkWrap
-                .create(WebArchive.class, "converterTest.war")
-                .addAsLibrary(testJar);
-        return war;
+        return testWar;
     }
 
     @Inject
-    @ConfigProperty(name = "tck.config.test.javaconfig.converter.duckname")
-    private Duck namedDuck;
+    private InjectingBean bean;
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testDonaldNotConvertedByDefault() {
@@ -311,7 +312,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testFloat() {
         Float value = config.getValue("tck.config.test.javaconfig.converter.floatvalue", Float.class);
-        Assert.assertEquals(value, 12.34f);
+        Assert.assertEquals(value, new Float(12.34f));
     }
 
     @Test
@@ -328,7 +329,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetFloatConverter() {
         Float value = config.getConverter(Float.class).get().convert("12.34");
-        Assert.assertEquals(value, 12.34f);
+        Assert.assertEquals(value, new Float(12.34f));
     }
 
     @Test
@@ -345,7 +346,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testDouble() {
         Double value = config.getValue("tck.config.test.javaconfig.converter.doublevalue", Double.class);
-        Assert.assertEquals(value, 12.34d);
+        Assert.assertEquals(value, new Double(12.34d));
     }
 
     @Test
@@ -362,7 +363,7 @@ public class ConverterTest extends Arquillian {
     @Test
     public void testGetDoubleConverter() {
         Double value = config.getConverter(Double.class).get().convert("12.34");
-        Assert.assertEquals(value, 12.34d);
+        Assert.assertEquals(value, new Double(12.34d));
     }
 
     @Test
@@ -659,7 +660,7 @@ public class ConverterTest extends Arquillian {
 
     @Test
     public void testCustomConverter() {
-        Assert.assertEquals(namedDuck.getName(), "Hannelore");
+        Assert.assertEquals(bean.getNamedDuck().getName(), "Hannelore");
     }
 
     @Test
@@ -714,9 +715,9 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test
-    public void testURLConverter() throws MalformedURLException {
+    public void testURLConverter() throws MalformedURLException, URISyntaxException {
         URL url = config.getValue("tck.config.test.javaconfig.converter.urlvalue", URL.class);
-        Assert.assertEquals(url, new URL("http://microprofile.io"));
+        Assert.assertTrue(urlEquals(url, new URL("http://microprofile.io")));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -725,9 +726,9 @@ public class ConverterTest extends Arquillian {
     }
 
     @Test
-    public void testGetURLConverter() throws MalformedURLException {
+    public void testGetURLConverter() throws MalformedURLException, URISyntaxException {
         URL url = config.getConverter(URL.class).get().convert("http://microprofile.io");
-        Assert.assertEquals(url, new URL("http://microprofile.io"));
+        Assert.assertTrue(urlEquals(url, new URL("http://microprofile.io")));
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -800,5 +801,18 @@ public class ConverterTest extends Arquillian {
         }
         Assert.assertEquals(((Converter<Duck>) readObject).convert("Donald").getName(),
                 original.convert("Donald").getName(), "Converted values to be equal");
+    }
+
+    // declare a proper bean with bean defining annotation as an injection target for config-related injection
+    @Dependent
+    public static class InjectingBean {
+
+        @Inject
+        @ConfigProperty(name = "tck.config.test.javaconfig.converter.duckname")
+        private Duck namedDuck;
+
+        public Duck getNamedDuck() {
+            return namedDuck;
+        }
     }
 }

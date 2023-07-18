@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.eclipse.microprofile.config.tck.matchers;
+package org.eclipse.microprofile.config.tck.util;
 
 import static org.hamcrest.Matchers.closeTo;
 

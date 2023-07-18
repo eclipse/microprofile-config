@@ -51,7 +51,7 @@ import org.eclipse.microprofile.config.spi.Converter;
  * the programmatically created ones are not required to be serializable.
  * <p>
  * If one or more converters are registered for a class of a requested value then the registered
- * {@link org.eclipse.microprofile.config.spi.Converter} which has the highest {@code @javax.annotation.Priority} is
+ * {@link org.eclipse.microprofile.config.spi.Converter} which has the highest {@code @jakarta.annotation.Priority} is
  * used to convert the string value retrieved from the config sources.
  *
  * <h2>Usage</h2>
@@ -257,7 +257,7 @@ public interface Config {
      * The returned sources will be sorted by descending ordinal value and name, which can be iterated in a thread-safe
      * manner. The {@link java.lang.Iterable Iterable} contains a fixed number of {@linkplain ConfigSource configuration
      * sources}, determined at application start time, and the config sources themselves may be static or dynamic.
-     * 
+     *
      * @return the configuration sources
      */
     Iterable<ConfigSource> getConfigSources();

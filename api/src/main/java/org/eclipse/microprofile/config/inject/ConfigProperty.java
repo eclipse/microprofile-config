@@ -29,16 +29,16 @@ import static org.osgi.service.cdi.CDIConstants.CDI_EXTENSION_PROPERTY;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.enterprise.util.Nonbinding;
-import javax.inject.Qualifier;
-
 import org.osgi.annotation.bundle.Requirement;
+
+import jakarta.enterprise.util.Nonbinding;
+import jakarta.inject.Qualifier;
 
 /**
  * Binds the injection point with a configured value.
  * <p>
  * Can be used to annotate injection points of type {@code TYPE}, {@code Optional<TYPE>} or
- * {@code javax.inject.Provider<TYPE>}, where {@code TYPE} can be {@code String} and all types which have appropriate
+ * {@code jakarta.inject.Provider<TYPE>}, where {@code TYPE} can be {@code String} and all types which have appropriate
  * converters.
  * <p>
  * Injected values are the same values that would be retrieved from an injected
@@ -144,13 +144,13 @@ public @interface ConfigProperty {
      * <p>
      * If the target Type is not String, a proper {@link org.eclipse.microprofile.config.spi.Converter} will get
      * applied.
-     * 
+     *
      * Empty string as the default value will be ignored, which is same as not setting the default value. That means
      * that any default value string should follow the formatting rules of the registered Converters.
-     * 
+     *
      * If a property has been emptied by a config source with a higher ordinal by setting an empty configuration value
      * or by using a value causing the used converter returning {@code null}, the default value will not be used.
-     * 
+     *
      * @return the default value as a string
      */
     @Nonbinding

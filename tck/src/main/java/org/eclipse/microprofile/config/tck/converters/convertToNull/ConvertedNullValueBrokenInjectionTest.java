@@ -19,9 +19,6 @@
  */
 package org.eclipse.microprofile.config.tck.converters.convertToNull;
 
-import javax.enterprise.inject.spi.DeploymentException;
-import javax.inject.Inject;
-
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.Converter;
 import org.eclipse.microprofile.config.tck.converters.Pizza;
@@ -35,6 +32,9 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.testng.annotations.Test;
+
+import jakarta.enterprise.inject.spi.DeploymentException;
+import jakarta.inject.Inject;
 
 /**
  * This is to test that when a converter returns null for some config value, an exception should be thrown and the
