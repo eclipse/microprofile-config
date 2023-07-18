@@ -53,4 +53,5 @@ include::configprofile.asciidoc[]
 
 include::property-expressions.asciidoc[]
 
+:sectnums!:
 include::release_notes.asciidoc[]
