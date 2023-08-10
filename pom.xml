@@ -32,7 +32,7 @@
 
     <properties>
         <inceptionYear>2016</inceptionYear>
-        <version.microprofile.tck.bom>3.0</version.microprofile.tck.bom>
+        <version.microprofile.tck.bom>3.1</version.microprofile.tck.bom>
     </properties>
 
     <issueManagement>
