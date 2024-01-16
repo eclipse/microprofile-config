@@ -40,7 +40,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         name: set up jdk ${{matrix.java}}
         with:
           distribution: temurin
