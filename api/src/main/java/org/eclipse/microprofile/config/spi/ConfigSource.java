@@ -28,6 +28,7 @@ package org.eclipse.microprofile.config.spi;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -182,12 +183,14 @@ public interface ConfigSource {
 
     /**
      * Return the value for the specified property in this configuration source.
-     *
+     * This method is used when
      * @param propertyName
      *            the property name
      * @return the property value, or {@code null} if the property is not present
      */
-    String getValue(String propertyName);
+    default String getValue(String propertyName) {
+        return null;
+    }
 
     /**
      * The name of the configuration source. The name might be used for logging or for analysis of configured values,
@@ -198,4 +201,103 @@ public interface ConfigSource {
      * @return the name of the configuration source
      */
     String getName();
+
+    /**
+     * Type of this config source. For backward compatibility returns {@link Type#PROPERTY} by default.
+     *
+     * @return source type
+     */
+    default Type getType() {
+        return Type.PROPERTY;
+    }
+
+    /**
+     * Whether the content of this config source can change externally.
+     * For backward compatibility returns {@code true} by default.
+     * <p>
+     * This information is required when the type is other than {@link Type#PROPERTY}.
+     * <p>
+     * Examples:
+     * <ul>
+     *     <li>Environment variables are not mutable</li>
+     *     <li>System properties may be considered mutable</li>
+     *     <li>Classpath resource from a jar file is not mutable</li>
+     *     <li>File based config source may be considered mutable</li>
+     * </ul>
+     *
+     * @return whether this is a mutable config source
+     */
+    default boolean isMutable() {
+        return true;
+    }
+
+    /**
+     * If this source {@link #getType()} is {@link Type#TREE}, this method is used to load the
+     * tree of the data.
+     *
+     * @return node content or empty optional if the underlying config source does not exist
+     */
+    default Optional<ConfigNode> load() {
+        return Optional.empty();
+    }
+
+    /**
+     * If this source {@link #getType()} is {@link Type#LAZY}, this method is used to load each
+     * node.
+     *
+     * @return config node or empty optional if the node does not exist, or this is not a lazy
+     *  config source
+     */
+    default Optional<ConfigNode> load(String key) {
+        return Optional.empty();
+    }
+
+    /**
+     * If this config source is {@link #isMutable()} and its shape changes, it should notify
+     * the configuration implementation of such a change.
+     * Once the change listener is registered by configuration implementation, this source can
+     * start checking for changes. If any change occurs, the source should invoke the runnable.
+     *
+     * @param changeRunnable runnable to call when this config source changes
+     */
+    default void changeListener(Runnable changeRunnable) {
+    }
+
+    /**
+     * Type of the config source.
+     */
+    enum Type {
+        /**
+         * This is for backward compatibility - request each property separately.
+         * Config uses {@link ConfigSource#getValue(String)} to get data of this source.
+         */
+        PROPERTY,
+        /**
+         * This config source cannot provide the full structure, each node must be requested
+         * separately.
+         * Difference to {@link #PROPERTY} is that each node may actually be an object/list node.
+         * <p>
+         * Examples:
+         * <ul>
+         *     <li>Environment variables config source - each node is computed from key</li>
+         *     <li>Distributed configurations, where we cannot list all nodes</li>
+         *     <ll>Database config source based on tables with a lot of records</ll>
+         * </ul>
+         *
+         * Config uses {@link ConfigSource#load(String)} to get data of this source.
+         */
+        LAZY,
+        /**
+         * This config source returns a tree structure and can read the whole tree at once.
+         * <p>
+         * Examples:
+         * <ul>
+         *     <li>System properties variables config source</li>
+         *     <li>File/Classpath config sources</li>
+         * </ul>
+         *
+         * Config uses {@link ConfigSource#load()} to get data of this source.
+         */
+        TREE
+    }
 }
